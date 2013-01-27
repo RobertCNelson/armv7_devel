@@ -20,13 +20,10 @@ fi
 CCACHE=ccache
 
 config="multi_v7_defconfig"
-#FIXME: need to find a better way to support more then one...
-#imx_bootlets_tag="imx233-olinuxino-10.05.02"
-#imx_bootlets_target="imx23-olinuxino"
 
 #Kernel/Build
 KERNEL_REL=3.8
-KERNEL_TAG=${KERNEL_REL}-rc4
+KERNEL_TAG=${KERNEL_REL}-rc5
 BUILD=armv7-d0
 
 #v3.X-rcX + upto SHA
