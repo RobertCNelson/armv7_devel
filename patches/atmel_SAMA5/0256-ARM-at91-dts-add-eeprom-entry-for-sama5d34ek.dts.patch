@@ -1,0 +1,30 @@
+From e11cddca0118bbca68a67be03691b0883ba451a6 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 25 Sep 2012 16:35:46 +0200
+Subject: [PATCH 256/308] ARM: at91/dts: add eeprom entry for sama5d34ek.dts
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/boot/dts/sama5d34ek.dts |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+index 06fbea7..142dd20 100644
+--- a/arch/arm/boot/dts/sama5d34ek.dts
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -106,6 +106,12 @@
+ 			i2c1: i2c@f0018000 {
+ 				status = "okay";
+ 
++				24c256@50 {
++					compatible = "24c256";
++					reg = <0x50>;
++					pagesize = <64>;
++				};
++
+ 				qt1070: keyboard@1b {
+ 					compatible = "qt1070";
+ 					reg = <0x1b>;
+-- 
+1.7.10.4
+

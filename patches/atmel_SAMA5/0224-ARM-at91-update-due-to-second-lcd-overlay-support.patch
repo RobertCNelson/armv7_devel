@@ -1,0 +1,26 @@
+From fca049ed54ee508ca5dc300faa9314c778ce2045 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Mon, 29 Oct 2012 11:16:40 +0100
+Subject: [PATCH 224/308] ARM: at91: update due to second lcd overlay support
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/board-dt.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
+index 31ddf37..fde293c 100644
+--- a/arch/arm/mach-at91/board-dt.c
++++ b/arch/arm/mach-at91/board-dt.c
+@@ -81,7 +81,7 @@ static struct atmel_lcdfb_info __initdata ek_lcdc_data = {
+ 
+ struct of_dev_auxdata at91_auxdata_lookup[] __initdata = {
+ 	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf8038000, "atmel_hlcdfb_base", &ek_lcdc_data),
+-	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf8038100, "atmel_hlcdfb_ovl", &ek_lcdc_data),
++	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf8038100, "atmel_hlcdfb_ovl1", &ek_lcdc_data),
+ 	{ /* sentinel */ }
+ };
+ 
+-- 
+1.7.10.4
+

@@ -1,0 +1,47 @@
+From 65fbc375b2c4eb3a2bdb68055039274ebf5443d1 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Wed, 5 Dec 2012 17:00:48 +0100
+Subject: [PATCH 178/308] ARM: AT91: IIO: add pinctrl support to at91_adc
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/iio/adc/at91_adc.c |    9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/iio/adc/at91_adc.c b/drivers/iio/adc/at91_adc.c
+index 5f9bced..9b007e3 100644
+--- a/drivers/iio/adc/at91_adc.c
++++ b/drivers/iio/adc/at91_adc.c
+@@ -23,6 +23,7 @@
+ #include <linux/wait.h>
+ 
+ #include <linux/platform_data/at91_adc.h>
++#include <linux/pinctrl/consumer.h>
+ 
+ #include <linux/iio/iio.h>
+ #include <linux/iio/buffer.h>
+@@ -584,6 +585,7 @@ static int __devinit at91_adc_probe(struct platform_device *pdev)
+ 	struct iio_dev *idev;
+ 	struct at91_adc_state *st;
+ 	struct resource *res;
++	struct pinctrl *pinctrl;
+ 
+ 	idev = iio_device_alloc(sizeof(struct at91_adc_state));
+ 	if (idev == NULL) {
+@@ -604,6 +606,13 @@ static int __devinit at91_adc_probe(struct platform_device *pdev)
+ 		goto error_free_device;
+ 	}
+ 
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		ret = PTR_ERR(pinctrl);
++		goto error_ret;
++	}
++
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!res) {
+ 		dev_err(&pdev->dev, "No resource defined\n");
+-- 
+1.7.10.4
+

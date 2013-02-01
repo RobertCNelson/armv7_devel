@@ -1,0 +1,47 @@
+From c8c76853588e480f5a7baa40805bb35970b34e6c Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 12 Dec 2012 14:18:20 +0800
+Subject: [PATCH 181/308] atmel-isi: add explaination for all items of
+ isi_platform_data.
+
+---
+ include/media/atmel-isi.h |   23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/include/media/atmel-isi.h b/include/media/atmel-isi.h
+index 6568230..df2ba19 100644
+--- a/include/media/atmel-isi.h
++++ b/include/media/atmel-isi.h
+@@ -104,6 +104,29 @@
+ #define ISI_DATAWIDTH_8				0x01
+ #define ISI_DATAWIDTH_10			0x02
+ 
++/*
++ * struct isi_platform_data - Atmel ISI Platform Data
++ * @has_emb_sync:	0 indicates synchronize by HSYNC/VSYNC.
++ *			1 indicates synchronize by sequence SAV/EAV.
++ * @emb_crc_sync:	0 disable the CRC correction for the frame.
++ *			1 enable CRC correction. [not support yet]
++ * @hsync_act_low:	0 means HSYNC active high. 1 active low.
++ * @vsync_act_low:	0 means VSYNC active high. 1 active low.
++ * @pclk_act_falling:	0 means data is sampled on rising edge of pixel clock.
++ *			1 means on falling edge.
++ * @full_mode:		0 means only codec frame is transferred to memory.
++ *			1 means both preview and codec DMA channels are opened.
++ * @data_width_flags:	ISI_DATAWIDTH_8 means support 8bits data width.
++ *			ISI_DATAWIDTH_10 means support 10bits data width.
++ *			combined both means support 8bits & 10bits data width.
++ * @frate:		ISI_CFG1_FRATE_CAPTURE_ALL means capture all frame
++ *			from camera sensor.
++ *			ISI_CFG1_FRATE_DIV_2 means capture one frame every 2
++ *			frames.
++ *			ISI_CFG1_FRATE_DIV_3 means every 3 frames and etc.
++ * @mck_hz:		Set ISI_MCK's frequency, it should be faster than pixel
++ *			clock.
++ */
+ struct isi_platform_data {
+ 	u8 has_emb_sync;
+ 	u8 emb_crc_sync;
+-- 
+1.7.10.4
+

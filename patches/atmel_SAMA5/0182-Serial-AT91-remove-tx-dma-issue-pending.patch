@@ -1,0 +1,31 @@
+From 0688925107b44aa705ae9fa8b25048a25e300c41 Mon Sep 17 00:00:00 2001
+From: Elen Song <elen.song@atmel.com>
+Date: Wed, 12 Dec 2012 11:53:01 +0800
+Subject: [PATCH 182/308] Serial: AT91: remove tx dma issue pending
+
+issue pending will cause dma complete callback execute if tx dma interrupt comes,
+when next tx interrupt happend before last dma complete callback,
+it will enable dma again, but the last dma assume dma is already closed,
+it will crash that driver found dma is enable when transaction finished.
+remove dma issue pending.
+
+Signed-off-by: Elen Song <elen.song@atmel.com>
+---
+ drivers/tty/serial/atmel_serial.c |    1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+index 9d2a873..13ea530 100644
+--- a/drivers/tty/serial/atmel_serial.c
++++ b/drivers/tty/serial/atmel_serial.c
+@@ -902,7 +902,6 @@ static void atmel_tx_dma(struct uart_port *port)
+ 		desc->callback_param = atmel_port;
+ 		atmel_port->cookie_tx = dmaengine_submit(desc);
+ 
+-		dma_async_issue_pending(chan);
+ 	} else {
+ 		if (atmel_port->rs485.flags & SER_RS485_ENABLED) {
+ 			/* DMA done, stop TX, start RX for RS485 */
+-- 
+1.7.10.4
+

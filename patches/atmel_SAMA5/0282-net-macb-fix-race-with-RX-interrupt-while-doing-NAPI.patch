@@ -1,0 +1,34 @@
+From 5eaa75564c53e7a8123267632b60fe14ba9d46a3 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 24 Jan 2013 12:32:33 +0100
+Subject: [PATCH 282/308] net/macb: fix race with RX interrupt while doing
+ NAPI
+
+When interrupts are disabled, an RX condition can occur but
+it is not reported when enabling interrupts again. We need to check
+RSR and use napi_reschedule() if condition is met.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/net/ethernet/cadence/macb.c |    5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index 403601f..07fa8dc 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -822,6 +822,11 @@ static int macb_poll(struct napi_struct *napi, int budget)
+ 		 * get notified when new packets arrive.
+ 		 */
+ 		macb_writel(bp, IER, MACB_RX_INT_FLAGS);
++
++		/* Packets received while interrupts were disabled */
++		status = macb_readl(bp, RSR);
++		if (unlikely(status))
++			napi_reschedule(napi);
+ 	}
+ 
+ 	/* TODO: Handle errors */
+-- 
+1.7.10.4
+

@@ -1,0 +1,233 @@
+From 3c71d3f0891781b1ae730efedfa5b5d3dc1abe12 Mon Sep 17 00:00:00 2001
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 24 Aug 2012 15:10:04 +0200
+Subject: [PATCH 144/308] ARM: at91: move platform_data definitions
+
+Platform data for device drivers should be defined in
+include/linux/platform_data/*.h, not in the architecture
+and platform specific directories.
+
+This moves such data out of the at91 include directories
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Acked-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Nicolas Pitre <nico@linaro.org>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Acked-by: Vinod Koul <vinod.koul@linux.intel.com>
+Cc: Jean-Christophe Plagniol-Villard <plagnioj@jcrosoft.com>
+Cc: Dan Williams <djbw@fb.com>
+---
+ arch/arm/mach-at91/at91sam9g45_devices.c    |    2 +-
+ arch/arm/mach-at91/at91sam9rl_devices.c     |    2 +-
+ arch/arm/mach-at91/include/mach/at_hdmac.h  |   61 ---------------------------
+ arch/arm/mach-at91/include/mach/atmel-mci.h |    2 +-
+ drivers/dma/at_hdmac_regs.h                 |    2 +-
+ include/linux/platform_data/atmel-aes.h     |    2 +-
+ include/linux/platform_data/dma-atmel.h     |   61 +++++++++++++++++++++++++++
+ 7 files changed, 66 insertions(+), 66 deletions(-)
+ delete mode 100644 arch/arm/mach-at91/include/mach/at_hdmac.h
+ create mode 100644 include/linux/platform_data/dma-atmel.h
+
+diff --git a/arch/arm/mach-at91/at91sam9g45_devices.c b/arch/arm/mach-at91/at91sam9g45_devices.c
+index e09bc87..de03f3e 100644
+--- a/arch/arm/mach-at91/at91sam9g45_devices.c
++++ b/arch/arm/mach-at91/at91sam9g45_devices.c
+@@ -33,7 +33,7 @@
+ #include <mach/at91sam9g45_matrix.h>
+ #include <mach/at91_matrix.h>
+ #include <mach/at91sam9_smc.h>
+-#include <mach/at_hdmac.h>
++#include <linux/platform_data/dma-atmel.h>
+ #include <mach/atmel-mci.h>
+ 
+ #include <media/atmel-isi.h>
+diff --git a/arch/arm/mach-at91/at91sam9rl_devices.c b/arch/arm/mach-at91/at91sam9rl_devices.c
+index 1aca794..62c6062 100644
+--- a/arch/arm/mach-at91/at91sam9rl_devices.c
++++ b/arch/arm/mach-at91/at91sam9rl_devices.c
+@@ -24,7 +24,7 @@
+ #include <mach/at91sam9rl_matrix.h>
+ #include <mach/at91_matrix.h>
+ #include <mach/at91sam9_smc.h>
+-#include <mach/at_hdmac.h>
++#include <linux/platform_data/dma-atmel.h>
+ 
+ #include "generic.h"
+ 
+diff --git a/arch/arm/mach-at91/include/mach/at_hdmac.h b/arch/arm/mach-at91/include/mach/at_hdmac.h
+deleted file mode 100644
+index cab0997..0000000
+--- a/arch/arm/mach-at91/include/mach/at_hdmac.h
++++ /dev/null
+@@ -1,61 +0,0 @@
+-/*
+- * Header file for the Atmel AHB DMA Controller driver
+- *
+- * Copyright (C) 2008 Atmel Corporation
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+- */
+-#ifndef AT_HDMAC_H
+-#define AT_HDMAC_H
+-
+-#include <linux/dmaengine.h>
+-
+-/**
+- * struct at_dma_platform_data - Controller configuration parameters
+- * @nr_channels: Number of channels supported by hardware (max 8)
+- * @cap_mask: dma_capability flags supported by the platform
+- */
+-struct at_dma_platform_data {
+-	unsigned int	nr_channels;
+-	dma_cap_mask_t  cap_mask;
+-};
+-
+-/**
+- * struct at_dma_slave - Controller-specific information about a slave
+- * @dma_dev: required DMA master device
+- * @cfg: Platform-specific initializer for the CFG register
+- */
+-struct at_dma_slave {
+-	struct device		*dma_dev;
+-	u32			cfg;
+-};
+-
+-
+-/* Platform-configurable bits in CFG */
+-#define	ATC_SRC_PER(h)		(0xFU & (h))	/* Channel src rq associated with periph handshaking ifc h */
+-#define	ATC_DST_PER(h)		((0xFU & (h)) <<  4)	/* Channel dst rq associated with periph handshaking ifc h */
+-#define	ATC_SRC_REP		(0x1 <<  8)	/* Source Replay Mod */
+-#define	ATC_SRC_H2SEL		(0x1 <<  9)	/* Source Handshaking Mod */
+-#define		ATC_SRC_H2SEL_SW	(0x0 <<  9)
+-#define		ATC_SRC_H2SEL_HW	(0x1 <<  9)
+-#define	ATC_DST_REP		(0x1 << 12)	/* Destination Replay Mod */
+-#define	ATC_DST_H2SEL		(0x1 << 13)	/* Destination Handshaking Mod */
+-#define		ATC_DST_H2SEL_SW	(0x0 << 13)
+-#define		ATC_DST_H2SEL_HW	(0x1 << 13)
+-#define	ATC_SOD			(0x1 << 16)	/* Stop On Done */
+-#define	ATC_LOCK_IF		(0x1 << 20)	/* Interface Lock */
+-#define	ATC_LOCK_B		(0x1 << 21)	/* AHB Bus Lock */
+-#define	ATC_LOCK_IF_L		(0x1 << 22)	/* Master Interface Arbiter Lock */
+-#define		ATC_LOCK_IF_L_CHUNK	(0x0 << 22)
+-#define		ATC_LOCK_IF_L_BUFFER	(0x1 << 22)
+-#define	ATC_AHB_PROT_MASK	(0x7 << 24)	/* AHB Protection */
+-#define	ATC_FIFOCFG_MASK	(0x3 << 28)	/* FIFO Request Configuration */
+-#define		ATC_FIFOCFG_LARGESTBURST	(0x0 << 28)
+-#define		ATC_FIFOCFG_HALFFIFO		(0x1 << 28)
+-#define		ATC_FIFOCFG_ENOUGHSPACE		(0x2 << 28)
+-
+-
+-#endif /* AT_HDMAC_H */
+diff --git a/arch/arm/mach-at91/include/mach/atmel-mci.h b/arch/arm/mach-at91/include/mach/atmel-mci.h
+index 5d84fe3..3069e41 100644
+--- a/arch/arm/mach-at91/include/mach/atmel-mci.h
++++ b/arch/arm/mach-at91/include/mach/atmel-mci.h
+@@ -1,7 +1,7 @@
+ #ifndef __MACH_ATMEL_MCI_H
+ #define __MACH_ATMEL_MCI_H
+ 
+-#include <mach/at_hdmac.h>
++#include <linux/platform_data/dma-atmel.h>
+ 
+ /**
+  * struct mci_dma_data - DMA data for MCI interface
+diff --git a/drivers/dma/at_hdmac_regs.h b/drivers/dma/at_hdmac_regs.h
+index 8a6c8e8..116e4ad 100644
+--- a/drivers/dma/at_hdmac_regs.h
++++ b/drivers/dma/at_hdmac_regs.h
+@@ -11,7 +11,7 @@
+ #ifndef AT_HDMAC_REGS_H
+ #define	AT_HDMAC_REGS_H
+ 
+-#include <mach/at_hdmac.h>
++#include <linux/platform_data/dma-atmel.h>
+ 
+ #define	AT_DMA_MAX_NR_CHANNELS	8
+ 
+diff --git a/include/linux/platform_data/atmel-aes.h b/include/linux/platform_data/atmel-aes.h
+index e7a1949..ab68082 100644
+--- a/include/linux/platform_data/atmel-aes.h
++++ b/include/linux/platform_data/atmel-aes.h
+@@ -1,7 +1,7 @@
+ #ifndef __LINUX_ATMEL_AES_H
+ #define __LINUX_ATMEL_AES_H
+ 
+-#include <mach/at_hdmac.h>
++#include <linux/platform_data/dma-atmel.h>
+ 
+ /**
+  * struct aes_dma_data - DMA data for AES
+diff --git a/include/linux/platform_data/dma-atmel.h b/include/linux/platform_data/dma-atmel.h
+new file mode 100644
+index 0000000..cab0997
+--- /dev/null
++++ b/include/linux/platform_data/dma-atmel.h
+@@ -0,0 +1,61 @@
++/*
++ * Header file for the Atmel AHB DMA Controller driver
++ *
++ * Copyright (C) 2008 Atmel Corporation
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ */
++#ifndef AT_HDMAC_H
++#define AT_HDMAC_H
++
++#include <linux/dmaengine.h>
++
++/**
++ * struct at_dma_platform_data - Controller configuration parameters
++ * @nr_channels: Number of channels supported by hardware (max 8)
++ * @cap_mask: dma_capability flags supported by the platform
++ */
++struct at_dma_platform_data {
++	unsigned int	nr_channels;
++	dma_cap_mask_t  cap_mask;
++};
++
++/**
++ * struct at_dma_slave - Controller-specific information about a slave
++ * @dma_dev: required DMA master device
++ * @cfg: Platform-specific initializer for the CFG register
++ */
++struct at_dma_slave {
++	struct device		*dma_dev;
++	u32			cfg;
++};
++
++
++/* Platform-configurable bits in CFG */
++#define	ATC_SRC_PER(h)		(0xFU & (h))	/* Channel src rq associated with periph handshaking ifc h */
++#define	ATC_DST_PER(h)		((0xFU & (h)) <<  4)	/* Channel dst rq associated with periph handshaking ifc h */
++#define	ATC_SRC_REP		(0x1 <<  8)	/* Source Replay Mod */
++#define	ATC_SRC_H2SEL		(0x1 <<  9)	/* Source Handshaking Mod */
++#define		ATC_SRC_H2SEL_SW	(0x0 <<  9)
++#define		ATC_SRC_H2SEL_HW	(0x1 <<  9)
++#define	ATC_DST_REP		(0x1 << 12)	/* Destination Replay Mod */
++#define	ATC_DST_H2SEL		(0x1 << 13)	/* Destination Handshaking Mod */
++#define		ATC_DST_H2SEL_SW	(0x0 << 13)
++#define		ATC_DST_H2SEL_HW	(0x1 << 13)
++#define	ATC_SOD			(0x1 << 16)	/* Stop On Done */
++#define	ATC_LOCK_IF		(0x1 << 20)	/* Interface Lock */
++#define	ATC_LOCK_B		(0x1 << 21)	/* AHB Bus Lock */
++#define	ATC_LOCK_IF_L		(0x1 << 22)	/* Master Interface Arbiter Lock */
++#define		ATC_LOCK_IF_L_CHUNK	(0x0 << 22)
++#define		ATC_LOCK_IF_L_BUFFER	(0x1 << 22)
++#define	ATC_AHB_PROT_MASK	(0x7 << 24)	/* AHB Protection */
++#define	ATC_FIFOCFG_MASK	(0x3 << 28)	/* FIFO Request Configuration */
++#define		ATC_FIFOCFG_LARGESTBURST	(0x0 << 28)
++#define		ATC_FIFOCFG_HALFFIFO		(0x1 << 28)
++#define		ATC_FIFOCFG_ENOUGHSPACE		(0x2 << 28)
++
++
++#endif /* AT_HDMAC_H */
+-- 
+1.7.10.4
+

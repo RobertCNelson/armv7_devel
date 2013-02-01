@@ -1,0 +1,331 @@
+From f918fbafabb6beff745539565c49c54ce5f2a05a Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 16 Nov 2012 16:39:42 +0800
+Subject: [PATCH 235/308] atmel_nand: nfc: enable NFC support.
+
+---
+ drivers/mtd/nand/atmel_nand.c     |   67 ++++++------
+ drivers/mtd/nand/atmel_nand_nfc.c |  213 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 249 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index f9ff418..7d5f1e2 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -1450,7 +1450,6 @@ static int __init atmel_nand_probe(struct platform_device *pdev)
+ 	/* Set address of NAND IO lines */
+ 	nand_chip->IO_ADDR_R = host->io_base;
+ 	nand_chip->IO_ADDR_W = host->io_base;
+-	nand_chip->cmd_ctrl = atmel_nand_cmd_ctrl;
+ 
+ 	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
+ 	if (IS_ERR(pinctrl)) {
+@@ -1463,41 +1462,47 @@ static int __init atmel_nand_probe(struct platform_device *pdev)
+ 		res = atmel_nfc_init(pdev, mtd);
+ 		if (res)
+ 			goto err_nand_ioremap;
+-	}
+-
+-	if (gpio_is_valid(host->board.rdy_pin)) {
+-		res = devm_gpio_request(&pdev->dev,
+-				host->board.rdy_pin, "nand_rdy");
+-		if (res < 0) {
+-			dev_err(&pdev->dev,
+-				"can't request rdy gpio %d\n", host->board.rdy_pin);
+-			goto err_nand_ioremap;
+-		}
+ 
+-		res = gpio_direction_input(host->board.rdy_pin);
+-		if (res < 0) {
+-			dev_err(&pdev->dev,
+-				"can't request input direction rdy gpio %d\n", host->board.rdy_pin);
+-			goto err_nand_ioremap;
+-		}
++		nand_chip->select_chip = nfc_select_chip;
++		nand_chip->dev_ready = nfc_device_ready;
++		nand_chip->cmdfunc = nfc_nand_command;
++	} else {
++		nand_chip->cmd_ctrl = atmel_nand_cmd_ctrl;
++
++		if (gpio_is_valid(host->board.rdy_pin)) {
++			res = devm_gpio_request(&pdev->dev,
++					host->board.rdy_pin, "nand_rdy");
++			if (res < 0) {
++				dev_err(&pdev->dev,
++					"can't request rdy gpio %d\n", host->board.rdy_pin);
++				goto err_nand_ioremap;
++			}
+ 
+-		nand_chip->dev_ready = atmel_nand_device_ready;
+-	}
++			res = gpio_direction_input(host->board.rdy_pin);
++			if (res < 0) {
++				dev_err(&pdev->dev,
++					"can't request input direction rdy gpio %d\n", host->board.rdy_pin);
++				goto err_nand_ioremap;
++			}
+ 
+-	if (gpio_is_valid(host->board.enable_pin)) {
+-		res = devm_gpio_request(&pdev->dev,
+-				host->board.enable_pin, "nand_enable");
+-		if (res < 0) {
+-			dev_err(&pdev->dev,
+-				"can't request enable gpio %d\n", host->board.enable_pin);
+-			goto err_nand_ioremap;
++			nand_chip->dev_ready = atmel_nand_device_ready;
+ 		}
+ 
+-		res = gpio_direction_output(host->board.enable_pin, 1);
+-		if (res < 0) {
+-			dev_err(&pdev->dev,
+-				"can't request output direction enable gpio %d\n", host->board.enable_pin);
+-			goto err_nand_ioremap;
++		if (gpio_is_valid(host->board.enable_pin)) {
++			res = devm_gpio_request(&pdev->dev,
++					host->board.enable_pin, "nand_enable");
++			if (res < 0) {
++				dev_err(&pdev->dev,
++					"can't request enable gpio %d\n", host->board.enable_pin);
++				goto err_nand_ioremap;
++			}
++
++			res = gpio_direction_output(host->board.enable_pin, 1);
++			if (res < 0) {
++				dev_err(&pdev->dev,
++					"can't request output direction enable gpio %d\n", host->board.enable_pin);
++				goto err_nand_ioremap;
++			}
+ 		}
+ 	}
+ 
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+index 122567f..938130b 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.c
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -13,6 +13,75 @@
+ #include "atmel_nand_nfc.h"
+ #include <linux/delay.h>
+ 
++static u32 nfc_status;
++static inline void nfc_read_status(struct atmel_nand_host *host)
++{
++	nfc_status = nfc_readl(host->nfc.hsmc_regs, SR);
++
++	if (nfc_status & ATMEL_HSMC_NFC_DTOE)
++		dev_err(host->dev, "NFC: Waiting Nand R/B Timeout Error\n");
++	else if (nfc_status & ATMEL_HSMC_NFC_UNDEF)
++		dev_err(host->dev, "NFC: Access Undefined Area Error\n");
++	else if (nfc_status & ATMEL_HSMC_NFC_AWB)
++		dev_err(host->dev, "NFC: Access memory While NFC is busy\n");
++	else if (nfc_status & ATMEL_HSMC_NFC_ASE)
++		dev_err(host->dev, "NFC: Access memory Size Error\n");
++}
++
++static inline int nfc_wait_status(struct atmel_nand_host *host, u32 flag)
++{
++	unsigned long end_time;
++
++	end_time = jiffies + msecs_to_jiffies(100);
++	while ((nfc_status & flag) == 0) {
++		nfc_read_status(host);
++
++		if (unlikely(time_after(jiffies, end_time))) {
++			dev_err(host->dev, "NFC: Timeout to read correct status.\n");
++			return -1;	/* Time out */
++		}
++	}
++
++	return 0;
++}
++
++static int nfc_send_command(struct atmel_nand_host *host,
++	unsigned int cmd, unsigned int addr, unsigned char cycle0)
++{
++	dev_dbg(host->dev,
++		"nfc_cmd: 0x%08x, addr1234: 0x%08x, cycle0: 0x%02x\n",
++		cmd, addr, cycle0);
++
++	/* Clear status */
++	nfc_status = 0;
++	while (nfc_cmd_readl(NFCADDR_CMD_NFCBUSY, host->nfc.base_cmd_regs)
++			& NFCADDR_CMD_NFCBUSY)
++		;
++	nfc_writel(host->nfc.hsmc_regs, CYCLE0, cycle0);
++	nfc_cmd_addr1234_writel(cmd, addr, host->nfc.base_cmd_regs);
++	return nfc_wait_status(host, ATMEL_HSMC_NFC_CMD_DONE);
++}
++
++static int nfc_device_ready(struct mtd_info *mtd)
++{
++	struct nand_chip *nand_chip = mtd->priv;
++	struct atmel_nand_host *host = nand_chip->priv;
++	if (!nfc_wait_status(host, ATMEL_HSMC_NFC_RB_EDGE))
++		return 1;
++	return 0;
++}
++
++static void nfc_select_chip(struct mtd_info *mtd, int chip)
++{
++	struct nand_chip *nand_chip = mtd->priv;
++	struct atmel_nand_host *host = nand_chip->priv;
++
++	if (chip == -1)
++		nfc_writel(host->nfc.hsmc_regs, CTRL, ATMEL_HSMC_NFC_DISABLE);
++	else
++		nfc_writel(host->nfc.hsmc_regs, CTRL, ATMEL_HSMC_NFC_ENABLE);
++}
++
+ static int atmel_nfc_init(struct platform_device *pdev, struct mtd_info *mtd)
+ {
+ 	struct nand_chip *nand_chip = mtd->priv;
+@@ -40,3 +109,147 @@ static int atmel_nfc_init(struct platform_device *pdev, struct mtd_info *mtd)
+ 	return 0;
+ }
+ 
++static int make_addr(struct mtd_info *mtd, int column, int page_addr,
++		unsigned int *addr1234, unsigned int *cycle0)
++{
++	struct nand_chip *chip = mtd->priv;
++
++	int acycle = 0;
++	unsigned char addr_bytes[8];
++	int index = 0, bit_shift;
++
++	BUG_ON(addr1234 == NULL || cycle0 == NULL);
++
++	*cycle0 = 0;
++	*addr1234 = 0;
++
++	if (column != -1) {
++		if (chip->options & NAND_BUSWIDTH_16)
++			column >>= 1;
++		addr_bytes[acycle++] = column & 0xff;
++		if (mtd->writesize > 512)
++			addr_bytes[acycle++] = (column >> 8) & 0xff;
++	}
++
++	if (page_addr != -1) {
++		addr_bytes[acycle++] = page_addr & 0xff;
++		addr_bytes[acycle++] = (page_addr >> 8) & 0xff;
++		if (chip->chipsize > (128 << 20))
++			addr_bytes[acycle++] = (page_addr >> 16) & 0xff;
++	}
++
++	if (acycle > 4)
++		*cycle0 = addr_bytes[index++];
++
++	for (bit_shift = 0; index < acycle; bit_shift += 8)
++		*addr1234 += addr_bytes[index++] << bit_shift;
++
++	return acycle << 19;	/* return acycle in cmd register */
++}
++
++static void nfc_nand_command(struct mtd_info *mtd, unsigned int command,
++				int column, int page_addr)
++{
++	struct nand_chip *chip = mtd->priv;
++	struct atmel_nand_host *host = chip->priv;
++	unsigned int nfc_addr_cmd = 0;
++
++	unsigned int cmd1 = command << 2;
++
++	/* Set default settings: no cmd2, no addr cycle. read from nand */
++	unsigned int cmd2 = 0;
++	unsigned int vcmd2 = 0;
++	int acycle = NFCADDR_CMD_ACYCLE_NONE;
++	int csid = NFCADDR_CMD_CSID_3;
++	int dataen = NFCADDR_CMD_DATADIS;
++	int nfcwr = NFCADDR_CMD_NFCRD;
++	unsigned int addr1234 = 0;
++	unsigned int cycle0 = 0;
++	bool do_addr = true;
++
++	dev_dbg(host->dev, "%s: cmd = 0x%02x, col = 0x%08x, page = 0x%08x\n",
++	     __func__, command, column, page_addr);
++
++	switch (command) {
++	case NAND_CMD_RESET:
++		nfc_addr_cmd = cmd1 | acycle | csid | dataen | nfcwr;
++		nfc_send_command(host, nfc_addr_cmd, addr1234, cycle0);
++		udelay(chip->chip_delay);
++
++		nfc_nand_command(mtd, NAND_CMD_STATUS, -1, -1);
++		while (!(chip->read_byte(mtd) & NAND_STATUS_READY))
++			;
++		return;
++	case NAND_CMD_STATUS:
++		do_addr = false;
++		break;
++	case NAND_CMD_PARAM:
++	case NAND_CMD_READID:
++		do_addr = false;
++		acycle = NFCADDR_CMD_ACYCLE_1;
++		if (column != -1)
++			addr1234 = column;
++		break;
++	case NAND_CMD_RNDOUT:
++		cmd2 = NAND_CMD_RNDOUTSTART << 10;
++		vcmd2 = NFCADDR_CMD_VCMD2;
++		break;
++	case NAND_CMD_READ0:
++	case NAND_CMD_READOOB:
++		if (command == NAND_CMD_READOOB) {
++			column += mtd->writesize;
++			command = NAND_CMD_READ0; /* only READ0 is valid */
++			cmd1 = command << 2;
++		}
++
++		cmd2 = NAND_CMD_READSTART << 10;
++		vcmd2 = NFCADDR_CMD_VCMD2;
++		break;
++	/* For prgramming command, the cmd need set to write enable */
++	case NAND_CMD_PAGEPROG:
++	case NAND_CMD_SEQIN:
++	case NAND_CMD_RNDIN:
++		nfcwr = NFCADDR_CMD_NFCWR;
++		break;
++	default:
++		break;
++	}
++
++	if (do_addr)
++		acycle = make_addr(mtd, column, page_addr, &addr1234, &cycle0);
++	nfc_addr_cmd = cmd1 | cmd2 | vcmd2 | acycle | csid | dataen | nfcwr;
++	nfc_send_command(host, nfc_addr_cmd, addr1234, cycle0);
++
++	/*
++	 * Program and erase have their own busy handlers status, sequential
++	 * in, and deplete1 need no delay.
++	 */
++	switch (command) {
++	case NAND_CMD_CACHEDPROG:
++	case NAND_CMD_PAGEPROG:
++	case NAND_CMD_ERASE1:
++	case NAND_CMD_ERASE2:
++	case NAND_CMD_RNDIN:
++	case NAND_CMD_STATUS:
++	case NAND_CMD_DEPLETE1:
++	case NAND_CMD_RNDOUT:
++		return;
++
++	case NAND_CMD_SEQIN:
++		return;
++	case NAND_CMD_STATUS_ERROR:
++	case NAND_CMD_STATUS_ERROR0:
++	case NAND_CMD_STATUS_ERROR1:
++	case NAND_CMD_STATUS_ERROR2:
++	case NAND_CMD_STATUS_ERROR3:
++		/* Read error status commands require only a short delay */
++		udelay(chip->chip_delay);
++		return;
++
++	case NAND_CMD_READ0:
++		/* fall through */
++	default:
++		nfc_wait_status(host, ATMEL_HSMC_NFC_RB_EDGE);
++	}
++}
++
+-- 
+1.7.10.4
+

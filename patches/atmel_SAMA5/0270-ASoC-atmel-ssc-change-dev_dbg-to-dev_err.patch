@@ -1,0 +1,87 @@
+From 76b9aaf4ab6bf6d806da95f469e20a493699ec36 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 18 Jan 2013 14:13:29 +0800
+Subject: [PATCH 270/308] ASoC: atmel-ssc: change dev_dbg to dev_err
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ drivers/misc/atmel-ssc.c |   18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index 4b977a2..75f9061 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -192,21 +192,23 @@ static int ssc_probe(struct platform_device *pdev)
+ 
+ 	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
+ 	if (IS_ERR(pinctrl)) {
+-		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		dev_err(&pdev->dev, "failed to request pinctrl\n");
+ 		return PTR_ERR(pinctrl);
+ 	}
+ 
+ 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+ 	if (!ssc) {
+-		dev_dbg(&pdev->dev, "out of memory\n");
++		dev_err(&pdev->dev, "out of memory\n");
+ 		return -ENOMEM;
+ 	}
+ 
+ 	ssc->pdev = pdev;
+ 
+ 	plat_dat = atmel_ssc_get_driver_data(pdev);
+-	if (!plat_dat)
++	if (!plat_dat) {
++		dev_err(&pdev->dev, "platform data missing\n");
+ 		return -ENODEV;
++	}
+ 	ssc->pdata = (struct atmel_ssc_platform_data *)plat_dat;
+ 
+ 	if (plat_dat->use_dma) {
+@@ -216,7 +218,7 @@ static int ssc_probe(struct platform_device *pdev)
+ 			dev_err(&pdev->dev, "failed alloc memory for dma\n");
+ 			devm_kfree(&pdev->dev, atslave);
+ 			return -ENOMEM;
+-	       }
++		}
+ 
+ 		if (atmel_dma_of_init(np, atslave)) {
+ 			dev_err(&pdev->dev, "could not find DMA parameters\n");
+@@ -229,13 +231,13 @@ static int ssc_probe(struct platform_device *pdev)
+ 
+ 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!regs) {
+-		dev_dbg(&pdev->dev, "no mmio resource defined\n");
++		dev_err(&pdev->dev, "no mmio resource defined\n");
+ 		return -ENXIO;
+ 	}
+ 
+ 	ssc->regs = devm_request_and_ioremap(&pdev->dev, regs);
+ 	if (!ssc->regs) {
+-		dev_dbg(&pdev->dev, "ioremap failed\n");
++		dev_err(&pdev->dev, "ioremap failed\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -243,7 +245,7 @@ static int ssc_probe(struct platform_device *pdev)
+ 
+ 	ssc->clk = devm_clk_get(&pdev->dev, "pclk");
+ 	if (IS_ERR(ssc->clk)) {
+-		dev_dbg(&pdev->dev, "no pclk clock defined\n");
++		dev_err(&pdev->dev, "no pclk clock defined\n");
+ 		return -ENXIO;
+ 	}
+ 
+@@ -255,7 +257,7 @@ static int ssc_probe(struct platform_device *pdev)
+ 
+ 	ssc->irq = platform_get_irq(pdev, 0);
+ 	if (!ssc->irq) {
+-		dev_dbg(&pdev->dev, "could not get irq\n");
++		dev_err(&pdev->dev, "could not get irq\n");
+ 		return -ENXIO;
+ 	}
+ 
+-- 
+1.7.10.4
+

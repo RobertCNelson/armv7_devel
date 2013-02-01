@@ -1,0 +1,38 @@
+From 2869e922ec139707b60679d2cffb71c6e8e33640 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Tue, 18 Dec 2012 17:23:10 +0100
+Subject: [PATCH 259/308] SAMA5: update defconfig
+
+Add support for SPI flash and usb video devices
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/configs/sama5d3_defconfig |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/configs/sama5d3_defconfig b/arch/arm/configs/sama5d3_defconfig
+index 3959dfc..aeff4e8 100644
+--- a/arch/arm/configs/sama5d3_defconfig
++++ b/arch/arm/configs/sama5d3_defconfig
+@@ -67,6 +67,8 @@ CONFIG_MTD=y
+ CONFIG_MTD_CMDLINE_PARTS=y
+ CONFIG_MTD_CHAR=y
+ CONFIG_MTD_BLOCK=y
++CONFIG_MTD_CFI=y
++CONFIG_MTD_M25P80=y
+ CONFIG_MTD_NAND=y
+ CONFIG_MTD_NAND_ATMEL=y
+ CONFIG_MTD_UBI=y
+@@ -128,7 +130,8 @@ CONFIG_MEDIA_CAMERA_SUPPORT=y
+ CONFIG_MEDIA_CONTROLLER=y
+ CONFIG_VIDEO_V4L2_SUBDEV_API=y
+ CONFIG_VIDEO_FIXED_MINOR_RANGES=y
+-# CONFIG_V4L_USB_DRIVERS is not set
++CONFIG_USB_VIDEO_CLASS=y
++CONFIG_USB_GSPCA=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_SOC_CAMERA=y
+ CONFIG_SOC_CAMERA_OV2640=y
+-- 
+1.7.10.4
+

@@ -1,0 +1,3008 @@
+From bb84dd3f6f185db270bd5da2708be15ae5f3adb2 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 14 Dec 2012 17:33:01 +0100
+Subject: [PATCH 257/308] SAMA5: sort and update dtb files
+
+This patch is not merged into the big SAMA5 patch to avoid conflicts,
+it will be done for next milestone.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/boot/dts/sama5d31ek.dts             |  130 ++++++++------
+ arch/arm/boot/dts/sama5d31ek_mb-revB.dts     |  203 ++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts |  225 ++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d31ek_pda.dts         |  224 ++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d33ek.dts             |  124 ++++++++------
+ arch/arm/boot/dts/sama5d33ek_mb-revB.dts     |  203 ++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts |  225 ++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d33ek_pda.dts         |  224 ++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d34ek.dts             |  139 ++++++++-------
+ arch/arm/boot/dts/sama5d34ek_mb-revB.dts     |  213 +++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts |  235 ++++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d34ek_pda.dts         |  234 +++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d35ek.dts             |  141 +++++++++++-----
+ arch/arm/boot/dts/sama5d35ek_mb-revB.dts     |  198 ++++++++++++++++++++++
+ 14 files changed, 2506 insertions(+), 212 deletions(-)
+ create mode 100644 arch/arm/boot/dts/sama5d31ek_mb-revB.dts
+ create mode 100644 arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts
+ create mode 100644 arch/arm/boot/dts/sama5d31ek_pda.dts
+ create mode 100644 arch/arm/boot/dts/sama5d33ek_mb-revB.dts
+ create mode 100644 arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts
+ create mode 100644 arch/arm/boot/dts/sama5d33ek_pda.dts
+ create mode 100644 arch/arm/boot/dts/sama5d34ek_mb-revB.dts
+ create mode 100644 arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts
+ create mode 100644 arch/arm/boot/dts/sama5d34ek_pda.dts
+ create mode 100644 arch/arm/boot/dts/sama5d35ek_mb-revB.dts
+
+diff --git a/arch/arm/boot/dts/sama5d31ek.dts b/arch/arm/boot/dts/sama5d31ek.dts
+index 83c67c1..fcb4d0e 100644
+--- a/arch/arm/boot/dts/sama5d31ek.dts
++++ b/arch/arm/boot/dts/sama5d31ek.dts
+@@ -20,39 +20,6 @@
+ 
+ 	ahb {
+ 		apb {
+-			pinctrl@fffff200 {
+-				board {
+-					pinctrl_mmc0_cd: mmc0_cd {
+-						atmel,pins =
+-							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_mmc1_cd: mmc1_cd {
+-						atmel,pins =
+-							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
+-						atmel,pins =
+-							<3 30 0x2 0x0>;	/* PD30 periph B */
+-					};
+-
+-					pinctrl_qt1070_irq: qt1070_irq {
+-						atmel,pins =
+-							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+-					};
+-				};
+-			};
+-
+-			usart1: serial@f0020000 {
+-				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
+-				status = "okay";
+-			};
+-
+-			dbgu: serial@ffffee00 {
+-				status = "okay";
+-			};
+-
+ 			mmc0: mmc@f0000000 {
+ 				status = "okay";
+ 				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
+@@ -63,16 +30,6 @@
+ 				};
+ 			};
+ 
+-			mmc1: mmc@f8000000 {
+-				status = "okay";
+-				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
+-				slot@0 {
+-					reg = <0>;
+-					bus-width = <4>;
+-					cd-gpios = <&pioD 18 0>;
+-				};
+-			};
+-
+ 			spi0: spi@f0004000 {
+ 				status = "okay";
+ 				m25p80@0 {
+@@ -82,8 +39,7 @@
+ 				};
+ 			};
+ 
+-			macb1: ethernet@f802c000 {
+-				phy-mode = "rmii";
++			ssc0: ssc@f0008000 {
+ 				status = "okay";
+ 			};
+ 
+@@ -109,16 +65,8 @@
+ 				};
+ 			};
+ 
+-			/* Enable LCD or ISI not both */
+-			isi: isi@f0034000 {
+-				status = "disabled";
+-			};
+-
+-			ssc0: ssc@f0008000 {
+-				status = "okay";
+-			};
+-
+-			tsadcc: tsadcc@f8018000 {
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
+ 				status = "okay";
+ 			};
+ 
+@@ -142,6 +90,63 @@
+ 				};
+ 			};
+ 
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "okay";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			macb1: ethernet@f802c000 {
++				phy-mode = "rmii";
++				status = "okay";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
+ 			watchdog@fffffe40 {
+ 				status = "okay";
+ 			};
+@@ -166,6 +171,21 @@
+ 		};
+ 	};
+ 
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
+ 	sound {
+ 		compatible = "atmel,sama5d3ek-wm8904";
+ 		pinctrl-names = "default";
+diff --git a/arch/arm/boot/dts/sama5d31ek_mb-revB.dts b/arch/arm/boot/dts/sama5d31ek_mb-revB.dts
+new file mode 100644
+index 0000000..4f12be0
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d31ek_mb-revB.dts
+@@ -0,0 +1,203 @@
++/*
++ * sama5d31ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++	atmel,mb-rev = "B";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck_mb_revB &pinctrl_isi_camera_mb_revB>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "okay";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			macb1: ethernet@f802c000 {
++				phy-mode = "rmii";
++				status = "okay";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts b/arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts
+new file mode 100644
+index 0000000..4e3f6e1
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts
+@@ -0,0 +1,225 @@
++/*
++ * sama5d31ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++	atmel,mb-rev = "B";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <30 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++
++				atmel_mxt_ts@4a {
++					compatible = "atmel,atmel_mxt_ts";
++					reg = <0x4a>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_mxt_ts>;
++					x_line = <19>;
++					y_line = <11>;
++					x_size = <1024>;
++					y_size = <1024>;
++					blen = <0x0>;
++					threshold = <0x23>;
++					voltage = <3300000>;
++					orient = <0x00>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck_mb_revB &pinctrl_isi_camera_mb_revB>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "disabled";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			macb1: ethernet@f802c000 {
++				phy-mode = "rmii";
++				status = "okay";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 30 0x0 0x5>;	/* PE30 GPIO with pull up deglith */
++					};
++
++					pinctrl_mxt_ts: mxt_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>; /* PE31 gpio with pullup deglitch */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d31ek_pda.dts b/arch/arm/boot/dts/sama5d31ek_pda.dts
+new file mode 100644
+index 0000000..6ea1b5d
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d31ek_pda.dts
+@@ -0,0 +1,224 @@
++/*
++ * sama5d31ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <30 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++
++				atmel_mxt_ts@4a {
++					compatible = "atmel,atmel_mxt_ts";
++					reg = <0x4a>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_mxt_ts>;
++					x_line = <19>;
++					y_line = <11>;
++					x_size = <1024>;
++					y_size = <1024>;
++					blen = <0x0>;
++					threshold = <0x23>;
++					voltage = <3300000>;
++					orient = <0x00>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "disabled";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			macb1: ethernet@f802c000 {
++				phy-mode = "rmii";
++				status = "okay";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 30 0x0 0x5>;	/* PE30 GPIO with pull up deglith */
++					};
++
++					pinctrl_mxt_ts: mxt_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>; /* PE31 gpio with pullup deglitch */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d33ek.dts b/arch/arm/boot/dts/sama5d33ek.dts
+index 3d32d5b..be67224 100644
+--- a/arch/arm/boot/dts/sama5d33ek.dts
++++ b/arch/arm/boot/dts/sama5d33ek.dts
+@@ -20,39 +20,6 @@
+ 
+ 	ahb {
+ 		apb {
+-			pinctrl@fffff200 {
+-				board {
+-					pinctrl_mmc0_cd: mmc0_cd {
+-						atmel,pins =
+-							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_mmc1_cd: mmc1_cd {
+-						atmel,pins =
+-							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
+-						atmel,pins =
+-							<3 30 0x2 0x0>;	/* PD30 periph B */
+-					};
+-
+-					pinctrl_qt1070_irq: qt1070_irq {
+-						atmel,pins =
+-							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+-					};
+-				};
+-			};
+-
+-			usart1: serial@f0020000 {
+-				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
+-				status = "okay";
+-			};
+-
+-			dbgu: serial@ffffee00 {
+-				status = "okay";
+-			};
+-
+ 			mmc0: mmc@f0000000 {
+ 				status = "okay";
+ 				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
+@@ -63,16 +30,6 @@
+ 				};
+ 			};
+ 
+-			mmc1: mmc@f8000000 {
+-				status = "okay";
+-				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
+-				slot@0 {
+-					reg = <0>;
+-					bus-width = <4>;
+-					cd-gpios = <&pioD 18 0>;
+-				};
+-			};
+-
+ 			spi0: spi@f0004000 {
+ 				status = "okay";
+ 				m25p80@0 {
+@@ -82,8 +39,7 @@
+ 				};
+ 			};
+ 
+-			macb0: ethernet@f0028000 {
+-				phy-mode = "rgmii";
++			ssc0: ssc@f0008000 {
+ 				status = "okay";
+ 			};
+ 
+@@ -109,16 +65,13 @@
+ 				};
+ 			};
+ 
+-			/* Enable LCD or ISI not both */
+-			isi: isi@f0034000 {
+-				status = "disabled";
+-			};
+-
+-			ssc0: ssc@f0008000 {
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
+ 				status = "okay";
+ 			};
+ 
+-			tsadcc: tsadcc@f8018000 {
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
+ 				status = "okay";
+ 			};
+ 
+@@ -142,6 +95,58 @@
+ 				};
+ 			};
+ 
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "okay";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
+ 			watchdog@fffffe40 {
+ 				status = "okay";
+ 			};
+@@ -166,6 +171,21 @@
+ 		};
+ 	};
+ 
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
+ 	sound {
+ 		compatible = "atmel,sama5d3ek-wm8904";
+ 		pinctrl-names = "default";
+diff --git a/arch/arm/boot/dts/sama5d33ek_mb-revB.dts b/arch/arm/boot/dts/sama5d33ek_mb-revB.dts
+new file mode 100644
+index 0000000..684fcf9
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d33ek_mb-revB.dts
+@@ -0,0 +1,203 @@
++/*
++ * sama5d33ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++	atmel,mb-rev = "B";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck_mb_revB &pinctrl_isi_camera_mb_revB>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "okay";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts b/arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts
+new file mode 100644
+index 0000000..091ba89
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts
+@@ -0,0 +1,225 @@
++/*
++ * sama5d33ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++	atmel,mb-rev = "B";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <30 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++
++				atmel_mxt_ts@4a {
++					compatible = "atmel,atmel_mxt_ts";
++					reg = <0x4a>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_mxt_ts>;
++					x_line = <19>;
++					y_line = <11>;
++					x_size = <1024>;
++					y_size = <1024>;
++					blen = <0x0>;
++					threshold = <0x23>;
++					voltage = <3300000>;
++					orient = <0x00>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck_mb_revB &pinctrl_isi_camera_mb_revB>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "disabled";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 30 0x0 0x5>;	/* PE30 GPIO with pull up deglith */
++					};
++
++					pinctrl_mxt_ts: mxt_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>; /* PE31 gpio with pullup deglitch */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d33ek_pda.dts b/arch/arm/boot/dts/sama5d33ek_pda.dts
+new file mode 100644
+index 0000000..eead82c
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d33ek_pda.dts
+@@ -0,0 +1,224 @@
++/*
++ * sama5d33ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <30 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++
++				atmel_mxt_ts@4a {
++					compatible = "atmel,atmel_mxt_ts";
++					reg = <0x4a>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_mxt_ts>;
++					x_line = <19>;
++					y_line = <11>;
++					x_size = <1024>;
++					y_size = <1024>;
++					blen = <0x0>;
++					threshold = <0x23>;
++					voltage = <3300000>;
++					orient = <0x00>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "disabled";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 30 0x0 0x5>;	/* PE30 GPIO with pull up deglith */
++					};
++
++					pinctrl_mxt_ts: mxt_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>; /* PE31 gpio with pullup deglitch */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+index 142dd20..7004386 100644
+--- a/arch/arm/boot/dts/sama5d34ek.dts
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -20,47 +20,6 @@
+ 
+ 	ahb {
+ 		apb {
+-			pinctrl@fffff200 {
+-				board {
+-					pinctrl_mmc0_cd: mmc0_cd {
+-						atmel,pins =
+-							<3 17 0x0 0x5>;	/* PD17 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_mmc1_cd: mmc1_cd {
+-						atmel,pins =
+-							<3 18 0x0 0x5>;	/* PD18 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
+-						atmel,pins =
+-							<3 30 0x2 0x0>;	/* PD30 periph B */
+-					};
+-
+-					pinctrl_qt1070_irq: qt1070_irq {
+-						atmel,pins =
+-							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+-					};
+-				};
+-			};
+-
+-			adc0: adc@f8018000 {
+-				status = "disabled";
+-			};
+-
+-			can0: can@f000c000 {
+-				status = "okay";
+-			};
+-
+-			usart1: serial@f0020000 {
+-				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
+-				status = "okay";
+-			};
+-
+-			dbgu: serial@ffffee00 {
+-				status = "okay";
+-			};
+-
+ 			mmc0: mmc@f0000000 {
+ 				status = "okay";
+ 				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
+@@ -71,16 +30,6 @@
+ 				};
+ 			};
+ 
+-			mmc1: mmc@f8000000 {
+-				status = "okay";
+-				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
+-				slot@0 {
+-					reg = <0>;
+-					bus-width = <4>;
+-					cd-gpios = <&pioD 18 0>;
+-				};
+-			};
+-
+ 			spi0: spi@f0004000 {
+ 				status = "okay";
+ 				m25p80@0 {
+@@ -89,8 +38,12 @@
+ 					reg = <0>;
+ 				};
+ 			};
+-			macb0: ethernet@f0028000 {
+-				phy-mode = "rgmii";
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
+ 				status = "okay";
+ 			};
+ 
+@@ -122,18 +75,13 @@
+ 				};
+ 			};
+ 
+-			/* Enable LCD or ISI not both */
+-			isi: isi@f0034000 {
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
+-				status = "disabled";
+-			};
+-
+-			ssc0: ssc@f0008000 {
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
+ 				status = "okay";
+ 			};
+ 
+-			tsadcc: tsadcc@f8018000 {
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
+ 				status = "okay";
+ 			};
+ 
+@@ -157,6 +105,58 @@
+ 				};
+ 			};
+ 
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "okay";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>;	/* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>;	/* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
+ 			watchdog@fffffe40 {
+ 				status = "okay";
+ 			};
+@@ -181,6 +181,21 @@
+ 		};
+ 	};
+ 
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
+ 	sound {
+ 		compatible = "atmel,sama5d3ek-wm8904";
+ 		pinctrl-names = "default";
+diff --git a/arch/arm/boot/dts/sama5d34ek_mb-revB.dts b/arch/arm/boot/dts/sama5d34ek_mb-revB.dts
+new file mode 100644
+index 0000000..7e2763f
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d34ek_mb-revB.dts
+@@ -0,0 +1,213 @@
++/*
++ * sama5d34ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++	atmel,mb-rev = "B";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				24c256@50 {
++					compatible = "24c256";
++					reg = <0x50>;
++					pagesize = <64>;
++				};
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck_mb_revB &pinctrl_isi_camera_mb_revB>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "okay";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>;	/* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>;	/* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts b/arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts
+new file mode 100644
+index 0000000..16f0c49
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts
+@@ -0,0 +1,235 @@
++/*
++ * sama5d34ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++	atmel,mb-rev = "B";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				24c256@50 {
++					compatible = "24c256";
++					reg = <0x50>;
++					pagesize = <64>;
++				};
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <30 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++
++				atmel_mxt_ts@4a {
++					compatible = "atmel,atmel_mxt_ts";
++					reg = <0x4a>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_mxt_ts>;
++					x_line = <19>;
++					y_line = <11>;
++					x_size = <1024>;
++					y_size = <1024>;
++					blen = <0x0>;
++					threshold = <0x23>;
++					voltage = <3300000>;
++					orient = <0x00>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck_mb_revB &pinctrl_isi_camera_mb_revB>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "disabled";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>;	/* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>;	/* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 30 0x0 0x5>;	/* PE30 GPIO with pull up deglith */
++					};
++
++					pinctrl_mxt_ts: mxt_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>; /* PE31 gpio with pullup deglitch */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d34ek_pda.dts b/arch/arm/boot/dts/sama5d34ek_pda.dts
+new file mode 100644
+index 0000000..23f5174
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d34ek_pda.dts
+@@ -0,0 +1,234 @@
++/*
++ * sama5d34ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				24c256@50 {
++					compatible = "24c256";
++					reg = <0x50>;
++					pagesize = <64>;
++				};
++
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <30 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++
++				atmel_mxt_ts@4a {
++					compatible = "atmel,atmel_mxt_ts";
++					reg = <0x4a>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_mxt_ts>;
++					x_line = <19>;
++					y_line = <11>;
++					x_size = <1024>;
++					y_size = <1024>;
++					blen = <0x0>;
++					threshold = <0x23>;
++					voltage = <3300000>;
++					orient = <0x00>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "disabled";
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>;	/* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>;	/* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 30 0x0 0x5>;	/* PE30 GPIO with pull up deglith */
++					};
++
++					pinctrl_mxt_ts: mxt_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>; /* PE31 gpio with pullup deglitch */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d35ek.dts b/arch/arm/boot/dts/sama5d35ek.dts
+index 95c8659..4557b6c 100644
+--- a/arch/arm/boot/dts/sama5d35ek.dts
++++ b/arch/arm/boot/dts/sama5d35ek.dts
+@@ -20,34 +20,6 @@
+ 
+ 	ahb {
+ 		apb {
+-			pinctrl@fffff200 {
+-				board {
+-					pinctrl_mmc0_cd: mmc0_cd {
+-						atmel,pins =
+-							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_mmc1_cd: mmc1_cd {
+-						atmel,pins =
+-							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
+-					};
+-
+-					pinctrl_qt1070_irq: qt1070_irq {
+-						atmel,pins =
+-							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+-					};
+-				};
+-			};
+-
+-			usart1: serial@f0020000 {
+-				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
+-				status = "okay";
+-			};
+-
+-			dbgu: serial@ffffee00 {
+-				status = "okay";
+-			};
+-
+ 			mmc0: mmc@f0000000 {
+ 				status = "okay";
+ 				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
+@@ -58,16 +30,6 @@
+ 				};
+ 			};
+ 
+-			mmc1: mmc@f8000000 {
+-				status = "okay";
+-				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
+-				slot@0 {
+-					reg = <0>;
+-					bus-width = <4>;
+-					cd-gpios = <&pioD 18 0>;
+-				};
+-			};
+-
+ 			spi0: spi@f0004000 {
+ 				status = "okay";
+ 				m25p80@0 {
+@@ -77,13 +39,11 @@
+ 				};
+ 			};
+ 
+-			macb0: ethernet@f0028000 {
+-				phy-mode = "rgmii";
+-				status = "okay";
++			ssc0: ssc@f0008000 {
++				status = "disabled";
+ 			};
+ 
+-			macb1: ethernet@f802c000 {
+-				phy-mode = "rmii";
++			can0: can@f000c000 {
+ 				status = "okay";
+ 			};
+ 
+@@ -94,6 +54,11 @@
+ 			 */
+ 			i2c0: i2c@f0014000 {
+ 				status = "disabled";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
+ 			};
+ 
+ 			i2c1: i2c@f0018000 {
+@@ -112,7 +77,66 @@
+ 				};
+ 			};
+ 
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
+ 			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_camera>;
++				status = "okay";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			adc0: adc@f8018000 {
++				status = "okay";
++			};
++
++			macb1: ethernet@f802c000 {
++				phy-mode = "rmii";
++				status = "okay";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
+ 				status = "okay";
+ 			};
+ 
+@@ -139,4 +163,35 @@
+ 			status = "okay";
+ 		};
+ 	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++
++		status = "disabled";
++	};
+ };
+diff --git a/arch/arm/boot/dts/sama5d35ek_mb-revB.dts b/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
+new file mode 100644
+index 0000000..7343bc3
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
+@@ -0,0 +1,198 @@
++/*
++ * sama5d35ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3.dtsi"
++/include/ "sama5d3cm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3-EK";
++	compatible = "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++	atmel,mb-rev = "B";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "disabled";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			/*
++			 * i2c0 conflicts with ISI:
++			 * disable it to allow the use of ISI
++			 * can not enable audio when i2c0 disabled
++			 */
++			i2c0: i2c@f0014000 {
++				status = "disabled";
++
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				/* No LCD support
++				 * not sure enable qt1070 make sense
++				 */
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++				status = "okay";
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck_mb_revB &pinctrl_isi_camera_mb_revB>;
++				status = "okay";
++			};
++
++			mmc1: mmc@f8000000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			adc0: adc@f8018000 {
++				status = "okay";
++			};
++
++			macb1: ethernet@f802c000 {
++				phy-mode = "rmii";
++				status = "okay";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 1>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			status = "okay";
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 1
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;
++		};
++
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"MICBIAS", "IN1L",
++			"Left Capture Mux", "MICBIAS";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++
++		status = "disabled";
++	};
++};
+-- 
+1.7.10.4
+

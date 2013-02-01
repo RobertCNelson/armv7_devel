@@ -1,0 +1,55 @@
+From 39f3e40c8a556c8081fe85493cd426286b22f6f0 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Thu, 24 Jan 2013 15:08:51 +0100
+Subject: [PATCH 290/308] ARM: at91: fix infinite loop for AIC5
+
+Fix infinite loops when going to suspend/resume in AIC5 case.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/irq.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/mach-at91/irq.c b/arch/arm/mach-at91/irq.c
+index febc2ee..6c27dab 100644
+--- a/arch/arm/mach-at91/irq.c
++++ b/arch/arm/mach-at91/irq.c
+@@ -100,7 +100,7 @@ void at91_irq_suspend(void)
+ 			at91_aic_write(AT91_AIC5_SSR,
+ 				       bit & AT91_AIC5_INTSEL_MSK);
+ 			at91_aic_write(AT91_AIC5_IDCR, 1);
+-			i = bit;
++			i = bit + 1;
+ 		}
+ 		/* enable wakeup irqs */
+ 		i = 0;
+@@ -108,7 +108,7 @@ void at91_irq_suspend(void)
+ 			at91_aic_write(AT91_AIC5_SSR,
+ 				       bit & AT91_AIC5_INTSEL_MSK);
+ 			at91_aic_write(AT91_AIC5_IECR, 1);
+-			i = bit;
++			i = bit + 1;
+ 		}
+ 	} else {
+ 		at91_aic_write(AT91_AIC_IDCR, *backups);
+@@ -126,7 +126,7 @@ void at91_irq_resume(void)
+ 			at91_aic_write(AT91_AIC5_SSR,
+ 				       bit & AT91_AIC5_INTSEL_MSK);
+ 			at91_aic_write(AT91_AIC5_IDCR, 1);
+-			i = bit;
++			i = bit + 1;
+ 		}
+ 		/* enable irqs disabled for suspend */
+ 		i = 0;
+@@ -134,7 +134,7 @@ void at91_irq_resume(void)
+ 			at91_aic_write(AT91_AIC5_SSR,
+ 				       bit & AT91_AIC5_INTSEL_MSK);
+ 			at91_aic_write(AT91_AIC5_IECR, 1);
+-			i = bit;
++			i = bit + 1;
+ 		}
+ 	} else {
+ 		at91_aic_write(AT91_AIC_IDCR, *wakeups);
+-- 
+1.7.10.4
+

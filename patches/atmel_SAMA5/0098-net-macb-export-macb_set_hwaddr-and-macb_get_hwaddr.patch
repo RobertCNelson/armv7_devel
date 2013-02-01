@@ -1,0 +1,71 @@
+From 70510e0c344cc697aa56d80d12b58007450af11b Mon Sep 17 00:00:00 2001
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Wed, 7 Nov 2012 08:14:52 +0000
+Subject: [PATCH 098/308] net/macb: export macb_set_hwaddr and macb_get_hwaddr
+
+for usage in at91_ether driver.
+
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+ drivers/net/ethernet/cadence/macb.c |    8 +++++---
+ drivers/net/ethernet/cadence/macb.h |    2 ++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index a9e5a50..6be5a26 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -98,7 +98,7 @@ static void *macb_rx_buffer(struct macb *bp, unsigned int index)
+ 	return bp->rx_buffers + RX_BUFFER_SIZE * macb_rx_ring_wrap(index);
+ }
+ 
+-static void __macb_set_hwaddr(struct macb *bp)
++void macb_set_hwaddr(struct macb *bp)
+ {
+ 	u32 bottom;
+ 	u16 top;
+@@ -108,8 +108,9 @@ static void __macb_set_hwaddr(struct macb *bp)
+ 	top = cpu_to_le16(*((u16 *)(bp->dev->dev_addr + 4)));
+ 	macb_or_gem_writel(bp, SA1T, top);
+ }
++EXPORT_SYMBOL_GPL(macb_set_hwaddr);
+ 
+-static void __init macb_get_hwaddr(struct macb *bp)
++void macb_get_hwaddr(struct macb *bp)
+ {
+ 	struct macb_platform_data *pdata;
+ 	u32 bottom;
+@@ -149,6 +150,7 @@ static void __init macb_get_hwaddr(struct macb *bp)
+ 	netdev_info(bp->dev, "invalid hw address, using random\n");
+ 	eth_hw_addr_random(bp->dev);
+ }
++EXPORT_SYMBOL_GPL(macb_get_hwaddr);
+ 
+ static int macb_mdio_read(struct mii_bus *bus, int mii_id, int regnum)
+ {
+@@ -1035,7 +1037,7 @@ static void macb_init_hw(struct macb *bp)
+ 	u32 config;
+ 
+ 	macb_reset_hw(bp);
+-	__macb_set_hwaddr(bp);
++	macb_set_hwaddr(bp);
+ 
+ 	config = macb_mdc_clk_div(bp);
+ 	config |= MACB_BF(RBOF, NET_IP_ALIGN);	/* Make eth data aligned */
+diff --git a/drivers/net/ethernet/cadence/macb.h b/drivers/net/ethernet/cadence/macb.h
+index 4235ab8..d723494 100644
+--- a/drivers/net/ethernet/cadence/macb.h
++++ b/drivers/net/ethernet/cadence/macb.h
+@@ -573,6 +573,8 @@ extern const struct ethtool_ops macb_ethtool_ops;
+ int macb_mii_init(struct macb *bp);
+ int macb_ioctl(struct net_device *dev, struct ifreq *rq, int cmd);
+ void macb_set_rx_mode(struct net_device *dev);
++void macb_set_hwaddr(struct macb *bp);
++void macb_get_hwaddr(struct macb *bp);
+ 
+ static inline bool macb_is_gem(struct macb *bp)
+ {
+-- 
+1.7.10.4
+

@@ -1,0 +1,50 @@
+From 7abd929a3572de50aecd2b77f7890bbdbdb9e28e Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Tue, 20 Nov 2012 09:57:30 +0100
+Subject: [PATCH 251/308] ARM: at91: add dma conf to mci nodes
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi |   12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 458023d..9228901 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -65,6 +65,10 @@
+ 				status = "disabled";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
++				dma = <&dma0 0x10002200>; /* cfg = ATC_FIFOCFG_HALFFIFO
++								| ATC_SRC_H2SEL_HW | ATC_DST_H2SEL_HW;
++								| ATC_SRC_PER(AT_DMA_ID_MCI0)
++								| ATC_DST_PER(AT_DMA_ID_MCI0) */
+ 			};
+ 
+ 			spi0: spi@f0004000 {
+@@ -213,6 +217,10 @@
+ 				status = "disabled";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
++				dma = <&dma1 0x10002200>; /* cfg = ATC_FIFOCFG_HALFFIFO
++								| ATC_SRC_H2SEL_HW | ATC_DST_H2SEL_HW;
++								| ATC_SRC_PER(AT_DMA_ID_MCI1)
++								| ATC_DST_PER(AT_DMA_ID_MCI1) */
+ 			};
+ 
+ 			mmc2: mmc@f8004000 {
+@@ -224,6 +232,10 @@
+ 				status = "disabled";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
++				dma = <&dma1 0x10002211>; /* cfg = ATC_FIFOCFG_HALFFIFO
++								| ATC_SRC_H2SEL_HW | ATC_DST_H2SEL_HW;
++								| ATC_SRC_PER(AT_DMA_ID_MCI2)
++								| ATC_DST_PER(AT_DMA_ID_MCI2) */
+ 			};
+ 
+ 			spi1: spi@f8008000 {
+-- 
+1.7.10.4
+

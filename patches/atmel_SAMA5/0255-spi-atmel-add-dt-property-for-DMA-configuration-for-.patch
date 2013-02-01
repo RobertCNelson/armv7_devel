@@ -1,0 +1,34 @@
+From e877e230d5ea7f94b3b3c9cc64bf3f2fc2ae9559 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Wed, 28 Nov 2012 15:18:11 +0800
+Subject: [PATCH 255/308] spi: atmel: add dt property for DMA configuration
+ for sama5d3x
+
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 32f8c08..644efb0 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -85,6 +85,7 @@
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_spi0>;
+ 				dma-mask = <0xffffffff>;
++				dma = <&dma0 0x10002212>;
+ 				status = "disabled";
+ 			};
+ 
+@@ -263,6 +264,7 @@
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_spi1>;
+ 				dma-mask = <0xffffffff>;
++				dma = <&dma1 0x100026f0>;
+ 				status = "disabled";
+ 			};
+ 
+-- 
+1.7.10.4
+

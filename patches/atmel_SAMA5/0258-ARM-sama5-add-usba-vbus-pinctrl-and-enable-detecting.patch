@@ -1,0 +1,157 @@
+From 5dc6720828022ba9c11d170c14a545becc52494b Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 11 Dec 2012 15:23:38 +0800
+Subject: [PATCH 258/308] ARM: sama5: add usba vbus pinctrl and enable
+ detecting
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/sama5d31ek.dts |   11 +++++++++--
+ arch/arm/boot/dts/sama5d33ek.dts |   11 +++++++++--
+ arch/arm/boot/dts/sama5d34ek.dts |   11 +++++++++--
+ arch/arm/boot/dts/sama5d35ek.dts |   11 +++++++++--
+ 4 files changed, 36 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sama5d31ek.dts b/arch/arm/boot/dts/sama5d31ek.dts
+index fcb4d0e..c9ddccf 100644
+--- a/arch/arm/boot/dts/sama5d31ek.dts
++++ b/arch/arm/boot/dts/sama5d31ek.dts
+@@ -140,6 +140,11 @@
+ 						atmel,pins =
+ 							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+ 					};
++
++					pinctrl_usba_vbus: usba_vbus {
++						atmel,pins =
++							<3 29 0x0 0x4>; /* PD29 GPIO with deglitch */
++					};
+ 				};
+ 			};
+ 
+@@ -153,14 +158,16 @@
+ 		};
+ 
+ 		usb0: gadget@00500000 {
+-			atmel,vbus-gpio = <&pioD 29 1>;
++			atmel,vbus-gpio = <&pioD 29 0>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_usba_vbus>;
+ 			status = "okay";
+ 		};
+ 
+ 		usb1: ohci@00600000 {
+ 			status = "okay";
+ 			num-ports = <3>;
+-			atmel,vbus-gpio = <&pioD 25 1
++			atmel,vbus-gpio = <&pioD 25 0
+ 					   &pioD 26 1
+ 					   &pioD 27 1
+ 					  >;
+diff --git a/arch/arm/boot/dts/sama5d33ek.dts b/arch/arm/boot/dts/sama5d33ek.dts
+index be67224..37f18a8 100644
+--- a/arch/arm/boot/dts/sama5d33ek.dts
++++ b/arch/arm/boot/dts/sama5d33ek.dts
+@@ -140,6 +140,11 @@
+ 						atmel,pins =
+ 							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+ 					};
++
++					pinctrl_usba_vbus: usba_vbus {
++						atmel,pins =
++							<3 29 0x0 0x4>; /* PD29 GPIO with deglitch */
++					};
+ 				};
+ 			};
+ 
+@@ -153,14 +158,16 @@
+ 		};
+ 
+ 		usb0: gadget@00500000 {
+-			atmel,vbus-gpio = <&pioD 29 1>;
++			atmel,vbus-gpio = <&pioD 29 0>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_usba_vbus>;
+ 			status = "okay";
+ 		};
+ 
+ 		usb1: ohci@00600000 {
+ 			status = "okay";
+ 			num-ports = <3>;
+-			atmel,vbus-gpio = <&pioD 25 1
++			atmel,vbus-gpio = <&pioD 25 0
+ 					   &pioD 26 1
+ 					   &pioD 27 1
+ 					  >;
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+index 7004386..aa9dc8e 100644
+--- a/arch/arm/boot/dts/sama5d34ek.dts
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -150,6 +150,11 @@
+ 						atmel,pins =
+ 							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+ 					};
++
++					pinctrl_usba_vbus: usba_vbus {
++						atmel,pins =
++							<3 29 0x0 0x4>; /* PD29 GPIO with deglitch */
++					};
+ 				};
+ 			};
+ 
+@@ -163,14 +168,16 @@
+ 		};
+ 
+ 		usb0: gadget@00500000 {
+-			atmel,vbus-gpio = <&pioD 29 1>;
++			atmel,vbus-gpio = <&pioD 29 0>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_usba_vbus>;
+ 			status = "okay";
+ 		};
+ 
+ 		usb1: ohci@00600000 {
+ 			status = "okay";
+ 			num-ports = <3>;
+-			atmel,vbus-gpio = <&pioD 25 1
++			atmel,vbus-gpio = <&pioD 25 0
+ 					   &pioD 26 1
+ 					   &pioD 27 1
+ 					  >;
+diff --git a/arch/arm/boot/dts/sama5d35ek.dts b/arch/arm/boot/dts/sama5d35ek.dts
+index 4557b6c..d060ebe 100644
+--- a/arch/arm/boot/dts/sama5d35ek.dts
++++ b/arch/arm/boot/dts/sama5d35ek.dts
+@@ -133,6 +133,11 @@
+ 						atmel,pins =
+ 							<4 31 0x0 0x5>;	/* PE31 GPIO with pull up deglith */
+ 					};
++
++					pinctrl_usba_vbus: usba_vbus {
++						atmel,pins =
++							<3 29 0x0 0x4>; /* PD29 GPIO with deglitch */
++					};
+ 				};
+ 			};
+ 
+@@ -146,14 +151,16 @@
+ 		};
+ 
+ 		usb0: gadget@00500000 {
+-			atmel,vbus-gpio = <&pioD 29 1>;
++			atmel,vbus-gpio = <&pioD 29 0>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_usba_vbus>;
+ 			status = "okay";
+ 		};
+ 
+ 		usb1: ohci@00600000 {
+ 			status = "okay";
+ 			num-ports = <3>;
+-			atmel,vbus-gpio = <&pioD 25 1
++			atmel,vbus-gpio = <&pioD 25 0
+ 					   &pioD 26 1
+ 					   &pioD 27 1
+ 					  >;
+-- 
+1.7.10.4
+

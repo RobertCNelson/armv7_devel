@@ -1,0 +1,72 @@
+From 4650b45f0780cb7431f9eba04aee0b60c0e20f66 Mon Sep 17 00:00:00 2001
+From: Richard Genoud <richard.genoud@gmail.com>
+Date: Fri, 22 Jun 2012 15:29:28 +0200
+Subject: [PATCH 116/308] mtd: nand: remove stale config options
+
+The commit bf4289cba02b8cf770ecd7959ca70839f0dd9d3c removed the use of
+CONFIG_MTD_NAND_ATMEL_ECC_NONE and CONFIG_MTD_NAND_ATMEL_ECC_HW but the
+Kconfig file was forgotten.
+
+This patch remove those inoperative options.
+
+Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
+Signed-off-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+Signed-off-by: David Woodhouse <David.Woodhouse@intel.com>
+---
+ drivers/mtd/nand/Kconfig |   40 ----------------------------------------
+ 1 file changed, 40 deletions(-)
+
+diff --git a/drivers/mtd/nand/Kconfig b/drivers/mtd/nand/Kconfig
+index 8ca4176..598cd0a 100644
+--- a/drivers/mtd/nand/Kconfig
++++ b/drivers/mtd/nand/Kconfig
+@@ -406,46 +406,6 @@ config MTD_NAND_ATMEL
+ 	help
+ 	  Enables support for NAND Flash / Smart Media Card interface
+ 	  on Atmel AT91 and AVR32 processors.
+-choice
+-	prompt "ECC management for NAND Flash / SmartMedia on AT91 / AVR32"
+-	depends on MTD_NAND_ATMEL
+-
+-config MTD_NAND_ATMEL_ECC_HW
+-	bool "Hardware ECC"
+-	depends on ARCH_AT91SAM9263 || ARCH_AT91SAM9260 || AVR32
+-	help
+-	  Use hardware ECC instead of software ECC when the chip
+-	  supports it.
+-
+-	  The hardware ECC controller is capable of single bit error
+-	  correction and 2-bit random detection per page.
+-
+-	  NB : hardware and software ECC schemes are incompatible.
+-	  If you switch from one to another, you'll have to erase your
+-	  mtd partition.
+-
+-	  If unsure, say Y
+-
+-config MTD_NAND_ATMEL_ECC_SOFT
+-	bool "Software ECC"
+-	help
+-	  Use software ECC.
+-
+-	  NB : hardware and software ECC schemes are incompatible.
+-	  If you switch from one to another, you'll have to erase your
+-	  mtd partition.
+-
+-config MTD_NAND_ATMEL_ECC_NONE
+-	bool "No ECC (testing only, DANGEROUS)"
+-	depends on DEBUG_KERNEL
+-	help
+-	  No ECC will be used.
+-	  It's not a good idea and it should be reserved for testing
+-	  purpose only.
+-
+-	  If unsure, say N
+-
+-endchoice
+ 
+ config MTD_NAND_PXA3xx
+ 	tristate "Support for NAND flash devices on PXA3xx"
+-- 
+1.7.10.4
+

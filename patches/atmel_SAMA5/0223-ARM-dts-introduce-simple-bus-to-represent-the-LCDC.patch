@@ -1,0 +1,106 @@
+From c2d7e0ecf1301a755522b9597a4d01dc7756ce96 Mon Sep 17 00:00:00 2001
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Fri, 19 Oct 2012 14:11:05 +0800
+Subject: [PATCH 223/308] ARM: dts: introduce simple bus to represent the LCDC
+
+Introduce simple bus to represent the LCDC itself so we can attached the
+pinctrl to it
+
+signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+---
+ arch/arm/boot/dts/at91sam9g35ek.dts |   17 ++++++++------
+ arch/arm/boot/dts/at91sam9x5.dtsi   |   42 +++++++++++++++++++++--------------
+ 2 files changed, 35 insertions(+), 24 deletions(-)
+
+diff --git a/arch/arm/boot/dts/at91sam9g35ek.dts b/arch/arm/boot/dts/at91sam9g35ek.dts
+index 2781a30..9f91dbc 100644
+--- a/arch/arm/boot/dts/at91sam9g35ek.dts
++++ b/arch/arm/boot/dts/at91sam9g35ek.dts
+@@ -20,16 +20,19 @@
+ 				status = "okay";
+ 			};
+ 
+-			lcd@f8038000 {
++			lcd_bus@f8038000 {
+ 				status = "okay";
+-			};
++				lcd@f8038000 {
++					status = "okay";
++				};
+ 
+-			lcdovl1@f8038100 {
+-				status = "okay";
+-			};
++				lcdovl1@f8038100 {
++					status = "okay";
++				};
+ 
+-			lcdheo1@f8038280 {
+-				status = "okay";
++				lcdheo1@f8038280 {
++					status = "okay";
++				};
+ 			};
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 9d39022..1d8db44 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -527,28 +527,36 @@
+ 				pinctrl-names = "default";
+ 			};
+ 
+-			lcd@f8038000 {
+-				compatible = "atmel,at91sam9x5-lcd";
+-				reg = <0xf8038000 0xff
+-				       0xf8038400 0x3ff>;
+-				interrupts = <25 4 3>;
++			lcd_bus@f8038000 {
++				#address-cells = <1>;
++				#size-cells = <1>;
++				compatible = "atmel,at91sam9x5-lcd-bus", "simple-bus";
++				ranges = <0xf8038000 0xf8038000 0x4000>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_lcd>;
+ 				status = "disabled";
+-			};
+ 
+-			lcdovl1@f8038100 {
+-				compatible = "atmel,at91sam9x5-lcd";
+-				reg = <0xf8038100 0xff
+-				       0xf8038800 0x3ff>;
+-				status = "disabled";
+-			};
++				lcd@f8038000 {
++					compatible = "atmel,at91sam9x5-lcd";
++					reg = <0xf8038000 0xff
++					       0xf8038400 0x3ff>;
++					interrupts = <25 4 3>;
++					status = "disabled";
++				};
+ 
+-			lcdheo1@f8038280 {
+-				compatible = "atmel,at91sam9x5-heo";
+-				reg = <0xf8038280 0xbf>;
+-				interrupts = <25 4 3>;
+-				status = "disabled";
++				lcdovl1@f8038100 {
++					compatible = "atmel,at91sam9x5-lcd";
++					reg = <0xf8038100 0xff
++					       0xf8038800 0x3ff>;
++					status = "disabled";
++				};
++
++				lcdheo1@f8038280 {
++					compatible = "atmel,at91sam9x5-heo";
++					reg = <0xf8038280 0xbf>;
++					interrupts = <25 4 3>;
++					status = "disabled";
++				};
+ 			};
+ 
+ 			spi0: spi@f0000000 {
+-- 
+1.7.10.4
+

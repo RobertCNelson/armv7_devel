@@ -1,0 +1,43 @@
+From 2cdfa06078bd8a5ce658966f81bc340d2464620a Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 20 Nov 2012 16:38:17 +0800
+Subject: [PATCH 115/308] ASoC: atmel-ssc: add phybase in device structure
+
+Useful for future dmaengine use.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ drivers/misc/atmel-ssc.c  |    2 ++
+ include/linux/atmel-ssc.h |    1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index a769719..d07a9ed 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -157,6 +157,8 @@ static int ssc_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
++	ssc->phybase = regs->start;
++
+ 	ssc->clk = devm_clk_get(&pdev->dev, "pclk");
+ 	if (IS_ERR(ssc->clk)) {
+ 		dev_dbg(&pdev->dev, "no pclk clock defined\n");
+diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
+index 1ca0e32..deb0ae5 100644
+--- a/include/linux/atmel-ssc.h
++++ b/include/linux/atmel-ssc.h
+@@ -11,6 +11,7 @@ struct atmel_ssc_platform_data {
+ 
+ struct ssc_device {
+ 	struct list_head	list;
++	resource_size_t		phybase;
+ 	void __iomem		*regs;
+ 	struct platform_device	*pdev;
+ 	struct atmel_ssc_platform_data *pdata;
+-- 
+1.7.10.4
+

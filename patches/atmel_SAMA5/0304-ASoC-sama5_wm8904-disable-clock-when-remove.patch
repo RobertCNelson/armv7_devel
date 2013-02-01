@@ -1,0 +1,28 @@
+From 1d0cbcd9a7517d9af4d977928de0fb2e64bf312b Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 29 Jan 2013 13:49:10 +0800
+Subject: [PATCH 304/308] ASoC: sama5_wm8904: disable clock when remove
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/atmel/sama5d3_wm8904.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/atmel/sama5d3_wm8904.c b/sound/soc/atmel/sama5d3_wm8904.c
+index ba8cd30..a52b611 100644
+--- a/sound/soc/atmel/sama5d3_wm8904.c
++++ b/sound/soc/atmel/sama5d3_wm8904.c
+@@ -211,8 +211,9 @@ static int sama5d3ek_wm8904_remove(struct platform_device *pdev)
+ {
+ 	struct snd_soc_card *card = platform_get_drvdata(pdev);
+ 
+-	atmel_ssc_put_audio(0);
++	clk_disable(mclk);
+ 	snd_soc_unregister_card(card);
++	atmel_ssc_put_audio(0);
+ 
+ 	return 0;
+ }
+-- 
+1.7.10.4
+

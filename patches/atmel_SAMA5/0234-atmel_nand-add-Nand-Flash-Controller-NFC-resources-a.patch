@@ -1,0 +1,122 @@
+From 4c1d1ce7129a9074312e580f3416e01aa80ac30f Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Tue, 13 Nov 2012 15:36:39 +0800
+Subject: [PATCH 234/308] atmel_nand: add Nand Flash Controller(NFC) resources
+ and initialization
+
+---
+ drivers/mtd/nand/atmel_nand.c     |   20 ++++++++++++++++++
+ drivers/mtd/nand/atmel_nand_nfc.c |   42 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 drivers/mtd/nand/atmel_nand_nfc.c
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index fbff78f..f9ff418 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -85,6 +85,14 @@ static struct nand_ecclayout atmel_oobinfo_small = {
+ 	},
+ };
+ 
++struct atmel_nfc {
++	bool			nfc_write_sram;
++	void __iomem		*base_cmd_regs;
++	void __iomem		*hsmc_regs;
++	void __iomem		*sram_bank0;
++	void __iomem		*sram_bank1;
++};
++
+ struct atmel_nand_host {
+ 	struct nand_chip	nand_chip;
+ 	struct mtd_info		mtd;
+@@ -97,6 +105,9 @@ struct atmel_nand_host {
+ 	struct completion	comp;
+ 	struct dma_chan		*dma_chan;
+ 
++	bool			has_nfc;
++	struct atmel_nfc	nfc;
++
+ 	bool			has_pmecc;
+ 	u8			pmecc_corr_cap;
+ 	u16			pmecc_sector_size;
+@@ -124,6 +135,8 @@ struct atmel_nand_host {
+ 	int			*pmecc_delta;
+ };
+ 
++#include "atmel_nand_nfc.c"
++
+ static struct nand_ecclayout atmel_pmecc_oobinfo;
+ 
+ static int cpu_has_dma(void)
+@@ -1270,6 +1283,7 @@ static int __devinit atmel_of_init_port(struct atmel_nand_host *host,
+ 	board->det_pin = of_get_gpio(np, 2);
+ 
+ 	host->has_pmecc = of_property_read_bool(np, "atmel,has-pmecc");
++	host->has_nfc = of_property_read_bool(np, "atmel,has-nfc");
+ 
+ 	if (!(board->ecc_mode == NAND_ECC_HW) || !host->has_pmecc)
+ 		return 0;	/* Not using PMECC */
+@@ -1445,6 +1459,12 @@ static int __init atmel_nand_probe(struct platform_device *pdev)
+ 		goto err_nand_ioremap;
+ 	}
+ 
++	if (host->has_nfc) {
++		res = atmel_nfc_init(pdev, mtd);
++		if (res)
++			goto err_nand_ioremap;
++	}
++
+ 	if (gpio_is_valid(host->board.rdy_pin)) {
+ 		res = devm_gpio_request(&pdev->dev,
+ 				host->board.rdy_pin, "nand_rdy");
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+new file mode 100644
+index 0000000..122567f
+--- /dev/null
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -0,0 +1,42 @@
++/*
++ * Atmel Nand flash Controller (NFC) - System peripherals regsters.
++ * Based on AT91SAMA5D3 datasheet.
++ *
++ * Copyright (C) 2012 Atmel Corporation.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or (at your
++ * option) any later version.
++ */
++
++#include "atmel_nand_nfc.h"
++#include <linux/delay.h>
++
++static int atmel_nfc_init(struct platform_device *pdev, struct mtd_info *mtd)
++{
++	struct nand_chip *nand_chip = mtd->priv;
++	struct atmel_nand_host *host = nand_chip->priv;
++	struct atmel_nfc *nfc = &host->nfc;
++	struct resource *nfc_cmd_regs, *nfc_hsmc_regs, *nfc_sram;
++
++	dev_info(host->dev, "Using NFC\n");
++	nfc_cmd_regs = platform_get_resource(pdev, IORESOURCE_MEM, 4);
++	nfc_hsmc_regs = platform_get_resource(pdev, IORESOURCE_MEM, 5);
++	nfc_sram = platform_get_resource(pdev, IORESOURCE_MEM, 6);
++
++	if (nfc_cmd_regs && nfc_hsmc_regs && nfc_sram) {
++		nfc->base_cmd_regs = devm_request_and_ioremap(&pdev->dev, nfc_cmd_regs);
++		nfc->hsmc_regs = devm_request_and_ioremap(&pdev->dev, nfc_hsmc_regs);
++		nfc->sram_bank0 = devm_request_and_ioremap(&pdev->dev, nfc_sram);
++	}
++
++	if (!nfc->base_cmd_regs || !nfc->hsmc_regs || !nfc->sram_bank0) {
++		dev_err(host->dev,
++			"Can not get I/O resource for Nand Flash Controller!\n");
++		return -EIO;
++	}
++
++	return 0;
++}
++
+-- 
+1.7.10.4
+

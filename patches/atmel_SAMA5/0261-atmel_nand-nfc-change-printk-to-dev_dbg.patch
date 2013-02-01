@@ -1,0 +1,28 @@
+From 84741c454583cabb6d86cb409054d31ba4ce10cd Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Tue, 18 Dec 2012 17:00:27 +0100
+Subject: [PATCH 261/308] atmel_nand: nfc: change printk to dev_dbg
+
+Change timeout printk to dev_dbg to not see it into boot logs.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/mtd/nand/atmel_nand_nfc.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+index 531a081..ea42d0e 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.c
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -28,7 +28,7 @@ static int nfc_wait_interrupt(struct atmel_nand_host *host, u32 flag)
+ 	timeout = wait_for_completion_timeout(&host->comp_nfc,
+ 			msecs_to_jiffies(100));
+ 	if (timeout == 0) {
+-		printk("interrupt time out????\n");
++		dev_dbg(host->dev, "interrupt time out????\n");
+ 		return -ETIMEDOUT;
+ 	}
+ 
+-- 
+1.7.10.4
+

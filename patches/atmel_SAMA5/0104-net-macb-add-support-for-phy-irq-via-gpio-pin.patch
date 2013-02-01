@@ -1,0 +1,52 @@
+From 9af95b748267df04ea41d26d5dfbefb5bcc6f539 Mon Sep 17 00:00:00 2001
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Sun, 11 Nov 2012 13:56:27 +0000
+Subject: [PATCH 104/308] net/macb: add support for phy irq via gpio pin
+
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+ drivers/net/ethernet/cadence/macb.c |   12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index 1fac769..ca34efc 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -16,6 +16,7 @@
+ #include <linux/types.h>
+ #include <linux/slab.h>
+ #include <linux/init.h>
++#include <linux/gpio.h>
+ #include <linux/interrupt.h>
+ #include <linux/netdevice.h>
+ #include <linux/etherdevice.h>
+@@ -261,7 +262,9 @@ static void macb_handle_link_change(struct net_device *dev)
+ static int macb_mii_probe(struct net_device *dev)
+ {
+ 	struct macb *bp = netdev_priv(dev);
++	struct macb_platform_data *pdata;
+ 	struct phy_device *phydev;
++	int phy_irq;
+ 	int ret;
+ 
+ 	phydev = phy_find_first(bp->mii_bus);
+@@ -270,7 +273,14 @@ static int macb_mii_probe(struct net_device *dev)
+ 		return -1;
+ 	}
+ 
+-	/* TODO : add pin_irq */
++	pdata = dev_get_platdata(&bp->pdev->dev);
++	if (pdata && gpio_is_valid(pdata->phy_irq_pin)) {
++		ret = devm_gpio_request(&bp->pdev->dev, pdata->phy_irq_pin, "phy int");
++		if (!ret) {
++			phy_irq = gpio_to_irq(pdata->phy_irq_pin);
++			phydev->irq = (phy_irq < 0) ? PHY_POLL : phy_irq;
++		}
++	}
+ 
+ 	/* attach the mac to the phy */
+ 	ret = phy_connect_direct(dev, phydev, &macb_handle_link_change, 0,
+-- 
+1.7.10.4
+

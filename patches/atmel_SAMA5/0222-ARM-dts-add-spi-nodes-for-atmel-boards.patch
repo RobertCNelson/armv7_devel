@@ -1,0 +1,122 @@
+From 6ae4356f367be283781faa35028cbf11e01f5ce4 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Fri, 23 Nov 2012 17:58:39 +0100
+Subject: [PATCH 222/308] ARM: dts: add spi nodes for atmel boards
+
+From: Richard Genoud <richard.genoud@gmail.com>
+
+Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
+[wenyou.yang@atmel.com: added spi nodes for other atmel boards]
+[wenyou.yang@atmel.com: remove the cs-gpios property for sam9x5ek boards]
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9263ek.dts         |    9 +++++++++
+ arch/arm/boot/dts/at91sam9g20ek_common.dtsi |    9 +++++++++
+ arch/arm/boot/dts/at91sam9g25ek.dts         |    9 +++++++++
+ arch/arm/boot/dts/at91sam9m10g45ek.dts      |    9 +++++++++
+ arch/arm/boot/dts/at91sam9n12ek.dts         |    9 +++++++++
+ 5 files changed, 45 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9263ek.dts b/arch/arm/boot/dts/at91sam9263ek.dts
+index 05028ed..46deb88 100644
+--- a/arch/arm/boot/dts/at91sam9263ek.dts
++++ b/arch/arm/boot/dts/at91sam9263ek.dts
+@@ -60,6 +60,15 @@
+ 					wp-gpios = <&pioE 19 0>;
+ 				};
+ 			};
++
++			spi0: spi@fffa4000 {
++				status = "okay";
++				mtd_dataflash@0 {
++					compatible = "atmel,at45", "atmel,dataflash";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9g20ek_common.dtsi b/arch/arm/boot/dts/at91sam9g20ek_common.dtsi
+index 7da326a..ec93081 100644
+--- a/arch/arm/boot/dts/at91sam9g20ek_common.dtsi
++++ b/arch/arm/boot/dts/at91sam9g20ek_common.dtsi
+@@ -60,6 +60,15 @@
+ 					cd-gpios = <&pioC 9 0>;
+ 				};
+ 			};
++
++			spi0: spi@fffc8000 {
++				status = "okay";
++				mtd_dataflash@0 {
++					compatible = "atmel,at45", "atmel,dataflash";
++					spi-max-frequency = <50000000>;
++					reg = <1>;
++				};
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9g25ek.dts b/arch/arm/boot/dts/at91sam9g25ek.dts
+index 4abc978..ed652bb 100644
+--- a/arch/arm/boot/dts/at91sam9g25ek.dts
++++ b/arch/arm/boot/dts/at91sam9g25ek.dts
+@@ -19,6 +19,15 @@
+ 			mmc1: mmc@f000c000 {
+ 				status = "okay";
+ 			};
++
++			spi0: spi@f0000000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
+ 		};
+ 	};
+ };
+diff --git a/arch/arm/boot/dts/at91sam9m10g45ek.dts b/arch/arm/boot/dts/at91sam9m10g45ek.dts
+index 6a4aedd..d5d5d43 100644
+--- a/arch/arm/boot/dts/at91sam9m10g45ek.dts
++++ b/arch/arm/boot/dts/at91sam9m10g45ek.dts
+@@ -73,6 +73,15 @@
+ 			i2c1: i2c@fff88000 {
+ 				status = "okay";
+ 			};
++
++			spi0: spi@fffa4000{
++				status = "okay";
++				mtd_dataflash@0 {
++					compatible = "atmel,at45", "atmel,dataflash";
++					spi-max-frequency = <13000000>;
++					reg = <0>;
++				};
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9n12ek.dts b/arch/arm/boot/dts/at91sam9n12ek.dts
+index ccc94de..517b62b 100644
+--- a/arch/arm/boot/dts/at91sam9n12ek.dts
++++ b/arch/arm/boot/dts/at91sam9n12ek.dts
+@@ -54,6 +54,15 @@
+ 			i2c1: i2c@f8014000 {
+ 				status = "okay";
+ 			};
++
++			spi0: spi@f0000000 {
++				status = "okay";
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+-- 
+1.7.10.4
+

@@ -1,0 +1,37 @@
+From add489fd830a7ae4bc39b9cb443965e46da93862 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 29 Jan 2013 11:11:19 +0800
+Subject: [PATCH 302/308] ASoC: atmel-pcm: make it buildable for modules
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/atmel/atmel-pcm.h |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/atmel/atmel-pcm.h b/sound/soc/atmel/atmel-pcm.h
+index bb45d20..12ae814 100644
+--- a/sound/soc/atmel/atmel-pcm.h
++++ b/sound/soc/atmel/atmel-pcm.h
+@@ -88,7 +88,8 @@ void atmel_pcm_free(struct snd_pcm *pcm);
+ int atmel_pcm_mmap(struct snd_pcm_substream *substream,
+ 		struct vm_area_struct *vma);
+ 
+-#ifdef CONFIG_SND_ATMEL_SOC_PDC
++#if defined(CONFIG_SND_ATMEL_SOC_PDC) || \
++	defined(CONFIG_SND_ATMEL_SOC_PDC_MODULE)
+ int atmel_pcm_pdc_platform_register(struct device *dev);
+ void atmel_pcm_pdc_platform_unregister(struct device *dev);
+ #else
+@@ -101,7 +102,8 @@ static inline void atmel_pcm_pdc_platform_unregister(struct device *dev)
+ }
+ #endif
+ 
+-#ifdef CONFIG_SND_ATMEL_SOC_DMA
++#if defined(CONFIG_SND_ATMEL_SOC_DMA) || \
++	defined(CONFIG_SND_ATMEL_SOC_DMA_MODULE)
+ int atmel_pcm_dma_platform_register(struct device *dev);
+ void atmel_pcm_dma_platform_unregister(struct device *dev);
+ #else
+-- 
+1.7.10.4
+

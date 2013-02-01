@@ -1,0 +1,109 @@
+From 7fa981582e54150ff4fa343b9115c67970db7743 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Mon, 24 Sep 2012 17:11:11 +0200
+Subject: [PATCH 247/308] SAMA5: pmc: use PCR register to manage peripheral
+ clocks
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/clock.c                 |   38 +++++++++++++++++++++++-----
+ arch/arm/mach-at91/clock.h                 |    1 +
+ arch/arm/mach-at91/include/mach/at91_pmc.h |    2 +-
+ 3 files changed, 33 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm/mach-at91/clock.c b/arch/arm/mach-at91/clock.c
+index 188c829..aa9e29e 100644
+--- a/arch/arm/mach-at91/clock.c
++++ b/arch/arm/mach-at91/clock.c
+@@ -210,10 +210,25 @@ struct clk mck = {
+ 
+ static void pmc_periph_mode(struct clk *clk, int is_on)
+ {
+-	if (is_on)
+-		at91_pmc_write(AT91_PMC_PCER, clk->pmc_mask);
+-	else
+-		at91_pmc_write(AT91_PMC_PCDR, clk->pmc_mask);
++	u32 regval = 0;
++
++	/*
++	 * With sama5d3 chips, you have more than 32 peripherals so only one
++	 * register is not enough to manage their clocks. A peripheral
++	 * control register has been introduced to solve this issue.
++	 */
++	if (cpu_is_sama5d3()) {
++		regval |= AT91_PMC_PCR_CMD; /* write command */
++		regval |= clk->pid & AT91_PMC_PCR_PID; /* peripheral selection */
++		if (is_on)
++			regval |= AT91_PMC_PCR_EN; /* enable clock */
++		at91_pmc_write(AT91_PMC_PCR, regval);
++	} else {
++		if (is_on)
++			at91_pmc_write(AT91_PMC_PCER, clk->pmc_mask);
++		else
++			at91_pmc_write(AT91_PMC_PCDR, clk->pmc_mask);
++	}
+ }
+ 
+ static struct clk __init *at91_css_to_clk(unsigned long css)
+@@ -874,13 +889,21 @@ static int __init at91_clock_reset(void)
+ 	unsigned long pcdr = 0;
+ 	unsigned long scdr = 0;
+ 	struct clk *clk;
++	u32 regval;
+ 
+ 	list_for_each_entry(clk, &clocks, node) {
+ 		if (clk->users > 0)
+ 			continue;
+ 
+-		if (clk->mode == pmc_periph_mode)
+-			pcdr |= clk->pmc_mask;
++		regval = 0;
++		if (clk->mode == pmc_periph_mode) {
++			if (cpu_is_sama5d3()) {
++				regval |= AT91_PMC_PCR_CMD; /* write command */
++				regval |= clk->pid & AT91_PMC_PCR_PID; /* peripheral selection */
++				at91_pmc_write(AT91_PMC_PCR, regval);
++			} else
++				pcdr |= clk->pmc_mask;
++		}
+ 
+ 		if (clk->mode == pmc_sys_mode)
+ 			scdr |= clk->pmc_mask;
+@@ -888,7 +911,8 @@ static int __init at91_clock_reset(void)
+ 		pr_debug("Clocks: disable unused %s\n", clk->name);
+ 	}
+ 
+-	at91_pmc_write(AT91_PMC_PCDR, pcdr);
++	if (!cpu_is_sama5d3())
++		at91_pmc_write(AT91_PMC_PCDR, pcdr);
+ 	at91_pmc_write(AT91_PMC_SCDR, scdr);
+ 
+ 	return 0;
+diff --git a/arch/arm/mach-at91/clock.h b/arch/arm/mach-at91/clock.h
+index c2e63e4..e748d3b 100644
+--- a/arch/arm/mach-at91/clock.h
++++ b/arch/arm/mach-at91/clock.h
+@@ -21,6 +21,7 @@ struct clk {
+ 	struct clk_lookup cl;
+ 	unsigned long	rate_hz;
+ 	struct clk	*parent;
++	unsigned	pid;		/* peripheral ID */
+ 	u32		pmc_mask;
+ 	void		(*mode)(struct clk *, int);
+ 	unsigned	id:3;		/* PCK0..4, or 32k/main/a/b */
+diff --git a/arch/arm/mach-at91/include/mach/at91_pmc.h b/arch/arm/mach-at91/include/mach/at91_pmc.h
+index ea2c57a..bb55d0c 100644
+--- a/arch/arm/mach-at91/include/mach/at91_pmc.h
++++ b/arch/arm/mach-at91/include/mach/at91_pmc.h
+@@ -169,7 +169,7 @@ extern void __iomem *at91_pmc_base;
+ 
+ #define AT91_PMC_PCR		0x10c			/* Peripheral Control Register [some SAM9] */
+ #define		AT91_PMC_PCR_PID	(0x3f  <<  0)		/* Peripheral ID */
+-#define		AT91_PMC_PCR_CMD	(0x1  <<  12)		/* Command */
++#define		AT91_PMC_PCR_CMD	(0x1  <<  12)		/* Command (read=0, write=1) */
+ #define		AT91_PMC_PCR_DIV	(0x3  <<  16)		/* Divisor Value */
+ #define		AT91_PMC_PCRDIV(n)	(((n) <<  16) & AT91_PMC_PCR_DIV)
+ #define		AT91_PMC_PCR_EN		(0x1  <<  28)		/* Enable */
+-- 
+1.7.10.4
+

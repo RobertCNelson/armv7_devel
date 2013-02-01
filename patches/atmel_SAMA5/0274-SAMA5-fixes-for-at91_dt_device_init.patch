@@ -1,0 +1,58 @@
+From 8b605097f4559fc30c5bc7bc3e09a1d9bf6376b5 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Thu, 3 Jan 2013 17:18:46 +0100
+Subject: [PATCH 274/308] SAMA5: fixes for at91_dt_device_init
+
+fix typo cm_rev -> mb_rev
+print error number when reading atmel,mb-rev
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/board-dt.c |   17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
+index 609af34..6167531 100644
+--- a/arch/arm/mach-at91/board-dt.c
++++ b/arch/arm/mach-at91/board-dt.c
+@@ -329,7 +329,8 @@ static int ksz9021rn_phy_fixup(struct phy_device *phy)
+ 
+ static void __init at91_dt_device_init(void)
+ {
+-	char cm_rev = 255;
++	char mb_rev = 255;
++	int ret;
+ 
+ 	if (of_machine_is_compatible("atmel,sama5ek")) {
+ 		struct device_node *np;
+@@ -339,19 +340,21 @@ static void __init at91_dt_device_init(void)
+ 
+ 		np = of_find_node_by_path("/");
+ 		if (np) {
+-			const char *cm_rev_tmp;
+-			if (of_property_read_string(np, "atmel,mb-rev", &cm_rev_tmp)) {
+-				printk("AT91: no mb-rev property, let assume we are using the latest one\n");
++			const char *mb_rev_tmp;
++			ret = of_property_read_string(np, "atmel,mb-rev", &mb_rev_tmp);
++			if (ret) {
++				printk("AT91: error %d while looking for mb-rev property, "
++				       "let assume we are using the latest one\n", ret);
+ 			} else {
+-				printk("AT91: mb rev: %s\n", cm_rev_tmp);
+-				cm_rev = cm_rev_tmp[0];
++				printk("AT91: mb rev: %s\n", mb_rev_tmp);
++				mb_rev = mb_rev_tmp[0];
+ 			}
+ 		}
+ 
+ 		np = of_find_compatible_node(NULL, NULL, "atmel,at91sam9g45-isi");
+ 		if (np) {
+ 			if (of_device_is_available(np)) {
+-				switch (cm_rev) {
++				switch (mb_rev) {
+ 				case 'A':
+ 				case 'B':
+ 					at91_config_isi(true, "pck2");
+-- 
+1.7.10.4
+

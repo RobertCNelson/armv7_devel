@@ -1,0 +1,27 @@
+From 88ba9e4eb99746c0824b745cbf3e1d2ea8e193d4 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 24 Jan 2013 12:51:16 +0100
+Subject: [PATCH 288/308] net/macb: trivial: remove unneeded asignment in poll
+ function
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/net/ethernet/cadence/macb.c |    2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index 8e04fb1..775375b 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -809,8 +809,6 @@ static int macb_poll(struct napi_struct *napi, int budget)
+ 	status = macb_readl(bp, RSR);
+ 	macb_writel(bp, RSR, status);
+ 
+-	work_done = 0;
+-
+ 	netdev_vdbg(bp->dev, "poll: status = %08lx, budget = %d\n",
+ 		   (unsigned long)status, budget);
+ 
+-- 
+1.7.10.4
+

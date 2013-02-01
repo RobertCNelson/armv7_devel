@@ -1,0 +1,47 @@
+From decf507de518654929d3e8979ea00cf3473c20bb Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Wed, 28 Nov 2012 14:37:47 +0100
+Subject: [PATCH 143/308] can: at91_can: add pinctrl support
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/net/can/at91_can.c |    9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/net/can/at91_can.c b/drivers/net/can/at91_can.c
+index 641beb9..1cf6104 100644
+--- a/drivers/net/can/at91_can.c
++++ b/drivers/net/can/at91_can.c
+@@ -28,6 +28,7 @@
+ #include <linux/module.h>
+ #include <linux/netdevice.h>
+ #include <linux/of.h>
++#include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/rtnetlink.h>
+ #include <linux/skbuff.h>
+@@ -1285,6 +1286,7 @@ static int __devinit at91_can_probe(struct platform_device *pdev)
+ 	struct clk *clk;
+ 	void __iomem *addr;
+ 	int err, irq;
++	struct pinctrl *pinctrl;
+ 
+ 	devtype_data = at91_can_get_driver_data(pdev);
+ 	if (!devtype_data) {
+@@ -1307,6 +1309,13 @@ static int __devinit at91_can_probe(struct platform_device *pdev)
+ 		goto exit_put;
+ 	}
+ 
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		err = PTR_ERR(pinctrl);
++		goto exit_put;
++	}
++
+ 	if (!request_mem_region(res->start,
+ 				resource_size(res),
+ 				pdev->name)) {
+-- 
+1.7.10.4
+

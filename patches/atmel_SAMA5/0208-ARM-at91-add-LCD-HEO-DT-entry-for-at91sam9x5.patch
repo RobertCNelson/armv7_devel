@@ -1,0 +1,49 @@
+From b0600a8aed80be3dbc9c158aad85058984665251 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Wed, 17 Oct 2012 10:14:48 +0200
+Subject: [PATCH 208/308] ARM: at91: add LCD HEO DT entry for at91sam9x5
+
+At91sam9x5.dtsi entry and activated in sam9g35ek.dts.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9g35ek.dts |    4 ++++
+ arch/arm/boot/dts/at91sam9x5.dtsi   |    7 +++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9g35ek.dts b/arch/arm/boot/dts/at91sam9g35ek.dts
+index cb208f9..f3ab771 100644
+--- a/arch/arm/boot/dts/at91sam9g35ek.dts
++++ b/arch/arm/boot/dts/at91sam9g35ek.dts
+@@ -35,6 +35,10 @@
+ 			lcdovl1@f8038100 {
+ 				status = "okay";
+ 			};
++
++			lcdheo1@f8038280 {
++				status = "okay";
++			};
+ 		};
+ 	};
+ };
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 4d6721d..fadd73b 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -289,6 +289,13 @@
+ 				       0xf8038800 0x3ff>;
+ 				status = "disabled";
+ 			};
++
++			lcdheo1@f8038280 {
++				compatible = "atmel,at91sam9x5-heo";
++				reg = <0xf8038280 0xbf>;
++				interrupts = <25 4 3>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+-- 
+1.7.10.4
+

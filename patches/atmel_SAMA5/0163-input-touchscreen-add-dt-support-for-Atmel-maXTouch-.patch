@@ -1,0 +1,153 @@
+From 5ecea659c292dca63d6f3ad0486f0712417ab9d2 Mon Sep 17 00:00:00 2001
+From: Matt Wood <mattwood2000@gmail.com>
+Date: Mon, 12 Nov 2012 17:38:49 -0500
+Subject: [PATCH 163/308] input: touchscreen: add dt support for Atmel
+ maXTouch driver
+
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c |  113 +++++++++++++++++++++++++++++-
+ 1 file changed, 111 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 4623cc6..cae862d 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -20,6 +20,9 @@
+ #include <linux/input/mt.h>
+ #include <linux/interrupt.h>
+ #include <linux/slab.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
++#include <linux/of_device.h>
+ 
+ /* Version */
+ #define MXT_VER_20		20
+@@ -1097,17 +1100,123 @@ static void mxt_input_close(struct input_dev *dev)
+ 	mxt_stop(data);
+ }
+ 
++static int mxt_get_dt_pdata(struct device *dev, struct mxt_platform_data *pdata)
++{
++	struct device_node *node = dev->of_node;
++	u32 reg;
++	int error = 0;
++
++	if (node == NULL)
++		return -ENODEV;
++
++	memset(pdata, 0, sizeof *pdata);
++
++	error = of_property_read_u32(node, "x_line", &reg);
++	if (error == 0) {
++		pdata->x_line = reg;
++		dev_dbg(dev, "DT x_line read as %d\n", pdata->x_line);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT x_line\n", error);
++		return error;
++	}
++
++	error = of_property_read_u32(node, "y_line", &reg);
++	if (error == 0) {
++		pdata->y_line = reg;
++		dev_dbg(dev, "DT y_line read as %d\n", pdata->y_line);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT y_line\n", error);
++		return error;
++	}
++
++	error = of_property_read_u32(node, "x_size", &reg);
++	if (error == 0) {
++		pdata->x_size = reg;
++		dev_dbg(dev, "DT x_size read as %d\n", pdata->x_size);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT x_size\n", error);
++		return error;
++	}
++
++	error = of_property_read_u32(node, "y_size", &reg);
++	if (error == 0) {
++		pdata->y_size = reg;
++		dev_dbg(dev, "DT y_size read as %d\n", pdata->y_size);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT y_size\n", error);
++		return error;
++	}
++
++	error = of_property_read_u32(node, "blen", &reg);
++	if (error == 0) {
++		pdata->blen = reg;
++		dev_dbg(dev, "DT blen read as 0x%X\n", pdata->blen);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT blen\n", error);
++		return error;
++	}
++
++	error = of_property_read_u32(node, "threshold", &reg);
++	if (error == 0) {
++		pdata->threshold = reg;
++		dev_dbg(dev, "DT threshold read as 0x%X\n", pdata->threshold);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT threshold\n", error);
++		return error;
++	}
++
++	error = of_property_read_u32(node, "voltage", &reg);
++	if (error == 0) {
++		pdata->voltage = reg;
++		dev_dbg(dev, "DT voltage read as %d\n", pdata->voltage);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT voltage\n", error);
++		return error;
++	}
++
++	error = of_property_read_u32(node, "orient", &reg);
++	if (error == 0) {
++		pdata->orient = (char)reg;
++		dev_dbg(dev, "DT orient read as 0x%X\n", pdata->orient);
++	}
++	else {
++		dev_err(dev, "Error %d reading mXT DT orient\n", error);
++		return error;
++	}
++
++	return error;
++}
++
+ static int __devinit mxt_probe(struct i2c_client *client,
+ 		const struct i2c_device_id *id)
+ {
+ 	const struct mxt_platform_data *pdata = client->dev.platform_data;
++	struct mxt_platform_data alt_pdata;
+ 	struct mxt_data *data;
+ 	struct input_dev *input_dev;
+ 	int error;
+ 	unsigned int num_mt_slots;
+ 
+-	if (!pdata)
+-		return -EINVAL;
++	if (!pdata) {
++		dev_dbg(&client->dev, "No platform data structure. Trying device tree data...\n");
++
++		error = mxt_get_dt_pdata(&client->dev, &alt_pdata);
++
++		if (error != 0) {
++			dev_err(&client->dev, "Failed to load pdata or device tree data!\n");
++			return error;
++		}
++
++		dev_dbg(&client->dev, "Loading alternate DeviceTree platform data\n");
++		pdata = &alt_pdata;
++	}
+ 
+ 	data = kzalloc(sizeof(struct mxt_data), GFP_KERNEL);
+ 	input_dev = input_allocate_device();
+-- 
+1.7.10.4
+

@@ -1,0 +1,383 @@
+From 2b1cd49722420f30c4bdd861147d61b4ee5c61a7 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 21 Dec 2012 15:33:14 +0800
+Subject: [PATCH 268/308] ARM: at91/dts: leds: remove d3 for sama5d35ek.dts
+ since it conflicts with isi camera reset pin
+ (PE24). but for revB, no this conflict.
+
+in this patch, also move the leds node from sama5d3.dtsi to sama5d3cm.dtsi.
+---
+ arch/arm/boot/dts/sama5d3.dtsi               |   15 ---------------
+ arch/arm/boot/dts/sama5d31ek.dts             |    9 +--------
+ arch/arm/boot/dts/sama5d31ek_mb-revB.dts     |    9 +--------
+ arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts |    9 +--------
+ arch/arm/boot/dts/sama5d31ek_pda.dts         |    9 +--------
+ arch/arm/boot/dts/sama5d33ek.dts             |    9 +--------
+ arch/arm/boot/dts/sama5d33ek_mb-revB.dts     |    9 +--------
+ arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts |    9 +--------
+ arch/arm/boot/dts/sama5d33ek_pda.dts         |    9 +--------
+ arch/arm/boot/dts/sama5d34ek.dts             |    9 +--------
+ arch/arm/boot/dts/sama5d34ek_mb-revB.dts     |    9 +--------
+ arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts |    9 +--------
+ arch/arm/boot/dts/sama5d34ek_pda.dts         |    9 +--------
+ arch/arm/boot/dts/sama5d35ek.dts             |   13 +------------
+ arch/arm/boot/dts/sama5d35ek_mb-revB.dts     |    9 +--------
+ arch/arm/boot/dts/sama5d3cm.dtsi             |   10 ++++++++++
+ 16 files changed, 24 insertions(+), 131 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 5dd1900..674e7c1 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -1130,19 +1130,4 @@
+ 			status = "disabled";
+ 		};
+ 	};
+-
+-	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+-		d3 {
+-			label = "d3";
+-			gpios = <&pioE 24 0>;
+-			linux,default-trigger = "heartbeat";
+-		};
+-	};
+ };
+diff --git a/arch/arm/boot/dts/sama5d31ek.dts b/arch/arm/boot/dts/sama5d31ek.dts
+index c9ddccf..15e9b4e 100644
+--- a/arch/arm/boot/dts/sama5d31ek.dts
++++ b/arch/arm/boot/dts/sama5d31ek.dts
+@@ -179,16 +179,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with camera reset pin and RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d31ek_mb-revB.dts b/arch/arm/boot/dts/sama5d31ek_mb-revB.dts
+index 4f12be0..17d8151 100644
+--- a/arch/arm/boot/dts/sama5d31ek_mb-revB.dts
++++ b/arch/arm/boot/dts/sama5d31ek_mb-revB.dts
+@@ -173,16 +173,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts b/arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts
+index 4e3f6e1..63dce78 100644
+--- a/arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts
++++ b/arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts
+@@ -195,16 +195,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d31ek_pda.dts b/arch/arm/boot/dts/sama5d31ek_pda.dts
+index 6ea1b5d..a988b2f 100644
+--- a/arch/arm/boot/dts/sama5d31ek_pda.dts
++++ b/arch/arm/boot/dts/sama5d31ek_pda.dts
+@@ -194,16 +194,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with camera reset pin and RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d33ek.dts b/arch/arm/boot/dts/sama5d33ek.dts
+index 37f18a8..d45a59f 100644
+--- a/arch/arm/boot/dts/sama5d33ek.dts
++++ b/arch/arm/boot/dts/sama5d33ek.dts
+@@ -179,16 +179,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with camera reset pin and RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d33ek_mb-revB.dts b/arch/arm/boot/dts/sama5d33ek_mb-revB.dts
+index 684fcf9..d94a13e 100644
+--- a/arch/arm/boot/dts/sama5d33ek_mb-revB.dts
++++ b/arch/arm/boot/dts/sama5d33ek_mb-revB.dts
+@@ -173,16 +173,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts b/arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts
+index 091ba89..7803f86 100644
+--- a/arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts
++++ b/arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts
+@@ -195,16 +195,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d33ek_pda.dts b/arch/arm/boot/dts/sama5d33ek_pda.dts
+index eead82c..8ec54ad 100644
+--- a/arch/arm/boot/dts/sama5d33ek_pda.dts
++++ b/arch/arm/boot/dts/sama5d33ek_pda.dts
+@@ -194,16 +194,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with camera reset pin and RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+index aa9dc8e..3735847 100644
+--- a/arch/arm/boot/dts/sama5d34ek.dts
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -189,16 +189,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with camera reset pin and RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d34ek_mb-revB.dts b/arch/arm/boot/dts/sama5d34ek_mb-revB.dts
+index 7e2763f..28a84a2 100644
+--- a/arch/arm/boot/dts/sama5d34ek_mb-revB.dts
++++ b/arch/arm/boot/dts/sama5d34ek_mb-revB.dts
+@@ -183,16 +183,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts b/arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts
+index 16f0c49..7608ee9 100644
+--- a/arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts
++++ b/arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts
+@@ -205,16 +205,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d34ek_pda.dts b/arch/arm/boot/dts/sama5d34ek_pda.dts
+index 23f5174..ec863dd 100644
+--- a/arch/arm/boot/dts/sama5d34ek_pda.dts
++++ b/arch/arm/boot/dts/sama5d34ek_pda.dts
+@@ -204,16 +204,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with camera reset pin and RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d35ek.dts b/arch/arm/boot/dts/sama5d35ek.dts
+index a4f50a0..78e82d8 100644
+--- a/arch/arm/boot/dts/sama5d35ek.dts
++++ b/arch/arm/boot/dts/sama5d35ek.dts
+@@ -180,18 +180,7 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+-		d3 {
+-			label = "d3";
+-			gpios = <&pioE 24 0>;
+-			linux,default-trigger = "heartbeat";
+-		};
++		status = "okay";
+ 	};
+ 
+ 	sound {
+diff --git a/arch/arm/boot/dts/sama5d35ek_mb-revB.dts b/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
+index 0ae13fe..38f54aa 100644
+--- a/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
++++ b/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
+@@ -174,16 +174,9 @@
+ 	};
+ 
+ 	leds {
+-		compatible = "gpio-leds";
+-
+-		d2 {
+-			label = "d2";
+-			gpios = <&pioE 25 1>;
+-		};
+-
+ 		d3 {
+ 			label = "d3";
+-			gpios = <&pioE 24 0>;
++			gpios = <&pioE 24 0>;	/* PE24, conflicts with RTS2 */
+ 			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/sama5d3cm.dtsi b/arch/arm/boot/dts/sama5d3cm.dtsi
+index a087b29..6419a79 100644
+--- a/arch/arm/boot/dts/sama5d3cm.dtsi
++++ b/arch/arm/boot/dts/sama5d3cm.dtsi
+@@ -36,4 +36,14 @@
+ 			status = "okay";
+ 		};
+ 	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;	/* PE25, conflicts with RXD2 */
++		};
++
++	};
+ };
+-- 
+1.7.10.4
+

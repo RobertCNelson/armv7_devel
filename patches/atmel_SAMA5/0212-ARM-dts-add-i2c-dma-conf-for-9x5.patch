@@ -1,0 +1,41 @@
+From 9a76fe7010307a78fe3b676756544bc318cd3f1a Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 16 Nov 2012 16:53:54 +0100
+Subject: [PATCH 212/308] ARM: dts: add i2c dma conf for 9x5
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5.dtsi |    3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 019b5be..34fd3cc 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -224,6 +224,7 @@
+ 				compatible = "atmel,at91sam9x5-i2c";
+ 				reg = <0xf8010000 0x100>;
+ 				interrupts = <9 4 6>;
++				dma = <&dma0 0x10002278>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 				status = "disabled";
+@@ -233,6 +234,7 @@
+ 				compatible = "atmel,at91sam9x5-i2c";
+ 				reg = <0xf8014000 0x100>;
+ 				interrupts = <10 4 6>;
++				dma = <&dma1 0x10002256>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 				status = "disabled";
+@@ -242,6 +244,7 @@
+ 				compatible = "atmel,at91sam9x5-i2c";
+ 				reg = <0xf8018000 0x100>;
+ 				interrupts = <11 4 6>;
++				dma = <&dma0 0x1000229A>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 				status = "disabled";
+-- 
+1.7.10.4
+

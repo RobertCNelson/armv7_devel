@@ -1,0 +1,26 @@
+From f605b1df8d28ab387f745b48d5e1b2b645136e02 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Wed, 14 Nov 2012 15:00:31 +0100
+Subject: [PATCH 060/308] i2c: at91: fix compilation warning
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/i2c/busses/i2c-at91.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/i2c/busses/i2c-at91.c b/drivers/i2c/busses/i2c-at91.c
+index c02bf20..77ddc74 100644
+--- a/drivers/i2c/busses/i2c-at91.c
++++ b/drivers/i2c/busses/i2c-at91.c
+@@ -413,7 +413,7 @@ static struct at91_twi_pdata * __devinit at91_twi_get_driver_data(
+ 		match = of_match_node(atmel_twi_dt_ids, pdev->dev.of_node);
+ 		if (!match)
+ 			return NULL;
+-		return match->data;
++		return (struct at91_twi_pdata *) match->data;
+ 	}
+ 	return (struct at91_twi_pdata *) platform_get_device_id(pdev)->driver_data;
+ }
+-- 
+1.7.10.4
+

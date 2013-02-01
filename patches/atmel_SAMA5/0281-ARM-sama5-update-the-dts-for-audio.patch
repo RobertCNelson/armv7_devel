@@ -1,0 +1,31 @@
+From 53f3b9421deea74489086777e9ae8f97af4a4ba1 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 24 Jan 2013 18:12:54 +0100
+Subject: [PATCH 281/308] ARM: sama5: update the dts for audio
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3mb.dtsi |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sama5d3mb.dtsi b/arch/arm/boot/dts/sama5d3mb.dtsi
+index 35d34f2..a48af44 100644
+--- a/arch/arm/boot/dts/sama5d3mb.dtsi
++++ b/arch/arm/boot/dts/sama5d3mb.dtsi
+@@ -159,8 +159,11 @@
+ 
+ 		atmel,model = "wm8904 @ SAMA5D3EK";
+ 		atmel,audio-routing =
+-			"MICBIAS", "IN1L",
+-			"Left Capture Mux", "MICBIAS";
++			"Headphone Jack", "HPOUTL",
++			"Headphone Jack", "HPOUTR",
++			"IN2L", "Line In Jack",
++			"IN2R", "Line In Jack",
++			"IN1L", "Mic";
+ 
+ 		atmel,ssc-controller = <&ssc0>;
+ 		atmel,audio-codec = <&wm8904>;
+-- 
+1.7.10.4
+

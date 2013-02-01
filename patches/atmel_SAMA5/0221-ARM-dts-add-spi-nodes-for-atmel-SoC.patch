@@ -1,0 +1,246 @@
+From 243fc207a3ed72c7907bf1c4fe3087e5eddfd546 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Fri, 23 Nov 2012 17:57:56 +0100
+Subject: [PATCH 221/308] ARM: dts: add spi nodes for atmel SoC
+
+From: Richard Genoud <richard.genoud@gmail.com>
+
+Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
+[wenyou.yang@atmel.com: add spi nodes for other atmel SOC]
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9260.dtsi |   34 ++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9263.dtsi |   34 ++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9g45.dtsi |   34 ++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi |   34 ++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  |   34 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 170 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
+index 947dd61..8cce867 100644
+--- a/arch/arm/boot/dts/at91sam9260.dtsi
++++ b/arch/arm/boot/dts/at91sam9260.dtsi
+@@ -279,6 +279,40 @@
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 			};
++
++			spi0: spi@fffc8000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xfffc8000 0x200>;
++				interrupts = <12 4 3>;
++				cs-gpios = <&pioA 3 0
++					    &pioC 11 0
++					    &pioC 16 0
++					    &pioC 17 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <1>;
++				version = <2>;
++				status = "disabled";
++			};
++
++			spi1: spi@fffcc000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xfffcc000 0x200>;
++				interrupts = <13 4 3>;
++				cs-gpios = <&pioB 3 0
++					    &pioC 5 0
++					    &pioC 4 0
++					    &pioC 3 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <1>;
++				version = <2>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
+index 5aa07e4..37d187e 100644
+--- a/arch/arm/boot/dts/at91sam9263.dtsi
++++ b/arch/arm/boot/dts/at91sam9263.dtsi
+@@ -239,6 +239,40 @@
+ 				#size-cells = <0>;
+ 				status = "disabled";
+ 			};
++
++			spi0: spi@fffa4000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xfffa4000 0x200>;
++				interrupts = <14 4 3>;
++				cs-gpios = <&pioA 5 0
++					    &pioA 3 0
++					    &pioA 4 0
++					    &pioB 11 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <1>;
++				version = <2>;
++				status = "disabled";
++			};
++
++			spi1: spi@fffa8000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xfffa8000 0x200>;
++				interrupts = <15 4 3>;
++				cs-gpios = <&pioB 15 0
++					    &pioB 16 0
++					    &pioB 17 0
++					    &pioB 18 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <1>;
++				version = <2>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index 6549769..99014f6 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -306,6 +306,40 @@
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 			};
++
++			spi0: spi@fffa4000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xfffa4000 0x200>;
++				interrupts = <14 4 3>;
++				cs-gpios = <&pioB 3 0
++					    &pioB 18 0
++					    &pioB 19 0
++					    &pioD 27 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <1>;
++				version = <2>;
++				status = "disabled";
++			};
++
++			spi1: spi@fffa8000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xfffa8000 0x200>;
++				interrupts = <15 4 3>;
++				cs-gpios = <&pioB 17 0
++					    &pioD 28 0
++					    &pioD 18 0
++					    &pioD 19 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <1>;
++				version = <2>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9n12.dtsi b/arch/arm/boot/dts/at91sam9n12.dtsi
+index 0a54d3b..f060894 100644
+--- a/arch/arm/boot/dts/at91sam9n12.dtsi
++++ b/arch/arm/boot/dts/at91sam9n12.dtsi
+@@ -236,6 +236,40 @@
+ 				#size-cells = <0>;
+ 				status = "disabled";
+ 			};
++
++			spi0: spi@f0000000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xf0000000 0x100>;
++				interrupts = <13 4 3>;
++				cs-gpios = <&pioA 14 0
++					    &pioA 7 0
++					    &pioA 1 0
++					    &pioB 3 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <2>;
++				version = <2>;
++				status = "disabled";
++			};
++
++			spi1: spi@f0004000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xf0004000 0x100>;
++				interrupts = <14 4 3>;
++				cs-gpios = <&pioA 8 0
++					    &pioA 0 0
++					    &pioA 31 0
++					    &pioA 30 0
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <2>;
++				version = <2>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index f90d7c5..9d39022 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -550,6 +550,40 @@
+ 				interrupts = <25 4 3>;
+ 				status = "disabled";
+ 			};
++
++			spi0: spi@f0000000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xf0000000 0x100>;
++				interrupts = <13 4 3>;
++				cs-gpios = <&pioA 14 0
++					    &pioA 7 0 /* conflicts with TXD2 */
++					    &pioA 1 0 /* conflicts with RXD0 */
++					    &pioB 3 0 /* conflicts with ERXDV */
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <2>;
++				version = <2>;
++				status = "disabled";
++			};
++
++			spi1: spi@f0004000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91rm9200-spi";
++				reg = <0xf0004000 0x100>;
++				interrupts = <14 4 3>;
++				cs-gpios = <&pioA 8 0 /* conflitcs with RXD2 */
++					    &pioA 0 0 /* conflitcs with TXD0 */
++					    &pioA 31 0 /* conflitcs with TWCK0 */
++					    &pioA 30 0 /* conflitcs with TWD0 */
++					   >;
++				dma-mask = <0xffffffff>;
++				dma_type = <2>;
++				version = <2>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+-- 
+1.7.10.4
+

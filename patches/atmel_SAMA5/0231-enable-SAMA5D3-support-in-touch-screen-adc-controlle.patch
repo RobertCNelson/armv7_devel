@@ -1,0 +1,70 @@
+From 8277c0498c35da0d4490a2b7bbe080d4cd3873aa Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 13 Jun 2012 17:38:06 +0800
+Subject: [PATCH 231/308] enable SAMA5D3 support in touch screen adc
+ controller driver.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/input/touchscreen/atmel_tsadcc.c |    2 +-
+ drivers/input/touchscreen/atmel_tsadcc.h |   24 ++++++++++++++++++++++--
+ 2 files changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/input/touchscreen/atmel_tsadcc.c b/drivers/input/touchscreen/atmel_tsadcc.c
+index 021f87e..2c64c0b 100644
+--- a/drivers/input/touchscreen/atmel_tsadcc.c
++++ b/drivers/input/touchscreen/atmel_tsadcc.c
+@@ -27,7 +27,7 @@
+ 
+ #include "atmel_tsadcc.h"
+ 
+-#define cpu_has_9x5_adc() (cpu_is_at91sam9x5())
++#define cpu_has_9x5_adc() (cpu_is_at91sam9x5() || cpu_is_sama5d3())
+ 
+ #define ADC_DEFAULT_CLOCK	100000
+ #define ZTHRESHOLD		3200
+diff --git a/drivers/input/touchscreen/atmel_tsadcc.h b/drivers/input/touchscreen/atmel_tsadcc.h
+index fe74506..e8dab4a 100644
+--- a/drivers/input/touchscreen/atmel_tsadcc.h
++++ b/drivers/input/touchscreen/atmel_tsadcc.h
+@@ -134,8 +134,9 @@
+ #define	  ATMEL_TSADCC_PRESSR_Z1	(0x3ff <<  0)	/* Data of Z1 Measurement */
+ #define	  ATMEL_TSADCC_PRESSR_Z2	(0x3ff << 16)	/* Data of Z2 Measurement */
+ 
+-/* 9x5 ADC registers which conflict with previous definition */
+-#ifdef CONFIG_ARCH_AT91SAM9X5
++/* 9x5, sama5d3 ADC registers which conflict with previous definition */
++#if defined(CONFIG_SOC_AT91SAM9X5) || defined(CONFIG_SOC_SAMA5D3)
++
+ #undef	 ATMEL_TSADCC_TRGR
+ #undef	 ATMEL_TSADCC_SR
+ #define ATMEL_TSADCC_SR		ATMEL_TSADCC_ISR
+@@ -164,6 +165,25 @@
+ 
+ #endif
+ 
++/* sama5d3 ADC registers which conflict with 9x5 definition */
++#if defined(CONFIG_SOC_SAMA5D3)
++
++#undef	ATMEL_TSADCC_XPOS
++#undef	ATMEL_TSADCC_XSCALE
++#undef	ATMEL_TSADCC_YPOS
++#undef	ATMEL_TSADCC_YSCALE
++#undef	ATMEL_TSADCC_PRESSR_Z1
++#undef	ATMEL_TSADCC_PRESSR_Z2
++
++#define	  ATMEL_TSADCC_XPOS		(0x0fff <<  0)	/* X Position */
++#define	  ATMEL_TSADCC_XSCALE		(0x0fff << 16)	/* Scale of X Position */
++#define	  ATMEL_TSADCC_YPOS		(0x0fff <<  0)	/* Y Position */
++#define	  ATMEL_TSADCC_YSCALE		(0x0fff << 16)	/* Scale of Y Position */
++#define	  ATMEL_TSADCC_PRESSR_Z1	(0x0fff <<  0)	/* Data of Z1 Measurement */
++#define	  ATMEL_TSADCC_PRESSR_Z2	(0x0fff << 16)	/* Data of Z2 Measurement */
++
++#endif
++
+ /* Retrieve prescaler value */
+ #define PRESCALER_VAL(x)	((x) >> 8)
+ 
+-- 
+1.7.10.4
+

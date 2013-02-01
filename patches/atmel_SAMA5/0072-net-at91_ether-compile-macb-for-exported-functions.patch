@@ -1,0 +1,40 @@
+From c327e7713a88c9d6f7067b5d89c101c6a6ed4e61 Mon Sep 17 00:00:00 2001
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Thu, 18 Oct 2012 11:01:13 +0000
+Subject: [PATCH 072/308] net/at91_ether: compile macb for exported functions
+
+Comile macb as well as at91_ether to access exported functions.
+
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+---
+ drivers/net/ethernet/cadence/Kconfig  |    2 +-
+ drivers/net/ethernet/cadence/Makefile |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/Kconfig b/drivers/net/ethernet/cadence/Kconfig
+index db93191..57f78abe 100644
+--- a/drivers/net/ethernet/cadence/Kconfig
++++ b/drivers/net/ethernet/cadence/Kconfig
+@@ -27,7 +27,7 @@ config ARM_AT91_ETHER
+ 	tristate "AT91RM9200 Ethernet support"
+ 	depends on ARM && ARCH_AT91RM9200
+ 	select NET_CORE
+-	select MII
++	select PHYLIB
+ 	---help---
+ 	  If you wish to compile a kernel for the AT91RM9200 and enable
+ 	  ethernet support, then you should always answer Y to this.
+diff --git a/drivers/net/ethernet/cadence/Makefile b/drivers/net/ethernet/cadence/Makefile
+index 9068b83..798b1e0 100644
+--- a/drivers/net/ethernet/cadence/Makefile
++++ b/drivers/net/ethernet/cadence/Makefile
+@@ -2,5 +2,5 @@
+ # Makefile for the Atmel network device drivers.
+ #
+ 
+-obj-$(CONFIG_ARM_AT91_ETHER) += at91_ether.o
++obj-$(CONFIG_ARM_AT91_ETHER) += at91_ether.o macb.o
+ obj-$(CONFIG_MACB) += macb.o
+-- 
+1.7.10.4
+

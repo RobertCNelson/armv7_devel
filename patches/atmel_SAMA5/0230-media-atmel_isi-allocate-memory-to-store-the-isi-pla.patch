@@ -1,0 +1,52 @@
+From 66d644c361bf707920cc4cbfa0d30aefb3b491ca Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 29 Aug 2012 17:38:05 +0800
+Subject: [PATCH 230/308] [media] atmel_isi: allocate memory to store the isi
+ platform data.
+
+If the isi platform data is passed as __initdata. Then we need store it in driver allocated memory. otherwise when we use it out of the probe() function, then the isi platform data is invalid.
+---
+ drivers/media/video/atmel-isi.c |   12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/video/atmel-isi.c b/drivers/media/video/atmel-isi.c
+index 5192c12..b7bd909 100644
+--- a/drivers/media/video/atmel-isi.c
++++ b/drivers/media/video/atmel-isi.c
+@@ -925,6 +925,7 @@ static int __devexit atmel_isi_remove(struct platform_device *pdev)
+ 	clk_put(isi->mck);
+ 	clk_unprepare(isi->pclk);
+ 	clk_put(isi->pclk);
++	kfree(isi->pdata);
+ 	kfree(isi);
+ 
+ 	return 0;
+@@ -974,8 +975,15 @@ static int __devinit atmel_isi_probe(struct platform_device *pdev)
+ 		goto err_alloc_isi;
+ 	}
+ 
++	isi->pdata = kzalloc(sizeof(struct isi_platform_data), GFP_KERNEL);
++	if (!isi->pdata) {
++		ret = -ENOMEM;
++		dev_err(&pdev->dev, "Can't allocate isi platform data!\n");
++		goto err_alloc_isi_pdata;
++	}
++	memcpy(isi->pdata, pdata, sizeof(struct isi_platform_data));
++
+ 	isi->pclk = pclk;
+-	isi->pdata = pdata;
+ 	isi->active = NULL;
+ 	spin_lock_init(&isi->lock);
+ 	init_waitqueue_head(&isi->vsync_wq);
+@@ -1079,6 +1087,8 @@ err_set_mck_rate:
+ err_clk_prepare_mck:
+ 	clk_put(isi->mck);
+ err_clk_get:
++	kfree(isi->pdata);
++err_alloc_isi_pdata:
+ 	kfree(isi);
+ err_alloc_isi:
+ 	clk_unprepare(pclk);
+-- 
+1.7.10.4
+

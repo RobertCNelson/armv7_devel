@@ -1,0 +1,66 @@
+From 664b8fc0df77e0c09b3aab454581faac03cb5801 Mon Sep 17 00:00:00 2001
+From: Elen Song <elen.song@atmel.com>
+Date: Mon, 29 Oct 2012 14:29:22 +0800
+Subject: [PATCH 166/308] DMA: AT91: Serial: Add parameter for serial dma use
+
+Signed-off-by: Elen Song <elen.song@atmel.com>
+---
+ arch/arm/mach-at91/include/mach/board.h |    2 ++
+ drivers/tty/serial/atmel_serial.c       |    1 +
+ include/linux/platform_data/dma-atmel.h |   10 ++++++++++
+ 3 files changed, 13 insertions(+)
+
+diff --git a/arch/arm/mach-at91/include/mach/board.h b/arch/arm/mach-at91/include/mach/board.h
+index 726e5f3..0bf2b8c 100644
+--- a/arch/arm/mach-at91/include/mach/board.h
++++ b/arch/arm/mach-at91/include/mach/board.h
+@@ -129,6 +129,8 @@ struct atmel_uart_data {
+ 	short			use_dma_tx;	/* use transmit DMA? */
+ 	short			use_dma_rx;	/* use receive DMA? */
+ 	void __iomem		*regs;		/* virt. base address, if any */
++	struct at_dma_slave     *dma_tx_slave;
++	struct at_dma_slave     *dma_rx_slave;
+ 	struct serial_rs485	rs485;		/* rs485 settings */
+ };
+ extern void __init at91_add_device_serial(void);
+diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+index bc453a3..f853882 100644
+--- a/drivers/tty/serial/atmel_serial.c
++++ b/drivers/tty/serial/atmel_serial.c
+@@ -46,6 +46,7 @@
+ 
+ #include <asm/mach/serial_at91.h>
+ #include <mach/board.h>
++#include <linux/platform_data/dma-atmel.h>
+ 
+ #ifdef CONFIG_ARM
+ #include <mach/cpu.h>
+diff --git a/include/linux/platform_data/dma-atmel.h b/include/linux/platform_data/dma-atmel.h
+index cab0997..bb05302 100644
+--- a/include/linux/platform_data/dma-atmel.h
++++ b/include/linux/platform_data/dma-atmel.h
+@@ -26,11 +26,21 @@ struct at_dma_platform_data {
+ /**
+  * struct at_dma_slave - Controller-specific information about a slave
+  * @dma_dev: required DMA master device
++ * @tx_reg: physical address of data register used for
++ *      memory-to-peripheral transfers
++ * @rx_reg: physical address of data register used for
++ *      peripheral-to-memory transfers
++ * @reg_width: peripheral register width
+  * @cfg: Platform-specific initializer for the CFG register
++ * @ctrla: Platform-specific initializer for the CTRLA register
+  */
+ struct at_dma_slave {
+ 	struct device		*dma_dev;
++	dma_addr_t              tx_reg;
++	dma_addr_t              rx_reg;
++	u32			reg_width;
+ 	u32			cfg;
++	u32                     ctrla;
+ };
+ 
+ 
+-- 
+1.7.10.4
+

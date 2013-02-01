@@ -1,0 +1,84 @@
+From 9ef5803612e9a361a1f8358a499ee4a30e4a9c27 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Wed, 12 Sep 2012 08:42:15 +0200
+Subject: [PATCH 209/308] ARM: at91: add clocks for I2C DT entries
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+Acked-by: Nikolaus Voss <n.voss@weinmann.de>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
+---
+ arch/arm/mach-at91/at91sam9260.c |    1 +
+ arch/arm/mach-at91/at91sam9263.c |    1 +
+ arch/arm/mach-at91/at91sam9g45.c |    2 ++
+ arch/arm/mach-at91/at91sam9n12.c |    2 ++
+ arch/arm/mach-at91/at91sam9x5.c  |    3 +++
+ 5 files changed, 9 insertions(+)
+
+diff --git a/arch/arm/mach-at91/at91sam9260.c b/arch/arm/mach-at91/at91sam9260.c
+index b728852..c9e029e 100644
+--- a/arch/arm/mach-at91/at91sam9260.c
++++ b/arch/arm/mach-at91/at91sam9260.c
+@@ -221,6 +221,7 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("usart", "fffd0000.serial", &usart3_clk),
+ 	CLKDEV_CON_DEV_ID("usart", "fffd4000.serial", &usart4_clk),
+ 	CLKDEV_CON_DEV_ID("usart", "fffd8000.serial", &usart5_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fffac000.i2c", &twi_clk),
+ 	/* more tc lookup table for DT entries */
+ 	CLKDEV_CON_DEV_ID("t0_clk", "fffa0000.timer", &tc0_clk),
+ 	CLKDEV_CON_DEV_ID("t1_clk", "fffa0000.timer", &tc1_clk),
+diff --git a/arch/arm/mach-at91/at91sam9263.c b/arch/arm/mach-at91/at91sam9263.c
+index 5e32d60..09ae108 100644
+--- a/arch/arm/mach-at91/at91sam9263.c
++++ b/arch/arm/mach-at91/at91sam9263.c
+@@ -213,6 +213,7 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("mci_clk", "fff84000.mmc", &mmc1_clk),
+ 	CLKDEV_CON_DEV_ID("spi_clk", "fffa4000.spi", &spi0_clk),
+ 	CLKDEV_CON_DEV_ID("spi_clk", "fffa8000.spi", &spi1_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fff88000.i2c", &twi_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff200.gpio", &pioA_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff400.gpio", &pioB_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff600.gpio", &pioCDE_clk),
+diff --git a/arch/arm/mach-at91/at91sam9g45.c b/arch/arm/mach-at91/at91sam9g45.c
+index 479a6c6..c5c2acc 100644
+--- a/arch/arm/mach-at91/at91sam9g45.c
++++ b/arch/arm/mach-at91/at91sam9g45.c
+@@ -258,6 +258,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("ehci_clk", "800000.ehci", &uhphs_clk),
+ 	CLKDEV_CON_DEV_ID("mci_clk", "fff80000.mmc", &mmc0_clk),
+ 	CLKDEV_CON_DEV_ID("mci_clk", "fffd0000.mmc", &mmc1_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fff84000.i2c", &twi0_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fff88000.i2c", &twi1_clk),
+ 	/* fake hclk clock */
+ 	CLKDEV_CON_DEV_ID("hclk", "at91_ohci", &uhphs_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff200.gpio", &pioA_clk),
+diff --git a/arch/arm/mach-at91/at91sam9n12.c b/arch/arm/mach-at91/at91sam9n12.c
+index 57b966d..70b3a99 100644
+--- a/arch/arm/mach-at91/at91sam9n12.c
++++ b/arch/arm/mach-at91/at91sam9n12.c
+@@ -170,6 +170,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("t0_clk", "f800c000.timer", &tcb_clk),
+ 	CLKDEV_CON_DEV_ID("mci_clk", "f0008000.mmc", &mmc_clk),
+ 	CLKDEV_CON_DEV_ID("dma_clk", "ffffec00.dma-controller", &dma_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f8010000.i2c", &twi0_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f8014000.i2c", &twi1_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff400.gpio", &pioAB_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff600.gpio", &pioAB_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff800.gpio", &pioCD_clk),
+diff --git a/arch/arm/mach-at91/at91sam9x5.c b/arch/arm/mach-at91/at91sam9x5.c
+index c964761..a963306 100644
+--- a/arch/arm/mach-at91/at91sam9x5.c
++++ b/arch/arm/mach-at91/at91sam9x5.c
+@@ -233,6 +233,9 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("dma_clk", "ffffee00.dma-controller", &dma1_clk),
+ 	CLKDEV_CON_DEV_ID("mci_clk", "f0008000.mmc", &mmc0_clk),
+ 	CLKDEV_CON_DEV_ID("mci_clk", "f000c000.mmc", &mmc1_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f8010000.i2c", &twi0_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f8014000.i2c", &twi1_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f8018000.i2c", &twi2_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff400.gpio", &pioAB_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff600.gpio", &pioAB_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "fffff800.gpio", &pioCD_clk),
+-- 
+1.7.10.4
+

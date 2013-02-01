@@ -1,0 +1,77 @@
+From 6160d8eb325221b486f0a94968aea1c44a0e377b Mon Sep 17 00:00:00 2001
+From: Havard Skinnemoen <havard@skinnemoen.net>
+Date: Wed, 12 Dec 2012 17:52:04 +0100
+Subject: [PATCH 184/308] net/macb: Try to optimize struct macb layout
+
+Move TX-related fields to the top of the struct so that they end up on
+the same cache line. Move the NAPI struct below that since it is used
+from the interrupt handler. RX-related fields go below those.
+
+Move the spinlock before regs since they are usually used together.
+
+Signed-off-by: Havard Skinnemoen <havard@skinnemoen.net>
+[nicolas.ferre@atmel.com: adapt to newer kernel]
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/net/ethernet/cadence/macb.h |   25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.h b/drivers/net/ethernet/cadence/macb.h
+index cef146f..aeeb729 100644
+--- a/drivers/net/ethernet/cadence/macb.h
++++ b/drivers/net/ethernet/cadence/macb.h
+@@ -548,38 +548,39 @@ struct macb_or_gem_ops {
+ };
+ 
+ struct macb {
++	spinlock_t		lock;
+ 	void __iomem		*regs;
+ 
++	unsigned int		tx_head;
++	unsigned int		tx_tail;
++	struct macb_dma_desc	*tx_ring;
++	struct macb_tx_skb	*tx_skb;
++	dma_addr_t		tx_ring_dma;
++	struct work_struct	tx_error_task;
++
++	struct napi_struct	napi;
++
+ 	unsigned int		rx_tail;
+ 	unsigned int		rx_prepared_head;
+ 	struct macb_dma_desc	*rx_ring;
+ 	struct sk_buff		**rx_skbuff;
+ 	void			*rx_buffers;
+ 	size_t			rx_buffer_size;
++	dma_addr_t		rx_ring_dma;
++	dma_addr_t		rx_buffers_dma;
+ 
+-	unsigned int		tx_head, tx_tail;
+-	struct macb_dma_desc	*tx_ring;
+-	struct macb_tx_skb	*tx_skb;
++	struct macb_or_gem_ops	macbgem_ops;
+ 
+-	spinlock_t		lock;
+ 	struct platform_device	*pdev;
+ 	struct clk		*pclk;
+ 	struct clk		*hclk;
+ 	struct net_device	*dev;
+-	struct napi_struct	napi;
+-	struct work_struct	tx_error_task;
+ 	struct net_device_stats	stats;
+ 	union {
+ 		struct macb_stats	macb;
+ 		struct gem_stats	gem;
+ 	}			hw_stats;
+ 
+-	dma_addr_t		rx_ring_dma;
+-	dma_addr_t		tx_ring_dma;
+-	dma_addr_t		rx_buffers_dma;
+-
+-	struct macb_or_gem_ops	macbgem_ops;
+-
+ 	struct mii_bus		*mii_bus;
+ 	struct phy_device	*phy_dev;
+ 	unsigned int 		link;
+-- 
+1.7.10.4
+

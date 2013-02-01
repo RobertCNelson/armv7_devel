@@ -1,0 +1,53 @@
+From ea05fb8c597e5348528d1730e6ea1f4acfceab3c Mon Sep 17 00:00:00 2001
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Mon, 22 Oct 2012 08:45:31 +0000
+Subject: [PATCH 078/308] net/macb: fix truncate warnings
+
+When building macb on x86_64 the following warnings show up:
+  drivers/net/ethernet/cadence/macb.c: In function macb_interrupt:
+  drivers/net/ethernet/cadence/macb.c:556:4: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  drivers/net/ethernet/cadence/macb.c: In function macb_reset_hw:
+  drivers/net/ethernet/cadence/macb.c:792:2: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  drivers/net/ethernet/cadence/macb.c:793:2: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  drivers/net/ethernet/cadence/macb.c:796:2: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+
+Use -1 insted of ~0UL, as done in other places in the driver,
+to silence these warnings.
+
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+ drivers/net/ethernet/cadence/macb.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index 6c84a11..6a4f499 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -553,7 +553,7 @@ static irqreturn_t macb_interrupt(int irq, void *dev_id)
+ 	while (status) {
+ 		/* close possible race with dev_close */
+ 		if (unlikely(!netif_running(dev))) {
+-			macb_writel(bp, IDR, ~0UL);
++			macb_writel(bp, IDR, -1);
+ 			break;
+ 		}
+ 
+@@ -789,11 +789,11 @@ static void macb_reset_hw(struct macb *bp)
+ 	macb_writel(bp, NCR, MACB_BIT(CLRSTAT));
+ 
+ 	/* Clear all status flags */
+-	macb_writel(bp, TSR, ~0UL);
+-	macb_writel(bp, RSR, ~0UL);
++	macb_writel(bp, TSR, -1);
++	macb_writel(bp, RSR, -1);
+ 
+ 	/* Disable all interrupts */
+-	macb_writel(bp, IDR, ~0UL);
++	macb_writel(bp, IDR, -1);
+ 	macb_readl(bp, ISR);
+ }
+ 
+-- 
+1.7.10.4
+

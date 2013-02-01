@@ -1,0 +1,62 @@
+From 7a1927f85be75adf4f767e00cb68fc8a17b69632 Mon Sep 17 00:00:00 2001
+From: Richard Genoud <richard.genoud@gmail.com>
+Date: Fri, 24 Aug 2012 17:08:30 +0200
+Subject: [PATCH 139/308] spi/atmel_spi: correct 16 bits transfer with DMA
+
+Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
+Cc: grant.likely@secretlab.ca
+Cc: spi-devel-general@lists.sourceforge.net
+---
+ drivers/spi/spi-atmel.c |   17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
+index 269af2e..05472fd 100644
+--- a/drivers/spi/spi-atmel.c
++++ b/drivers/spi/spi-atmel.c
+@@ -446,12 +446,18 @@ static inline int atmel_spi_xfer_can_be_chained(struct spi_transfer *xfer)
+ }
+ 
+ static int atmel_spi_dma_slave_config(struct atmel_spi *as,
+-				struct dma_slave_config *slave_config)
++				struct dma_slave_config *slave_config,
++				u8 bits_per_word)
+ {
+ 	int err = 0;
+ 
+-	slave_config->dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
+-	slave_config->src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
++	if (bits_per_word > 8) {
++		slave_config->dst_addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
++		slave_config->src_addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
++	} else {
++		slave_config->dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
++		slave_config->src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
++	}
+ 
+ 	slave_config->dst_addr = (dma_addr_t)as->phybase + SPI_TDR;
+ 	slave_config->src_addr = (dma_addr_t)as->phybase + SPI_RDR;
+@@ -513,7 +519,7 @@ static int __devinit atmel_spi_configure_dma(struct atmel_spi *as)
+ 		goto error;
+ 	}
+ 
+-	err = atmel_spi_dma_slave_config(as, &slave_config);
++	err = atmel_spi_dma_slave_config(as, &slave_config, 8);
+ 	if (err)
+ 		goto error;
+ 
+@@ -648,10 +654,9 @@ static int atmel_spi_next_xfer_dma_submit(struct spi_master *master,
+ 
+ 	*plen = len;
+ 
+-	if (atmel_spi_dma_slave_config(as, &slave_config))
++	if (atmel_spi_dma_slave_config(as, &slave_config, 8))
+ 		goto err_exit;
+ 
+-
+ 	/* Send both scatterlists */
+ 	rxdesc = rxchan->device->device_prep_slave_sg(rxchan,
+ 					&as->dma.sgrx,
+-- 
+1.7.10.4
+

@@ -1,0 +1,87 @@
+From e85cb65039f30545bca5d4814347925987834d4d Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Thu, 24 Jan 2013 15:14:01 +0100
+Subject: [PATCH 292/308] pinctrl: at91: manage gpio suspend/resume
+
+gpio suspend/resume and wakeup sources where not managed so it was impossible
+to wake up the system with a gpio.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/pinctrl/pinctrl-at91.c |   48 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
+index f2e4ef5..eea4f2c 100644
+--- a/drivers/pinctrl/pinctrl-at91.c
++++ b/drivers/pinctrl/pinctrl-at91.c
+@@ -1282,18 +1282,66 @@ static int alt_gpio_irq_type(struct irq_data *d, unsigned type)
+ }
+ 
+ #ifdef CONFIG_PM
++
++static u32 wakeups[MAX_GPIO_BANKS];
++static u32 backups[MAX_GPIO_BANKS];
++
+ static int gpio_irq_set_wake(struct irq_data *d, unsigned state)
+ {
+ 	struct at91_gpio_chip *at91_gpio = irq_data_get_irq_chip_data(d);
+ 	unsigned	bank = at91_gpio->pioc_idx;
++	unsigned        mask = 1 << d->hwirq;
+ 
+ 	if (unlikely(bank >= MAX_GPIO_BANKS))
+ 		return -EINVAL;
+ 
++	if (state)
++		wakeups[bank] |= mask;
++	else
++		wakeups[bank] &= ~mask;
++
+ 	irq_set_irq_wake(at91_gpio->pioc_virq, state);
+ 
+ 	return 0;
+ }
++
++void at91_gpio_suspend(void)
++{
++	int i;
++
++	for (i = 0; i < gpio_banks; i++) {
++		void __iomem	*pio = gpio_chips[i]->regbase;
++
++		backups[i] = __raw_readl(pio + PIO_IMR);
++		__raw_writel(backups[i], pio + PIO_IDR);
++		__raw_writel(wakeups[i], pio + PIO_IER);
++
++		if (!wakeups[i]) {
++			clk_unprepare(gpio_chips[i]->clock);
++			clk_disable(gpio_chips[i]->clock);
++		} else {
++			printk(KERN_DEBUG "GPIO-%c may wake for %08x\n", 'A'+i, wakeups[i]);
++		}
++	}
++}
++
++void at91_gpio_resume(void)
++{
++	int i;
++
++	for (i = 0; i < gpio_banks; i++) {
++		void __iomem	*pio = gpio_chips[i]->regbase;
++
++		if (!wakeups[i]) {
++			if (clk_prepare(gpio_chips[i]->clock) == 0)
++				clk_enable(gpio_chips[i]->clock);
++		}
++
++		__raw_writel(wakeups[i], pio + PIO_IDR);
++		__raw_writel(backups[i], pio + PIO_IER);
++	}
++}
++
+ #else
+ #define gpio_irq_set_wake	NULL
+ #endif
+-- 
+1.7.10.4
+

@@ -1,0 +1,38 @@
+From 659990d5f151cd7030992a60e6a2e64913070390 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 24 Jan 2013 12:37:49 +0100
+Subject: [PATCH 285/308] net/macb: no need to test available space in TX ring
+
+Space left in TX ring has already been tested at the end of
+start_xmit() function last time it was called: no need to test
+it again.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/net/ethernet/cadence/macb.c |   10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index 7111f52..bec3913 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -949,16 +949,6 @@ static int macb_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	len = skb->len;
+ 	spin_lock_irqsave(&bp->lock, flags);
+ 
+-	/* This is a hard error, log it. */
+-	if (CIRC_SPACE(bp->tx_head, bp->tx_tail, TX_RING_SIZE) < 1) {
+-		netif_stop_queue(dev);
+-		spin_unlock_irqrestore(&bp->lock, flags);
+-		netdev_err(bp->dev, "BUG! Tx Ring full when queue awake!\n");
+-		netdev_dbg(bp->dev, "tx_head = %u, tx_tail = %u\n",
+-			   bp->tx_head, bp->tx_tail);
+-		return NETDEV_TX_BUSY;
+-	}
+-
+ 	entry = macb_tx_ring_wrap(bp->tx_head);
+ 	bp->tx_head++;
+ 	netdev_vdbg(bp->dev, "Allocated ring entry %u\n", entry);
+-- 
+1.7.10.4
+

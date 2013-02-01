@@ -1,0 +1,45 @@
+From 9ed9de460f7debde920996015f76076dbe4929a1 Mon Sep 17 00:00:00 2001
+From: Nicolas Royer <nicolas@eukrea.com>
+Date: Mon, 17 Sep 2012 18:26:09 +0200
+Subject: [PATCH 219/308] AT91SAM9G45: crypto: same platform data header for
+ all crypto peripherals
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Nicolas Royer <nicolas@eukrea.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Acked-by: Eric Bénard <eric@eukrea.com>
+Tested-by: Eric Bénard <eric@eukrea.com>
+---
+ arch/arm/mach-at91/at91sam9g45_devices.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/mach-at91/at91sam9g45_devices.c b/arch/arm/mach-at91/at91sam9g45_devices.c
+index de03f3e..40b59d9 100644
+--- a/arch/arm/mach-at91/at91sam9g45_devices.c
++++ b/arch/arm/mach-at91/at91sam9g45_devices.c
+@@ -18,7 +18,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/i2c-gpio.h>
+ #include <linux/atmel-mci.h>
+-#include <linux/platform_data/atmel-aes.h>
++#include <linux/platform_data/atmel-crypto.h>
+ 
+ #include <linux/platform_data/at91_adc.h>
+ 
+@@ -1939,9 +1939,9 @@ static struct platform_device at91sam9g45_aes_device = {
+ static void __init at91_add_device_aes(void)
+ {
+ 	struct at_dma_slave	*atslave;
+-	struct aes_dma_data	*alt_atslave;
++	struct crypto_dma_data	*alt_atslave;
+ 
+-	alt_atslave = kzalloc(sizeof(struct aes_dma_data), GFP_KERNEL);
++	alt_atslave = kzalloc(sizeof(struct crypto_dma_data), GFP_KERNEL);
+ 
+ 	/* DMA TX slave channel configuration */
+ 	atslave = &alt_atslave->txdata;
+-- 
+1.7.10.4
+

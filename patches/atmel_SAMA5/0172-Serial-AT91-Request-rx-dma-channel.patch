@@ -1,0 +1,172 @@
+From 0c7985afb407690f6a51c24e81545b298e81523b Mon Sep 17 00:00:00 2001
+From: Elen Song <elen.song@atmel.com>
+Date: Thu, 22 Nov 2012 13:36:20 +0800
+Subject: [PATCH 172/308] Serial: AT91: Request rx dma channel
+
+Request a cyclic dma channel for rx dma use.
+Use cyclic transfer is to prevent receive data overrun.
+
+Signed-off-by: Elen Song <elen.song@atmel.com>
+---
+ drivers/tty/serial/atmel_serial.c |  112 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 111 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+index 9491400..33d8d55 100644
+--- a/drivers/tty/serial/atmel_serial.c
++++ b/drivers/tty/serial/atmel_serial.c
+@@ -131,7 +131,7 @@ struct atmel_uart_char {
+ 	u16		ch;
+ };
+ 
+-#define ATMEL_SERIAL_RINGSIZE 1024
++#define ATMEL_SERIAL_RINGSIZE 4096
+ 
+ /*
+  * We wrap our port structure around the generic uart_port.
+@@ -153,11 +153,16 @@ struct atmel_uart_port {
+ 	struct atmel_dma_buffer	pdc_tx;		/* PDC transmitter */
+ 
+ 	spinlock_t			lock_tx;	/* port lock */
++	spinlock_t			lock_rx;	/* port lock */
+ 	struct dma_chan			*chan_tx;
++	struct dma_chan			*chan_rx;
+ 	struct dma_async_tx_descriptor	*desc_tx;
++	struct dma_async_tx_descriptor	*desc_rx;
+ 	dma_cookie_t			cookie_tx;
++	dma_cookie_t			cookie_rx;
+ 
+ 	struct scatterlist		sg_tx;
++	struct scatterlist		sg_rx;
+ 	unsigned int			sg_len_tx;
+ 
+ 	struct tasklet_struct	tasklet;
+@@ -1003,6 +1008,107 @@ chan_err:
+ 	return;
+ }
+ 
++static void atmel_rx_dma_release(struct atmel_uart_port *atmel_port)
++{
++	struct dma_chan *chan = atmel_port->chan_rx;
++	struct uart_port *port = &(atmel_port->uart);
++
++	if (chan) {
++		dmaengine_terminate_all(chan);
++		dma_release_channel(chan);
++		dma_unmap_sg(port->dev, &atmel_port->sg_rx, 1,
++			DMA_DEV_TO_MEM);
++	}
++
++	atmel_port->desc_rx = NULL;
++	atmel_port->chan_rx = NULL;
++	atmel_port->cookie_rx = -EINVAL;
++}
++
++static void atmel_rx_request_dma(struct atmel_uart_port *atmel_port)
++{
++	struct uart_port	*port;
++	struct atmel_uart_data	*pdata;
++	dma_cap_mask_t		mask;
++	struct dma_chan		*chan = NULL;
++	struct circ_buf *ring = &atmel_port->rx_ring;
++	struct dma_slave_config config;
++	int ret;
++
++	if (atmel_port == NULL)
++		return;
++
++	port = &(atmel_port->uart);
++	pdata = (struct atmel_uart_data *)port->private_data;
++
++	if (!pdata)
++		goto chan_err;
++
++	dma_cap_zero(mask);
++	dma_cap_set(DMA_CYCLIC, mask);
++
++	if (atmel_use_dma_rx(port) && pdata->dma_rx_slave) {
++		pdata->dma_rx_slave->rx_reg = port->mapbase + ATMEL_US_RHR;
++		chan = dma_request_channel(mask, filter, pdata->dma_rx_slave);
++		if (chan == NULL)
++			goto chan_err;
++		dev_dbg(port->dev, "%s: RX: got channel %d\n",
++			__func__,
++			chan->chan_id);
++	}
++
++	if (chan) {
++		int nent;
++
++		spin_lock_init(&atmel_port->lock_rx);
++		atmel_port->chan_rx = chan;
++
++		sg_init_table(&atmel_port->sg_rx, 1);
++		/* UART circular tx buffer is an aligned page. */
++		BUG_ON((int)ring->buf & ~PAGE_MASK);
++		sg_set_page(&atmel_port->sg_rx,
++				virt_to_page(ring->buf),
++				ATMEL_SERIAL_RINGSIZE,
++				(int)ring->buf & ~PAGE_MASK);
++				nent = dma_map_sg(port->dev,
++				&atmel_port->sg_rx,
++				1,
++				DMA_DEV_TO_MEM);
++
++		if (!nent)
++			dev_dbg(port->dev, "need to release resource of dma\n");
++		else
++			dev_dbg(port->dev, "%s: mapped %d@%p to %x\n",
++				__func__,
++				sg_dma_len(&atmel_port->sg_rx),
++				ring->buf,
++				sg_dma_address(&atmel_port->sg_rx));
++
++		ring->head = 0;
++	}
++
++	/* Configure the slave DMA */
++	memset(&config, 0, sizeof(config));
++	config.direction = DMA_DEV_TO_MEM;
++	config.src_addr_width = pdata->dma_rx_slave->reg_width;
++	config.src_addr = pdata->dma_rx_slave->rx_reg;
++
++	ret = dmaengine_device_control(chan, DMA_SLAVE_CONFIG,
++					(unsigned long)&config);
++	if (ret) {
++		dev_err(port->dev, "DMA rx slave configuration failed\n");
++		return;
++	}
++
++	return;
++
++chan_err:
++	dev_err(port->dev, "RX channel not available, switch to pio\n");
++	atmel_port->use_dma_rx = 0;
++	atmel_rx_dma_release(atmel_port);
++	return;
++}
++
+ /*
+  * receive interrupt handler.
+  */
+@@ -1420,6 +1526,8 @@ static int atmel_startup(struct uart_port *port)
+ 	if (atmel_use_dma_tx(port))
+ 		atmel_tx_request_dma(atmel_port);
+ 
++	if (atmel_use_dma_rx(port))
++		atmel_rx_request_dma(atmel_port);
+ 	/*
+ 	 * If there is a specific "open" function (to register
+ 	 * control line interrupts)
+@@ -1496,6 +1604,8 @@ static void atmel_shutdown(struct uart_port *port)
+ 				 DMA_TO_DEVICE);
+ 	}
+ 
++	if (atmel_use_dma_rx(port))
++		atmel_rx_dma_release(atmel_port);
+ 	if (atmel_use_dma_tx(port))
+ 		atmel_tx_dma_release(atmel_port);
+ 
+-- 
+1.7.10.4
+

@@ -1,0 +1,102 @@
+From f107d69878b63e1a9a250b16609d3fd96656ed12 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 28 Nov 2012 16:17:28 +0800
+Subject: [PATCH 245/308] Revert "[media] soc-camera: Pass the physical device
+ to the power operation" to fix isi crash error.
+
+This reverts commit 2744782ef15151469ddd1e28c14e4b2c950be6dd.
+
+Since this commit need plus the other commits to move the power on/off function from
+soc-camera to camera sensor driver.
+but the other commits are not included in 3.6.6. So it will cause following error:
+
+soc-camera-pdrv soc-camera-pdrv.0: Probing soc-camera-pdrv.0
+Unable to handle kernel NULL pointer dereference at virtual address 000000ac
+pgd = c0004000
+[000000ac] *pgd=00000000
+Internal error: Oops: 5 [#1] ARM
+Modules linked in:
+CPU: 0    Not tainted  (3.6.6+ #35)
+pc : [<c01a2fc8>]    lr : [<c01a30c8>]    psr: 60000093
+sp : df84bde0  ip : 00000000  fp : df9fa2bc
+r10: dfa01238  r9 : df9fa258  r8 : df9fa000
+r7 : dfa17990  r6 : 00000000  r5 : 00000000  r4 : 60000013
+r3 : dfa17980  r2 : 00000001  r1 : dfa17980  r0 : 00000000
+Flags: nZCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment kernel
+Control: 10c53c7d  Table: 20004059  DAC: 00000015
+Process swapper (pid: 1, stack limit = 0xdf84a2e8)
+Stack: (0xdf84bde0 to 0xdf84c000)
+bde0: 0000009d c017cbd4 c0017788 00000000 00000001 dfa01200 c0426004 c00177a0
+be00: c0017788 dfa01200 00000000 c0223818 fefffc00 dfa01200 df9fa258 c043ab64
+be20: c0426004 c0224918 60000013 00000000 00000000 c001bb38 00000000 00000000
+be40: 00000000 00000000 c0444c5c 00000007 00000000 00000000 c0444c5c 00000000
+be60: 00000000 00000000 00000000 00000016 df8447c0 df8447c8 00000000 df9fa000
+be80: df9fa020 c0425790 df82b280 c033fec8 c03a29a8 00000016 df8447c0 df8447c8
+bea0: 00000000 df9fa000 df9fa020 c0425790 df82b280 c033d314 c03a2a38 df9fa000
+bec0: df8447c8 c045093c c043abbc df8447c8 00000000 c043abbc c04172a0 c0408ed4
+bee0: 00000000 c01a1ca0 c01a1c88 c01a0a7c df8447c8 c043abbc df8447fc 00000000
+bf00: c03f4210 c01a0c88 c043abbc 00000000 c01a0bfc c019f500 df82c48c df8363f0
+bf20: c043abbc c0430c18 df9f8140 c01a02c8 c036ef10 c044349c c043abbc df84a000
+bf40: c0443b00 00000000 c03f4210 c01a112c 00000000 c043aba8 df84a000 c0443b00
+bf60: 00000000 c03f4210 c0408ed4 c01a1f30 c04121cc c00085c0 00000000 60000013
+bf80: c03d6364 c0408ed4 c085e8b7 c0030840 c039c4dc c03d5ce4 00000006 00000006
+bfa0: 00000000 c04121cc 00000006 c04121ac c0443b00 c03f4210 c04172a0 00000068
+bfc0: 00000000 c03f4844 00000006 00000006 c03f4210 00000000 00000000 c03f475c
+bfe0: c000e6ac 00000013 00000000 00000000 00000000 c000e6ac ee2eeae9 3cf3cfb7
+Function entered at [<c01a2fc8>] from [<c01a30c8>]
+Function entered at [<c01a30c8>] from [<c017cbd4>]
+Function entered at [<c017cbd4>] from [<c00177a0>]
+Function entered at [<c00177a0>] from [<c0223818>]
+Function entered at [<c0223818>] from [<c0224918>]
+Function entered at [<c0224918>] from [<c033d314>]
+Function entered at [<c033d314>] from [<c01a1ca0>]
+Function entered at [<c01a1ca0>] from [<c01a0a7c>]
+Function entered at [<c01a0a7c>] from [<c01a0c88>]
+Function entered at [<c01a0c88>] from [<c019f500>]
+Function entered at [<c019f500>] from [<c01a02c8>]
+Function entered at [<c01a02c8>] from [<c01a112c>]
+Function entered at [<c01a112c>] from [<c01a1f30>]
+Function entered at [<c01a1f30>] from [<c00085c0>]
+Function entered at [<c00085c0>] from [<c03f4844>]
+Function entered at [<c03f4844>] from [<c000e6ac>]
+Code: c038dab4 e5913000 e1510003 1a000005 (e59030ac)
+---[ end trace 6a8f2d1b849c6dfd ]---
+Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+---
+ drivers/media/video/soc_camera.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/video/soc_camera.c b/drivers/media/video/soc_camera.c
+index 1bde255..a930383 100644
+--- a/drivers/media/video/soc_camera.c
++++ b/drivers/media/video/soc_camera.c
+@@ -62,7 +62,7 @@ static int soc_camera_power_on(struct soc_camera_device *icd,
+ 	}
+ 
+ 	if (icl->power) {
+-		ret = icl->power(icd->control, 1);
++		ret = icl->power(icd->pdev, 1);
+ 		if (ret < 0) {
+ 			dev_err(icd->pdev,
+ 				"Platform failed to power-on the camera.\n");
+@@ -78,7 +78,7 @@ static int soc_camera_power_on(struct soc_camera_device *icd,
+ 
+ esdpwr:
+ 	if (icl->power)
+-		icl->power(icd->control, 0);
++		icl->power(icd->pdev, 0);
+ elinkpwr:
+ 	regulator_bulk_disable(icl->num_regulators,
+ 			       icl->regulators);
+@@ -95,7 +95,7 @@ static int soc_camera_power_off(struct soc_camera_device *icd,
+ 		return ret;
+ 
+ 	if (icl->power) {
+-		ret = icl->power(icd->control, 0);
++		ret = icl->power(icd->pdev, 0);
+ 		if (ret < 0) {
+ 			dev_err(icd->pdev,
+ 				"Platform failed to power-off the camera.\n");
+-- 
+1.7.10.4
+

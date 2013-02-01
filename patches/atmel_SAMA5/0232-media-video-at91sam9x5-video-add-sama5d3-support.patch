@@ -1,0 +1,177 @@
+From 2a35816943632f2a972ae5b8f22f68bd0b4482bb Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 18 Oct 2012 10:37:39 +0200
+Subject: [PATCH 232/308] media/video: at91sam9x5-video: add sama5d3 support
+
+Changes to at91sam9x5-video.c driver to enable
+SAMA5D3 support (with DT).
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/media/video/at91sam9x5-video.c |  118 +++++++++++++++++++++++++++++++-
+ 1 file changed, 117 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/video/at91sam9x5-video.c b/drivers/media/video/at91sam9x5-video.c
+index 548aebc..243c3ae 100644
+--- a/drivers/media/video/at91sam9x5-video.c
++++ b/drivers/media/video/at91sam9x5-video.c
+@@ -158,10 +158,72 @@
+ #define REG_HEOCFG14		0x84
+ #define REG_HEOCFG15		0x88
+ #define REG_HEOCFG16		0x8c
++#define REG_HEO_COEF_BASE	0x90
++#define REG_HEO_COEF_END	0xEC
++#define REG_HEOCFG41		0xF0
++#define REG_HEOCFG41_XPHIDEF		0x00000007
++#define REG_HEOCFG41_YPHIDEF		0x00070000
++
++#define HEOCFG41_XPHIDEF_DEFAULT	4
++#define HEOCFG41_YPHIDEF_DEFAULT	4
+ 
+ #define valtomask(val, mask)	(((val) << __ffs((mask))) & (mask))
+ #define valfrommask(val, mask)	(((val) & (mask)) >> __ffs((mask)))
+ 
++u32 heo_downscaling_coef[] = {
++	0x11343311,
++	0x000000f7,
++	0x1635300c,
++	0x000000f9,
++	0x1b362c08,
++	0x000000fb,
++	0x1f372804,
++	0x000000fe,
++	0x24382400,
++	0x00000000,
++	0x28371ffe,
++	0x00000004,
++	0x2c361bfb,
++	0x00000008,
++	0x303516f9,
++	0x0000000c,
++	0x00123737,
++	0x00173732,
++	0x001b382d,
++	0x001f3928,
++	0x00243824,
++	0x0028391f,
++	0x002d381b,
++	0x00323717,
++};
++
++u32 heo_upscaling_coef[] = {
++	0xf74949f7,
++	0x00000000,
++	0xf55f33fb,
++	0x000000fe,
++	0xf5701efe,
++	0x000000ff,
++	0xf87c0dff,
++	0x00000000,
++	0x00800000,
++	0x00000000,
++	0x0d7cf800,
++	0x000000ff,
++	0x1e70f5ff,
++	0x000000fe,
++	0x335ff5fe,
++	0x000000fb,
++	0x00004040,
++	0x00075920,
++	0x00056f0c,
++	0x00027b03,
++	0x00008000,
++	0x00037b02,
++	0x000c6f05,
++	0x00205907,
++};
++
+ struct at91sam9x5_video_pdata {
+ 	u16 base_width;
+ 	u16 base_height;
+@@ -520,6 +582,56 @@ static void at91sam9x5_video_params(unsigned width, unsigned height,
+ 	*tloffset = e[ro(0)];
+ }
+ 
++#if defined(CONFIG_SOC_SAMA5)
++static void at91sam9x5_video_setup_scaling_coef(
++		struct at91sam9x5_video_priv *priv,
++		unsigned hwxmem_size, unsigned hwxsize,
++		unsigned hwymem_size, unsigned hwysize,
++		unsigned *xphidef, unsigned *yphidef)
++{
++	int i;
++	u32 *sc_coef;
++	unsigned int scaling_coef_nbr = (REG_HEO_COEF_END - REG_HEO_COEF_BASE) / 4 + 1;
++
++	if (scaling_coef_nbr != ARRAY_SIZE(heo_downscaling_coef)
++	    || scaling_coef_nbr != ARRAY_SIZE(heo_upscaling_coef)) {
++		dev_err(&priv->pdev->dev,
++			"number of scaling coefficients not coherent\n");
++		return;
++	}
++
++	/* base our up/down scaling decision on X size only */
++	if (hwxmem_size >= hwxsize)
++		sc_coef = heo_downscaling_coef;
++	else
++		sc_coef = heo_upscaling_coef;
++
++	/* use coefficient tables */
++	for (i = 0 ; i < scaling_coef_nbr ; i++)
++		at91sam9x5_video_write32(priv, REG_HEO_COEF_BASE + 4 * i,
++								sc_coef[i]);
++
++	*xphidef = HEOCFG41_XPHIDEF_DEFAULT;
++	*yphidef = HEOCFG41_YPHIDEF_DEFAULT;
++
++	/* configure filter phase offset */
++	at91sam9x5_video_write32(priv, REG_HEOCFG41,
++			valtomask(*xphidef, REG_HEOCFG41_XPHIDEF) |
++			valtomask(*yphidef, REG_HEOCFG41_YPHIDEF));
++}
++
++static void at91sam9x5_video_setup_scaling_factor(
++		unsigned hwmem_size, unsigned hwsize,
++		unsigned phidef, unsigned *factor)
++{
++	unsigned mem_max;
++
++	*factor = (8 * 256 * hwmem_size - 256 * phidef) / hwsize + 1;
++	mem_max  = (*factor * hwsize + 256 * phidef) / 2048;
++	if (mem_max > hwmem_size)
++		(*factor)--;
++}
++#else
+ static void at91sam9x5_video_setup_scaling_coef(
+ 		struct at91sam9x5_video_priv *priv,
+ 		unsigned hwxmem_size, unsigned hwxsize,
+@@ -532,6 +644,7 @@ static void at91sam9x5_video_setup_scaling_factor(
+ {
+ 	*factor = 1024 * hwmem_size / hwsize;
+ }
++#endif
+ 
+ static void at91sam9x5_video_update_config_real(
+ 		struct at91sam9x5_video_priv *priv)
+@@ -1265,7 +1378,7 @@ static int at91sam9x5_video_register(struct at91sam9x5_video_priv *priv,
+ 	(void)at91sam9x5_video_read32(priv, REG_HEOISR);
+ 
+ 	/* set maximal bursting */
+-	at91sam9x5_video_write32(priv, REG_HEOCFG0,
++	at91sam9x5_video_write32(priv, REG_HEOCFG0, 0x1 |
+ 			REG_HEOCFG0_BLEN_INCR16 |
+ 			REG_HEOCFG0_BLENUV_INCR16);
+ 
+@@ -1426,6 +1539,9 @@ static const struct of_device_id atmel_heo_dt_ids[] = {
+ 		.compatible = "atmel,at91sam9x5-heo",
+ 		.data = (void *)0,
+ 	}, {
++		.compatible = "atmel,sama5d3-heo",
++		.data = (void *)1,
++	}, {
+ 		/* sentinel */
+ 	}
+ };
+-- 
+1.7.10.4
+

@@ -1,0 +1,36 @@
+From 88fb89587df15e3e92d4289e3729b1b5f8e4ea0b Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 27 Nov 2012 09:34:08 +0800
+Subject: [PATCH 120/308] ASoC: atmel_ssc_dai: change according to SAMA5 RevD
+ hardware
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/atmel/atmel_ssc_dai.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index 7932c05..5c9c587 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -467,7 +467,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(RCMR_START, start_event)
+ 			| SSC_BF(RCMR_CKI, SSC_CKI_RISING)
+ 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
+-			| SSC_BF(RCMR_CKS, SSC_CKS_CLOCK);
++			| SSC_BF(RCMR_CKS, SSC_CKS_PIN);
+ 
+ 		rfmr =	  SSC_BF(RFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(RFMR_FSOS, SSC_FSOS_NONE)
+@@ -482,7 +482,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(TCMR_START, start_event)
+ 			| SSC_BF(TCMR_CKI, SSC_CKI_FALLING)
+ 			| SSC_BF(TCMR_CKO, SSC_CKO_NONE)
+-			| SSC_BF(TCMR_CKS, SSC_CKS_PIN);
++			| SSC_BF(TCMR_CKS, SSC_CKS_CLOCK);
+ 
+ 		tfmr =	  SSC_BF(TFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(TFMR_FSDEN, 0)
+-- 
+1.7.10.4
+

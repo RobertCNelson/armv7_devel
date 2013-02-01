@@ -1,0 +1,321 @@
+From a6dc0d0bdb276d2d31bf3f969098f5547fd20e72 Mon Sep 17 00:00:00 2001
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Thu, 31 Jan 2013 13:17:28 +0100
+Subject: [PATCH 308/308] ARM: at91: fix pinctrl and old gpio simultaneous
+ support
+
+No more compiling the old gpio driver when pinctrl is used leads to too many
+compilation issues with current defconfigs. So still compile it but decide at
+runtime if which driver to use.
+
+Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/Makefile            |    2 --
+ arch/arm/mach-at91/at91rm9200.c        |    4 ----
+ arch/arm/mach-at91/at91sam9260.c       |    4 ----
+ arch/arm/mach-at91/at91sam9261.c       |    4 ----
+ arch/arm/mach-at91/at91sam9263.c       |    4 ----
+ arch/arm/mach-at91/at91sam9g45.c       |    4 ----
+ arch/arm/mach-at91/at91sam9rl.c        |    4 ----
+ arch/arm/mach-at91/include/mach/gpio.h |    8 ++++++++
+ arch/arm/mach-at91/pm.c                |   10 ++++++++--
+ drivers/pinctrl/pinctrl-at91.c         |   18 ++++++++++++++----
+ 10 files changed, 30 insertions(+), 32 deletions(-)
+
+diff --git a/arch/arm/mach-at91/Makefile b/arch/arm/mach-at91/Makefile
+index 8885c8c..a6a8ca0 100644
+--- a/arch/arm/mach-at91/Makefile
++++ b/arch/arm/mach-at91/Makefile
+@@ -7,10 +7,8 @@ obj-m		:=
+ obj-n		:=
+ obj-		:=
+ 
+-ifneq ($(CONFIG_PINCTRL_AT91),y)
+ obj-y	+= gpio.o
+ obj-y	+= leds.o
+-endif
+ 
+ obj-$(CONFIG_AT91_PMC_UNIT)	+= clock.o
+ obj-$(CONFIG_AT91_SAM9_ALT_RESET) += at91sam9_alt_reset.o
+diff --git a/arch/arm/mach-at91/at91rm9200.c b/arch/arm/mach-at91/at91rm9200.c
+index 8e20531..a3e4710 100644
+--- a/arch/arm/mach-at91/at91rm9200.c
++++ b/arch/arm/mach-at91/at91rm9200.c
+@@ -251,7 +251,6 @@ static void __init at91rm9200_register_clocks(void)
+ 	clk_register(&pck3);
+ }
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ /* --------------------------------------------------------------------
+  *  GPIO
+  * -------------------------------------------------------------------- */
+@@ -271,7 +270,6 @@ static struct at91_gpio_bank at91rm9200_gpio[] __initdata = {
+ 		.regbase	= AT91RM9200_BASE_PIOD,
+ 	}
+ };
+-#endif
+ 
+ static void at91rm9200_idle(void)
+ {
+@@ -315,11 +313,9 @@ static void __init at91rm9200_initialize(void)
+ 			| (1 << AT91RM9200_ID_IRQ4) | (1 << AT91RM9200_ID_IRQ5)
+ 			| (1 << AT91RM9200_ID_IRQ6);
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ 	/* Initialize GPIO subsystem */
+ 	at91_gpio_init(at91rm9200_gpio,
+ 		cpu_is_at91rm9200_bga() ? AT91RM9200_BGA : AT91RM9200_PQFP);
+-#endif
+ }
+ 
+ 
+diff --git a/arch/arm/mach-at91/at91sam9260.c b/arch/arm/mach-at91/at91sam9260.c
+index 483c9b4..0860212 100644
+--- a/arch/arm/mach-at91/at91sam9260.c
++++ b/arch/arm/mach-at91/at91sam9260.c
+@@ -284,7 +284,6 @@ static void __init at91sam9260_register_clocks(void)
+ 	clk_register(&pck1);
+ }
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ /* --------------------------------------------------------------------
+  *  GPIO
+  * -------------------------------------------------------------------- */
+@@ -301,7 +300,6 @@ static struct at91_gpio_bank at91sam9260_gpio[] __initdata = {
+ 		.regbase	= AT91SAM9260_BASE_PIOC,
+ 	}
+ };
+-#endif
+ 
+ /* --------------------------------------------------------------------
+  *  AT91SAM9260 processor initialization
+@@ -350,10 +348,8 @@ static void __init at91sam9260_initialize(void)
+ 	at91_extern_irq = (1 << AT91SAM9260_ID_IRQ0) | (1 << AT91SAM9260_ID_IRQ1)
+ 			| (1 << AT91SAM9260_ID_IRQ2);
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ 	/* Register GPIO subsystem */
+ 	at91_gpio_init(at91sam9260_gpio, 3);
+-#endif
+ }
+ 
+ /* --------------------------------------------------------------------
+diff --git a/arch/arm/mach-at91/at91sam9261.c b/arch/arm/mach-at91/at91sam9261.c
+index 959a4f5..4d262f3 100644
+--- a/arch/arm/mach-at91/at91sam9261.c
++++ b/arch/arm/mach-at91/at91sam9261.c
+@@ -242,7 +242,6 @@ static void __init at91sam9261_register_clocks(void)
+ 	clk_register(&hck1);
+ }
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ /* --------------------------------------------------------------------
+  *  GPIO
+  * -------------------------------------------------------------------- */
+@@ -259,7 +258,6 @@ static struct at91_gpio_bank at91sam9261_gpio[] __initdata = {
+ 		.regbase	= AT91SAM9261_BASE_PIOC,
+ 	}
+ };
+-#endif
+ 
+ /* --------------------------------------------------------------------
+  *  AT91SAM9261 processor initialization
+@@ -290,10 +288,8 @@ static void __init at91sam9261_initialize(void)
+ 	at91_extern_irq = (1 << AT91SAM9261_ID_IRQ0) | (1 << AT91SAM9261_ID_IRQ1)
+ 			| (1 << AT91SAM9261_ID_IRQ2);
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ 	/* Register GPIO subsystem */
+ 	at91_gpio_init(at91sam9261_gpio, 3);
+-#endif
+ }
+ 
+ /* --------------------------------------------------------------------
+diff --git a/arch/arm/mach-at91/at91sam9263.c b/arch/arm/mach-at91/at91sam9263.c
+index 74e4d42..09ae108 100644
+--- a/arch/arm/mach-at91/at91sam9263.c
++++ b/arch/arm/mach-at91/at91sam9263.c
+@@ -275,7 +275,6 @@ static void __init at91sam9263_register_clocks(void)
+ 	clk_register(&pck3);
+ }
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ /* --------------------------------------------------------------------
+  *  GPIO
+  * -------------------------------------------------------------------- */
+@@ -298,7 +297,6 @@ static struct at91_gpio_bank at91sam9263_gpio[] __initdata = {
+ 		.regbase	= AT91SAM9263_BASE_PIOE,
+ 	}
+ };
+-#endif
+ 
+ /* --------------------------------------------------------------------
+  *  AT91SAM9263 processor initialization
+@@ -328,10 +326,8 @@ static void __init at91sam9263_initialize(void)
+ 	arm_pm_restart = at91sam9_alt_restart;
+ 	at91_extern_irq = (1 << AT91SAM9263_ID_IRQ0) | (1 << AT91SAM9263_ID_IRQ1);
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ 	/* Register GPIO subsystem */
+ 	at91_gpio_init(at91sam9263_gpio, 5);
+-#endif
+ }
+ 
+ /* --------------------------------------------------------------------
+diff --git a/arch/arm/mach-at91/at91sam9g45.c b/arch/arm/mach-at91/at91sam9g45.c
+index 02f718d..90edfd7 100644
+--- a/arch/arm/mach-at91/at91sam9g45.c
++++ b/arch/arm/mach-at91/at91sam9g45.c
+@@ -321,7 +321,6 @@ static void __init at91sam9g45_register_clocks(void)
+ 	clk_register(&pck1);
+ }
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ /* --------------------------------------------------------------------
+  *  GPIO
+  * -------------------------------------------------------------------- */
+@@ -344,7 +343,6 @@ static struct at91_gpio_bank at91sam9g45_gpio[] __initdata = {
+ 		.regbase	= AT91SAM9G45_BASE_PIOE,
+ 	}
+ };
+-#endif
+ 
+ /* --------------------------------------------------------------------
+  *  AT91SAM9G45 processor initialization
+@@ -373,10 +371,8 @@ static void __init at91sam9g45_initialize(void)
+ 	arm_pm_restart = at91sam9g45_restart;
+ 	at91_extern_irq = (1 << AT91SAM9G45_ID_IRQ0);
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ 	/* Register GPIO subsystem */
+ 	at91_gpio_init(at91sam9g45_gpio, 5);
+-#endif
+ }
+ 
+ /* --------------------------------------------------------------------
+diff --git a/arch/arm/mach-at91/at91sam9rl.c b/arch/arm/mach-at91/at91sam9rl.c
+index 5f4f43b..cbe72e4 100644
+--- a/arch/arm/mach-at91/at91sam9rl.c
++++ b/arch/arm/mach-at91/at91sam9rl.c
+@@ -235,7 +235,6 @@ static void __init at91sam9rl_register_clocks(void)
+ 	clk_register(&pck1);
+ }
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ /* --------------------------------------------------------------------
+  *  GPIO
+  * -------------------------------------------------------------------- */
+@@ -255,7 +254,6 @@ static struct at91_gpio_bank at91sam9rl_gpio[] __initdata = {
+ 		.regbase	= AT91SAM9RL_BASE_PIOD,
+ 	}
+ };
+-#endif
+ 
+ /* --------------------------------------------------------------------
+  *  AT91SAM9RL processor initialization
+@@ -294,10 +292,8 @@ static void __init at91sam9rl_initialize(void)
+ 	arm_pm_restart = at91sam9_alt_restart;
+ 	at91_extern_irq = (1 << AT91SAM9RL_ID_IRQ0);
+ 
+-#ifndef CONFIG_PINCTRL_AT91
+ 	/* Register GPIO subsystem */
+ 	at91_gpio_init(at91sam9rl_gpio, 4);
+-#endif
+ }
+ 
+ /* --------------------------------------------------------------------
+diff --git a/arch/arm/mach-at91/include/mach/gpio.h b/arch/arm/mach-at91/include/mach/gpio.h
+index eed465a..a64fb86 100644
+--- a/arch/arm/mach-at91/include/mach/gpio.h
++++ b/arch/arm/mach-at91/include/mach/gpio.h
+@@ -209,6 +209,14 @@ extern int at91_get_gpio_value(unsigned pin);
+ extern void at91_gpio_suspend(void);
+ extern void at91_gpio_resume(void);
+ 
++#ifdef CONFIG_PINCTRL_AT91
++void at91_pinctrl_gpio_suspend(void);
++void at91_pinctrl_gpio_resume(void);
++#else
++static inline void at91_pinctrl_gpio_suspend(void) {}
++static inline void at91_pinctrl_gpio_resume(void) {}
++#endif
++
+ #endif	/* __ASSEMBLY__ */
+ 
+ #endif
+diff --git a/arch/arm/mach-at91/pm.c b/arch/arm/mach-at91/pm.c
+index 2c2d865..0df2f79 100644
+--- a/arch/arm/mach-at91/pm.c
++++ b/arch/arm/mach-at91/pm.c
+@@ -200,7 +200,10 @@ extern u32 at91_slow_clock_sz;
+ 
+ static int at91_pm_enter(suspend_state_t state)
+ {
+-	at91_gpio_suspend();
++	if (of_have_populated_dt())
++		at91_pinctrl_gpio_suspend();
++	else
++		at91_gpio_suspend();
+ 	at91_irq_suspend();
+ 
+ 	pr_debug("AT91: PM - wake mask %08x, pm state %d\n",
+@@ -285,7 +288,10 @@ static int at91_pm_enter(suspend_state_t state)
+ error:
+ 	target_state = PM_SUSPEND_ON;
+ 	at91_irq_resume();
+-	at91_gpio_resume();
++	if (of_have_populated_dt())
++		at91_pinctrl_gpio_resume();
++	else
++		at91_gpio_resume();
+ 	return 0;
+ }
+ 
+diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
+index eea4f2c..9339d42 100644
+--- a/drivers/pinctrl/pinctrl-at91.c
++++ b/drivers/pinctrl/pinctrl-at91.c
+@@ -1305,12 +1305,17 @@ static int gpio_irq_set_wake(struct irq_data *d, unsigned state)
+ 	return 0;
+ }
+ 
+-void at91_gpio_suspend(void)
++void at91_pinctrl_gpio_suspend(void)
+ {
+ 	int i;
+ 
+ 	for (i = 0; i < gpio_banks; i++) {
+-		void __iomem	*pio = gpio_chips[i]->regbase;
++		void __iomem	*pio;
++
++		if (!gpio_chips[i])
++			continue;
++
++		pio = gpio_chips[i]->regbase;
+ 
+ 		backups[i] = __raw_readl(pio + PIO_IMR);
+ 		__raw_writel(backups[i], pio + PIO_IDR);
+@@ -1325,12 +1330,17 @@ void at91_gpio_suspend(void)
+ 	}
+ }
+ 
+-void at91_gpio_resume(void)
++void at91_pinctrl_gpio_resume(void)
+ {
+ 	int i;
+ 
+ 	for (i = 0; i < gpio_banks; i++) {
+-		void __iomem	*pio = gpio_chips[i]->regbase;
++		void __iomem	*pio;
++
++		if (!gpio_chips[i])
++			continue;
++
++		pio = gpio_chips[i]->regbase;
+ 
+ 		if (!wakeups[i]) {
+ 			if (clk_prepare(gpio_chips[i]->clock) == 0)
+-- 
+1.7.10.4
+

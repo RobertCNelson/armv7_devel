@@ -1,0 +1,80 @@
+From 8e81a2c8ef48293a2c1cfff2f2cf4ee57ccd39f1 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 21 Nov 2012 15:29:38 +0800
+Subject: [PATCH 133/308] MTD: at91: atmel_nand: since PMECC support different
+ ecc correctable bits(2, 4, 8, 12, 24), add code to
+ choose the ecc bits according to the ONFI
+ parameter's minimum required ecc_bits.
+
+we'll check the ecc_bits (minmum required ecc correct bits) in ONFI parameter.
+If ecc_bits is smaller compare with pmecc-cap in dtsi, then use ecc_bits. otherwise use pmecc-cap.
+
+for non-ONFI support nand flash, we assume its minimum ecc_bits is 1.
+---
+ drivers/mtd/nand/atmel_nand.c |   43 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index 5219bcb..13f4967 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -903,6 +903,44 @@ static void atmel_pmecc_core_init(struct mtd_info *mtd)
+ 	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_ENABLE);
+ }
+ 
++static int pmecc_choose_ecc_bits(int pre_ecc_bits, struct nand_chip *nand_chip)
++{
++	int ecc_bits = pre_ecc_bits;
++
++	if (nand_chip->onfi_version) {
++		pr_info("ONFI params, minimum required ECC: %d\n",
++				nand_chip->onfi_params.ecc_bits);
++		if (nand_chip->onfi_params.ecc_bits < ecc_bits)
++			ecc_bits = nand_chip->onfi_params.ecc_bits;
++	} else {
++		/* For non-ONFI support nand flash, we assume the software
++		 * ecc can work. That means the ecc_bits = 1.
++		 */
++		ecc_bits = 1;
++		pr_info("non-ONFI supported nand flash, assume minimum required ECC: 1\n");
++	}
++
++	if ((ecc_bits != 2) && (ecc_bits != 4) && (ecc_bits != 8) && (ecc_bits != 12) &&
++	    (ecc_bits != 24)) {
++		/* use the most fitable ecc bits (the near bigger one ) */
++		if (ecc_bits < 2)
++			return 2;
++		else if (ecc_bits < 4)
++			return 4;
++		else if (ecc_bits < 8)
++			return 8;
++		else if (ecc_bits < 12)
++			return 12;
++		else if (ecc_bits < 24)
++			return 24;
++		else
++			/* not support by our pmecc hw */
++			return pre_ecc_bits;
++	} else {
++		return ecc_bits;
++	}
++}
++
+ static int __init atmel_pmecc_nand_init_params(struct platform_device *pdev,
+ 					 struct atmel_nand_host *host)
+ {
+@@ -911,7 +949,10 @@ static int __init atmel_pmecc_nand_init_params(struct platform_device *pdev,
+ 	struct resource *regs, *regs_pmerr, *regs_rom;
+ 	int cap, sector_size, err_no;
+ 
+-	cap = host->pmecc_corr_cap;
++	/* set host->pmecc_corr_cap according to ONFI parameters */
++	cap = pmecc_choose_ecc_bits(host->pmecc_corr_cap, nand_chip);
++	host->pmecc_corr_cap = cap;
++
+ 	sector_size = host->pmecc_sector_size;
+ 	dev_info(host->dev, "Initialize PMECC params, cap: %d, sector: %d\n",
+ 		 cap, sector_size);
+-- 
+1.7.10.4
+

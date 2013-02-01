@@ -1,0 +1,69 @@
+From ae7f951500abd906359734ac8c4739ee9fb3f732 Mon Sep 17 00:00:00 2001
+From: Fabio Porcedda <fabio.porcedda@gmail.com>
+Date: Mon, 12 Nov 2012 08:37:26 +0000
+Subject: [PATCH 225/308] ARM: at91/dts: add at91sam9_wdt driver to
+ at91sam926x, at91sam9g45
+
+Tested on an at91sam9260 board (evk-pro3).
+
+Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
+---
+ arch/arm/boot/dts/at91sam9260.dtsi |    6 ++++++
+ arch/arm/boot/dts/at91sam9263.dtsi |    6 ++++++
+ arch/arm/boot/dts/at91sam9g45.dtsi |    6 ++++++
+ 3 files changed, 18 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
+index 8cce867..e1cb127 100644
+--- a/arch/arm/boot/dts/at91sam9260.dtsi
++++ b/arch/arm/boot/dts/at91sam9260.dtsi
+@@ -313,6 +313,12 @@
+ 				version = <2>;
+ 				status = "disabled";
+ 			};
++
++			watchdog@fffffd40 {
++				compatible = "atmel,at91sam9260-wdt";
++				reg = <0xfffffd40 0x10>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
+index 37d187e..c76f476 100644
+--- a/arch/arm/boot/dts/at91sam9263.dtsi
++++ b/arch/arm/boot/dts/at91sam9263.dtsi
+@@ -273,6 +273,12 @@
+ 				version = <2>;
+ 				status = "disabled";
+ 			};
++
++			watchdog@fffffd40 {
++				compatible = "atmel,at91sam9260-wdt";
++				reg = <0xfffffd40 0x10>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index 99014f6..b59cbc1 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -340,6 +340,12 @@
+ 				version = <2>;
+ 				status = "disabled";
+ 			};
++
++			watchdog@fffffd40 {
++				compatible = "atmel,at91sam9260-wdt";
++				reg = <0xfffffd40 0x10>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+-- 
+1.7.10.4
+

@@ -1,0 +1,93 @@
+From 97d4e2b0bc977b860919761d02afdadfad42df48 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 25 Jan 2013 15:52:43 +0800
+Subject: [PATCH 300/308] USB: gadget: atmel_usba_udc: fix bug when using
+ devm_kzalloc
+
+When build atmel_usba_udc as a module, insmod and rmmod, repeat serval
+times, it will come out following BUG info. Using this patch to fix.
+
+------------[ cut here ]------------
+kernel BUG at mm/slab.c:3231!
+Internal error: Oops - BUG: 0 [#1] ARM
+Modules linked in: atmel_usba_udc(+) [last unloaded: atmel_usba_udc]
+CPU: 0    Not tainted  (3.6.9+ #2)
+	PC is at cache_alloc_refill+0x124/0x5e0
+	LR is at __kmalloc+0xa4/0x104
+	pc : [<c006fcb0>]    lr : [<c0070210>]    psr: a0000093
+	sp : df19bd88  ip : 00000000  fp : df802288
+	r10: df802290  r9 : 000000d0  r8 : df3834c0
+	r7 : 0000000c  r6 : df802280  r5 : df8049c0  r4 : df800440
+	r3 : 00000002  r2 : fffffffd  r1 : 000000d0  r0 : df800440
+	Flags: NzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment user
+	Control: 10c53c7d  Table: 3eec8059  DAC: 00000015
+	Process insmod (pid: 899, stack limit = 0xdf19a2e8)
+	Stack: (0xdf19bd88 to 0xdf19c000)
+	bd80:                   dfae0f80 df8ccb40 c04ed4b0 00000001 c0161e20 dfae0600
+	bda0: dfae0600 00000000 00000000 df800440 000000d0 a0000013 0000002b df87d940
+	bdc0: 00000000 df87d95c c0929be4 c0070210 00000010 00000490 df8c2a08 00000000
+	bde0: 0000002b c0196ce8 bf01e140 df8c2a08 00000000 bf02027c 00000001 00000000
+	be00: df3a21c8 c04e60e0 c04e4e68 c00b9b54 df811d88 00000000 df83a4ac 00000000
+	be20: df8c1548 00000000 bf01e154 df8c2a08 df8c2a3c bf01e154 bf01e154 00000001
+	be40: 00000022 00000550 00000000 c0195d94 c0195d80 c0194bf0 00000000 df8c2a08
+	be60: df8c2a3c bf01e154 00000000 c0194d7c bf01e154 c0194d1c 00000000 c0193818
+	be80: df83a48c df87d8f0 bf01e154 deea2440 c04f1290 c0193ddc bf01e0b0 bf01e0b0
+	bea0: 00000073 bf01e154 bf020000 bf01e370 00000000 c0195370 00000000 bf01e140
+	bec0: bf020000 bf01e370 00000000 c01960d0 df19a000 bf01e328 bf020000 c0008604
+	bee0: c04e898c 00000001 bf01e328 00000001 bf01e370 bf01e328 00000001 bf01e370
+	bf00: deea5180 00000001 00000022 c0047154 bf01e334 00007fff c004514c 00000000
+	bf20: 00000000 00012008 e0fc5000 00004c12 e0fc7f18 e0fc7dc1 e0fc95a0 00002474
+	bf40: 000027a4 00000000 00000000 00000020 00000021 00000018 00000000 00000014
+	bf60: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 c000da04
+	bf80: dfadcc40 00000002 00004c12 be888f51 00000080 c000da04 df19a000 00000000
+	bfa0: 00000000 c000d8a0 00000002 00004c12 00012018 00004c12 00012008 b6f7b4c8
+	bfc0: 00000002 00004c12 be888f51 00000080 00000003 00000000 00008000 00000000
+	bfe0: b6f1ab60 be888ce8 00008b20 b6f1ab70 60000010 00012018 aaa2a80a 1a052212
+	[<c006fcb0>] (cache_alloc_refill+0x124/0x5e0) from [<c0070210>] (__kmalloc+0xa4/0x104)
+	[<c0070210>] (__kmalloc+0xa4/0x104) from [<c0196ce8>] (devm_kzalloc+0x18/0x5c)
+	[<c0196ce8>] (devm_kzalloc+0x18/0x5c) from [<bf02027c>] (usba_udc_probe+0x268/0x7b4 [atmel_usba_udc])
+	[<bf02027c>] (usba_udc_probe+0x268/0x7b4 [atmel_usba_udc]) from [<c0195d94>] (platform_drv_probe+0x14/0x18)
+	[<c0195d94>] (platform_drv_probe+0x14/0x18) from [<c0194bf0>] (driver_probe_device+0xb0/0x1dc)
+	[<c0194bf0>] (driver_probe_device+0xb0/0x1dc) from [<c0194d7c>] (__driver_attach+0x60/0x84)
+	[<c0194d7c>] (__driver_attach+0x60/0x84) from [<c0193818>] (bus_for_each_dev+0x48/0x74)
+	[<c0193818>] (bus_for_each_dev+0x48/0x74) from [<c0193ddc>] (bus_add_driver+0x9c/0x204)
+	[<c0193ddc>] (bus_add_driver+0x9c/0x204) from [<c0195370>] (driver_register+0xa0/0x138)
+	[<c0195370>] (driver_register+0xa0/0x138) from [<c01960d0>] (platform_driver_probe+0x18/0x68)
+	[<c01960d0>] (platform_driver_probe+0x18/0x68) from [<c0008604>] (do_one_initcall+0x98/0x168)
+	[<c0008604>] (do_one_initcall+0x98/0x168) from [<c0047154>] (sys_init_module+0xcb0/0xeec)
+	[<c0047154>] (sys_init_module+0xcb0/0xeec) from [<c000d8a0>] (ret_fast_syscall+0x0/0x30)
+	Code: e5982010 e5943018 e1520003 3a000017 (e7f001f2)
+	---[ end trace 7e70de80e29f791c ]---
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ drivers/usb/gadget/atmel_usba_udc.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/gadget/atmel_usba_udc.c b/drivers/usb/gadget/atmel_usba_udc.c
+index 22eaba6..87db333 100644
+--- a/drivers/usb/gadget/atmel_usba_udc.c
++++ b/drivers/usb/gadget/atmel_usba_udc.c
+@@ -1885,8 +1885,7 @@ static struct usba_ep *atmel_udc_of_init(struct platform_device *pdev,
+ 	while ((pp = of_get_next_child(np, pp)))
+ 		udc->num_ep++;
+ 
+-	eps = devm_kzalloc(&pdev->dev, sizeof(struct usba_ep) * udc->num_ep,
+-			   GFP_KERNEL);
++	eps = kzalloc(sizeof(struct usba_ep) * udc->num_ep, GFP_KERNEL);
+ 	if (!eps)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -1964,8 +1963,7 @@ static struct usba_ep * __devinit usba_udc_pdata(struct platform_device *pdev,
+ 	if (!pdata)
+ 		return ERR_PTR(-ENXIO);
+ 
+-	eps = devm_kzalloc(&pdev->dev, sizeof(struct usba_ep) * pdata->num_ep,
+-			   GFP_KERNEL);
++	eps = kzalloc(sizeof(struct usba_ep) * pdata->num_ep, GFP_KERNEL);
+ 	if (!eps)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-- 
+1.7.10.4
+

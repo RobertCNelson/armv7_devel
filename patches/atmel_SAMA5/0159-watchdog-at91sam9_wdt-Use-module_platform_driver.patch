@@ -1,0 +1,48 @@
+From 0d25c458c2843e433d36f4db8ed92d6b5c5639e0 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Tue, 13 Nov 2012 16:54:30 +0800
+Subject: [PATCH 159/308] watchdog/at91sam9_wdt: Use module_platform_driver()
+
+Using module_platform_driver() replaces module_init() and module_exit()
+and makes the code simpler.
+
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ drivers/watchdog/at91sam9_wdt.c |   14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/watchdog/at91sam9_wdt.c b/drivers/watchdog/at91sam9_wdt.c
+index 7ed3264..b79a045 100644
+--- a/drivers/watchdog/at91sam9_wdt.c
++++ b/drivers/watchdog/at91sam9_wdt.c
+@@ -270,6 +270,7 @@ MODULE_DEVICE_TABLE(of, at91_wdt_dt_ids);
+ #endif
+ 
+ static struct platform_driver at91wdt_driver = {
++	.probe		= at91wdt_probe,
+ 	.remove		= __exit_p(at91wdt_remove),
+ 	.driver		= {
+ 		.name	= "at91_wdt",
+@@ -278,18 +279,7 @@ static struct platform_driver at91wdt_driver = {
+ 	},
+ };
+ 
+-static int __init at91sam_wdt_init(void)
+-{
+-	return platform_driver_probe(&at91wdt_driver, at91wdt_probe);
+-}
+-
+-static void __exit at91sam_wdt_exit(void)
+-{
+-	platform_driver_unregister(&at91wdt_driver);
+-}
+-
+-module_init(at91sam_wdt_init);
+-module_exit(at91sam_wdt_exit);
++module_platform_driver(at91wdt_driver);
+ 
+ MODULE_AUTHOR("Renaud CERRATO <r.cerrato@til-technologies.fr>");
+ MODULE_DESCRIPTION("Watchdog driver for Atmel AT91SAM9x processors");
+-- 
+1.7.10.4
+

@@ -1,0 +1,56 @@
+From c582112955dd436920ef070a1c461f05aa9ac63d Mon Sep 17 00:00:00 2001
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Wed, 31 Oct 2012 06:04:59 +0000
+Subject: [PATCH 092/308] net/macb: add pinctrl consumer support
+
+If no pinctrl available just report a warning as some architecture may not
+need to do anything.
+
+Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+[nicolas.ferre@atmel.com: adapt the error path, remove unneeded headers]
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Tested-by: Joachim Eastwood <manabian@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+ drivers/net/ethernet/cadence/macb.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index c1f20b0..c374875 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -26,6 +26,7 @@
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/of_net.h>
++#include <linux/pinctrl/consumer.h>
+ 
+ #include "macb.h"
+ 
+@@ -1472,6 +1473,7 @@ static int __init macb_probe(struct platform_device *pdev)
+ 	struct phy_device *phydev;
+ 	u32 config;
+ 	int err = -ENXIO;
++	struct pinctrl *pinctrl;
+ 
+ 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!regs) {
+@@ -1479,6 +1481,15 @@ static int __init macb_probe(struct platform_device *pdev)
+ 		goto err_out;
+ 	}
+ 
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		err = PTR_ERR(pinctrl);
++		if (err == -EPROBE_DEFER)
++			goto err_out;
++
++		dev_warn(&pdev->dev, "No pinctrl provided\n");
++	}
++
+ 	err = -ENOMEM;
+ 	dev = alloc_etherdev(sizeof(*bp));
+ 	if (!dev)
+-- 
+1.7.10.4
+

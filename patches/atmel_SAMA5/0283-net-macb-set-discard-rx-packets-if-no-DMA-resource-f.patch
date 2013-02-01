@@ -1,0 +1,34 @@
+From 16f8af91c0757b3bebf783781cbab641d965216b Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 24 Jan 2013 12:33:29 +0100
+Subject: [PATCH 283/308] net/macb: set discard rx packets if no DMA resource
+ flag
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/net/ethernet/cadence/macb.c |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index 07fa8dc..f2b3cc1 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -1265,6 +1265,7 @@ static u32 macb_dbw(struct macb *bp)
+  * - set the possibility to use INCR16 bursts
+  *   (if not supported by FIFO, it will fallback to default)
+  * - set both rx/tx packet buffers to full memory size
++ * - set discard rx packets if no DMA resource
+  * These are configurable parameters for GEM.
+  */
+ static void macb_configure_dma(struct macb *bp)
+@@ -1276,6 +1277,7 @@ static void macb_configure_dma(struct macb *bp)
+ 		dmacfg |= GEM_BF(RXBS, bp->rx_buffer_size / RX_BUFFER_MULTIPLE);
+ 		dmacfg |= GEM_BF(FBLDO, 16);
+ 		dmacfg |= GEM_BIT(TXPBMS) | GEM_BF(RXBMS, -1L);
++		dmacfg |= GEM_BIT(DDRP);
+ 		gem_writel(bp, DMACFG, dmacfg);
+ 	}
+ }
+-- 
+1.7.10.4
+

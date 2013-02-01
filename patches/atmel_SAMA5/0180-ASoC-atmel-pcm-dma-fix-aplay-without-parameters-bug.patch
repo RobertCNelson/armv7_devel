@@ -1,0 +1,28 @@
+From 07fc3e56c72e28add78d3d5842cdcf946b443ed9 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 12 Dec 2012 11:33:30 +0800
+Subject: [PATCH 180/308] ASoC: atmel-pcm-dma: fix aplay without parameters
+ bug
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/atmel/atmel-pcm-dma.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/atmel/atmel-pcm-dma.c b/sound/soc/atmel/atmel-pcm-dma.c
+index 30184a4..d8b0222 100644
+--- a/sound/soc/atmel/atmel-pcm-dma.c
++++ b/sound/soc/atmel/atmel-pcm-dma.c
+@@ -201,7 +201,8 @@ static int atmel_pcm_open(struct snd_pcm_substream *substream)
+ 
+ static int atmel_pcm_close(struct snd_pcm_substream *substream)
+ {
+-	snd_dmaengine_pcm_close(substream);
++	if (substream->runtime->private_data)
++		snd_dmaengine_pcm_close(substream);
+ 
+ 	return 0;
+ }
+-- 
+1.7.10.4
+

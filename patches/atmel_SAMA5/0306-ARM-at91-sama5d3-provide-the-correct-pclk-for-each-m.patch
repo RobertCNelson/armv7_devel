@@ -1,0 +1,49 @@
+From 820f0fe81d01a497be6683bf7a395285eb5955bd Mon Sep 17 00:00:00 2001
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Tue, 29 Jan 2013 22:10:05 +0100
+Subject: [PATCH 306/308] ARM: at91: sama5d3: provide the correct pclk for
+ each macb/gmac
+
+today as we have possibily 2 clock named pclk we can knwown whick one is going
+to be requested by the macb. As the macb need 2 clock pclk and hclk.
+On at91 we just need one clock.
+So always provide the correct one.
+
+Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+---
+ arch/arm/mach-at91/sama5d3.c |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-at91/sama5d3.c b/arch/arm/mach-at91/sama5d3.c
+index 075edb6..9e8a949 100644
+--- a/arch/arm/mach-at91/sama5d3.c
++++ b/arch/arm/mach-at91/sama5d3.c
+@@ -167,13 +167,13 @@ static struct clk udphs_clk = {
+ };
+ /* gmac only for sama5d33, sama5d34, sama5d35 */
+ static struct clk macb0_clk = {
+-	.name		= "pclk",
++	.name		= "macb0_clk",
+ 	.pid		= SAMA5D3_ID_GMAC,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+ };
+ /* emac only for sama5d31, sama5d35 */
+ static struct clk macb1_clk = {
+-	.name		= "pclk",
++	.name		= "macb1_clk",
+ 	.pid		= SAMA5D3_ID_EMAC,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+ };
+@@ -317,7 +317,9 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("pclk", "500000.gadget", &udphs_clk),
+ 	CLKDEV_CON_DEV_ID("hclk", "500000.gadget", &utmi_clk),
+ 	CLKDEV_CON_DEV_ID("hclk", "f0028000.ethernet", &macb0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "f0028000.ethernet", &macb0_clk),
+ 	CLKDEV_CON_DEV_ID("hclk", "f802c000.ethernet", &macb1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "f802c000.ethernet", &macb1_clk),
+ 	CLKDEV_CON_DEV_ID("pclk", "f0008000.ssc", &ssc0_clk),
+ 	CLKDEV_CON_DEV_ID("pclk", "f000c000.ssc", &ssc1_clk),
+ 	CLKDEV_CON_DEV_ID("can_clk", "f000c000.can", &can0_clk),
+-- 
+1.7.10.4
+

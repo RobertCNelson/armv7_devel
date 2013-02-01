@@ -1,0 +1,49 @@
+From 228af4663741bca7cd297854f6440de88d634eb6 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 24 Jan 2013 12:35:41 +0100
+Subject: [PATCH 284/308] net/macb: RX_USED bit is managed in gem_rx_refill
+ function
+
+Simply give back RX descriptor to hardware when it has actually
+been refilled properly.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/net/ethernet/cadence/macb.c |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index f2b3cc1..7111f52 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -546,8 +546,7 @@ static void gem_rx_refill(struct macb *bp)
+ 		ctrl = desc->ctrl;
+ 		bp->rx_prepared_head++;
+ 
+-		if ((addr & MACB_BIT(RX_USED)))
+-			continue;
++		netdev_vdbg(bp->dev, "preparing for entry %d\n", entry);
+ 
+ 		if (bp->rx_skbuff[entry] == NULL) {
+ 			/* allocate sk_buff for this free entry in ring */
+@@ -571,6 +570,9 @@ static void gem_rx_refill(struct macb *bp)
+ 			/* properly align Ethernet header */
+ 			skb_reserve(skb, NET_IP_ALIGN);
+ 		}
++
++		/* give back the descriptor to HW */
++		desc->addr &= ~MACB_BIT(RX_USED);
+ 	}
+ 
+ 	/* Make descriptor updates visible to hardware */
+@@ -624,7 +626,6 @@ static int gem_rx(struct macb *bp, int budget)
+ 		if (!(addr & MACB_BIT(RX_USED)))
+ 			break;
+ 
+-		desc->addr &= ~MACB_BIT(RX_USED);
+ 		bp->rx_tail++;
+ 		count++;
+ 
+-- 
+1.7.10.4
+

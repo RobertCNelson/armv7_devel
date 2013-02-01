@@ -1,0 +1,44 @@
+From fcfa5ff42c0aa47e524ec96466d1cae7e4bfe089 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 21 Dec 2012 14:14:45 +0800
+Subject: [PATCH 267/308] ARM: at91/board-dt: fix return value in
+ i2c_camera_power() and fix typos.
+
+---
+ arch/arm/mach-at91/board-dt.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
+index 6bf585a..609af34 100644
+--- a/arch/arm/mach-at91/board-dt.c
++++ b/arch/arm/mach-at91/board-dt.c
+@@ -158,7 +158,7 @@ static int i2c_camera_power_revB(struct device *dev, int on)
+ 
+ 	res = devm_gpio_request(dev, AT91_PIN_PE28, "ov2640_reset");
+ 	if (res < 0) {
+-		printk("can't request ov2640_power pin\n");
++		printk("can't request ov2640_reset pin\n");
+ 		devm_gpio_free(dev, AT91_PIN_PE29);
+ 		return -1;
+ 	}
+@@ -210,7 +210,7 @@ static int i2c_camera_power(struct device *dev, int on)
+ 
+ 	res = devm_gpio_request(dev, AT91_PIN_PE24, "ov2640_reset");
+ 	if (res < 0) {
+-		printk("can't request ov2640_power pin\n");
++		printk("can't request ov2640_reset pin\n");
+ 		devm_gpio_free(dev, AT91_PIN_PE29);
+ 		return -1;
+ 	}
+@@ -245,7 +245,7 @@ static int i2c_camera_power(struct device *dev, int on)
+ out:
+ 	devm_gpio_free(dev, AT91_PIN_PE24);
+ 	devm_gpio_free(dev, AT91_PIN_PE29);
+-	return 0;
++	return ret;
+ }
+ 
+ static struct i2c_board_info i2c_camera = {
+-- 
+1.7.10.4
+

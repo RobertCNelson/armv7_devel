@@ -1,0 +1,89 @@
+From 6861be4e08db03bf082bb9cbfa90413ce87308fc Mon Sep 17 00:00:00 2001
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Tue, 29 Jan 2013 22:10:06 +0100
+Subject: [PATCH 307/308] ARM: at91: clock: add sama5 debugfs support
+
+Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+---
+ arch/arm/mach-at91/clock.c                 |   32 ++++++++++++++++++++--------
+ arch/arm/mach-at91/include/mach/at91_pmc.h |    3 +++
+ 2 files changed, 26 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm/mach-at91/clock.c b/arch/arm/mach-at91/clock.c
+index 61fe205..b17bf42 100644
+--- a/arch/arm/mach-at91/clock.c
++++ b/arch/arm/mach-at91/clock.c
+@@ -467,14 +467,18 @@ static void __init init_programmable_clock(struct clk *clk)
+ 
+ static int at91_clk_show(struct seq_file *s, void *unused)
+ {
+-	u32		scsr, pcsr, uckr = 0, sr;
++	u32		scsr, pcsr, pcsr1 = 0, uckr = 0, sr;
+ 	struct clk	*clk;
+ 
+ 	scsr = at91_pmc_read(AT91_PMC_SCSR);
+ 	pcsr = at91_pmc_read(AT91_PMC_PCSR);
++	if (cpu_is_sama5d3())
++		pcsr1 = at91_pmc_read(AT91_PMC_PCSR1);
+ 	sr = at91_pmc_read(AT91_PMC_SR);
+ 	seq_printf(s, "SCSR = %8x\n", scsr);
+ 	seq_printf(s, "PCSR = %8x\n", pcsr);
++	if (cpu_is_sama5d3())
++		seq_printf(s, "PCSR1 = %8x\n", pcsr1);
+ 	seq_printf(s, "MOR  = %8x\n", at91_pmc_read(AT91_CKGR_MOR));
+ 	seq_printf(s, "MCFR = %8x\n", at91_pmc_read(AT91_CKGR_MCFR));
+ 	seq_printf(s, "PLLA = %8x\n", at91_pmc_read(AT91_CKGR_PLLAR));
+@@ -494,20 +498,30 @@ static int at91_clk_show(struct seq_file *s, void *unused)
+ 	list_for_each_entry(clk, &clocks, node) {
+ 		char	*state;
+ 
+-		if (clk->mode == pmc_sys_mode)
++		if (clk->mode == pmc_sys_mode) {
+ 			state = (scsr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk->mode == pmc_periph_mode)
+-			state = (pcsr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk->mode == pmc_uckr_mode)
++		} else if (clk->mode == pmc_periph_mode) {
++			if (cpu_is_sama5d3()) {
++				u32 pmc_mask = 1 << (clk->pid % 32);
++
++				if (clk->pid > 31)
++					state = (pcsr1 & pmc_mask) ? "on" : "off";
++				else
++					state = (pcsr & pmc_mask) ? "on" : "off";
++			} else {
++				state = (pcsr & clk->pmc_mask) ? "on" : "off";
++			}
++		} else if (clk->mode == pmc_uckr_mode) {
+ 			state = (uckr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk->pmc_mask)
++		} else if (clk->pmc_mask) {
+ 			state = (sr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk == &clk32k || clk == &main_clk)
++		} else if (clk == &clk32k || clk == &main_clk) {
+ 			state = "on";
+-		else
++		} else {
+ 			state = "";
++		}
+ 
+-		seq_printf(s, "%-10s users=%2d %-3s %9ld Hz %s\n",
++		seq_printf(s, "%-10s users=%2d %-3s %9lu Hz %s\n",
+ 			clk->name, clk->users, state, clk_get_rate(clk),
+ 			clk->parent ? clk->parent->name : "");
+ 	}
+diff --git a/arch/arm/mach-at91/include/mach/at91_pmc.h b/arch/arm/mach-at91/include/mach/at91_pmc.h
+index a00e1c2..3beaa2b 100644
+--- a/arch/arm/mach-at91/include/mach/at91_pmc.h
++++ b/arch/arm/mach-at91/include/mach/at91_pmc.h
+@@ -177,4 +177,7 @@ extern void __iomem *at91_pmc_base;
+ #define			AT91_PMC_PCR_DIV8	0x3		/* Peripheral clock is MCK/8 */
+ #define		AT91_PMC_PCR_EN		(0x1  <<  28)		/* Enable */
+ 
++#define	AT91_PMC_PCER1		0x100			/* Peripheral Clock Enable Register 1 */
++#define	AT91_PMC_PCDR1		0x104			/* Peripheral Clock Disable Register 1 */
++#define	AT91_PMC_PCSR1		0x108			/* Peripheral Clock Status Register 1 */
+ #endif
+-- 
+1.7.10.4
+

@@ -1,0 +1,100 @@
+From 3c94c53691881c6072db384d56569b9a536d7cdf Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 16 Oct 2012 19:04:39 +0200
+Subject: [PATCH 207/308] ARM: at91: add new at91sam9g35ek.dts
+
+With LCD DT definition
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9g35ek.dts |   40 +++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi   |   15 +++++++++++++
+ arch/arm/mach-at91/Makefile.boot    |    1 +
+ 3 files changed, 56 insertions(+)
+ create mode 100644 arch/arm/boot/dts/at91sam9g35ek.dts
+
+diff --git a/arch/arm/boot/dts/at91sam9g35ek.dts b/arch/arm/boot/dts/at91sam9g35ek.dts
+new file mode 100644
+index 0000000..cb208f9
+--- /dev/null
++++ b/arch/arm/boot/dts/at91sam9g35ek.dts
+@@ -0,0 +1,40 @@
++/*
++ * at91sam9g35ek.dts - Device Tree file for AT91SAM9G35-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Nicolas Ferre <nicolas.ferre@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "at91sam9x5_common.dtsi"
++
++/ {
++	model = "Atmel AT91SAM9G35-EK";
++	compatible = "atmel,at91sam9g35ek", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 root=/dev/mtdblock1 rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			usart0: serial@f801c000 {
++				status = "okay";
++			};
++
++			macb0: ethernet@f802c000 {
++				phy-mode = "rmii";
++				status = "okay";
++			};
++
++			lcd@f8038000 {
++				status = "okay";
++			};
++
++			lcdovl1@f8038100 {
++				status = "okay";
++			};
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 32ca418..4d6721d 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -274,6 +274,21 @@
+ 				#size-cells = <0>;
+ 				dma = <&dma1 0x10002200>;
+ 			};
++
++			lcd@f8038000 {
++				compatible = "atmel,at91sam9x5-lcd";
++				reg = <0xf8038000 0xff
++				       0xf8038400 0x3ff>;
++				interrupts = <25 4 3>;
++				status = "disabled";
++			};
++
++			lcdovl1@f8038100 {
++				compatible = "atmel,at91sam9x5-lcd";
++				reg = <0xf8038100 0xff
++				       0xf8038800 0x3ff>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/mach-at91/Makefile.boot b/arch/arm/mach-at91/Makefile.boot
+index 2df4e91..558ab65 100644
+--- a/arch/arm/mach-at91/Makefile.boot
++++ b/arch/arm/mach-at91/Makefile.boot
+@@ -36,4 +36,5 @@ dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9m10g45ek.dtb
+ dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9n12ek.dtb
+ # sam9x5
+ dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9g25ek.dtb
++dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9g35ek.dtb
+ dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9x25ek.dtb
+-- 
+1.7.10.4
+

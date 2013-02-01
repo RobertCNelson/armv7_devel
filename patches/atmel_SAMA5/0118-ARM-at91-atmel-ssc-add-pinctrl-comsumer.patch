@@ -1,0 +1,41 @@
+From 4d1a2822f51ad686463627246046f59cbc838875 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 12 Nov 2012 14:52:21 +0800
+Subject: [PATCH 118/308] ARM: at91: atmel-ssc: add pinctrl comsumer
+
+Add pinctrl support for atmel ssc peripheral
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ drivers/misc/atmel-ssc.c |    8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index d07a9ed..422f0c4 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -19,6 +19,7 @@
+ #include <linux/module.h>
+ 
+ #include <linux/of.h>
++#include <linux/pinctrl/consumer.h>
+ 
+ /* Serialize access to ssc_list and user count */
+ static DEFINE_SPINLOCK(user_lock);
+@@ -131,6 +132,13 @@ static int ssc_probe(struct platform_device *pdev)
+ 	struct resource *regs;
+ 	struct ssc_device *ssc;
+ 	const struct atmel_ssc_platform_data *plat_dat;
++	struct pinctrl *pinctrl;
++
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		return PTR_ERR(pinctrl);
++	}
+ 
+ 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+ 	if (!ssc) {
+-- 
+1.7.10.4
+

@@ -1,0 +1,90 @@
+From 41cae9916e79113936af45171c0fc5565e2a1b59 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 6 Nov 2012 13:57:51 +0800
+Subject: [PATCH 112/308] ARM: at91: atmel-ssc: add platform device id table
+
+Add platform device id to check whether the SSC controller support
+pdc or dam for data transfer
+
+If match "at91rm9200_ssc", which support pdc for data transfer
+If match "at91sam9g45_ssc", which support dma for data transfer
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
+---
+ drivers/misc/atmel-ssc.c  |   23 +++++++++++++++++++++++
+ include/linux/atmel-ssc.h |    5 +++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index ac00f83..f40abd8 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -68,6 +68,26 @@ void ssc_free(struct ssc_device *ssc)
+ }
+ EXPORT_SYMBOL(ssc_free);
+ 
++static struct atmel_ssc_platform_data at91rm9200_config = {
++	.use_dma = 0,
++};
++
++static struct atmel_ssc_platform_data at91sam9g45_config = {
++	.use_dma = 1,
++};
++
++static const struct platform_device_id atmel_ssc_devtypes[] = {
++	{
++		.name = "at91rm9200_ssc",
++		.driver_data = (unsigned long) &at91rm9200_config,
++	}, {
++		.name = "at91sam9g45_ssc",
++		.driver_data = (unsigned long) &at91sam9g45_config,
++	}, {
++		/* sentinel */
++	}
++};
++
+ static int ssc_probe(struct platform_device *pdev)
+ {
+ 	struct resource *regs;
+@@ -80,6 +100,8 @@ static int ssc_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ssc->pdev = pdev;
++	ssc->pdata = (struct atmel_ssc_platform_data *)
++			platform_get_device_id(pdev)->driver_data;
+ 
+ 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!regs) {
+@@ -139,6 +161,7 @@ static struct platform_driver ssc_driver = {
+ 		.name		= "ssc",
+ 		.owner		= THIS_MODULE,
+ 	},
++	.id_table	= atmel_ssc_devtypes,
+ 	.probe		= ssc_probe,
+ 	.remove		= __devexit_p(ssc_remove),
+ };
+diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
+index 4eb3175..1ca0e32 100644
+--- a/include/linux/atmel-ssc.h
++++ b/include/linux/atmel-ssc.h
+@@ -5,10 +5,15 @@
+ #include <linux/list.h>
+ #include <linux/io.h>
+ 
++struct atmel_ssc_platform_data {
++	int			use_dma;
++};
++
+ struct ssc_device {
+ 	struct list_head	list;
+ 	void __iomem		*regs;
+ 	struct platform_device	*pdev;
++	struct atmel_ssc_platform_data *pdata;
+ 	struct clk		*clk;
+ 	int			user;
+ 	int			irq;
+-- 
+1.7.10.4
+

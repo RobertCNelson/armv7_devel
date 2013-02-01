@@ -1,0 +1,50 @@
+From b258c77f09a21ca7596c763f23b8473d23c8c622 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 20 Dec 2012 14:07:42 +0100
+Subject: [PATCH 265/308] ARM: at91/dts: add pinctrl to EMAC ethernet
+ interface
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 644efb0..5dd1900 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -390,6 +390,8 @@
+ 				compatible = "cdns,at32ap7000-macb", "cdns,macb";
+ 				reg = <0xf802c000 0x100>;
+ 				interrupts = <35 4 3>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_macb1_rmii>;
+ 				status = "disabled";
+ 			};
+ 
+@@ -698,6 +700,22 @@
+ 
+ 				};
+ 
++				macb1 {
++					pinctrl_macb1_rmii: macb1_rmii-0 {
++						atmel,pins =
++							<2 0 0x1 0x0	/* PC0 periph A TX0   */
++							 2 1 0x1 0x0	/* PC1 periph A TX1   */
++							 2 2 0x1 0x0	/* PC2 periph A RX0   */
++							 2 3 0x1 0x0	/* PC3 periph A RX1   */
++							 2 4 0x1 0x0	/* PC4 periph A TXEN  */
++							 2 5 0x1 0x0	/* PC5 periph A CRSDV */
++							 2 6 0x1 0x0	/* PC6 periph A RXER  */
++							 2 7 0x1 0x0	/* PC7 periph A REFCK */
++							 2 8 0x1 0x0	/* PC8 periph A MDC   */
++							 2 9 0x1 0x0>;	/* PC9 periph A MDIO  */
++					};
++				};
++
+ 				mmc0 {
+ 					pinctrl_mmc0_clk_cmd_dat0: mmc0_clk_cmd_dat0 {
+ 						atmel,pins =
+-- 
+1.7.10.4
+

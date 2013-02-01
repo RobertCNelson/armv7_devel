@@ -1,0 +1,30 @@
+From 8b187168a25f87eda5d985ea8290af2371891717 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Wed, 31 Oct 2012 06:04:54 +0000
+Subject: [PATCH 087/308] net/macb: tx status is more than 8 bits now
+
+On some revision of GEM, TSR status register has more information.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Tested-by: Joachim Eastwood <manabian@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+ drivers/net/ethernet/cadence/macb.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
+index 4db52f3..cd6d431 100644
+--- a/drivers/net/ethernet/cadence/macb.c
++++ b/drivers/net/ethernet/cadence/macb.c
+@@ -314,7 +314,7 @@ static void macb_tx(struct macb *bp)
+ 	status = macb_readl(bp, TSR);
+ 	macb_writel(bp, TSR, status);
+ 
+-	netdev_vdbg(bp->dev, "macb_tx status = %02lx\n", (unsigned long)status);
++	netdev_vdbg(bp->dev, "macb_tx status = 0x%03lx\n", (unsigned long)status);
+ 
+ 	if (status & (MACB_BIT(UND) | MACB_BIT(TSR_RLE))) {
+ 		int i;
+-- 
+1.7.10.4
+

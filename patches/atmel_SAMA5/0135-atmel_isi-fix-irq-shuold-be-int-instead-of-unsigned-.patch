@@ -1,0 +1,36 @@
+From 6ffe08ba837d35d4ab5c9c5228160a41725af46c Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 28 Nov 2012 18:28:35 +0800
+Subject: [PATCH 135/308] atmel_isi: fix: irq shuold be int instead of
+ unsigned int. otherwise it cannot less than 0.
+ which indicates the irq cannot be requested.
+
+---
+ drivers/media/video/atmel-isi.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/video/atmel-isi.c b/drivers/media/video/atmel-isi.c
+index 610bf28..5192c12 100644
+--- a/drivers/media/video/atmel-isi.c
++++ b/drivers/media/video/atmel-isi.c
+@@ -95,7 +95,7 @@ struct atmel_isi {
+ 	struct clk			*pclk;
+ 	/* ISI_MCK, feed to camera sensor to generate pixel clock */
+ 	struct clk			*mck;
+-	unsigned int			irq;
++	int				irq;
+ 
+ 	struct isi_platform_data	*pdata;
+ 	u16				width_flags;	/* max 12 bits */
+@@ -932,7 +932,7 @@ static int __devexit atmel_isi_remove(struct platform_device *pdev)
+ 
+ static int __devinit atmel_isi_probe(struct platform_device *pdev)
+ {
+-	unsigned int irq;
++	int irq;
+ 	struct atmel_isi *isi;
+ 	struct clk *pclk;
+ 	struct resource *regs;
+-- 
+1.7.10.4
+

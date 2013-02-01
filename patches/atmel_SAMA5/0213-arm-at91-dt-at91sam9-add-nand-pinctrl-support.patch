@@ -1,0 +1,158 @@
+From f4ae043e031e6a2f0415e725883d079ed0a9b4ee Mon Sep 17 00:00:00 2001
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Thu, 12 Jul 2012 23:36:52 +0800
+Subject: [PATCH 213/308] arm: at91: dt: at91sam9 add nand pinctrl support
+
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+---
+ arch/arm/boot/dts/at91sam9260.dtsi |   10 ++++++++++
+ arch/arm/boot/dts/at91sam9263.dtsi |   10 ++++++++++
+ arch/arm/boot/dts/at91sam9g45.dtsi |   10 ++++++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi |   10 ++++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  |   10 ++++++++++
+ 5 files changed, 50 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
+index b3427ab..947dd61 100644
+--- a/arch/arm/boot/dts/at91sam9260.dtsi
++++ b/arch/arm/boot/dts/at91sam9260.dtsi
+@@ -113,6 +113,14 @@
+ 
+ 				/* shared pinctrl settings */
+ 
++				nand {
++					pinctrl_nand: nand-0 {
++						atmel,pins =
++							<2 13 0x0 0x1	/* PC13 gpio RDY pin pull_up */
++							 2 14 0x0 0x1>;	/* PC14 gpio enable pin pull_up */
++					};
++				};
++
+ 				pioA: gpio@fffff400 {
+ 					compatible = "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff400 0x200>;
+@@ -282,6 +290,8 @@
+ 			      >;
+ 			atmel,nand-addr-offset = <21>;
+ 			atmel,nand-cmd-offset = <22>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_nand>;
+ 			gpios = <&pioC 13 0
+ 				 &pioC 14 0
+ 				 0
+diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
+index d7f416d..5aa07e4 100644
+--- a/arch/arm/boot/dts/at91sam9263.dtsi
++++ b/arch/arm/boot/dts/at91sam9263.dtsi
+@@ -106,6 +106,14 @@
+ 
+ 				/* shared pinctrl settings */
+ 
++				nand {
++					pinctrl_nand: nand-0 {
++						atmel,pins =
++							<0 22 0x0 0x1	/* PA22 gpio RDY pin pull_up*/
++							 3 15 0x0 0x1>;	/* PD15 gpio enable pin pull_up */
++					};
++				};
++
+ 				pioA: gpio@fffff200 {
+ 					compatible = "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff200 0x200>;
+@@ -242,6 +250,8 @@
+ 			      >;
+ 			atmel,nand-addr-offset = <21>;
+ 			atmel,nand-cmd-offset = <22>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_nand>;
+ 			gpios = <&pioA 22 0
+ 				 &pioD 15 0
+ 				 0
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index a7e56d7..6549769 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -125,6 +125,14 @@
+ 
+ 				/* shared pinctrl settings */
+ 
++				nand {
++					pinctrl_nand: nand-0 {
++						atmel,pins =
++							<2 8 0x0 0x1	/* PC8 gpio RDY pin pull_up*/
++							 2 14 0x0 0x1>;	/* PC14 gpio enable pin pull_up */
++					};
++				};
++
+ 				pioA: gpio@fffff200 {
+ 					compatible = "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff200 0x200>;
+@@ -309,6 +317,8 @@
+ 			      >;
+ 			atmel,nand-addr-offset = <21>;
+ 			atmel,nand-cmd-offset = <22>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_nand>;
+ 			gpios = <&pioC 8 0
+ 				 &pioC 14 0
+ 				 0
+diff --git a/arch/arm/boot/dts/at91sam9n12.dtsi b/arch/arm/boot/dts/at91sam9n12.dtsi
+index 060096b..0a54d3b 100644
+--- a/arch/arm/boot/dts/at91sam9n12.dtsi
++++ b/arch/arm/boot/dts/at91sam9n12.dtsi
+@@ -127,6 +127,14 @@
+ 
+ 				/* shared pinctrl settings */
+ 
++				nand {
++					pinctrl_nand: nand-0 {
++						atmel,pins =
++							<3 5 0x0 0x1	/* PD5 gpio RDY pin pull_up*/
++							 3 4 0x0 0x1>;	/* PD4 gpio enable pin pull_up */
++					};
++				};
++
+ 				pioA: gpio@fffff400 {
+ 					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff400 0x200>;
+@@ -241,6 +249,8 @@
+ 			       >;
+ 			atmel,nand-addr-offset = <21>;
+ 			atmel,nand-cmd-offset = <22>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_nand>;
+ 			gpios = <&pioD 5 0
+ 				 &pioD 4 0
+ 				 0
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 34fd3cc..b73513e 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -129,6 +129,14 @@
+ 
+ 				/* shared pinctrl settings */
+ 
++				nand {
++					pinctrl_nand: nand-0 {
++						atmel,pins =
++							<3 4 0x0 0x1	/* PD5 gpio RDY pin pull_up */
++							 3 5 0x0 0x1>;	/* PD4 gpio enable pin pull_up */
++					};
++				};
++
+ 				pioA: gpio@fffff400 {
+ 					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff400 0x200>;
+@@ -343,6 +351,8 @@
+ 			atmel,pmecc-lookup-table-offset = <0x8000 0x10000>;
+ 			atmel,nand-addr-offset = <21>;
+ 			atmel,nand-cmd-offset = <22>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_nand>;
+ 			gpios = <&pioD 5 0
+ 				 &pioD 4 0
+ 				 0
+-- 
+1.7.10.4
+

@@ -1,0 +1,33 @@
+From 1f81ba2739789e5bd4d9ca41324dc2076c327709 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 26 Nov 2012 16:42:19 +0800
+Subject: [PATCH 253/308] ARM: sama5d3: add dma property to ssc nodes
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index db737dd..d4233f5 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -94,6 +94,7 @@
+ 				interrupts = <38 4 4>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
++				dma = <&dma0 0x100022de>;
+ 				status = "disabled";
+ 			};
+ 
+@@ -263,6 +264,7 @@
+ 				interrupts = <39 4 4>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_ssc1_tx &pinctrl_ssc1_rx>;
++				dma = <&dma1 0x10002234>;
+ 				status = "disabled";
+ 			};
+ 
+-- 
+1.7.10.4
+

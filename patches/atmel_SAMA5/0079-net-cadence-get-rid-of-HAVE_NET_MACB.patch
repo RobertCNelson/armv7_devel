@@ -1,0 +1,93 @@
+From 531c4a0a7287a256849605ad2a8b7dd6c533ff95 Mon Sep 17 00:00:00 2001
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Mon, 22 Oct 2012 08:45:32 +0000
+Subject: [PATCH 079/308] net/cadence: get rid of HAVE_NET_MACB
+
+macb is a platform driver and there is nothing that prevents
+this driver from being built on non-ARM/AVR32 platforms.
+
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+ arch/arm/mach-at91/Kconfig           |    4 ----
+ arch/avr32/Kconfig                   |    1 -
+ drivers/net/ethernet/cadence/Kconfig |    5 -----
+ 3 files changed, 10 deletions(-)
+
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 6eec007..e64acc4 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -40,7 +40,6 @@ config SOC_AT91SAM9260
+ 	bool "AT91SAM9260, AT91SAM9XE or AT91SAM9G20"
+ 	select SOC_AT91SAM9
+ 	select HAVE_AT91_DBGU0
+-	select HAVE_NET_MACB
+ 	help
+ 	  Select this if you are using one of Atmel's AT91SAM9260, AT91SAM9XE
+ 	  or AT91SAM9G20 SoC.
+@@ -58,7 +57,6 @@ config SOC_AT91SAM9263
+ 	select SOC_AT91SAM9
+ 	select HAVE_AT91_DBGU1
+ 	select HAVE_FB_ATMEL
+-	select HAVE_NET_MACB
+ 
+ config SOC_AT91SAM9RL
+ 	bool "AT91SAM9RL"
+@@ -71,7 +69,6 @@ config SOC_AT91SAM9G45
+ 	select SOC_AT91SAM9
+ 	select HAVE_AT91_DBGU1
+ 	select HAVE_FB_ATMEL
+-	select HAVE_NET_MACB
+ 	help
+ 	  Select this if you are using one of Atmel's AT91SAM9G45 family SoC.
+ 	  This support covers AT91SAM9G45, AT91SAM9G46, AT91SAM9M10 and AT91SAM9M11.
+@@ -81,7 +78,6 @@ config SOC_AT91SAM9X5
+ 	select SOC_AT91SAM9
+ 	select HAVE_AT91_DBGU0
+ 	select HAVE_FB_ATMEL
+-	select HAVE_NET_MACB
+ 	help
+ 	  Select this if you are using one of Atmel's AT91SAM9x5 family SoC.
+ 	  This means that your SAM9 name finishes with a '5' (except if it is
+diff --git a/arch/avr32/Kconfig b/arch/avr32/Kconfig
+index 5ade51c..9aa948b 100644
+--- a/arch/avr32/Kconfig
++++ b/arch/avr32/Kconfig
+@@ -78,7 +78,6 @@ config PLATFORM_AT32AP
+ 	select ARCH_REQUIRE_GPIOLIB
+ 	select GENERIC_ALLOCATOR
+ 	select HAVE_FB_ATMEL
+-	select HAVE_NET_MACB
+ 
+ #
+ # CPU types
+diff --git a/drivers/net/ethernet/cadence/Kconfig b/drivers/net/ethernet/cadence/Kconfig
+index 57f78abe..5d1ea30 100644
+--- a/drivers/net/ethernet/cadence/Kconfig
++++ b/drivers/net/ethernet/cadence/Kconfig
+@@ -2,13 +2,9 @@
+ # Atmel device configuration
+ #
+ 
+-config HAVE_NET_MACB
+-	bool
+-
+ config NET_CADENCE
+ 	bool "Cadence devices"
+ 	default y
+-	depends on HAVE_NET_MACB || (ARM && ARCH_AT91RM9200)
+ 	---help---
+ 	  If you have a network (Ethernet) card belonging to this class, say Y.
+ 	  Make sure you know the name of your card. Read the Ethernet-HOWTO,
+@@ -34,7 +30,6 @@ config ARM_AT91_ETHER
+ 
+ config MACB
+ 	tristate "Cadence MACB/GEM support"
+-	depends on HAVE_NET_MACB
+ 	select PHYLIB
+ 	---help---
+ 	  The Cadence MACB ethernet interface is found on many Atmel AT32 and
+-- 
+1.7.10.4
+

@@ -1,0 +1,218 @@
+From 1b1cac3916f851a65e5fcd149a09b1940d3e6787 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Wed, 12 Sep 2012 08:42:16 +0200
+Subject: [PATCH 210/308] ARM: dts: add twi nodes for atmel SoCs
+
+Add TWI nodes for atmel SoCs but keep i2c-gpio ones in order to let the
+choice to the user in dts files.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
+---
+ arch/arm/boot/dts/at91sam9260.dtsi |   10 ++++++++++
+ arch/arm/boot/dts/at91sam9263.dtsi |   10 ++++++++++
+ arch/arm/boot/dts/at91sam9g20.dtsi |    4 ++++
+ arch/arm/boot/dts/at91sam9g45.dtsi |   20 ++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi |   20 ++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  |   30 ++++++++++++++++++++++++++++++
+ 6 files changed, 94 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
+index 2fa5791..b3427ab 100644
+--- a/arch/arm/boot/dts/at91sam9260.dtsi
++++ b/arch/arm/boot/dts/at91sam9260.dtsi
+@@ -28,6 +28,7 @@
+ 		gpio2 = &pioC;
+ 		tcb0 = &tcb0;
+ 		tcb1 = &tcb1;
++		i2c0 = &i2c0;
+ 	};
+ 	cpus {
+ 		cpu@0 {
+@@ -218,6 +219,15 @@
+ 				status = "disabled";
+ 			};
+ 
++			i2c0: i2c@fffac000 {
++				compatible = "atmel,at91sam9260-i2c";
++				reg = <0xfffac000 0x100>;
++				interrupts = <11 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
+ 			adc0: adc@fffe0000 {
+ 				compatible = "atmel,at91sam9260-adc";
+ 				reg = <0xfffe0000 0x100>;
+diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
+index d7adee3..d7f416d 100644
+--- a/arch/arm/boot/dts/at91sam9263.dtsi
++++ b/arch/arm/boot/dts/at91sam9263.dtsi
+@@ -24,6 +24,7 @@
+ 		gpio3 = &pioD;
+ 		gpio4 = &pioE;
+ 		tcb0 = &tcb0;
++		i2c0 = &i2c0;
+ 	};
+ 	cpus {
+ 		cpu@0 {
+@@ -221,6 +222,15 @@
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 			};
++
++			i2c0: i2c@fff88000 {
++				compatible = "atmel,at91sam9263-i2c";
++				reg = <0xfff88000 0x100>;
++				interrupts = <13 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9g20.dtsi b/arch/arm/boot/dts/at91sam9g20.dtsi
+index 2a1d1ca..75ce6e7 100644
+--- a/arch/arm/boot/dts/at91sam9g20.dtsi
++++ b/arch/arm/boot/dts/at91sam9g20.dtsi
+@@ -18,6 +18,10 @@
+ 
+ 	ahb {
+ 		apb {
++			i2c0: i2c@fffac000 {
++				compatible = "atmel,at91sam9g20-i2c";
++			};
++
+ 			adc0: adc@fffe0000 {
+ 				atmel,adc-startup-time = <40>;
+ 			};
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index ba81261..a7e56d7 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -29,6 +29,8 @@
+ 		gpio4 = &pioE;
+ 		tcb0 = &tcb0;
+ 		tcb1 = &tcb1;
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
+ 	};
+ 	cpus {
+ 		cpu@0 {
+@@ -224,6 +226,24 @@
+ 				status = "disabled";
+ 			};
+ 
++			i2c0: i2c@fff84000 {
++				compatible = "atmel,at91sam9g10-i2c";
++				reg = <0xfff84000 0x100>;
++				interrupts = <12 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i2c1: i2c@fff88000 {
++				compatible = "atmel,at91sam9g10-i2c";
++				reg = <0xfff88000 0x100>;
++				interrupts = <13 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
+ 			adc0: adc@fffb0000 {
+ 				compatible = "atmel,at91sam9260-adc";
+ 				reg = <0xfffb0000 0x100>;
+diff --git a/arch/arm/boot/dts/at91sam9n12.dtsi b/arch/arm/boot/dts/at91sam9n12.dtsi
+index b59c499..060096b 100644
+--- a/arch/arm/boot/dts/at91sam9n12.dtsi
++++ b/arch/arm/boot/dts/at91sam9n12.dtsi
+@@ -26,6 +26,8 @@
+ 		gpio3 = &pioD;
+ 		tcb0 = &tcb0;
+ 		tcb1 = &tcb1;
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
+ 	};
+ 	cpus {
+ 		cpu@0 {
+@@ -208,6 +210,24 @@
+ 				atmel,use-dma-tx;
+ 				status = "disabled";
+ 			};
++
++			i2c0: i2c@f8010000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf8010000 0x100>;
++				interrupts = <9 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i2c1: i2c@f8014000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf8014000 0x100>;
++				interrupts = <10 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index fadd73b..019b5be 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -27,6 +27,9 @@
+ 		gpio3 = &pioD;
+ 		tcb0 = &tcb0;
+ 		tcb1 = &tcb1;
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c2 = &i2c2;
+ 	};
+ 	cpus {
+ 		cpu@0 {
+@@ -217,6 +220,33 @@
+ 				status = "disabled";
+ 			};
+ 
++			i2c0: i2c@f8010000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf8010000 0x100>;
++				interrupts = <9 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i2c1: i2c@f8014000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf8014000 0x100>;
++				interrupts = <10 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i2c2: i2c@f8018000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf8018000 0x100>;
++				interrupts = <11 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
+ 			adc0: adc@f804c000 {
+ 				compatible = "atmel,at91sam9260-adc";
+ 				reg = <0xf804c000 0x100>;
+-- 
+1.7.10.4
+

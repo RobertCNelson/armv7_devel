@@ -1,0 +1,60 @@
+From 29dba0a1d146e6a6da6ff35ec982671a724c52dc Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Fri, 25 Jan 2013 10:25:11 +0100
+Subject: [PATCH 301/308] SAMA5: update defconfig file
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/configs/sama5d3_defconfig |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/configs/sama5d3_defconfig b/arch/arm/configs/sama5d3_defconfig
+index aeff4e8..0b5afca 100644
+--- a/arch/arm/configs/sama5d3_defconfig
++++ b/arch/arm/configs/sama5d3_defconfig
+@@ -7,7 +7,6 @@ CONFIG_LOG_BUF_SHIFT=14
+ CONFIG_SYSFS_DEPRECATED=y
+ CONFIG_SYSFS_DEPRECATED_V2=y
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+ CONFIG_EMBEDDED=y
+ CONFIG_SLAB=y
+ CONFIG_MODULES=y
+@@ -31,7 +30,8 @@ CONFIG_UACCESS_WITH_MEMCPY=y
+ CONFIG_ZBOOT_ROM_TEXT=0x0
+ CONFIG_ZBOOT_ROM_BSS=0x0
+ CONFIG_ARM_APPENDED_DTB=y
+-CONFIG_CMDLINE="mem=128M console=ttyS0,115200 initrd=0x71100000,25165824 root=/dev/ram0 rw"
++CONFIG_CMDLINE="console=ttyS0,115200 initrd=0x21100000,25165824 root=/dev/ram0 rw"
++CONFIG_AUTO_ZRELADDR=y
+ CONFIG_VFP=y
+ # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
+ CONFIG_PM_RUNTIME=y
+@@ -46,6 +46,7 @@ CONFIG_IP_PNP=y
+ # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
+ # CONFIG_INET_XFRM_MODE_TUNNEL is not set
+ # CONFIG_INET_XFRM_MODE_BEET is not set
++# CONFIG_INET_LRO is not set
+ # CONFIG_INET_DIAG is not set
+ CONFIG_IPV6=y
+ # CONFIG_INET6_XFRM_MODE_TRANSPORT is not set
+@@ -86,7 +87,7 @@ CONFIG_SCSI_MULTI_LUN=y
+ # CONFIG_SCSI_LOWLEVEL is not set
+ CONFIG_NETDEVICES=y
+ CONFIG_MII=y
+-CONFIG_ARM_AT91_ETHER=y
++CONFIG_MACB=y
+ # CONFIG_NET_VENDOR_BROADCOM is not set
+ # CONFIG_NET_VENDOR_CHELSIO is not set
+ # CONFIG_NET_VENDOR_CIRRUS is not set
+@@ -94,6 +95,7 @@ CONFIG_ARM_AT91_ETHER=y
+ # CONFIG_NET_VENDOR_INTEL is not set
+ # CONFIG_NET_VENDOR_MARVELL is not set
+ # CONFIG_NET_VENDOR_MICREL is not set
++# CONFIG_NET_VENDOR_MICROCHIP is not set
+ # CONFIG_NET_VENDOR_NATSEMI is not set
+ # CONFIG_NET_VENDOR_SEEQ is not set
+ # CONFIG_NET_VENDOR_SMSC is not set
+-- 
+1.7.10.4
+

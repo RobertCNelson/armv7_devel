@@ -19,18 +19,18 @@ fi
 
 CCACHE=ccache
 
-config="multi_v7_defconfig"
+config="sama5d3_defconfig"
 
 #Kernel/Build
-KERNEL_REL=3.8
-KERNEL_TAG=${KERNEL_REL}-rc6
-BUILD=armv7-d0
+KERNEL_REL=3.6
+KERNEL_TAG=${KERNEL_REL}.9
+BUILD=sama5-armv7-d0
 
 #v3.X-rcX + upto SHA
 #KERNEL_SHA=""
 
 #git branch
-#BRANCH="v3.8.x-armv7"
+BRANCH="v3.6.x-sama5-armv7"
 
 BUILDREV=1.0
 DISTRO=cross

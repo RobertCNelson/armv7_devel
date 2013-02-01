@@ -1,0 +1,33 @@
+From 8c9ae0506481e3a3693e2e635a2436886bbeab42 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Thu, 24 Jan 2013 15:11:12 +0100
+Subject: [PATCH 291/308] Input: qt1070 becomes a wakeup source
+
+Set qt1070 as a wakeup source.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/input/keyboard/qt1070.c |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/input/keyboard/qt1070.c b/drivers/input/keyboard/qt1070.c
+index b266dbf..ab9e8b1 100644
+--- a/drivers/input/keyboard/qt1070.c
++++ b/drivers/input/keyboard/qt1070.c
+@@ -216,6 +216,13 @@ static int __devinit qt1070_probe(struct i2c_client *client,
+ 		goto err_free_mem;
+ 	}
+ 
++	err = device_init_wakeup(&client->dev, true);
++	if (err)
++		dev_err(&client->dev, "fail to init device as wakeup source\n");
++	err = enable_irq_wake(client->irq);
++	if (err)
++		dev_err(&client->dev, "fail to enable irq wake\n");
++
+ 	/* Register the input device */
+ 	err = input_register_device(data->input);
+ 	if (err) {
+-- 
+1.7.10.4
+

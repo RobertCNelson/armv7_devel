@@ -1,0 +1,176 @@
+From 21b65c978b07ce7bbf2af0166195aee9728a120f Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Thu, 11 Oct 2012 14:00:31 +0200
+Subject: [PATCH 250/308] ARM: at91: add peripheral clock division support for
+ sama5
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/clock.c                 |    4 ++++
+ arch/arm/mach-at91/clock.h                 |    1 +
+ arch/arm/mach-at91/include/mach/at91_pmc.h |    7 +++++--
+ arch/arm/mach-at91/sama5d3.c               |   15 +++++++++++++++
+ 4 files changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-at91/clock.c b/arch/arm/mach-at91/clock.c
+index dd11556..61fe205 100644
+--- a/arch/arm/mach-at91/clock.c
++++ b/arch/arm/mach-at91/clock.c
+@@ -228,6 +228,7 @@ static void pmc_periph_mode(struct clk *clk, int is_on)
+ 	if (cpu_is_sama5d3()) {
+ 		regval |= AT91_PMC_PCR_CMD; /* write command */
+ 		regval |= clk->pid & AT91_PMC_PCR_PID; /* peripheral selection */
++		regval |= AT91_PMC_PCR_DIV(clk->div);
+ 		if (is_on)
+ 			regval |= AT91_PMC_PCR_EN; /* enable clock */
+ 		at91_pmc_write(AT91_PMC_PCR, regval);
+@@ -553,6 +554,8 @@ int __init clk_register(struct clk *clk)
+ 	if (clk_is_peripheral(clk)) {
+ 		if (!clk->parent)
+ 			clk->parent = &mck;
++		if (cpu_is_sama5d3())
++			clk->rate_hz = DIV_ROUND_UP(clk->parent->rate_hz, 1 << clk->div);
+ 		clk->mode = pmc_periph_mode;
+ 	}
+ 	else if (clk_is_sys(clk)) {
+@@ -914,6 +917,7 @@ static int __init at91_clock_reset(void)
+ 			if (cpu_is_sama5d3()) {
+ 				regval |= AT91_PMC_PCR_CMD; /* write command */
+ 				regval |= clk->pid & AT91_PMC_PCR_PID; /* peripheral selection */
++				regval |= AT91_PMC_PCR_DIV(clk->div);
+ 				at91_pmc_write(AT91_PMC_PCR, regval);
+ 			} else
+ 				pcdr |= clk->pmc_mask;
+diff --git a/arch/arm/mach-at91/clock.h b/arch/arm/mach-at91/clock.h
+index e748d3b..a98a39b 100644
+--- a/arch/arm/mach-at91/clock.h
++++ b/arch/arm/mach-at91/clock.h
+@@ -20,6 +20,7 @@ struct clk {
+ 	const char	*name;		/* unique clock name */
+ 	struct clk_lookup cl;
+ 	unsigned long	rate_hz;
++	unsigned	div;		/* parent clock divider */
+ 	struct clk	*parent;
+ 	unsigned	pid;		/* peripheral ID */
+ 	u32		pmc_mask;
+diff --git a/arch/arm/mach-at91/include/mach/at91_pmc.h b/arch/arm/mach-at91/include/mach/at91_pmc.h
+index bb55d0c..a00e1c2 100644
+--- a/arch/arm/mach-at91/include/mach/at91_pmc.h
++++ b/arch/arm/mach-at91/include/mach/at91_pmc.h
+@@ -170,8 +170,11 @@ extern void __iomem *at91_pmc_base;
+ #define AT91_PMC_PCR		0x10c			/* Peripheral Control Register [some SAM9] */
+ #define		AT91_PMC_PCR_PID	(0x3f  <<  0)		/* Peripheral ID */
+ #define		AT91_PMC_PCR_CMD	(0x1  <<  12)		/* Command (read=0, write=1) */
+-#define		AT91_PMC_PCR_DIV	(0x3  <<  16)		/* Divisor Value */
+-#define		AT91_PMC_PCRDIV(n)	(((n) <<  16) & AT91_PMC_PCR_DIV)
++#define		AT91_PMC_PCR_DIV(n)	((n) <<  16)	/* Divisor value */
++#define			AT91_PMC_PCR_DIV0	0x0		/* Peripheral clock is MCK */
++#define			AT91_PMC_PCR_DIV2	0x1		/* Peripheral clock is MCK/2 */
++#define			AT91_PMC_PCR_DIV4	0x2		/* Peripheral clock is MCK/4 */
++#define			AT91_PMC_PCR_DIV8	0x3		/* Peripheral clock is MCK/8 */
+ #define		AT91_PMC_PCR_EN		(0x1  <<  28)		/* Enable */
+ 
+ #endif
+diff --git a/arch/arm/mach-at91/sama5d3.c b/arch/arm/mach-at91/sama5d3.c
+index fa675e4..f726c38 100644
+--- a/arch/arm/mach-at91/sama5d3.c
++++ b/arch/arm/mach-at91/sama5d3.c
+@@ -59,36 +59,43 @@ static struct clk usart0_clk = {
+ 	.name		= "usart0_clk",
+ 	.pid		= SAMA5D3_ID_USART0,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk usart1_clk = {
+ 	.name		= "usart1_clk",
+ 	.pid		= SAMA5D3_ID_USART1,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk usart2_clk = {
+ 	.name		= "usart2_clk",
+ 	.pid		= SAMA5D3_ID_USART2,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk usart3_clk = {
+ 	.name		= "usart3_clk",
+ 	.pid		= SAMA5D3_ID_USART3,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk twi0_clk = {
+ 	.name		= "twi0_clk",
+ 	.pid		= SAMA5D3_ID_TWI0,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk twi1_clk = {
+ 	.name		= "twi1_clk",
+ 	.pid		= SAMA5D3_ID_TWI1,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk twi2_clk = {
+ 	.name		= "twi2_clk",
+ 	.pid		= SAMA5D3_ID_TWI2,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk mmc0_clk = {
+ 	.name		= "mci0_clk",
+@@ -119,16 +126,19 @@ static struct clk tcb0_clk = {
+ 	.name		= "tcb0_clk",
+ 	.pid		= SAMA5D3_ID_TC0,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk tcb1_clk = {
+ 	.name		= "tcb1_clk",
+ 	.pid		= SAMA5D3_ID_TC1,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk adc_clk = {
+ 	.name		= "adc_clk",
+ 	.pid		= SAMA5D3_ID_ADC,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk adc_op_clk = {
+ 	.name		= "adc_op_clk",
+@@ -183,26 +193,31 @@ static struct clk ssc0_clk = {
+ 	.name		= "ssc0_clk",
+ 	.pid		= SAMA5D3_ID_SSC0,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk ssc1_clk = {
+ 	.name		= "ssc1_clk",
+ 	.pid		= SAMA5D3_ID_SSC1,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk can0_clk = {
+ 	.name		= "can0_clk",
+ 	.pid		= SAMA5D3_ID_CAN0,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk can1_clk = {
+ 	.name		= "can1_clk",
+ 	.pid		= SAMA5D3_ID_CAN1,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
+ };
+ static struct clk sha_clk = {
+ 	.name		= "sha_clk",
+ 	.pid		= SAMA5D3_ID_SHA,
+ 	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV8,
+ };
+ static struct clk aes_clk = {
+ 	.name		= "aes_clk",
+-- 
+1.7.10.4
+

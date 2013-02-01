@@ -1,0 +1,55 @@
+From 6772edfb3d02b7adf52b18806a55029b5ab6dcfa Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Tue, 18 Dec 2012 17:43:35 +0100
+Subject: [PATCH 260/308] SAMA5: dts: update pinctrl for adc on sama5d35
+
+We can use adc on sama5d35 but some channels cause conflict, so only keep
+channel we can easily access.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/boot/dts/sama5d35ek.dts         |    8 ++++++++
+ arch/arm/boot/dts/sama5d35ek_mb-revB.dts |    8 ++++++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d35ek.dts b/arch/arm/boot/dts/sama5d35ek.dts
+index d060ebe..a4f50a0 100644
+--- a/arch/arm/boot/dts/sama5d35ek.dts
++++ b/arch/arm/boot/dts/sama5d35ek.dts
+@@ -105,6 +105,14 @@
+ 
+ 			adc0: adc@f8018000 {
+ 				status = "okay";
++				pinctrl-0 = <
++					&pinctrl_adc0_adtrg
++					&pinctrl_adc0_ad0
++					&pinctrl_adc0_ad1
++					&pinctrl_adc0_ad2
++					&pinctrl_adc0_ad3
++					&pinctrl_adc0_ad4
++					>;
+ 			};
+ 
+ 			macb1: ethernet@f802c000 {
+diff --git a/arch/arm/boot/dts/sama5d35ek_mb-revB.dts b/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
+index 7343bc3..0ae13fe 100644
+--- a/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
++++ b/arch/arm/boot/dts/sama5d35ek_mb-revB.dts
+@@ -106,6 +106,14 @@
+ 
+ 			adc0: adc@f8018000 {
+ 				status = "okay";
++				pinctrl-0 = <
++					&pinctrl_adc0_adtrg
++					&pinctrl_adc0_ad0
++					&pinctrl_adc0_ad1
++					&pinctrl_adc0_ad2
++					&pinctrl_adc0_ad3
++					&pinctrl_adc0_ad4
++					>;
+ 			};
+ 
+ 			macb1: ethernet@f802c000 {
+-- 
+1.7.10.4
+

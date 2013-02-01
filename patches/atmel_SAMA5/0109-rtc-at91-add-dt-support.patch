@@ -1,0 +1,72 @@
+From f1640cf2b4fa5ef204882e29ad0f8570b75047f8 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 23 Nov 2012 15:22:52 +0100
+Subject: [PATCH 109/308] rtc: at91: add dt support
+
+Add the DT support for Atmel RTC.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ Documentation/devicetree/bindings/rtc/atmel-rtc.txt |   15 +++++++++++++++
+ drivers/rtc/rtc-at91rm9200.c                        |   11 +++++++++++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/rtc/atmel-rtc.txt
+
+diff --git a/Documentation/devicetree/bindings/rtc/atmel-rtc.txt b/Documentation/devicetree/bindings/rtc/atmel-rtc.txt
+new file mode 100644
+index 0000000..aac3400
+--- /dev/null
++++ b/Documentation/devicetree/bindings/rtc/atmel-rtc.txt
+@@ -0,0 +1,15 @@
++* AT91's Real Time Clock (RTC)
++
++Required properties:
++  - compatible: Should be "atmel,at91rm9200-rtc"
++  - reg: Should contain RTC registers location and length
++  - interrupts: Should contain the IRQ line for the RTC
++
++Example:
++
++	rtc@fffffeb0 {
++		compatible = "atmel,at91rm9200-rtc";
++		reg = <0xfffffeb0 0x30>;
++		interrupts = <1 4 7>;
++	};
++
+diff --git a/drivers/rtc/rtc-at91rm9200.c b/drivers/rtc/rtc-at91rm9200.c
+index fca9790..7ec3d9d 100644
+--- a/drivers/rtc/rtc-at91rm9200.c
++++ b/drivers/rtc/rtc-at91rm9200.c
+@@ -28,6 +28,7 @@
+ #include <linux/ioctl.h>
+ #include <linux/completion.h>
+ #include <linux/io.h>
++#include <linux/of.h>
+ 
+ #include <asm/uaccess.h>
+ 
+@@ -382,11 +383,21 @@ static const struct dev_pm_ops at91_rtc_pm = {
+ #define at91_rtc_pm_ptr	NULL
+ #endif
+ 
++#ifdef CONFIG_OF
++static const struct of_device_id at91_rtc_dt_ids[] = {
++	{ .compatible = "atmel,at91rm9200-rtc" },
++	{ /* sentinel */ }
++};
++#else
++#define at91_rtc_dt_ids NULL
++#endif
++
+ static struct platform_driver at91_rtc_driver = {
+ 	.remove		= __exit_p(at91_rtc_remove),
+ 	.driver		= {
+ 		.name	= "at91_rtc",
+ 		.owner	= THIS_MODULE,
++		.of_match_table = at91_rtc_dt_ids,
+ 		.pm	= at91_rtc_pm_ptr,
+ 	},
+ };
+-- 
+1.7.10.4
+

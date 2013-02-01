@@ -1,0 +1,39 @@
+From d70241eec7b68dde1a05c7d8ac18c91f4ca8cb13 Mon Sep 17 00:00:00 2001
+From: Elen Song <elen.song@atmel.com>
+Date: Wed, 21 Nov 2012 16:41:07 +0800
+Subject: [PATCH 254/308] ARM: dts: add serial dma conf for sama5d3
+
+Signed-off-by: Elen Song <elen.song@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi |    8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index d4233f5..32f8c08 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -141,6 +141,10 @@
+ 				compatible = "atmel,at91sam9x5-usart";
+ 				reg = <0xf001c000 0x100>;
+ 				interrupts = <12 4 5>;
++				atmel,use-dma-rx;
++				dma-rx = <&dma0 0x20000204>;
++				atmel,use-dma-tx;
++				dma-tx = <&dma0 0x10002030>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_usart0>;
+ 				status = "disabled";
+@@ -150,6 +154,10 @@
+ 				compatible = "atmel,at91sam9x5-usart";
+ 				reg = <0xf0020000 0x100>;
+ 				interrupts = <13 4 5>;
++				atmel,use-dma-rx;
++				dma-rx = <&dma0 0x20000206>;
++				atmel,use-dma-tx;
++				dma-tx = <&dma0 0x10002050>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_usart1>;
+ 				status = "disabled";
+-- 
+1.7.10.4
+

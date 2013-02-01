@@ -1,0 +1,41 @@
+From 1a04dd29f97d936355bf14a5430204e0f54272f0 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 9 Nov 2012 17:46:46 +0100
+Subject: [PATCH 010/308] i2c: at91: fix SMBus quick command
+
+The driver claims to support SMBus quick command but it was not the case.
+This patch fixes this issue.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/i2c/busses/i2c-at91.c |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/i2c/busses/i2c-at91.c b/drivers/i2c/busses/i2c-at91.c
+index aa59a25..c02bf20 100644
+--- a/drivers/i2c/busses/i2c-at91.c
++++ b/drivers/i2c/busses/i2c-at91.c
+@@ -39,6 +39,7 @@
+ #define	AT91_TWI_STOP		0x0002	/* Send a Stop Condition */
+ #define	AT91_TWI_MSEN		0x0004	/* Master Transfer Enable */
+ #define	AT91_TWI_SVDIS		0x0020	/* Slave Transfer Disable */
++#define	AT91_TWI_QUICK		0x0040	/* SMBus quick command */
+ #define	AT91_TWI_SWRST		0x0080	/* Software Reset */
+ 
+ #define	AT91_TWI_MMR		0x0004	/* Master Mode Register */
+@@ -212,7 +213,11 @@ static int at91_do_twi_transfer(struct at91_twi_dev *dev)
+ 
+ 	INIT_COMPLETION(dev->cmd_complete);
+ 	dev->transfer_status = 0;
+-	if (dev->msg->flags & I2C_M_RD) {
++
++	if (!dev->buf_len) {
++		at91_twi_write(dev, AT91_TWI_CR, AT91_TWI_QUICK);
++		at91_twi_write(dev, AT91_TWI_IER, AT91_TWI_TXCOMP);
++	} else if (dev->msg->flags & I2C_M_RD) {
+ 		unsigned start_flags = AT91_TWI_START;
+ 
+ 		if (at91_twi_read(dev, AT91_TWI_SR) & AT91_TWI_RXRDY) {
+-- 
+1.7.10.4
+
