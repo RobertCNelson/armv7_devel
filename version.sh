@@ -23,7 +23,7 @@ config="multi_v7_defconfig"
 
 #Kernel/Build
 KERNEL_REL=3.8
-KERNEL_TAG=${KERNEL_REL}-rc7
+KERNEL_TAG=${KERNEL_REL}
 BUILD=armv7-d0
 
 #v3.X-rcX + upto SHA
