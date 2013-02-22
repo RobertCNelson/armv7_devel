@@ -1,0 +1,39 @@
+From ac929fef974f56fd998f15dbb7e4f97ae3795baf Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Tue, 19 Feb 2013 18:06:51 +0800
+Subject: [PATCH 313/313] ARM: at91/trivial: fix typo in NFC driver comments
+
+---
+ drivers/mtd/nand/atmel_nand_nfc.c |    4 ++--
+ drivers/mtd/nand/atmel_nand_nfc.h |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+index 897e36b..2ca75eb 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.c
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -1,6 +1,6 @@
+ /*
+- * Atmel Nand flash Controller (NFC) - System peripherals regsters.
+- * Based on AT91SAMA5D3 datasheet.
++ * Atmel Nand Flash Controller (NFC) driver.
++ * Based on SAMA5D3 datasheet.
+  *
+  * Copyright (C) 2012 Atmel Corporation.
+  *
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.h b/drivers/mtd/nand/atmel_nand_nfc.h
+index fc745af..263d0ed 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.h
++++ b/drivers/mtd/nand/atmel_nand_nfc.h
+@@ -1,6 +1,6 @@
+ /*
+- * Atmel Nand flash Controller (NFC) - System peripherals regsters.
+- * Based on AT91SAMA5D3 datasheet.
++ * Atmel Nand Flash Controller (NFC) - System peripherals regsters.
++ * Based on SAMA5D3 datasheet.
+  *
+  * Copyright (C) 2012 Atmel Corporation.
+  *
+-- 
+1.7.10.4
+

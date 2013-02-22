@@ -60,10 +60,10 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -311 | grep 3.6.9
+	#git format-patch -314 | grep 3.6.9
 	#0001-Linux-3.6.9.patch
 	#rm -rf *.patch
-	#git format-patch -310
+	#git format-patch -313
 
 
 	echo "dir: atmel_SAMA5"
@@ -377,6 +377,10 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0308-ARM-at91-fix-pinctrl-and-old-gpio-simultaneous-suppo.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0309-ARM-at91-enhance-linux-at91-at91sam9x5-support.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0310-dt-define-of_find_device_by_node-when-dt-is-not-enab.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0311-ARM-at91-trivial-fix-model-name-for-SAM9G15-EK.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0312-ARM-at91-trivial-fix-alsa-driver-module-description-.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0313-ARM-at91-trivial-fix-typo-in-NFC-driver-comments.patch"
+
 }
 
 arm
