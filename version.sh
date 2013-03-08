@@ -17,18 +17,18 @@ if [ "${GIT_NOEDIT}" ] ; then
 	GIT_OPTS+="--no-edit"
 fi
 
-config="multi_v7_defconfig"
+config="at91_dt_defconfig"
 
 #Kernel/Build
-KERNEL_REL=3.8
-KERNEL_TAG=${KERNEL_REL}
-BUILD=armv7-d0
+KERNEL_REL=3.9
+KERNEL_TAG=${KERNEL_REL}-rc1
+BUILD=sama5-armv7-d0.1
 
 #v3.X-rcX + upto SHA
-#KERNEL_SHA=""
+KERNEL_SHA="47b3bc907328db968bc9b43c41f48f8d1e140750"
 
 #git branch
-#BRANCH="v3.8.x-armv7"
+BRANCH="v3.9.x-sama5-armv7"
 
 BUILDREV=1.0
 DISTRO=cross

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2009-2012 Robert Nelson <robertcnelson@gmail.com>
+# Copyright (c) 2009-2013 Robert Nelson <robertcnelson@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,18 @@ cleanup () {
 
 arm () {
 	echo "dir: arm"
+	${git} "${DIR}/patches/arm/0001-deb-pkg-Simplify-architecture-matching-for-cross-bui.patch"
+}
+
+atmel_SAMA5D3 () {
+	echo "dir: atmel_SAMA5D3"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0001-ARM-at91-add-AT91_SAM9_TIME-entry-to-select-at91sam9.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0002-ARM-at91-introduce-the-core-type-choice-to-split-ARM.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0003-ARM-at91-fix-infinite-loop-in-at91_irq_suspend-resum.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0004-ARM-at91-introduce-SAMA5-support.patch"
 }
 
 arm
+atmel_SAMA5D3
 
 echo "patch.sh ran successful"

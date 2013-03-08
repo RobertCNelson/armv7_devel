@@ -1,0 +1,2895 @@
+From b427ba3b4cb6006d326f8d7c04e5b014530999cb Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 8 Mar 2013 16:13:58 +0100
+Subject: [PATCH 4/4] ARM: at91: introduce SAMA5 support
+
+This patch introduces the SAMA5 support. It also updates the PMC driver to
+manage clock division which is a requirement since some peripherals can't work
+at the bus frequency on SAMA5.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+---
+ arch/arm/boot/dts/Makefile                 |    5 +
+ arch/arm/boot/dts/sama5d3.dtsi             | 1031 ++++++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d31ek.dts           |   51 ++
+ arch/arm/boot/dts/sama5d33ek.dts           |   44 ++
+ arch/arm/boot/dts/sama5d34ek.dts           |   61 ++
+ arch/arm/boot/dts/sama5d35ek.dts           |   56 ++
+ arch/arm/boot/dts/sama5d3xcm.dtsi          |   91 +++
+ arch/arm/boot/dts/sama5d3xdm.dtsi          |   42 ++
+ arch/arm/boot/dts/sama5d3xmb.dtsi          |  166 +++++
+ arch/arm/configs/sama5_defconfig           |  181 +++++
+ arch/arm/mach-at91/Kconfig                 |   34 +
+ arch/arm/mach-at91/Makefile                |    4 +
+ arch/arm/mach-at91/board-dt-sama5.c        |   86 +++
+ arch/arm/mach-at91/clock.c                 |  109 ++-
+ arch/arm/mach-at91/clock.h                 |    2 +
+ arch/arm/mach-at91/include/mach/at91_pmc.h |   18 +-
+ arch/arm/mach-at91/include/mach/cpu.h      |   20 +
+ arch/arm/mach-at91/include/mach/sama5d3.h  |   73 ++
+ arch/arm/mach-at91/sama5d3.c               |  377 ++++++++++
+ arch/arm/mach-at91/setup.c                 |   27 +
+ arch/arm/mach-at91/soc.h                   |    5 +
+ 21 files changed, 2454 insertions(+), 29 deletions(-)
+ create mode 100644 arch/arm/boot/dts/sama5d3.dtsi
+ create mode 100644 arch/arm/boot/dts/sama5d31ek.dts
+ create mode 100644 arch/arm/boot/dts/sama5d33ek.dts
+ create mode 100644 arch/arm/boot/dts/sama5d34ek.dts
+ create mode 100644 arch/arm/boot/dts/sama5d35ek.dts
+ create mode 100644 arch/arm/boot/dts/sama5d3xcm.dtsi
+ create mode 100644 arch/arm/boot/dts/sama5d3xdm.dtsi
+ create mode 100644 arch/arm/boot/dts/sama5d3xmb.dtsi
+ create mode 100644 arch/arm/configs/sama5_defconfig
+ create mode 100644 arch/arm/mach-at91/board-dt-sama5.c
+ create mode 100644 arch/arm/mach-at91/include/mach/sama5d3.h
+ create mode 100644 arch/arm/mach-at91/sama5d3.c
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 9c62558..234e78f 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -31,6 +31,11 @@ dtb-$(CONFIG_ARCH_AT91) += at91sam9g25ek.dtb
+ dtb-$(CONFIG_ARCH_AT91) += at91sam9g35ek.dtb
+ dtb-$(CONFIG_ARCH_AT91) += at91sam9x25ek.dtb
+ dtb-$(CONFIG_ARCH_AT91) += at91sam9x35ek.dtb
++# sama5d3
++dtb-$(CONFIG_ARCH_AT91)	+= sama5d31ek.dtb
++dtb-$(CONFIG_ARCH_AT91)	+= sama5d33ek.dtb
++dtb-$(CONFIG_ARCH_AT91)	+= sama5d34ek.dtb
++dtb-$(CONFIG_ARCH_AT91)	+= sama5d35ek.dtb
+ 
+ dtb-$(CONFIG_ARCH_BCM2835) += bcm2835-rpi-b.dtb
+ dtb-$(CONFIG_ARCH_BCM) += bcm11351-brt.dtb
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+new file mode 100644
+index 0000000..39b0458
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -0,0 +1,1031 @@
++/*
++ * sama5d3.dtsi - Device Tree Include file for SAMA5D3 family SoC
++ *                applies to SAMA5D31, SAMA5D33, SAMA5D34, SAMA5D35 SoC
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++
++/include/ "skeleton.dtsi"
++
++/ {
++	model = "Atmel SAMA5D3 family SoC";
++	compatible = "atmel,sama5d3", "atmel,sama5";
++	interrupt-parent = <&aic>;
++
++	aliases {
++		serial0 = &dbgu;
++		serial1 = &usart0;
++		serial2 = &usart1;
++		serial3 = &usart2;
++		serial4 = &usart3;
++		gpio0 = &pioA;
++		gpio1 = &pioB;
++		gpio2 = &pioC;
++		gpio3 = &pioD;
++		gpio4 = &pioE;
++		tcb0 = &tcb0;
++		tcb1 = &tcb1;
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c2 = &i2c2;
++		ssc0 = &ssc0;
++		ssc1 = &ssc1;
++	};
++	cpus {
++		cpu@0 {
++			compatible = "arm,cortex-a5";
++		};
++	};
++
++	memory {
++		reg = <0x20000000 0x8000000>;
++	};
++
++	ahb {
++		compatible = "simple-bus";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		apb {
++			compatible = "simple-bus";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
++
++			mmc0: mmc@f0000000 {
++				compatible = "atmel,hsmci";
++				reg = <0xf0000000 0x600>;
++				interrupts = <21 4 0>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_dat4_7>;
++				status = "disabled";
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			spi0: spi@f0004000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91sam9x5-spi";
++				reg = <0xf0004000 0x100>;
++				interrupts = <24 4 3>;
++				cs-gpios = <&pioD 13 0
++					    &pioD 14 0 /* conflicts with SCK0 and CANRX0 */
++					    &pioD 15 0 /* conflicts with CTS0 and CANTX0 */
++					    &pioD 16 0 /* conflicts with RTS0 and PWMFI3 */
++					   >;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_spi0>;
++				status = "disabled";
++			};
++
++			ssc0: ssc@f0008000 {
++				compatible = "atmel,at91sam9g45-ssc";
++				reg = <0xf0008000 0x4000>;
++				interrupts = <38 4 4>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
++				status = "disabled";
++			};
++
++			can0: can@f000c000 {
++				compatible = "atmel,at91sam9x5-can";
++				reg = <0xf000c000 0x300>;
++				interrupts = <40 4 3>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_can0_rx_tx>;
++				status = "disabled";
++			};
++
++			tcb0: timer@f0010000 {
++				compatible = "atmel,at91sam9x5-tcb";
++				reg = <0xf0010000 0x100>;
++				interrupts = <26 4 0>;
++			};
++
++			i2c0: i2c@f0014000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf0014000 0x4000>;
++				interrupts = <18 4 6>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_i2c0>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i2c1: i2c@f0018000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf0018000 0x4000>;
++				interrupts = <19 4 6>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_i2c1>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			usart0: serial@f001c000 {
++				compatible = "atmel,at91sam9260-usart";
++				reg = <0xf001c000 0x100>;
++				interrupts = <12 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_usart0>;
++				status = "disabled";
++			};
++
++			usart1: serial@f0020000 {
++				compatible = "atmel,at91sam9260-usart";
++				reg = <0xf0020000 0x100>;
++				interrupts = <13 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_usart1>;
++				status = "disabled";
++			};
++
++			macb0: ethernet@f0028000 {
++				compatible = "cnds,pc302-gem", "cdns,gem";
++				reg = <0xf0028000 0x100>;
++				interrupts = <34 4 3>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_macb0_data_rgmii &pinctrl_macb0_signal_rgmii>;
++				status = "disabled";
++			};
++
++			isi: isi@f0034000 {
++				compatible = "atmel,at91sam9g45-isi";
++				reg = <0xf0034000 0x4000>;
++				interrupts = <37 4 5>;
++				status = "disabled";
++			};
++
++			mmc1: mmc@f8000000 {
++				compatible = "atmel,hsmci";
++				reg = <0xf8000000 0x600>;
++				interrupts = <22 4 0>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3>;
++				status = "disabled";
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			mmc2: mmc@f8004000 {
++				compatible = "atmel,hsmci";
++				reg = <0xf8004000 0x600>;
++				interrupts = <23 4 0>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_mmc2_clk_cmd_dat0 &pinctrl_mmc2_dat1_3>;
++				status = "disabled";
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			spi1: spi@f8008000 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "atmel,at91sam9x5-spi";
++				reg = <0xf8008000 0x100>;
++				interrupts = <25 4 3>;
++				cs-gpios = <&pioC 25 0
++					    &pioC 26 0 /* conflitcs with TWD1 and ISI_D11 */
++					    &pioC 27 0 /* conflitcs with TWCK1 and ISI_D10 */
++					    &pioC 28 0 /* conflitcs with PWMFI0 and ISI_D9 */
++					   >;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_spi1>;
++				status = "disabled";
++			};
++
++			ssc1: ssc@f800c000 {
++				compatible = "atmel,at91sam9g45-ssc";
++				reg = <0xf800c000 0x4000>;
++				interrupts = <39 4 4>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc1_tx &pinctrl_ssc1_rx>;
++				status = "disabled";
++			};
++
++			can1: can@f8010000 {
++				compatible = "atmel,at91sam9x5-can";
++				reg = <0xf8010000 0x300>;
++				interrupts = <41 4 3>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_can1_rx_tx>;
++			};
++
++			tcb1: timer@f8014000 {
++				compatible = "atmel,at91sam9x5-tcb";
++				reg = <0xf8014000 0x100>;
++				interrupts = <27 4 0>;
++			};
++
++			adc0: adc@f8018000 {
++				compatible = "atmel,at91sam9260-adc";
++				reg = <0xf8018000 0x100>;
++				interrupts = <29 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <
++					&pinctrl_adc0_adtrg
++					&pinctrl_adc0_ad0
++					&pinctrl_adc0_ad1
++					&pinctrl_adc0_ad2
++					&pinctrl_adc0_ad3
++					&pinctrl_adc0_ad4
++					&pinctrl_adc0_ad5
++					&pinctrl_adc0_ad6
++					&pinctrl_adc0_ad7
++					&pinctrl_adc0_ad8
++					&pinctrl_adc0_ad9
++					&pinctrl_adc0_ad10
++					&pinctrl_adc0_ad11
++					>;
++				atmel,adc-channel-base = <0x50>;
++				atmel,adc-channels-used = <0xfff>;
++				atmel,adc-drdy-mask = <0x1000000>;
++				atmel,adc-num-channels = <12>;
++				atmel,adc-startup-time = <40>;
++				atmel,adc-status-register = <0x30>;
++				atmel,adc-trigger-register = <0xc0>;
++				atmel,adc-use-external;
++				atmel,adc-vref = <3000>;
++				atmel,adc-res = <10 12>;
++				atmel,adc-res-names = "lowres", "highres";
++				status = "disabled";
++
++				trigger@0 {
++					trigger-name = "external-rising";
++					trigger-value = <0x1>;
++					trigger-external;
++				};
++				trigger@1 {
++					trigger-name = "external-falling";
++					trigger-value = <0x2>;
++					trigger-external;
++				};
++				trigger@2 {
++					trigger-name = "external-any";
++					trigger-value = <0x3>;
++					trigger-external;
++				};
++				trigger@3 {
++					trigger-name = "continuous";
++					trigger-value = <0x6>;
++				};
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				compatible = "atmel,at91sam9x5-tsadcc";
++				reg = <0xf8018000 0x4000>;
++				interrupts = <29 4 5>;
++				atmel,tsadcc_clock = <300000>;
++				atmel,filtering_average = <0x03>;
++				atmel,pendet_debounce = <0x08>;
++				atmel,pendet_sensitivity = <0x02>;
++				atmel,ts_sample_hold_time = <0x0a>;
++				status = "disabled";
++			};
++
++			i2c2: i2c@f801c000 {
++				compatible = "atmel,at91sam9x5-i2c";
++				reg = <0xf801c000 0x4000>;
++				interrupts = <20 4 6>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			usart2: serial@f8020000 {
++				compatible = "atmel,at91sam9260-usart";
++				reg = <0xf8020000 0x100>;
++				interrupts = <14 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_usart2>;
++				status = "disabled";
++			};
++
++			usart3: serial@f8024000 {
++				compatible = "atmel,at91sam9260-usart";
++				reg = <0xf8024000 0x100>;
++				interrupts = <15 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_usart3>;
++				status = "disabled";
++			};
++
++			macb1: ethernet@f802c000 {
++				compatible = "cdns,at32ap7000-macb", "cdns,macb";
++				reg = <0xf802c000 0x100>;
++				interrupts = <35 4 3>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_macb1_rmii>;
++				status = "disabled";
++			};
++
++			sha@f8034000 {
++				compatible = "atmel,sam9g46-sha";
++				reg = <0xf8034000 0x100>;
++				interrupts = <42 4 0>;
++			};
++
++			aes@f8038000 {
++				compatible = "atmel,sam9g46-aes";
++				reg = <0xf8038000 0x100>;
++				interrupts = <43 4 0>;
++			};
++
++			tdes@f803c000 {
++				compatible = "atmel,sam9g46-tdes";
++				reg = <0xf803c000 0x100>;
++				interrupts = <44 4 0>;
++			};
++
++			dma0: dma-controller@ffffe600 {
++				compatible = "atmel,at91sam9g45-dma";
++				reg = <0xffffe600 0x200>;
++				interrupts = <30 4 0>;
++				#dma-cells = <1>;
++			};
++
++			dma1: dma-controller@ffffe800 {
++				compatible = "atmel,at91sam9g45-dma";
++				reg = <0xffffe800 0x200>;
++				interrupts = <31 4 0>;
++				#dma-cells = <1>;
++			};
++
++			ramc0: ramc@ffffea00 {
++				compatible = "atmel,at91sam9g45-ddramc";
++				reg = <0xffffea00 0x200>;
++			};
++
++			dbgu: serial@ffffee00 {
++				compatible = "atmel,at91sam9260-usart";
++				reg = <0xffffee00 0x200>;
++				interrupts = <2 4 7>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_dbgu>;
++				status = "disabled";
++			};
++
++			aic: interrupt-controller@fffff000 {
++				#interrupt-cells = <3>;
++				compatible = "atmel,sama5d3-aic";
++				interrupt-controller;
++				reg = <0xfffff000 0x200>;
++				atmel,external-irqs = <47>;
++			};
++
++			pinctrl@fffff200 {
++				#address-cells = <1>;
++				#size-cells = <1>;
++				compatible = "atmel,at91sam9x5-pinctrl", "atmel,at91rm9200-pinctrl", "simple-bus";
++				ranges = <0xfffff200 0xfffff200 0xa00>;
++				atmel,mux-mask = <
++					/*   A          B          C  */
++					0xffffffff 0xc0fc0000 0xc0ff0000	/* pioA */
++					0xffffffff 0x0ff8ffff 0x00000000	/* pioB */
++					0xffffffff 0xbc00f1ff 0x7c00fc00	/* pioC */
++					0xffffffff 0xc001c0e0 0x0001c1e0	/* pioD */
++					0xffffffff 0xbf9f8000 0x18000000	/* pioE */
++					>;
++
++				/* shared pinctrl settings */
++				adc0 {
++					pinctrl_adc0_adtrg: adc0_adtrg {
++						atmel,pins =
++							<3 19 0x1 0x0>;	/* PD19 periph A ADTRG */
++					};
++					pinctrl_adc0_ad0: adc0_ad0 {
++						atmel,pins =
++							<3 20 0x1 0x0>;	/* PD20 periph A AD0 */
++					};
++					pinctrl_adc0_ad1: adc0_ad1 {
++						atmel,pins =
++							<3 21 0x1 0x0>;	/* PD21 periph A AD1 */
++					};
++					pinctrl_adc0_ad2: adc0_ad2 {
++						atmel,pins =
++							<3 22 0x1 0x0>;	/* PD22 periph A AD2 */
++					};
++					pinctrl_adc0_ad3: adc0_ad3 {
++						atmel,pins =
++							<3 23 0x1 0x0>;	/* PD23 periph A AD3 */
++					};
++					pinctrl_adc0_ad4: adc0_ad4 {
++						atmel,pins =
++							<3 24 0x1 0x0>;	/* PD24 periph A AD4 */
++					};
++					pinctrl_adc0_ad5: adc0_ad5 {
++						atmel,pins =
++							<3 25 0x1 0x0>;	/* PD25 periph A AD5 */
++					};
++					pinctrl_adc0_ad6: adc0_ad6 {
++						atmel,pins =
++							<3 26 0x1 0x0>;	/* PD26 periph A AD6 */
++					};
++					pinctrl_adc0_ad7: adc0_ad7 {
++						atmel,pins =
++							<3 27 0x1 0x0>;	/* PD27 periph A AD7 */
++					};
++					pinctrl_adc0_ad8: adc0_ad8 {
++						atmel,pins =
++							<3 28 0x1 0x0>;	/* PD28 periph A AD8 */
++					};
++					pinctrl_adc0_ad9: adc0_ad9 {
++						atmel,pins =
++							<3 29 0x1 0x0>;	/* PD29 periph A AD9 */
++					};
++					pinctrl_adc0_ad10: adc0_ad10 {
++						atmel,pins =
++							<3 30 0x1 0x0>;	/* PD30 periph A AD10, conflicts with PCK0 */
++					};
++					pinctrl_adc0_ad11: adc0_ad11 {
++						atmel,pins =
++							<3 31 0x1 0x0>;	/* PD31 periph A AD11, conflicts with PCK1 */
++					};
++				};
++
++				can0 {
++					pinctrl_can0_rx_tx: can0_rx_tx {
++						atmel,pins =
++							<3 14 0x3 0x0	/* PD14 periph C RX, conflicts with SCK0, SPI0_NPCS1 */
++							 3 15 0x3 0x0>;	/* PD15 periph C TX, conflicts with CTS0, SPI0_NPCS2 */
++					};
++				};
++
++				can1 {
++					pinctrl_can1_rx_tx: can1_rx_tx {
++						atmel,pins =
++							<1 14 0x2 0x0	/* PB14 periph B RX, conflicts with GCRS */
++							 1 15 0x2 0x0>;	/* PB15 periph B TX, conflicts with GCOL */
++					};
++				};
++
++				dbgu {
++					pinctrl_dbgu: dbgu-0 {
++						atmel,pins =
++							<1 30 0x1 0x0	/* PB30 periph A */
++							 1 31 0x1 0x1>;	/* PB31 periph A with pullup */
++					};
++				};
++
++				i2c0 {
++					pinctrl_i2c0: i2c0-0 {
++						atmel,pins =
++							<0 30 0x1 0x0	/* PA30 periph A TWD0 pin, conflicts with URXD1, ISI_VSYNC */
++							 0 31 0x1 0x0>;	/* PA31 periph A TWCK0 pin, conflicts with UTXD1, ISI_HSYNC */
++					};
++				};
++
++				i2c1 {
++					pinctrl_i2c1: i2c1-0 {
++						atmel,pins =
++							<2 26 0x2 0x0	/* PC26 periph B TWD1 pin, conflicts with SPI1_NPCS1, ISI_D11 */
++							 2 27 0x2 0x0>;	/* PC27 periph B TWCK1 pin, conflicts with SPI1_NPCS2, ISI_D10 */
++					};
++				};
++
++				isi {
++					pinctrl_isi: isi-0 {
++						atmel,pins =
++							<0 16 0x3 0x0	/* PA16 periph C ISI_D0, conflicts with LCDDAT16 */
++							 0 17 0x3 0x0	/* PA17 periph C ISI_D1, conflicts with LCDDAT17 */
++							 0 18 0x3 0x0	/* PA18 periph C ISI_D2, conflicts with LCDDAT18, TWD2 */
++							 0 19 0x3 0x0	/* PA19 periph C ISI_D3, conflicts with LCDDAT19, TWCK2 */
++							 0 20 0x3 0x0	/* PA20 periph C ISI_D4, conflicts with LCDDAT20, PWMH0 */
++							 0 21 0x3 0x0	/* PA21 periph C ISI_D5, conflicts with LCDDAT21, PWML0 */
++							 0 22 0x3 0x0	/* PA22 periph C ISI_D6, conflicts with LCDDAT22, PWMH1 */
++							 0 23 0x3 0x0	/* PA23 periph C ISI_D7, conflicts with LCDDAT23, PWML1 */
++							 2 30 0x3 0x0	/* PC30 periph C ISI_PCK, conflicts with UTXD0 */
++							 0 31 0x3 0x0	/* PA31 periph C ISI_HSYNC, conflicts with TWCK0, UTXD1 */
++							 0 30 0x3 0x0	/* PA30 periph C ISI_VSYNC, conflicts with TWD0, URXD1 */
++							 2 29 0x3 0x0	/* PC29 periph C ISI_PD8, conflicts with URXD0, PWMFI2 */
++							 2 28 0x3 0x0>;	/* PC28 periph C ISI_PD9, conflicts with SPI1_NPCS3, PWMFI0 */
++					};
++					pinctrl_isi_pck_as_mck: isi_pck_as_mck-0 {
++						atmel,pins =
++							<3 31 0x2 0x0>;	/* PD31 periph B ISI_MCK */
++					};
++				};
++
++				lcd {
++					pinctrl_lcd: lcd-0 {
++						atmel,pins =
++							<0 24 0x1 0x0	/* PA24 periph A LCDPWM */
++							 0 26 0x1 0x0	/* PA26 periph A LCDVSYNC */
++							 0 27 0x1 0x0	/* PA27 periph A LCDHSYNC */
++							 0 25 0x1 0x0	/* PA25 periph A LCDDISP */
++							 0 29 0x1 0x0	/* PA29 periph A LCDDEN */
++							 0 28 0x1 0x0	/* PA28 periph A LCDPCK */
++							 0 0 0x1 0x0	/* PA0 periph A LCDD0 pin */
++							 0 1 0x1 0x0	/* PA1 periph A LCDD1 pin */
++							 0 2 0x1 0x0	/* PA2 periph A LCDD2 pin */
++							 0 3 0x1 0x0	/* PA3 periph A LCDD3 pin */
++							 0 4 0x1 0x0	/* PA4 periph A LCDD4 pin */
++							 0 5 0x1 0x0	/* PA5 periph A LCDD5 pin */
++							 0 6 0x1 0x0	/* PA6 periph A LCDD6 pin */
++							 0 7 0x1 0x0	/* PA7 periph A LCDD7 pin */
++							 0 8 0x1 0x0	/* PA8 periph A LCDD8 pin */
++							 0 9 0x1 0x0	/* PA9 periph A LCDD9 pin */
++							 0 10 0x1 0x0	/* PA10 periph A LCDD10 pin */
++							 0 11 0x1 0x0	/* PA11 periph A LCDD11 pin */
++							 0 12 0x1 0x0	/* PA12 periph A LCDD12 pin */
++							 0 13 0x1 0x0	/* PA13 periph A LCDD13 pin */
++							 0 14 0x1 0x0	/* PA14 periph A LCDD14 pin */
++							 0 15 0x1 0x0	/* PA15 periph A LCDD15 pin */
++							 2 14 0x3 0x0	/* PC14 periph C LCDD16 pin */
++							 2 13 0x3 0x0	/* PC13 periph C LCDD17 pin */
++							 2 12 0x3 0x0	/* PC12 periph C LCDD18 pin */
++							 2 11 0x3 0x0	/* PC11 periph C LCDD19 pin */
++							 2 10 0x3 0x0	/* PC10 periph C LCDD20 pin */
++							 2 15 0x3 0x0	/* PC15 periph C LCDD21 pin */
++							 4 27 0x3 0x0	/* PE27 periph C LCDD22 pin */
++							 4 28 0x3 0x0>;	/* PE28 periph C LCDD23 pin */
++					};
++				};
++
++				macb0 {
++					pinctrl_macb0_data_rgmii: macb0_data_rgmii {
++						atmel,pins =
++							<1 0 0x1 0x0	/* PB0 periph A GTX0, conflicts with PWMH0 */
++							 1 1 0x1 0x0	/* PB1 periph A GTX1, conflicts with PWML0 */
++							 1 2 0x1 0x0	/* PB2 periph A GTX2, conflicts with TK1 */
++							 1 3 0x1 0x0	/* PB3 periph A GTX3, conflicts with TF1 */
++							 1 4 0x1 0x0	/* PB4 periph A GRX0, conflicts with PWMH1 */
++							 1 5 0x1 0x0	/* PB5 periph A GRX1, conflicts with PWML1 */
++							 1 6 0x1 0x0	/* PB6 periph A GRX2, conflicts with TD1 */
++							 1 7 0x1 0x0>;	/* PB7 periph A GRX3, conflicts with RK1 */
++					};
++					pinctrl_macb0_data_gmii: macb0_data_gmii {
++						atmel,pins =
++							<1 19 0x2 0x0	/* PB19 periph B GTX4, conflicts with MCI1_CDA */
++							 1 20 0x2 0x0	/* PB20 periph B GTX5, conflicts with MCI1_DA0 */
++							 1 21 0x2 0x0	/* PB21 periph B GTX6, conflicts with MCI1_DA1 */
++							 1 22 0x2 0x0	/* PB22 periph B GTX7, conflicts with MCI1_DA2 */
++							 1 23 0x2 0x0	/* PB23 periph B GRX4, conflicts with MCI1_DA3 */
++							 1 24 0x2 0x0	/* PB24 periph B GRX5, conflicts with MCI1_CK */
++							 1 25 0x2 0x0	/* PB25 periph B GRX6, conflicts with SCK1 */
++							 1 26 0x2 0x0>;	/* PB26 periph B GRX7, conflicts with CTS1 */
++					};
++					pinctrl_macb0_signal_rgmii: macb0_signal_rgmii {
++						atmel,pins =
++							<1 8 0x1 0x0	/* PB8 periph A GTXCK, conflicts with PWMH2 */
++							 1 9 0x1 0x0	/* PB9 periph A GTXEN, conflicts with PWML2 */
++							 1 11 0x1 0x0	/* PB11 periph A GRXCK, conflicts with RD1 */
++							 1 13 0x1 0x0	/* PB13 periph A GRXER, conflicts with PWML3 */
++							 1 16 0x1 0x0	/* PB16 periph A GMDC */
++							 1 17 0x1 0x0	/* PB17 periph A GMDIO */
++							 1 18 0x1 0x0>;	/* PB18 periph A G125CK */
++					};
++					pinctrl_macb0_signal_gmii: macb0_signal_gmii {
++						atmel,pins =
++							<1 9 0x1 0x0	/* PB9 periph A GTXEN, conflicts with PWML2 */
++							 1 10 0x1 0x0	/* PB10 periph A GTXER, conflicts with RF1 */
++							 1 11 0x1 0x0	/* PB11 periph A GRXCK, conflicts with RD1 */
++							 1 12 0x1 0x0	/* PB12 periph A GRXDV, conflicts with PWMH3 */
++							 1 13 0x1 0x0	/* PB13 periph A GRXER, conflicts with PWML3 */
++							 1 14 0x1 0x0	/* PB14 periph A GCRS, conflicts with CANRX1 */
++							 1 15 0x1 0x0	/* PB15 periph A GCOL, conflicts with CANTX1 */
++							 1 16 0x1 0x0	/* PB16 periph A GMDC */
++							 1 17 0x1 0x0	/* PB17 periph A GMDIO */
++							 1 27 0x2 0x0>;	/* PB27 periph B G125CKO */
++					};
++
++				};
++
++				macb1 {
++					pinctrl_macb1_rmii: macb1_rmii-0 {
++						atmel,pins =
++							<2 0 0x1 0x0	/* PC0 periph A ETX0, conflicts with TIOA3 */
++							 2 1 0x1 0x0	/* PC1 periph A ETX1, conflicts with TIOB3 */
++							 2 2 0x1 0x0	/* PC2 periph A ERX0, conflicts with TCLK3 */
++							 2 3 0x1 0x0	/* PC3 periph A ERX1, conflicts with TIOA4 */
++							 2 4 0x1 0x0	/* PC4 periph A ETXEN, conflicts with TIOB4 */
++							 2 5 0x1 0x0	/* PC5 periph A ECRSDV,conflicts with TCLK4 */
++							 2 6 0x1 0x0	/* PC6 periph A ERXER, conflicts with TIOA5 */
++							 2 7 0x1 0x0	/* PC7 periph A EREFCK, conflicts with TIOB5 */
++							 2 8 0x1 0x0	/* PC8 periph A EMDC, conflicts with TCLK5 */
++							 2 9 0x1 0x0>;	/* PC9 periph A EMDIO  */
++					};
++				};
++
++				mmc0 {
++					pinctrl_mmc0_clk_cmd_dat0: mmc0_clk_cmd_dat0 {
++						atmel,pins =
++							<3 9 0x1 0x0	/* PD9 periph A MCI0_CK */
++							 3 0 0x1 0x1	/* PD0 periph A MCI0_CDA with pullup */
++							 3 1 0x1 0x1>;	/* PD1 periph A MCI0_DA0 with pullup */
++					};
++					pinctrl_mmc0_dat1_3: mmc0_dat1_3 {
++						atmel,pins =
++							<3 2 0x1 0x1	/* PD2 periph A MCI0_DA1 with pullup */
++							 3 3 0x1 0x1	/* PD3 periph A MCI0_DA2 with pullup */
++							 3 4 0x1 0x1>;	/* PD4 periph A MCI0_DA3 with pullup */
++					};
++					pinctrl_mmc0_dat4_7: mmc0_dat4_7 {
++						atmel,pins =
++							<3 5 0x1 0x1	/* PD5 periph A MCI0_DA4 with pullup, conflicts with TIOA0, PWMH2 */
++							 3 6 0x1 0x1	/* PD6 periph A MCI0_DA5 with pullup, conflicts with TIOB0, PWML2 */
++							 3 7 0x1 0x1	/* PD7 periph A MCI0_DA6 with pullup, conlicts with TCLK0, PWMH3 */
++							 3 8 0x1 0x1>;	/* PD8 periph A MCI0_DA7 with pullup, conflicts with PWML3 */
++					};
++				};
++
++				mmc1 {
++					pinctrl_mmc1_clk_cmd_dat0: mmc1_clk_cmd_dat0 {
++						atmel,pins =
++							<1 24 0x1 0x0	/* PB24 periph A MCI1_CK, conflicts with GRX5 */
++							 1 19 0x1 0x1	/* PB19 periph A MCI1_CDA with pullup, conflicts with GTX4 */
++							 1 20 0x1 0x1>;	/* PB20 periph A MCI1_DA0 with pullup, conflicts with GTX5 */
++					};
++					pinctrl_mmc1_dat1_3: mmc1_dat1_3 {
++						atmel,pins =
++							<1 21 0x1 0x1	/* PB21 periph A MCI1_DA1 with pullup, conflicts with GTX6 */
++							 1 22 0x1 0x1	/* PB22 periph A MCI1_DA2 with pullup, conflicts with GTX7 */
++							 1 23 0x1 0x1>;	/* PB23 periph A MCI1_DA3 with pullup, conflicts with GRX4 */
++					};
++				};
++
++				mmc2 {
++					pinctrl_mmc2_clk_cmd_dat0: mmc2_clk_cmd_dat0 {
++						atmel,pins =
++							<2 15 0x1 0x0	/* PC15 periph A MCI2_CK, conflicts with PCK2 */
++							 2 10 0x1 0x1	/* PC10 periph A MCI2_CDA with pullup */
++							 2 11 0x1 0x1>;	/* PC11 periph A MCI2_DA0 with pullup */
++					};
++					pinctrl_mmc2_dat1_3: mmc2_dat1_3 {
++						atmel,pins =
++							<2 12 0x1 0x0	/* PC12 periph A MCI2_DA1 with pullup, conflicts with TIOA1 */
++							 2 13 0x1 0x0	/* PC13 periph A MCI2_DA2 with pullup, conflicts with TIOB1 */
++							 2 14 0x1 0x0>;	/* PC14 periph A MCI2_DA3 with pullup, conflicts with TCLK1 */
++					};
++				};
++
++				nand0 {
++					pinctrl_nand0_ale_cle: nand0_ale_cle-0 {
++						atmel,pins =
++							<4 21 0x1 0x1	/* PE21 periph A with pullup */
++							 4 22 0x1 0x1>;	/* PE22 periph A with pullup */
++					};
++				};
++
++				pioA: gpio@fffff200 {
++					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
++					reg = <0xfffff200 0x100>;
++					interrupts = <6 4 1>;
++					#gpio-cells = <2>;
++					gpio-controller;
++					interrupt-controller;
++					#interrupt-cells = <2>;
++				};
++
++				pioB: gpio@fffff400 {
++					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
++					reg = <0xfffff400 0x100>;
++					interrupts = <7 4 1>;
++					#gpio-cells = <2>;
++					gpio-controller;
++					interrupt-controller;
++					#interrupt-cells = <2>;
++				};
++
++				pioC: gpio@fffff600 {
++					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
++					reg = <0xfffff600 0x100>;
++					interrupts = <8 4 1>;
++					#gpio-cells = <2>;
++					gpio-controller;
++					interrupt-controller;
++					#interrupt-cells = <2>;
++				};
++
++				pioD: gpio@fffff800 {
++					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
++					reg = <0xfffff800 0x100>;
++					interrupts = <9 4 1>;
++					#gpio-cells = <2>;
++					gpio-controller;
++					interrupt-controller;
++					#interrupt-cells = <2>;
++				};
++
++				pioE: gpio@fffffa00 {
++					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
++					reg = <0xfffffa00 0x100>;
++					interrupts = <10 4 1>;
++					#gpio-cells = <2>;
++					gpio-controller;
++					interrupt-controller;
++					#interrupt-cells = <2>;
++				};
++
++				spi0 {
++					pinctrl_spi0: spi0-0 {
++						atmel,pins =
++							<3 10 0x1 0x0	/* PD10 periph A SPI0_MISO pin */
++							 3 11 0x1 0x0	/* PD11 periph A SPI0_MOSI pin */
++							 3 12 0x1 0x0	/* PD12 periph A SPI0_SPCK pin */
++							 3 13 0x0 0x0>;	/* PD13 GPIO SPI0_NPCS0 pin */
++					};
++				};
++
++				spi1 {
++					pinctrl_spi1: spi1-0 {
++						atmel,pins =
++							<2 22 0x1 0x0	/* PC22 periph A SPI1_MISO pin */
++							 2 23 0x1 0x0	/* PC23 periph A SPI1_MOSI pin */
++							 2 24 0x1 0x0	/* PC24 periph A SPI1_SPCK pin */
++							 2 25 0x0 0x0>;	/* PC25 GPIO SPI1_NPCS0 pin */
++					};
++				};
++
++				ssc0 {
++					pinctrl_ssc0_tx: ssc0_tx {
++						atmel,pins =
++							<2 16 0x1 0x0	/* PC16 periph A TK0 */
++							 2 17 0x1 0x0	/* PC17 periph A TF0 */
++							 2 18 0x1 0x0>;	/* PC18 periph A TD0 */
++					};
++
++					pinctrl_ssc0_rx: ssc0_rx {
++						atmel,pins =
++							<2 19 0x1 0x0	/* PC19 periph A RK0 */
++							 2 20 0x1 0x0	/* PC20 periph A RF0 */
++							 2 21 0x1 0x0>;	/* PC21 periph A RD0 */
++					};
++				};
++
++				ssc1 {
++					pinctrl_ssc1_tx: ssc1_tx {
++						atmel,pins =
++							<1 2 0x2 0x0	/* PB2 periph B TK1, conflicts with GTX2 */
++							 1 3 0x2 0x0	/* PB3 periph B TF1, conflicts with GTX3 */
++							 1 6 0x2 0x0>;	/* PB6 periph B TD1, conflicts with TD1 */
++					};
++
++					pinctrl_ssc1_rx: ssc1_rx {
++						atmel,pins =
++							<1 7 0x2 0x0	/* PB7 periph B RK1, conflicts with EREFCK */
++							 1 10 0x2 0x0	/* PB10 periph B RF1, conflicts with GTXER */
++							 1 11 0x2 0x0>;	/* PB11 periph B RD1, conflicts with GRXCK */
++					};
++				};
++
++				uart0 {
++					pinctrl_uart0: uart0-0 {
++						atmel,pins =
++							<2 29 0x1 0x0	/* PC29 periph A, conflicts with PWMFI2, ISI_D8 */
++							 2 30 0x1 0x1>;	/* PC30 periph A with pullup, conflicts with ISI_PCK */
++					};
++				};
++
++				uart1 {
++					pinctrl_uart1: uart1-0 {
++						atmel,pins =
++							<0 30 0x2 0x0	/* PA30 periph B, conflicts with TWD0, ISI_VSYNC */
++							 0 31 0x2 0x1>;	/* PA31 periph B with pullup, conflicts with TWCK0, ISI_HSYNC */
++					};
++				};
++
++				usart0 {
++					pinctrl_usart0: usart0-0 {
++						atmel,pins =
++							<3 17 0x1 0x0	/* PD17 periph A */
++							 3 18 0x1 0x1>;	/* PD18 periph A with pullup */
++					};
++
++					pinctrl_usart0_rts_cts: usart0_rts_cts-0 {
++						atmel,pins =
++							<3 15 0x1 0x0	/* PD15 periph A, conflicts with SPI0_NPCS2, CANTX0 */
++							 3 16 0x1 0x0>;	/* PD16 periph A, conflicts with SPI0_NPCS3, PWMFI3 */
++					};
++				};
++
++				usart1 {
++					pinctrl_usart1: usart1-0 {
++						atmel,pins =
++							<1 28 0x1 0x0	/* PB28 periph A */
++							 1 29 0x1 0x1>;	/* PB29 periph A with pullup */
++					};
++
++					pinctrl_usart1_rts_cts: usart1_rts_cts-0 {
++						atmel,pins =
++							<1 26 0x1 0x0	/* PB26 periph A, conflicts with GRX7 */
++							 1 27 0x1 0x0>;	/* PB27 periph A, conflicts with G125CKO */
++					};
++				};
++
++				usart2 {
++					pinctrl_usart2: usart2-0 {
++						atmel,pins =
++							<4 25 0x2 0x0	/* PE25 periph B, conflicts with A25 */
++							 4 26 0x2 0x1>;	/* PE26 periph B with pullup, conflicts NCS0 */
++					};
++
++					pinctrl_usart2_rts_cts: usart2_rts_cts-0 {
++						atmel,pins =
++							<4 23 0x2 0x0	/* PE23 periph B, conflicts with A23 */
++							 4 24 0x2 0x0>;	/* PE24 periph B, conflicts with A24 */
++					};
++				};
++
++				usart3 {
++					pinctrl_usart3: usart3-0 {
++						atmel,pins =
++							<4 18 0x2 0x0	/* PE18 periph B, conflicts with A18 */
++							 4 19 0x2 0x1>;	/* PE19 periph B with pullup, conflicts with A19 */
++					};
++
++					pinctrl_usart3_rts_cts: usart3_rts_cts-0 {
++						atmel,pins =
++							<4 16 0x2 0x0	/* PE16 periph B, conflicts with A16 */
++							 4 17 0x2 0x0>;	/* PE17 periph B, conflicts with A17 */
++					};
++				};
++			};
++
++			pmc: pmc@fffffc00 {
++				compatible = "atmel,at91rm9200-pmc";
++				reg = <0xfffffc00 0x120>;
++			};
++
++			rstc@fffffe00 {
++				compatible = "atmel,at91sam9g45-rstc";
++				reg = <0xfffffe00 0x10>;
++			};
++
++			pit: timer@fffffe30 {
++				compatible = "atmel,at91sam9260-pit";
++				reg = <0xfffffe30 0xf>;
++				interrupts = <3 4 5>;
++			};
++
++			watchdog@fffffe40 {
++				compatible = "atmel,at91sam9260-wdt";
++				reg = <0xfffffe40 0x10>;
++				status = "disabled";
++			};
++
++			rtc@fffffeb0 {
++				compatible = "atmel,at91rm9200-rtc";
++				reg = <0xfffffeb0 0x30>;
++				interrupts = <1 4 7>;
++			};
++		};
++
++		usb0: gadget@00500000 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			compatible = "atmel,at91sam9rl-udc";
++			reg = <0x00500000 0x100000
++			       0xf8030000 0x4000>;
++			interrupts = <33 4 2>;
++			status = "disabled";
++
++			ep0 {
++				reg = <0>;
++				atmel,fifo-size = <64>;
++				atmel,nb-banks = <1>;
++			};
++
++			ep1 {
++				reg = <1>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <3>;
++				atmel,can-dma;
++				atmel,can-isoc;
++			};
++
++			ep2 {
++				reg = <2>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <3>;
++				atmel,can-dma;
++				atmel,can-isoc;
++			};
++
++			ep3 {
++				reg = <3>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++				atmel,can-dma;
++			};
++
++			ep4 {
++				reg = <4>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++				atmel,can-dma;
++			};
++
++			ep5 {
++				reg = <5>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++				atmel,can-dma;
++			};
++
++			ep6 {
++				reg = <6>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++				atmel,can-dma;
++			};
++
++			ep7 {
++				reg = <7>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++				atmel,can-dma;
++			};
++
++			ep8 {
++				reg = <8>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++
++			ep9 {
++				reg = <9>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++
++			ep10 {
++				reg = <10>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++
++			ep11 {
++				reg = <11>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++
++			ep12 {
++				reg = <12>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++
++			ep13 {
++				reg = <13>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++
++			ep14 {
++				reg = <14>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++
++			ep15 {
++				reg = <15>;
++				atmel,fifo-size = <1024>;
++				atmel,nb-banks = <2>;
++			};
++		};
++
++		usb1: ohci@00600000 {
++			compatible = "atmel,at91rm9200-ohci", "usb-ohci";
++			reg = <0x00600000 0x100000>;
++			interrupts = <32 4 2>;
++			status = "disabled";
++		};
++
++		usb2: ehci@00700000 {
++			compatible = "atmel,at91sam9g45-ehci", "usb-ehci";
++			reg = <0x00700000 0x100000>;
++			interrupts = <32 4 2>;
++			status = "disabled";
++		};
++
++		nand0: nand@60000000 {
++			compatible = "atmel,at91rm9200-nand";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			reg = <	0x60000000 0x01000000	/* EBI CS3 */
++				0xffffc070 0x00000490	/* SMC PMECC regs */
++				0xffffc500 0x00000100	/* SMC PMECC Error Location regs */
++				0x00100000 0x00100000	/* ROM code */
++				0x70000000 0x10000000	/* NFC Command Registers */
++				0xffffc000 0x00000070	/* NFC HSMC regs */
++				0x00200000 0x00100000	/* NFC SRAM banks */
++				>;
++			interrupts = <5 4 6>;
++			atmel,nand-addr-offset = <21>;
++			atmel,nand-cmd-offset = <22>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_nand0_ale_cle>;
++			atmel,pmecc-lookup-table-offset = <0x10000 0x18000>;
++			status = "disabled";
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d31ek.dts b/arch/arm/boot/dts/sama5d31ek.dts
+new file mode 100644
+index 0000000..fa5d216
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d31ek.dts
+@@ -0,0 +1,51 @@
++/*
++ * sama5d31ek.dts - Device Tree file for SAMA5D31-EK board
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3xmb.dtsi"
++/include/ "sama5d3xdm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D31-EK";
++	compatible = "atmel,sama5d31ek", "atmel,sama5d3xmb", "atmel,sama5d3xcm", "atmel,sama5d3", "atmel,sama5";
++
++	ahb {
++		apb {
++			spi0: spi@f0004000 {
++				status = "okay";
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++			};
++
++			macb1: ethernet@f802c000 {
++				status = "okay";
++			};
++		};
++	};
++
++	leds {
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++		};
++	};
++
++	sound {
++		status = "okay";
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d33ek.dts b/arch/arm/boot/dts/sama5d33ek.dts
+new file mode 100644
+index 0000000..c38c943
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d33ek.dts
+@@ -0,0 +1,44 @@
++/*
++ * sama5d33ek.dts - Device Tree file for SAMA5D33-EK board
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3xmb.dtsi"
++/include/ "sama5d3xdm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D33-EK";
++	compatible = "atmel,sama5d33ek", "atmel,sama5d3xmb", "atmel,sama5d3xcm", "atmel,sama5d3", "atmel,sama5";
++
++	ahb {
++		apb {
++			spi0: spi@f0004000 {
++				status = "okay";
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				status = "okay";
++			};
++		};
++	};
++
++	sound {
++		status = "okay";
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+new file mode 100644
+index 0000000..d2739f8
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -0,0 +1,61 @@
++/*
++ * sama5d34ek.dts - Device Tree file for SAMA5D34-EK board
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3xmb.dtsi"
++/include/ "sama5d3xdm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D34-EK";
++	compatible = "atmel,sama5d34ek", "atmel,sama5ek", "atmel,sama5d3xmb", "atmel,sama5d3xcm", "atmel,sama5d3", "atmel,sama5";
++
++	ahb {
++		apb {
++			spi0: spi@f0004000 {
++				status = "okay";
++			};
++
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			i2c0: i2c@f0014000 {
++				status = "okay";
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				24c256@50 {
++					compatible = "24c256";
++					reg = <0x50>;
++					pagesize = <64>;
++				};
++			};
++
++			macb0: ethernet@f0028000 {
++				status = "okay";
++			};
++		};
++	};
++
++	leds {
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++		};
++	};
++
++	sound {
++		status = "okay";
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d35ek.dts b/arch/arm/boot/dts/sama5d35ek.dts
+new file mode 100644
+index 0000000..a488fc4
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d35ek.dts
+@@ -0,0 +1,56 @@
++/*
++ * sama5d35ek.dts - Device Tree file for SAMA5D35-EK board
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3xmb.dtsi"
++
++/ {
++	model = "Atmel SAMA5D35-EK";
++	compatible = "atmel,sama5d35ek", "atmel,sama5d3xmb", "atmel,sama5d3xcm", "atmel,sama5d3", "atmel,sama5";
++
++	ahb {
++		apb {
++			spi0: spi@f0004000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++			};
++
++			macb0: ethernet@f0028000 {
++				status = "okay";
++			};
++
++			isi: isi@f0034000 {
++				status = "okay";
++			};
++
++			macb1: ethernet@f802c000 {
++				status = "okay";
++			};
++		};
++	};
++
++	gpio_keys {
++		compatible = "gpio-keys";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		pb_user1 {
++			label = "pb_user1";
++			gpios = <&pioE 27 0>;
++			linux,code = <0x100>;
++			gpio-key,wakeup;
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d3xcm.dtsi b/arch/arm/boot/dts/sama5d3xcm.dtsi
+new file mode 100644
+index 0000000..1f8ed40
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d3xcm.dtsi
+@@ -0,0 +1,91 @@
++/*
++ * sama5d3xcm.dtsi - Device Tree Include file for SAMA5D3x CPU Module
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/include/ "sama5d3.dtsi"
++
++/ {
++	compatible = "atmel,samad3xcm", "atmel,sama5d3", "atmel,sama5";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 rootfstype=ubifs ubi.mtd=5 root=ubi0:rootfs";
++	};
++
++	memory {
++		reg = <0x20000000 0x20000000>;
++	};
++
++	clocks {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		main_clock: clock@0 {
++			compatible = "atmel,osc", "fixed-clock";
++			clock-frequency = <12000000>;
++		};
++	};
++
++	ahb {
++		apb {
++			macb0: ethernet@f0028000 {
++				phy-mode = "rgmii";
++			};
++		};
++
++		nand0: nand@60000000 {
++			nand-bus-width = <8>;
++			nand-ecc-mode = "hw";
++			atmel,has-pmecc;
++			atmel,pmecc-cap = <4>;
++			atmel,pmecc-sector-size = <512>;
++			atmel,has-nfc;
++			atmel,use-nfc-sram;
++			nand-on-flash-bbt;
++			status = "okay";
++
++			at91bootstrap@0 {
++				label = "at91bootstrap";
++				reg = <0x0 0x40000>;
++			};
++
++			bootloader@40000 {
++				label = "bootloader";
++				reg = <0x40000 0x80000>;
++			};
++
++			bootloaderenv@c0000 {
++				label = "bootloader env";
++				reg = <0xc0000 0xc0000>;
++			};
++
++			dtb@180000 {
++				label = "device tree";
++				reg = <0x180000 0x80000>;
++			};
++
++			kernel@200000 {
++				label = "kernel";
++				reg = <0x200000 0x600000>;
++			};
++
++			rootfs@800000 {
++				label = "rootfs";
++				reg = <0x800000 0x0f800000>;
++			};
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		d2 {
++			label = "d2";
++			gpios = <&pioE 25 1>;	/* PE25, conflicts with A25, RXD2 */
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d3xdm.dtsi b/arch/arm/boot/dts/sama5d3xdm.dtsi
+new file mode 100644
+index 0000000..4b8830e
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d3xdm.dtsi
+@@ -0,0 +1,42 @@
++/*
++ * sama5d3dm.dtsi - Device Tree file for SAMA5 display module
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++
++/ {
++	ahb {
++		apb {
++			i2c1: i2c@f0018000 {
++				qt1070: keyboard@1b {
++					compatible = "qt1070";
++					reg = <0x1b>;
++					interrupt-parent = <&pioE>;
++					interrupts = <31 0x0>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&pinctrl_qt1070_irq>;
++				};
++			};
++
++			adc0: adc@f8018000 {
++				status = "disabled";
++			};
++
++			tsadcc: tsadcc@f8018000 {
++				status = "okay";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_qt1070_irq: qt1070_irq {
++						atmel,pins =
++							<4 31 0x0 0x5>; /* PE31 GPIO with pull up deglith */
++					};
++				};
++			};
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d3xmb.dtsi b/arch/arm/boot/dts/sama5d3xmb.dtsi
+new file mode 100644
+index 0000000..661d7ca
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d3xmb.dtsi
+@@ -0,0 +1,166 @@
++/*
++ * sama5d3xmb.dts - Device Tree file for SAMA5D3x mother board
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/include/ "sama5d3xcm.dtsi"
++
++/ {
++	compatible = "atmel,sama5d3xmb", "atmel,sama5d3xcm", "atmel,sama5d3", "atmel,sama5";
++
++	ahb {
++		apb {
++			mmc0: mmc@f0000000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 &pinctrl_mmc0_cd>;
++				status = "okay";
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 17 0>;
++				};
++			};
++
++			spi0: spi@f0004000 {
++				m25p80@0 {
++					compatible = "atmel,at25df321a";
++					spi-max-frequency = <50000000>;
++					reg = <0>;
++				};
++			};
++
++			/*
++			 * i2c0 conflicts with ISI:
++			 * disable it to allow the use of ISI
++			 * can not enable audio when i2c0 disabled
++			 */
++			i2c0: i2c@f0014000 {
++				wm8904: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			usart1: serial@f0020000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts>;
++				status = "okay";
++			};
++
++			isi: isi@f0034000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_power &pinctrl_isi_reset>;
++			};
++
++			mmc1: mmc@f8000000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
++				status = "okay";
++				slot@0 {
++					reg = <0>;
++					bus-width = <4>;
++					cd-gpios = <&pioD 18 0>;
++				};
++			};
++
++			adc0: adc@f8018000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <
++					&pinctrl_adc0_adtrg
++					&pinctrl_adc0_ad0
++					&pinctrl_adc0_ad1
++					&pinctrl_adc0_ad2
++					&pinctrl_adc0_ad3
++					&pinctrl_adc0_ad4
++					>;
++				status = "okay";
++			};
++
++			macb1: ethernet@f802c000 {
++				phy-mode = "rmii";
++			};
++
++			pinctrl@fffff200 {
++				board {
++					pinctrl_mmc0_cd: mmc0_cd {
++						atmel,pins =
++							<3 17 0x0 0x5>; /* PD17 GPIO with pullup deglitch */
++					};
++
++					pinctrl_mmc1_cd: mmc1_cd {
++						atmel,pins =
++							<3 18 0x0 0x5>; /* PD18 GPIO with pullup deglitch */
++					};
++
++					pinctrl_pck0_as_audio_mck: pck0_as_audio_mck {
++						atmel,pins =
++							<3 30 0x2 0x0>;	/* PD30 periph B */
++					};
++
++					pinctrl_isi_reset: isi_reset-0 {
++						atmel,pins =
++							<4 24 0x0 0x0>;   /* PE24 gpio */
++					};
++
++					pinctrl_isi_power: isi_power-0 {
++						atmel,pins =
++							<4 29 0x0 0x0>; /* PE29 gpio */
++					};
++
++					pinctrl_usba_vbus: usba_vbus {
++						atmel,pins =
++							<3 29 0x0 0x4>; /* PD29 GPIO with deglitch */
++					};
++				};
++			};
++
++			dbgu: serial@ffffee00 {
++				status = "okay";
++			};
++
++			watchdog@fffffe40 {
++				status = "okay";
++			};
++		};
++
++		usb0: gadget@00500000 {
++			atmel,vbus-gpio = <&pioD 29 0>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_usba_vbus>;
++			status = "okay";
++		};
++
++		usb1: ohci@00600000 {
++			num-ports = <3>;
++			atmel,vbus-gpio = <&pioD 25 0
++					   &pioD 26 1
++					   &pioD 27 1
++					  >;
++			status = "okay";
++		};
++
++		usb2: ehci@00700000 {
++			status = "okay";
++		};
++	};
++
++	sound {
++		compatible = "atmel,sama5d3ek-wm8904";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
++
++		atmel,model = "wm8904 @ SAMA5D3EK";
++		atmel,audio-routing =
++			"Headphone Jack", "HPOUTL",
++			"Headphone Jack", "HPOUTR",
++			"IN2L", "Line In Jack",
++			"IN2R", "Line In Jack",
++			"IN1L", "Mic";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8904>;
++	};
++};
+diff --git a/arch/arm/configs/sama5_defconfig b/arch/arm/configs/sama5_defconfig
+new file mode 100644
+index 0000000..4d0dc3c
+--- /dev/null
++++ b/arch/arm/configs/sama5_defconfig
+@@ -0,0 +1,181 @@
++# CONFIG_LOCALVERSION_AUTO is not set
++# CONFIG_SWAP is not set
++CONFIG_SYSVIPC=y
++CONFIG_IRQ_DOMAIN_DEBUG=y
++CONFIG_LOG_BUF_SHIFT=14
++CONFIG_SYSFS_DEPRECATED=y
++CONFIG_SYSFS_DEPRECATED_V2=y
++CONFIG_BLK_DEV_INITRD=y
++CONFIG_EMBEDDED=y
++CONFIG_SLAB=y
++CONFIG_MODULES=y
++CONFIG_MODULE_FORCE_LOAD=y
++CONFIG_MODULE_UNLOAD=y
++CONFIG_MODULE_FORCE_UNLOAD=y
++# CONFIG_LBDAF is not set
++# CONFIG_BLK_DEV_BSG is not set
++# CONFIG_IOSCHED_DEADLINE is not set
++# CONFIG_IOSCHED_CFQ is not set
++CONFIG_ARCH_AT91=y
++CONFIG_SOC_SAM_V7=y
++CONFIG_SOC_SAMA5D3=y
++CONFIG_MACH_SAMA5_DT=y
++CONFIG_AT91_PROGRAMMABLE_CLOCKS=y
++CONFIG_AEABI=y
++# CONFIG_OABI_COMPAT is not set
++CONFIG_UACCESS_WITH_MEMCPY=y
++CONFIG_ZBOOT_ROM_TEXT=0x0
++CONFIG_ZBOOT_ROM_BSS=0x0
++CONFIG_CMDLINE="console=ttyS0,115200 initrd=0x21100000,25165824 root=/dev/ram0 rw"
++CONFIG_AUTO_ZRELADDR=y
++CONFIG_VFP=y
++# CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
++CONFIG_PM_RUNTIME=y
++CONFIG_PM_DEBUG=y
++CONFIG_PM_ADVANCED_DEBUG=y
++CONFIG_NET=y
++CONFIG_PACKET=y
++CONFIG_UNIX=y
++CONFIG_INET=y
++CONFIG_IP_MULTICAST=y
++CONFIG_IP_PNP=y
++# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
++# CONFIG_INET_XFRM_MODE_TUNNEL is not set
++# CONFIG_INET_XFRM_MODE_BEET is not set
++# CONFIG_INET_LRO is not set
++# CONFIG_INET_DIAG is not set
++CONFIG_IPV6=y
++# CONFIG_INET6_XFRM_MODE_TRANSPORT is not set
++# CONFIG_INET6_XFRM_MODE_TUNNEL is not set
++# CONFIG_INET6_XFRM_MODE_BEET is not set
++CONFIG_IPV6_SIT_6RD=y
++CONFIG_CAN=y
++CONFIG_CAN_AT91=y
++CONFIG_CFG80211=y
++CONFIG_MAC80211=y
++CONFIG_MAC80211_LEDS=y
++CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
++CONFIG_DEVTMPFS=y
++CONFIG_DEVTMPFS_MOUNT=y
++# CONFIG_STANDALONE is not set
++# CONFIG_PREVENT_FIRMWARE_BUILD is not set
++CONFIG_MTD=y
++CONFIG_MTD_CMDLINE_PARTS=y
++CONFIG_MTD_CHAR=y
++CONFIG_MTD_BLOCK=y
++CONFIG_MTD_CFI=y
++CONFIG_MTD_M25P80=y
++CONFIG_MTD_NAND=y
++CONFIG_MTD_NAND_ATMEL=y
++CONFIG_MTD_UBI=y
++CONFIG_BLK_DEV_LOOP=y
++CONFIG_BLK_DEV_RAM=y
++CONFIG_BLK_DEV_RAM_COUNT=4
++CONFIG_BLK_DEV_RAM_SIZE=8192
++CONFIG_ATMEL_TCLIB=y
++CONFIG_ATMEL_SSC=y
++CONFIG_EEPROM_AT24=y
++CONFIG_SCSI=y
++CONFIG_BLK_DEV_SD=y
++CONFIG_SCSI_MULTI_LUN=y
++# CONFIG_SCSI_LOWLEVEL is not set
++CONFIG_NETDEVICES=y
++CONFIG_MII=y
++CONFIG_MACB=y
++# CONFIG_NET_VENDOR_BROADCOM is not set
++# CONFIG_NET_VENDOR_CIRRUS is not set
++# CONFIG_NET_VENDOR_FARADAY is not set
++# CONFIG_NET_VENDOR_INTEL is not set
++# CONFIG_NET_VENDOR_MARVELL is not set
++# CONFIG_NET_VENDOR_MICREL is not set
++# CONFIG_NET_VENDOR_MICROCHIP is not set
++# CONFIG_NET_VENDOR_NATSEMI is not set
++# CONFIG_NET_VENDOR_SEEQ is not set
++# CONFIG_NET_VENDOR_SMSC is not set
++# CONFIG_NET_VENDOR_STMICRO is not set
++# CONFIG_NET_VENDOR_WIZNET is not set
++CONFIG_MICREL_PHY=y
++# CONFIG_WLAN is not set
++# CONFIG_INPUT_MOUSEDEV is not set
++CONFIG_INPUT_EVDEV=y
++# CONFIG_KEYBOARD_ATKBD is not set
++CONFIG_KEYBOARD_QT1070=y
++CONFIG_KEYBOARD_GPIO=y
++# CONFIG_INPUT_MOUSE is not set
++CONFIG_INPUT_TOUCHSCREEN=y
++CONFIG_TOUCHSCREEN_ATMEL_MXT=y
++CONFIG_TOUCHSCREEN_ATMEL_TSADCC=y
++# CONFIG_SERIO is not set
++CONFIG_LEGACY_PTY_COUNT=4
++CONFIG_SERIAL_ATMEL=y
++CONFIG_SERIAL_ATMEL_CONSOLE=y
++CONFIG_HW_RANDOM=y
++CONFIG_I2C=y
++CONFIG_I2C_CHARDEV=y
++CONFIG_I2C_AT91=y
++CONFIG_I2C_GPIO=y
++CONFIG_SPI=y
++CONFIG_SPI_ATMEL=y
++CONFIG_SPI_GPIO=y
++CONFIG_GPIO_SYSFS=y
++# CONFIG_HWMON is not set
++CONFIG_SSB=m
++CONFIG_FB=y
++CONFIG_BACKLIGHT_LCD_SUPPORT=y
++# CONFIG_LCD_CLASS_DEVICE is not set
++CONFIG_BACKLIGHT_CLASS_DEVICE=y
++# CONFIG_BACKLIGHT_GENERIC is not set
++CONFIG_FRAMEBUFFER_CONSOLE=y
++# CONFIG_HID_GENERIC is not set
++CONFIG_USB=y
++CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_ACM=y
++CONFIG_USB_STORAGE=y
++CONFIG_USB_GADGET=y
++CONFIG_USB_AT91=y
++CONFIG_USB_MASS_STORAGE=m
++CONFIG_MMC=y
++# CONFIG_MMC_BLOCK_BOUNCE is not set
++CONFIG_MMC_ATMELMCI=y
++CONFIG_NEW_LEDS=y
++CONFIG_LEDS_CLASS=y
++CONFIG_LEDS_GPIO=y
++CONFIG_LEDS_TRIGGER_TIMER=y
++CONFIG_LEDS_TRIGGER_HEARTBEAT=y
++CONFIG_LEDS_TRIGGER_GPIO=y
++CONFIG_RTC_CLASS=y
++CONFIG_RTC_DRV_AT91RM9200=y
++CONFIG_DMADEVICES=y
++# CONFIG_IOMMU_SUPPORT is not set
++CONFIG_IIO=y
++CONFIG_AT91_ADC=y
++CONFIG_EXT2_FS=y
++CONFIG_FANOTIFY=y
++CONFIG_VFAT_FS=y
++CONFIG_TMPFS=y
++CONFIG_JFFS2_FS=y
++CONFIG_JFFS2_SUMMARY=y
++CONFIG_UBIFS_FS=y
++CONFIG_NFS_FS=y
++CONFIG_ROOT_NFS=y
++CONFIG_NLS_CODEPAGE_437=y
++CONFIG_NLS_CODEPAGE_850=y
++CONFIG_NLS_ISO8859_1=y
++CONFIG_STRIP_ASM_SYMS=y
++CONFIG_DEBUG_FS=y
++# CONFIG_SCHED_DEBUG is not set
++CONFIG_DEBUG_MEMORY_INIT=y
++# CONFIG_FTRACE is not set
++CONFIG_DEBUG_USER=y
++CONFIG_DEBUG_LL=y
++CONFIG_EARLY_PRINTK=y
++# CONFIG_CRYPTO_ANSI_CPRNG is not set
++CONFIG_CRYPTO_USER_API_HASH=m
++CONFIG_CRYPTO_USER_API_SKCIPHER=m
++CONFIG_CRYPTO_DEV_ATMEL_AES=y
++CONFIG_CRYPTO_DEV_ATMEL_TDES=y
++CONFIG_CRYPTO_DEV_ATMEL_SHA=y
++CONFIG_CRC_CCITT=m
++CONFIG_CRC_ITU_T=m
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 71a60ba..bb48995 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -32,6 +32,14 @@ config SOC_AT91SAM9
+ 	select MULTI_IRQ_HANDLER
+ 	select SPARSE_IRQ
+ 
++config SOC_SAMA5
++	bool
++	select AT91_SAM9_TIME
++	select CPU_V7
++	select GENERIC_CLOCKEVENTS
++	select MULTI_IRQ_HANDLER
++	select SPARSE_IRQ
++
+ menu "Atmel AT91 System-on-Chip"
+ 
+ choice
+@@ -44,10 +52,28 @@ config SOC_SAM_V4_V5
+ 	  Select this if you are using one of Atmel's AT91SAM9, AT91RM9200
+ 	  or AT91X40 SoC.
+ 
++config SOC_SAM_V7
++	bool "Cortex A5"
++	help
++	  Select this if you are using one of Atmel's SAMA5D3 SoC.
++
+ endchoice
+ 
+ comment "Atmel AT91 Processor"
+ 
++if SOC_SAM_V7
++config SOC_SAMA5D3
++	bool "SAMA5D3 family"
++	depends on SOC_SAM_V7
++	select SOC_SAMA5
++	select HAVE_FB_ATMEL
++	select HAVE_NET_MACB
++	select HAVE_AT91_DBGU1
++	help
++	  Select this if you are using one of Atmel's SAMA5D3 family SoC.
++	  This support covers SAMA5D31, SAMA5D33, SAMA5D34, SAMA5D35.
++endif
++
+ if SOC_SAM_V4_V5
+ config SOC_AT91RM9200
+ 	bool "AT91RM9200"
+@@ -518,6 +544,14 @@ config MACH_AT91SAM_DT
+ 	  Select this if you want to experiment device-tree with
+ 	  an Atmel Evaluation Kit.
+ 
++config MACH_SAMA5_DT
++	bool "Atmel SAMA5 Evaluation Kits with device-tree support"
++	depends on SOC_SAMA5
++	select USE_OF
++	help
++	  Select this if you want to experiment device-tree with
++	  an Atmel Evaluation Kit.
++
+ # ----------------------------------------------------------
+ 
+ comment "AT91 Board Options"
+diff --git a/arch/arm/mach-at91/Makefile b/arch/arm/mach-at91/Makefile
+index 3c9cfa1..35fc3d8 100644
+--- a/arch/arm/mach-at91/Makefile
++++ b/arch/arm/mach-at91/Makefile
+@@ -22,6 +22,7 @@ obj-$(CONFIG_SOC_AT91SAM9G45)	+= at91sam9g45.o
+ obj-$(CONFIG_SOC_AT91SAM9N12)	+= at91sam9n12.o
+ obj-$(CONFIG_SOC_AT91SAM9X5)	+= at91sam9x5.o
+ obj-$(CONFIG_SOC_AT91SAM9RL)	+= at91sam9rl.o
++obj-$(CONFIG_SOC_SAMA5D3)	+= sama5d3.o
+ 
+ obj-$(CONFIG_ARCH_AT91RM9200)	+= at91rm9200_devices.o
+ obj-$(CONFIG_ARCH_AT91SAM9260)	+= at91sam9260_devices.o
+@@ -91,6 +92,9 @@ obj-$(CONFIG_MACH_AT91SAM9M10G45EK) += board-sam9m10g45ek.o
+ obj-$(CONFIG_MACH_AT91RM9200_DT) += board-rm9200-dt.o
+ obj-$(CONFIG_MACH_AT91SAM_DT) += board-dt.o
+ 
++# SAMA5 board with device-tree
++obj-$(CONFIG_MACH_SAMA5_DT) += board-dt-sama5.o
++
+ # AT91X40 board-specific support
+ obj-$(CONFIG_MACH_AT91EB01)	+= board-eb01.o
+ 
+diff --git a/arch/arm/mach-at91/board-dt-sama5.c b/arch/arm/mach-at91/board-dt-sama5.c
+new file mode 100644
+index 0000000..705305e
+--- /dev/null
++++ b/arch/arm/mach-at91/board-dt-sama5.c
+@@ -0,0 +1,86 @@
++/*
++ *  Setup code for SAMA5 Evaluation Kits with Device Tree support
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++
++#include <linux/types.h>
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/gpio.h>
++#include <linux/micrel_phy.h>
++#include <linux/of.h>
++#include <linux/of_irq.h>
++#include <linux/of_platform.h>
++#include <linux/phy.h>
++
++#include <asm/setup.h>
++#include <asm/irq.h>
++#include <asm/mach/arch.h>
++#include <asm/mach/map.h>
++#include <asm/mach/irq.h>
++
++#include "at91_aic.h"
++#include "generic.h"
++
++
++static const struct of_device_id irq_of_match[] __initconst = {
++
++	{ .compatible = "atmel,sama5d3-aic", .data = at91_aic5_of_init },
++	{ /*sentinel*/ }
++};
++
++static void __init at91_dt_init_irq(void)
++{
++	of_irq_init(irq_of_match);
++}
++
++static int ksz9021rn_phy_fixup(struct phy_device *phy)
++{
++	int value;
++
++#define GMII_RCCPSR	260
++#define GMII_RRDPSR	261
++#define GMII_ERCR	11
++#define GMII_ERDWR	12
++
++	/* Set delay values */
++	value = GMII_RCCPSR | 0x8000;
++	phy_write(phy, GMII_ERCR, value);
++	value = 0xF2F4;
++	phy_write(phy, GMII_ERDWR, value);
++	value = GMII_RRDPSR | 0x8000;
++	phy_write(phy, GMII_ERCR, value);
++	value = 0x2222;
++	phy_write(phy, GMII_ERDWR, value);
++
++	return 0;
++}
++
++static void __init sama5_dt_device_init(void)
++{
++	if (of_machine_is_compatible("atmel,sama5d3xcm"))
++		phy_register_fixup_for_uid(PHY_ID_KSZ9021, MICREL_PHY_ID_MASK,
++			ksz9021rn_phy_fixup);
++
++	of_platform_populate(NULL, of_default_bus_match_table, NULL, NULL);
++}
++
++static const char *sama5_dt_board_compat[] __initdata = {
++	"atmel,sama5",
++	NULL
++};
++
++DT_MACHINE_START(sama5_dt, "Atmel SAMA5 (Device Tree)")
++	/* Maintainer: Atmel */
++	.init_time	= at91sam926x_pit_init,
++	.map_io		= at91_map_io,
++	.handle_irq	= at91_aic5_handle_irq,
++	.init_early	= at91_dt_initialize,
++	.init_irq	= at91_dt_init_irq,
++	.init_machine	= sama5_dt_device_init,
++	.dt_compat	= sama5_dt_board_compat,
++MACHINE_END
+diff --git a/arch/arm/mach-at91/clock.c b/arch/arm/mach-at91/clock.c
+index 3336150..da84188 100644
+--- a/arch/arm/mach-at91/clock.c
++++ b/arch/arm/mach-at91/clock.c
+@@ -54,7 +54,10 @@ EXPORT_SYMBOL_GPL(at91_pmc_base);
+  */
+ #define cpu_has_utmi()		(  cpu_is_at91sam9rl() \
+ 				|| cpu_is_at91sam9g45() \
+-				|| cpu_is_at91sam9x5())
++				|| cpu_is_at91sam9x5() \
++				|| cpu_is_sama5d3())
++
++#define cpu_has_1056M_plla()	(cpu_is_sama5d3())
+ 
+ #define cpu_has_800M_plla()	(  cpu_is_at91sam9g20() \
+ 				|| cpu_is_at91sam9g45() \
+@@ -75,7 +78,8 @@ EXPORT_SYMBOL_GPL(at91_pmc_base);
+ 				|| cpu_is_at91sam9n12()))
+ 
+ #define cpu_has_upll()		(cpu_is_at91sam9g45() \
+-				|| cpu_is_at91sam9x5())
++				|| cpu_is_at91sam9x5() \
++				|| cpu_is_sama5d3())
+ 
+ /* USB host HS & FS */
+ #define cpu_has_uhp()		(!cpu_is_at91sam9rl())
+@@ -83,18 +87,22 @@ EXPORT_SYMBOL_GPL(at91_pmc_base);
+ /* USB device FS only */
+ #define cpu_has_udpfs()		(!(cpu_is_at91sam9rl() \
+ 				|| cpu_is_at91sam9g45() \
+-				|| cpu_is_at91sam9x5()))
++				|| cpu_is_at91sam9x5() \
++				|| cpu_is_sama5d3()))
+ 
+ #define cpu_has_plladiv2()	(cpu_is_at91sam9g45() \
+ 				|| cpu_is_at91sam9x5() \
+-				|| cpu_is_at91sam9n12())
++				|| cpu_is_at91sam9n12() \
++				|| cpu_is_sama5d3())
+ 
+ #define cpu_has_mdiv3()		(cpu_is_at91sam9g45() \
+ 				|| cpu_is_at91sam9x5() \
+-				|| cpu_is_at91sam9n12())
++				|| cpu_is_at91sam9n12() \
++				|| cpu_is_sama5d3())
+ 
+ #define cpu_has_alt_prescaler()	(cpu_is_at91sam9x5() \
+-				|| cpu_is_at91sam9n12())
++				|| cpu_is_at91sam9n12() \
++				|| cpu_is_sama5d3())
+ 
+ static LIST_HEAD(clocks);
+ static DEFINE_SPINLOCK(clk_lock);
+@@ -210,10 +218,26 @@ struct clk mck = {
+ 
+ static void pmc_periph_mode(struct clk *clk, int is_on)
+ {
+-	if (is_on)
+-		at91_pmc_write(AT91_PMC_PCER, clk->pmc_mask);
+-	else
+-		at91_pmc_write(AT91_PMC_PCDR, clk->pmc_mask);
++	u32 regval = 0;
++
++	/*
++	 * With sama5d3 devices, we are managing clock division so we have to
++	 * use the Peripheral Control Register introduced from at91sam9x5
++	 * devices.
++	 */
++	if (cpu_is_sama5d3()) {
++		regval |= AT91_PMC_PCR_CMD; /* write command */
++		regval |= clk->pid & AT91_PMC_PCR_PID; /* peripheral selection */
++		regval |= AT91_PMC_PCR_DIV(clk->div);
++		if (is_on)
++			regval |= AT91_PMC_PCR_EN; /* enable clock */
++		at91_pmc_write(AT91_PMC_PCR, regval);
++	} else {
++		if (is_on)
++			at91_pmc_write(AT91_PMC_PCER, clk->pmc_mask);
++		else
++			at91_pmc_write(AT91_PMC_PCDR, clk->pmc_mask);
++	}
+ }
+ 
+ static struct clk __init *at91_css_to_clk(unsigned long css)
+@@ -443,14 +467,18 @@ static void __init init_programmable_clock(struct clk *clk)
+ 
+ static int at91_clk_show(struct seq_file *s, void *unused)
+ {
+-	u32		scsr, pcsr, uckr = 0, sr;
++	u32		scsr, pcsr, pcsr1 = 0, uckr = 0, sr;
+ 	struct clk	*clk;
+ 
+ 	scsr = at91_pmc_read(AT91_PMC_SCSR);
+ 	pcsr = at91_pmc_read(AT91_PMC_PCSR);
++	if (cpu_is_sama5d3())
++		pcsr1 = at91_pmc_read(AT91_PMC_PCSR1);
+ 	sr = at91_pmc_read(AT91_PMC_SR);
+ 	seq_printf(s, "SCSR = %8x\n", scsr);
+ 	seq_printf(s, "PCSR = %8x\n", pcsr);
++	if (cpu_is_sama5d3())
++		seq_printf(s, "PCSR1 = %8x\n", pcsr1);
+ 	seq_printf(s, "MOR  = %8x\n", at91_pmc_read(AT91_CKGR_MOR));
+ 	seq_printf(s, "MCFR = %8x\n", at91_pmc_read(AT91_CKGR_MCFR));
+ 	seq_printf(s, "PLLA = %8x\n", at91_pmc_read(AT91_CKGR_PLLAR));
+@@ -470,20 +498,30 @@ static int at91_clk_show(struct seq_file *s, void *unused)
+ 	list_for_each_entry(clk, &clocks, node) {
+ 		char	*state;
+ 
+-		if (clk->mode == pmc_sys_mode)
++		if (clk->mode == pmc_sys_mode) {
+ 			state = (scsr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk->mode == pmc_periph_mode)
+-			state = (pcsr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk->mode == pmc_uckr_mode)
++		} else if (clk->mode == pmc_periph_mode) {
++			if (cpu_is_sama5d3()) {
++				u32 pmc_mask = 1 << (clk->pid % 32);
++
++				if (clk->pid > 31)
++					state = (pcsr1 & pmc_mask) ? "on" : "off";
++				else
++					state = (pcsr & pmc_mask) ? "on" : "off";
++			} else {
++				state = (pcsr & clk->pmc_mask) ? "on" : "off";
++			}
++		} else if (clk->mode == pmc_uckr_mode) {
+ 			state = (uckr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk->pmc_mask)
++		} else if (clk->pmc_mask) {
+ 			state = (sr & clk->pmc_mask) ? "on" : "off";
+-		else if (clk == &clk32k || clk == &main_clk)
++		} else if (clk == &clk32k || clk == &main_clk) {
+ 			state = "on";
+-		else
++		} else {
+ 			state = "";
++		}
+ 
+-		seq_printf(s, "%-10s users=%2d %-3s %9ld Hz %s\n",
++		seq_printf(s, "%-10s users=%2d %-3s %9lu Hz %s\n",
+ 			clk->name, clk->users, state, clk_get_rate(clk),
+ 			clk->parent ? clk->parent->name : "");
+ 	}
+@@ -530,6 +568,9 @@ int __init clk_register(struct clk *clk)
+ 	if (clk_is_peripheral(clk)) {
+ 		if (!clk->parent)
+ 			clk->parent = &mck;
++		if (cpu_is_sama5d3())
++			clk->rate_hz = DIV_ROUND_UP(clk->parent->rate_hz,
++						    1 << clk->div);
+ 		clk->mode = pmc_periph_mode;
+ 	}
+ 	else if (clk_is_sys(clk)) {
+@@ -555,7 +596,11 @@ static u32 __init at91_pll_rate(struct clk *pll, u32 freq, u32 reg)
+ 	unsigned mul, div;
+ 
+ 	div = reg & 0xff;
+-	mul = (reg >> 16) & 0x7ff;
++	if (cpu_is_sama5d3())
++		mul = AT91_PMC3_MUL_GET(reg);
++	else
++		mul = AT91_PMC_MUL_GET(reg);
++
+ 	if (div && mul) {
+ 		freq /= div;
+ 		freq *= mul + 1;
+@@ -706,12 +751,15 @@ static int __init at91_pmc_init(unsigned long main_clock)
+ 
+ 	/* report if PLLA is more than mildly overclocked */
+ 	plla.rate_hz = at91_pll_rate(&plla, main_clock, at91_pmc_read(AT91_CKGR_PLLAR));
+-	if (cpu_has_300M_plla()) {
+-		if (plla.rate_hz > 300000000)
++	if (cpu_has_1056M_plla()) {
++		if (plla.rate_hz > 1056000000)
+ 			pll_overclock = true;
+ 	} else if (cpu_has_800M_plla()) {
+ 		if (plla.rate_hz > 800000000)
+ 			pll_overclock = true;
++	} else if (cpu_has_300M_plla()) {
++		if (plla.rate_hz > 300000000)
++			pll_overclock = true;
+ 	} else if (cpu_has_240M_plla()) {
+ 		if (plla.rate_hz > 240000000)
+ 			pll_overclock = true;
+@@ -872,6 +920,7 @@ int __init at91_clock_init(unsigned long main_clock)
+ static int __init at91_clock_reset(void)
+ {
+ 	unsigned long pcdr = 0;
++	unsigned long pcdr1 = 0;
+ 	unsigned long scdr = 0;
+ 	struct clk *clk;
+ 
+@@ -879,8 +928,17 @@ static int __init at91_clock_reset(void)
+ 		if (clk->users > 0)
+ 			continue;
+ 
+-		if (clk->mode == pmc_periph_mode)
+-			pcdr |= clk->pmc_mask;
++		if (clk->mode == pmc_periph_mode) {
++			if (cpu_is_sama5d3()) {
++				u32 pmc_mask = 1 << (clk->pid % 32);
++
++				if (clk->pid > 31)
++					pcdr1 |= pmc_mask;
++				else
++					pcdr |= pmc_mask;
++			} else
++				pcdr |= clk->pmc_mask;
++		}
+ 
+ 		if (clk->mode == pmc_sys_mode)
+ 			scdr |= clk->pmc_mask;
+@@ -888,8 +946,9 @@ static int __init at91_clock_reset(void)
+ 		pr_debug("Clocks: disable unused %s\n", clk->name);
+ 	}
+ 
+-	at91_pmc_write(AT91_PMC_PCDR, pcdr);
+ 	at91_pmc_write(AT91_PMC_SCDR, scdr);
++	if (cpu_is_sama5d3())
++		at91_pmc_write(AT91_PMC_PCDR1, pcdr1);
+ 
+ 	return 0;
+ }
+diff --git a/arch/arm/mach-at91/clock.h b/arch/arm/mach-at91/clock.h
+index c2e63e4..a98a39b 100644
+--- a/arch/arm/mach-at91/clock.h
++++ b/arch/arm/mach-at91/clock.h
+@@ -20,7 +20,9 @@ struct clk {
+ 	const char	*name;		/* unique clock name */
+ 	struct clk_lookup cl;
+ 	unsigned long	rate_hz;
++	unsigned	div;		/* parent clock divider */
+ 	struct clk	*parent;
++	unsigned	pid;		/* peripheral ID */
+ 	u32		pmc_mask;
+ 	void		(*mode)(struct clk *, int);
+ 	unsigned	id:3;		/* PCK0..4, or 32k/main/a/b */
+diff --git a/arch/arm/mach-at91/include/mach/at91_pmc.h b/arch/arm/mach-at91/include/mach/at91_pmc.h
+index ea2c57a..31df120 100644
+--- a/arch/arm/mach-at91/include/mach/at91_pmc.h
++++ b/arch/arm/mach-at91/include/mach/at91_pmc.h
+@@ -75,6 +75,9 @@ extern void __iomem *at91_pmc_base;
+ #define		AT91_PMC_PLLCOUNT	(0x3f  <<  8)		/* PLL Counter */
+ #define		AT91_PMC_OUT		(3     << 14)		/* PLL Clock Frequency Range */
+ #define		AT91_PMC_MUL		(0x7ff << 16)		/* PLL Multiplier */
++#define		AT91_PMC_MUL_GET(n)	((n) >> 16 & 0x7ff)
++#define		AT91_PMC3_MUL		(0x7f  << 18)		/* PLL Multiplier [SAMA5 only] */
++#define		AT91_PMC3_MUL_GET(n)	((n) >> 18 & 0x7f)
+ #define		AT91_PMC_USBDIV		(3     << 28)		/* USB Divisor (PLLB only) */
+ #define			AT91_PMC_USBDIV_1		(0 << 28)
+ #define			AT91_PMC_USBDIV_2		(1 << 28)
+@@ -167,11 +170,18 @@ extern void __iomem *at91_pmc_base;
+ #define		AT91_PMC_WPVS		(0x1  <<  0)		/* Write Protect Violation Status */
+ #define		AT91_PMC_WPVSRC		(0xffff  <<  8)		/* Write Protect Violation Source */
+ 
+-#define AT91_PMC_PCR		0x10c			/* Peripheral Control Register [some SAM9] */
++#define AT91_PMC_PCER1		0x100			/* Peripheral Clock Enable Register 1 [SAMA5 only]*/
++#define AT91_PMC_PCDR1		0x104			/* Peripheral Clock Enable Register 1 */
++#define AT91_PMC_PCSR1		0x108			/* Peripheral Clock Enable Register 1 */
++
++#define AT91_PMC_PCR		0x10c			/* Peripheral Control Register [some SAM9 and SAMA5] */
+ #define		AT91_PMC_PCR_PID	(0x3f  <<  0)		/* Peripheral ID */
+-#define		AT91_PMC_PCR_CMD	(0x1  <<  12)		/* Command */
+-#define		AT91_PMC_PCR_DIV	(0x3  <<  16)		/* Divisor Value */
+-#define		AT91_PMC_PCRDIV(n)	(((n) <<  16) & AT91_PMC_PCR_DIV)
++#define		AT91_PMC_PCR_CMD	(0x1  <<  12)		/* Command (read=0, write=1) */
++#define		AT91_PMC_PCR_DIV(n)	((n)  <<  16)		/* Divisor Value */
++#define			AT91_PMC_PCR_DIV0	0x0			/* Peripheral clock is MCK */
++#define			AT91_PMC_PCR_DIV2	0x2			/* Peripheral clock is MCK/2 */
++#define			AT91_PMC_PCR_DIV4	0x4			/* Peripheral clock is MCK/4 */
++#define			AT91_PMC_PCR_DIV8	0x8			/* Peripheral clock is MCK/8 */
+ #define		AT91_PMC_PCR_EN		(0x1  <<  28)		/* Enable */
+ 
+ #endif
+diff --git a/arch/arm/mach-at91/include/mach/cpu.h b/arch/arm/mach-at91/include/mach/cpu.h
+index b6504c1..0f3379f 100644
+--- a/arch/arm/mach-at91/include/mach/cpu.h
++++ b/arch/arm/mach-at91/include/mach/cpu.h
+@@ -36,6 +36,8 @@
+ #define ARCH_ID_AT91M40807	0x14080745
+ #define ARCH_ID_AT91R40008	0x44000840
+ 
++#define ARCH_ID_SAMA5D3		0x8A5C07C0
++
+ #define ARCH_EXID_AT91SAM9M11	0x00000001
+ #define ARCH_EXID_AT91SAM9M10	0x00000002
+ #define ARCH_EXID_AT91SAM9G46	0x00000003
+@@ -47,6 +49,11 @@
+ #define ARCH_EXID_AT91SAM9G25	0x00000003
+ #define ARCH_EXID_AT91SAM9X25	0x00000004
+ 
++#define ARCH_EXID_SAMA5D31	0x00444300
++#define ARCH_EXID_SAMA5D33	0x00414300
++#define ARCH_EXID_SAMA5D34	0x00414301
++#define ARCH_EXID_SAMA5D35	0x00584300
++
+ #define ARCH_FAMILY_AT91X92	0x09200000
+ #define ARCH_FAMILY_AT91SAM9	0x01900000
+ #define ARCH_FAMILY_AT91SAM9XE	0x02900000
+@@ -75,6 +82,9 @@ enum at91_soc_type {
+ 	/* SAM9N12 */
+ 	AT91_SOC_SAM9N12,
+ 
++	/* SAMA5D3 */
++	AT91_SOC_SAMA5D3,
++
+ 	/* Unknown type */
+ 	AT91_SOC_NONE
+ };
+@@ -93,6 +103,10 @@ enum at91_soc_subtype {
+ 	AT91_SOC_SAM9G15, AT91_SOC_SAM9G35, AT91_SOC_SAM9X35,
+ 	AT91_SOC_SAM9G25, AT91_SOC_SAM9X25,
+ 
++	/* SAMA5D3 */
++	AT91_SOC_SAMA5D31, AT91_SOC_SAMA5D33, AT91_SOC_SAMA5D34,
++	AT91_SOC_SAMA5D35,
++
+ 	/* Unknown subtype */
+ 	AT91_SOC_SUBTYPE_NONE
+ };
+@@ -187,6 +201,12 @@ static inline int at91_soc_is_detected(void)
+ #define cpu_is_at91sam9n12()	(0)
+ #endif
+ 
++#ifdef CONFIG_SOC_SAMA5D3
++#define cpu_is_sama5d3()	(at91_soc_initdata.type == AT91_SOC_SAMA5D3)
++#else
++#define cpu_is_sama5d3()	(0)
++#endif
++
+ /*
+  * Since this is ARM, we will never run on any AVR32 CPU. But these
+  * definitions may reduce clutter in common drivers.
+diff --git a/arch/arm/mach-at91/include/mach/sama5d3.h b/arch/arm/mach-at91/include/mach/sama5d3.h
+new file mode 100644
+index 0000000..6dc81ee
+--- /dev/null
++++ b/arch/arm/mach-at91/include/mach/sama5d3.h
+@@ -0,0 +1,73 @@
++/*
++ * Chip-specific header file for the SAMA5D3 family
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Common definitions.
++ * Based on SAMA5D3 datasheet.
++ *
++ * Licensed under GPLv2 or later.
++ */
++
++#ifndef SAMA5D3_H
++#define SAMA5D3_H
++
++/*
++ * Peripheral identifiers/interrupts.
++ */
++#define AT91_ID_FIQ		 0	/* Advanced Interrupt Controller (FIQ) */
++#define AT91_ID_SYS		 1	/* System Peripherals */
++#define SAMA5D3_ID_DBGU		 2	/* debug Unit (usually no special interrupt line) */
++#define AT91_ID_PIT		 3	/* PIT */
++#define SAMA5D3_ID_WDT		 4	/* Watchdog Timer Interrupt */
++#define SAMA5D3_ID_HSMC		 5	/* Static Memory Controller */
++#define SAMA5D3_ID_PIOA		 6	/* PIOA */
++#define SAMA5D3_ID_PIOB		 7	/* PIOB */
++#define SAMA5D3_ID_PIOC		 8	/* PIOC */
++#define SAMA5D3_ID_PIOD		 9	/* PIOD */
++#define SAMA5D3_ID_PIOE		10	/* PIOE */
++#define SAMA5D3_ID_SMD		11	/* SMD Soft Modem */
++#define SAMA5D3_ID_USART0	12	/* USART0 */
++#define SAMA5D3_ID_USART1	13	/* USART1 */
++#define SAMA5D3_ID_USART2	14	/* USART2 */
++#define SAMA5D3_ID_USART3	15	/* USART3 */
++#define SAMA5D3_ID_UART0	16	/* UART 0 */
++#define SAMA5D3_ID_UART1	17	/* UART 1 */
++#define SAMA5D3_ID_TWI0		18	/* Two-Wire Interface 0 */
++#define SAMA5D3_ID_TWI1		19	/* Two-Wire Interface 1 */
++#define SAMA5D3_ID_TWI2		20	/* Two-Wire Interface 2 */
++#define SAMA5D3_ID_HSMCI0	21	/* MCI */
++#define SAMA5D3_ID_HSMCI1	22	/* MCI */
++#define SAMA5D3_ID_HSMCI2	23	/* MCI */
++#define SAMA5D3_ID_SPI0		24	/* Serial Peripheral Interface 0 */
++#define SAMA5D3_ID_SPI1		25	/* Serial Peripheral Interface 1 */
++#define SAMA5D3_ID_TC0		26	/* Timer Counter 0 */
++#define SAMA5D3_ID_TC1		27	/* Timer Counter 2 */
++#define SAMA5D3_ID_PWM		28	/* Pulse Width Modulation Controller */
++#define SAMA5D3_ID_ADC		29	/* Touch Screen ADC Controller */
++#define SAMA5D3_ID_DMA0		30	/* DMA Controller 0 */
++#define SAMA5D3_ID_DMA1		31	/* DMA Controller 1 */
++#define SAMA5D3_ID_UHPHS	32	/* USB Host High Speed */
++#define SAMA5D3_ID_UDPHS	33	/* USB Device High Speed */
++#define SAMA5D3_ID_GMAC		34	/* Gigabit Ethernet MAC */
++#define SAMA5D3_ID_EMAC		35	/* Ethernet MAC */
++#define SAMA5D3_ID_LCDC		36	/* LCD Controller */
++#define SAMA5D3_ID_ISI		37	/* Image Sensor Interface */
++#define SAMA5D3_ID_SSC0		38	/* Synchronous Serial Controller 0 */
++#define SAMA5D3_ID_SSC1		39	/* Synchronous Serial Controller 1 */
++#define SAMA5D3_ID_CAN0		40	/* CAN Controller 0 */
++#define SAMA5D3_ID_CAN1		41	/* CAN Controller 1 */
++#define SAMA5D3_ID_SHA		42	/* Secure Hash Algorithm */
++#define SAMA5D3_ID_AES		43	/* Advanced Encryption Standard */
++#define SAMA5D3_ID_TDES		44	/* Triple Data Encryption Standard */
++#define SAMA5D3_ID_TRNG		45	/* True Random Generator Number */
++#define SAMA5D3_ID_IRQ0		47	/* Advanced Interrupt Controller (IRQ0) */
++
++/*
++ * Internal Memory
++ */
++#define SAMA5D3_SRAM_BASE	0x00300000	/* Internal SRAM base address */
++#define SAMA5D3_SRAM_SIZE	(128 * SZ_1K)	/* Internal SRAM size (128Kb) */
++
++#endif
+diff --git a/arch/arm/mach-at91/sama5d3.c b/arch/arm/mach-at91/sama5d3.c
+new file mode 100644
+index 0000000..4012797
+--- /dev/null
++++ b/arch/arm/mach-at91/sama5d3.c
+@@ -0,0 +1,377 @@
++/*
++ *  Chip-specific setup code for the SAMA5D3 family
++ *
++ *  Copyright (C) 2013 Atmel,
++ *                2013 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++
++#include <linux/module.h>
++#include <linux/dma-mapping.h>
++
++#include <asm/irq.h>
++#include <asm/mach/arch.h>
++#include <asm/mach/map.h>
++#include <mach/sama5d3.h>
++#include <mach/at91_pmc.h>
++#include <mach/cpu.h>
++
++#include "soc.h"
++#include "generic.h"
++#include "clock.h"
++#include "sam9_smc.h"
++
++/* --------------------------------------------------------------------
++ *  Clocks
++ * -------------------------------------------------------------------- */
++
++/*
++ * The peripheral clocks.
++ */
++
++static struct clk pioA_clk = {
++	.name		= "pioA_clk",
++	.pid		= SAMA5D3_ID_PIOA,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk pioB_clk = {
++	.name		= "pioB_clk",
++	.pid		= SAMA5D3_ID_PIOB,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk pioC_clk = {
++	.name		= "pioC_clk",
++	.pid		= SAMA5D3_ID_PIOC,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk pioD_clk = {
++	.name		= "pioD_clk",
++	.pid		= SAMA5D3_ID_PIOD,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk pioE_clk = {
++	.name		= "pioE_clk",
++	.pid		= SAMA5D3_ID_PIOE,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk usart0_clk = {
++	.name		= "usart0_clk",
++	.pid		= SAMA5D3_ID_USART0,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk usart1_clk = {
++	.name		= "usart1_clk",
++	.pid		= SAMA5D3_ID_USART1,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk usart2_clk = {
++	.name		= "usart2_clk",
++	.pid		= SAMA5D3_ID_USART2,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk usart3_clk = {
++	.name		= "usart3_clk",
++	.pid		= SAMA5D3_ID_USART3,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk uart0_clk = {
++	.name		= "uart0_clk",
++	.pid		= SAMA5D3_ID_UART0,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk uart1_clk = {
++	.name		= "uart1_clk",
++	.pid		= SAMA5D3_ID_UART1,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk twi0_clk = {
++	.name		= "twi0_clk",
++	.pid		= SAMA5D3_ID_TWI0,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk twi1_clk = {
++	.name		= "twi1_clk",
++	.pid		= SAMA5D3_ID_TWI1,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk twi2_clk = {
++	.name		= "twi2_clk",
++	.pid		= SAMA5D3_ID_TWI2,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk mmc0_clk = {
++	.name		= "mci0_clk",
++	.pid		= SAMA5D3_ID_HSMCI0,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk mmc1_clk = {
++	.name		= "mci1_clk",
++	.pid		= SAMA5D3_ID_HSMCI1,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk mmc2_clk = {
++	.name		= "mci2_clk",
++	.pid		= SAMA5D3_ID_HSMCI2,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk spi0_clk = {
++	.name		= "spi0_clk",
++	.pid		= SAMA5D3_ID_SPI0,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk spi1_clk = {
++	.name		= "spi1_clk",
++	.pid		= SAMA5D3_ID_SPI1,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk tcb0_clk = {
++	.name		= "tcb0_clk",
++	.pid		= SAMA5D3_ID_TC0,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk tcb1_clk = {
++	.name		= "tcb1_clk",
++	.pid		= SAMA5D3_ID_TC1,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk adc_clk = {
++	.name		= "adc_clk",
++	.pid		= SAMA5D3_ID_ADC,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk adc_op_clk = {
++	.name		= "adc_op_clk",
++	.type		= CLK_TYPE_PERIPHERAL,
++	.rate_hz	= 5000000,
++};
++static struct clk dma0_clk = {
++	.name		= "dma0_clk",
++	.pid		= SAMA5D3_ID_DMA0,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk dma1_clk = {
++	.name		= "dma1_clk",
++	.pid		= SAMA5D3_ID_DMA1,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk uhphs_clk = {
++	.name		= "uhphs",
++	.pid		= SAMA5D3_ID_UHPHS,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk udphs_clk = {
++	.name		= "udphs_clk",
++	.pid		= SAMA5D3_ID_UDPHS,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++/* gmac only for sama5d33, sama5d34, sama5d35 */
++static struct clk macb0_clk = {
++	.name		= "macb0_clk",
++	.pid		= SAMA5D3_ID_GMAC,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++/* emac only for sama5d31, sama5d35 */
++static struct clk macb1_clk = {
++	.name		= "macb1_clk",
++	.pid		= SAMA5D3_ID_EMAC,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++/* lcd only for sama5d31, sama5d33, sama5d34 */
++static struct clk lcdc_clk = {
++	.name		= "lcdc_clk",
++	.pid		= SAMA5D3_ID_LCDC,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++/* isi only for sama5d33, sama5d35 */
++static struct clk isi_clk = {
++	.name		= "isi_clk",
++	.pid		= SAMA5D3_ID_ISI,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk can0_clk = {
++	.name		= "can0_clk",
++	.pid		= SAMA5D3_ID_CAN0,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk can1_clk = {
++	.name		= "can1_clk",
++	.pid		= SAMA5D3_ID_CAN1,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk ssc0_clk = {
++	.name		= "ssc0_clk",
++	.pid		= SAMA5D3_ID_SSC0,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk ssc1_clk = {
++	.name		= "ssc1_clk",
++	.pid		= SAMA5D3_ID_SSC1,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk sha_clk = {
++	.name		= "sha_clk",
++	.pid		= SAMA5D3_ID_SHA,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV8,
++};
++static struct clk aes_clk = {
++	.name		= "aes_clk",
++	.pid		= SAMA5D3_ID_AES,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++static struct clk tdes_clk = {
++	.name		= "tdes_clk",
++	.pid		= SAMA5D3_ID_TDES,
++	.type		= CLK_TYPE_PERIPHERAL,
++};
++
++static struct clk *periph_clocks[] __initdata = {
++	&pioA_clk,
++	&pioB_clk,
++	&pioC_clk,
++	&pioD_clk,
++	&pioE_clk,
++	&usart0_clk,
++	&usart1_clk,
++	&usart2_clk,
++	&usart3_clk,
++	&uart0_clk,
++	&uart1_clk,
++	&twi0_clk,
++	&twi1_clk,
++	&twi2_clk,
++	&mmc0_clk,
++	&mmc1_clk,
++	&mmc2_clk,
++	&spi0_clk,
++	&spi1_clk,
++	&tcb0_clk,
++	&tcb1_clk,
++	&adc_clk,
++	&adc_op_clk,
++	&dma0_clk,
++	&dma1_clk,
++	&uhphs_clk,
++	&udphs_clk,
++	&macb0_clk,
++	&macb1_clk,
++	&lcdc_clk,
++	&isi_clk,
++	&can0_clk,
++	&can1_clk,
++	&ssc0_clk,
++	&ssc1_clk,
++	&sha_clk,
++	&aes_clk,
++	&tdes_clk,
++};
++
++static struct clk pck0 = {
++	.name		= "pck0",
++	.pmc_mask	= AT91_PMC_PCK0,
++	.type		= CLK_TYPE_PROGRAMMABLE,
++	.id		= 0,
++};
++
++static struct clk pck1 = {
++	.name		= "pck1",
++	.pmc_mask	= AT91_PMC_PCK1,
++	.type		= CLK_TYPE_PROGRAMMABLE,
++	.id		= 1,
++};
++
++static struct clk pck2 = {
++	.name		= "pck2",
++	.pmc_mask	= AT91_PMC_PCK2,
++	.type		= CLK_TYPE_PROGRAMMABLE,
++	.id		= 2,
++};
++
++static struct clk_lookup periph_clocks_lookups[] = {
++	/* lookup table for DT entries */
++	CLKDEV_CON_DEV_ID("usart", "ffffee00.serial", &mck),
++	CLKDEV_CON_DEV_ID(NULL, "fffff200.gpio", &pioA_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fffff400.gpio", &pioB_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fffff600.gpio", &pioC_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fffff800.gpio", &pioD_clk),
++	CLKDEV_CON_DEV_ID(NULL, "fffffa00.gpio", &pioE_clk),
++	CLKDEV_CON_DEV_ID("usart", "f001c000.serial", &usart0_clk),
++	CLKDEV_CON_DEV_ID("usart", "f0020000.serial", &usart1_clk),
++	CLKDEV_CON_DEV_ID("usart", "f8020000.serial", &usart2_clk),
++	CLKDEV_CON_DEV_ID("usart", "f8024000.serial", &usart3_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f0014000.i2c", &twi0_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f0018000.i2c", &twi1_clk),
++	CLKDEV_CON_DEV_ID(NULL, "f801c000.i2c", &twi2_clk),
++	CLKDEV_CON_DEV_ID("mci_clk", "f0000000.mmc", &mmc0_clk),
++	CLKDEV_CON_DEV_ID("mci_clk", "f8000000.mmc", &mmc1_clk),
++	CLKDEV_CON_DEV_ID("mci_clk", "f8004000.mmc", &mmc2_clk),
++	CLKDEV_CON_DEV_ID("spi_clk", "f0004000.spi", &spi0_clk),
++	CLKDEV_CON_DEV_ID("spi_clk", "f8008000.spi", &spi1_clk),
++	CLKDEV_CON_DEV_ID("t0_clk", "f0010000.timer", &tcb0_clk),
++	CLKDEV_CON_DEV_ID("t0_clk", "f8014000.timer", &tcb1_clk),
++	CLKDEV_CON_DEV_ID("tsc_clk", "f8018000.tsadcc", &adc_clk),
++	CLKDEV_CON_DEV_ID("dma_clk", "ffffe600.dma-controller", &dma0_clk),
++	CLKDEV_CON_DEV_ID("dma_clk", "ffffe800.dma-controller", &dma1_clk),
++	CLKDEV_CON_DEV_ID("hclk", "600000.ohci", &uhphs_clk),
++	CLKDEV_CON_DEV_ID("ohci_clk", "600000.ohci", &uhphs_clk),
++	CLKDEV_CON_DEV_ID("ehci_clk", "700000.ehci", &uhphs_clk),
++	CLKDEV_CON_DEV_ID("pclk", "500000.gadget", &udphs_clk),
++	CLKDEV_CON_DEV_ID("hclk", "500000.gadget", &utmi_clk),
++	CLKDEV_CON_DEV_ID("hclk", "f0028000.ethernet", &macb0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "f0028000.ethernet", &macb0_clk),
++	CLKDEV_CON_DEV_ID("hclk", "f802c000.ethernet", &macb1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "f802c000.ethernet", &macb1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "f0008000.ssc", &ssc0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "f000c000.ssc", &ssc1_clk),
++	CLKDEV_CON_DEV_ID("can_clk", "f000c000.can", &can0_clk),
++	CLKDEV_CON_DEV_ID("can_clk", "f8010000.can", &can1_clk),
++	CLKDEV_CON_DEV_ID("sha_clk", "f8034000.sha", &sha_clk),
++	CLKDEV_CON_DEV_ID("aes_clk", "f8038000.aes", &aes_clk),
++	CLKDEV_CON_DEV_ID("tdes_clk", "f803c000.tdes", &tdes_clk),
++};
++
++static void __init sama5d3_register_clocks(void)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(periph_clocks); i++)
++		clk_register(periph_clocks[i]);
++
++	clkdev_add_table(periph_clocks_lookups,
++			 ARRAY_SIZE(periph_clocks_lookups));
++
++	clk_register(&pck0);
++	clk_register(&pck1);
++	clk_register(&pck2);
++}
++
++/* --------------------------------------------------------------------
++ *  AT91SAM9x5 processor initialization
++ * -------------------------------------------------------------------- */
++
++static void __init sama5d3_map_io(void)
++{
++	at91_init_sram(0, SAMA5D3_SRAM_BASE, SAMA5D3_SRAM_SIZE);
++}
++
++AT91_SOC_START(sama5d3)
++	.map_io = sama5d3_map_io,
++	.register_clocks = sama5d3_register_clocks,
++AT91_SOC_END
+diff --git a/arch/arm/mach-at91/setup.c b/arch/arm/mach-at91/setup.c
+index 4b67847..2ecd169 100644
+--- a/arch/arm/mach-at91/setup.c
++++ b/arch/arm/mach-at91/setup.c
+@@ -151,6 +151,11 @@ static void __init soc_detect(u32 dbgu_base)
+ 		at91_soc_initdata.type = AT91_SOC_SAM9N12;
+ 		at91_boot_soc = at91sam9n12_soc;
+ 		break;
++
++	case ARCH_ID_SAMA5D3:
++		at91_soc_initdata.type = AT91_SOC_SAMA5D3;
++		at91_boot_soc = sama5d3_soc;
++		break;
+ 	}
+ 
+ 	/* at91sam9g10 */
+@@ -206,6 +211,23 @@ static void __init soc_detect(u32 dbgu_base)
+ 			break;
+ 		}
+ 	}
++
++	if (at91_soc_initdata.type == AT91_SOC_SAMA5D3) {
++		switch (at91_soc_initdata.exid) {
++		case ARCH_EXID_SAMA5D31:
++			at91_soc_initdata.subtype = AT91_SOC_SAMA5D31;
++			break;
++		case ARCH_EXID_SAMA5D33:
++			at91_soc_initdata.subtype = AT91_SOC_SAMA5D33;
++			break;
++		case ARCH_EXID_SAMA5D34:
++			at91_soc_initdata.subtype = AT91_SOC_SAMA5D34;
++			break;
++		case ARCH_EXID_SAMA5D35:
++			at91_soc_initdata.subtype = AT91_SOC_SAMA5D35;
++			break;
++		}
++	}
+ }
+ 
+ static const char *soc_name[] = {
+@@ -219,6 +241,7 @@ static const char *soc_name[] = {
+ 	[AT91_SOC_SAM9RL]	= "at91sam9rl",
+ 	[AT91_SOC_SAM9X5]	= "at91sam9x5",
+ 	[AT91_SOC_SAM9N12]	= "at91sam9n12",
++	[AT91_SOC_SAMA5D3]	= "sama5d3",
+ 	[AT91_SOC_NONE]		= "Unknown"
+ };
+ 
+@@ -241,6 +264,10 @@ static const char *soc_subtype_name[] = {
+ 	[AT91_SOC_SAM9X35]	= "at91sam9x35",
+ 	[AT91_SOC_SAM9G25]	= "at91sam9g25",
+ 	[AT91_SOC_SAM9X25]	= "at91sam9x25",
++	[AT91_SOC_SAMA5D31]	= "sama5d31",
++	[AT91_SOC_SAMA5D33]	= "sama5d33",
++	[AT91_SOC_SAMA5D34]	= "sama5d34",
++	[AT91_SOC_SAMA5D35]	= "sama5d35",
+ 	[AT91_SOC_SUBTYPE_NONE]	= "Unknown"
+ };
+ 
+diff --git a/arch/arm/mach-at91/soc.h b/arch/arm/mach-at91/soc.h
+index 9c6d3d4..8ad39c0 100644
+--- a/arch/arm/mach-at91/soc.h
++++ b/arch/arm/mach-at91/soc.h
+@@ -22,6 +22,7 @@ extern struct at91_init_soc at91sam9g45_soc;
+ extern struct at91_init_soc at91sam9rl_soc;
+ extern struct at91_init_soc at91sam9x5_soc;
+ extern struct at91_init_soc at91sam9n12_soc;
++extern struct at91_init_soc sama5d3_soc;
+ 
+ #define AT91_SOC_START(_name)				\
+ struct at91_init_soc __initdata at91##_name##_soc	\
+@@ -68,3 +69,7 @@ static inline int at91_soc_is_enabled(void)
+ #if !defined(CONFIG_SOC_AT91SAM9N12)
+ #define at91sam9n12_soc	at91_boot_soc
+ #endif
++
++#if !defined(CONFIG_SOC_SAMA5D3)
++#define sama5d3_soc	at91_boot_soc
++#endif
+-- 
+1.7.10.4
+

@@ -1,0 +1,74 @@
+From 179593ab44fa579caa3dccd59b2d641cd2d32395 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 8 Mar 2013 16:13:56 +0100
+Subject: [PATCH 2/3] ARM: at91: introduce the core type choice to split
+ ARMv4/5 and ARMv7 arch
+
+As we will introduce SAMA5, we need to distinguish the core architecture. It is
+useless to show ARMv4/5 entries if we are configuring a kernel for SAMA5
+devices.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/Kconfig |   22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 59283f8..71a60ba 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -9,6 +9,10 @@ config HAVE_AT91_DBGU0
+ config HAVE_AT91_DBGU1
+ 	bool
+ 
++config AT91_PMC_UNIT
++	bool
++	default !ARCH_AT91X40
++
+ config AT91_SAM9_ALT_RESET
+ 	bool
+ 	default !ARCH_AT91X40
+@@ -30,8 +34,21 @@ config SOC_AT91SAM9
+ 
+ menu "Atmel AT91 System-on-Chip"
+ 
++choice
++
++	prompt "Core type"
++
++config SOC_SAM_V4_V5
++	bool "ARM7/ARM9"
++	help
++	  Select this if you are using one of Atmel's AT91SAM9, AT91RM9200
++	  or AT91X40 SoC.
++
++endchoice
++
+ comment "Atmel AT91 Processor"
+ 
++if SOC_SAM_V4_V5
+ config SOC_AT91RM9200
+ 	bool "AT91RM9200"
+ 	select CPU_ARM920T
+@@ -144,10 +161,6 @@ config ARCH_AT91X40
+ 
+ endchoice
+ 
+-config AT91_PMC_UNIT
+-	bool
+-	default !ARCH_AT91X40
+-
+ # ----------------------------------------------------------
+ 
+ if ARCH_AT91RM9200
+@@ -485,6 +498,7 @@ config MACH_AT91EB01
+ endif
+ 
+ # ----------------------------------------------------------
++endif # SOC_SAM_V4_V5
+ 
+ comment "Generic Board Type"
+ 
+-- 
+1.7.10.4
+
