@@ -52,10 +52,13 @@ arm () {
 
 atmel_SAMA5D3 () {
 	echo "dir: atmel_SAMA5D3"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0001-ARM-at91-add-AT91_SAM9_TIME-entry-to-select-at91sam9.patch"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0002-ARM-at91-introduce-the-core-type-choice-to-split-ARM.patch"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0003-ARM-at91-fix-infinite-loop-in-at91_irq_suspend-resum.patch"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0004-ARM-at91-introduce-SAMA5-support.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0001-ARM-at91-move-non-DT-Kconfig-to-Kconfig.non_dt.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0002-ARM-at91-rename-board-dt-to-more-specific-name-board.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0003-ARM-at91-renamme-rm9200-dt-file.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0004-ARM-at91-add-AT91_SAM9_TIME-entry-to-select-at91sam9.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0005-ARM-at91-introduce-the-core-type-choice-to-split-ARM.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0006-ARM-at91-fix-infinite-loop-in-at91_irq_suspend-resum.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0007-ARM-at91-introduce-SAMA5-support.patch"
 }
 
 arm

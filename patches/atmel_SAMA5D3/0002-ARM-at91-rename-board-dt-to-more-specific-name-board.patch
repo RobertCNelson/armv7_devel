@@ -1,0 +1,233 @@
+From debcf7baf5ba86bfb11ab5aab1aaa242abd214b7 Mon Sep 17 00:00:00 2001
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Tue, 19 Feb 2013 18:30:29 +0800
+Subject: [PATCH 2/6] ARM: at91: rename board-dt to more specific name
+ board-dt-sam9
+
+as we will introduce the Cortex-A5 sama5 support
+
+Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+---
+ arch/arm/configs/at91_dt_defconfig     |    2 +-
+ arch/arm/configs/at91sam9260_defconfig |    2 +-
+ arch/arm/configs/at91sam9g20_defconfig |    2 +-
+ arch/arm/configs/at91sam9g45_defconfig |    2 +-
+ arch/arm/mach-at91/Kconfig             |    2 +-
+ arch/arm/mach-at91/Makefile            |    2 +-
+ arch/arm/mach-at91/board-dt-sam9.c     |   59 ++++++++++++++++++++++++++++++++
+ arch/arm/mach-at91/board-dt.c          |   59 --------------------------------
+ 8 files changed, 65 insertions(+), 65 deletions(-)
+ create mode 100644 arch/arm/mach-at91/board-dt-sam9.c
+ delete mode 100644 arch/arm/mach-at91/board-dt.c
+
+diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+index 1ea9590..047f2a4 100644
+--- a/arch/arm/configs/at91_dt_defconfig
++++ b/arch/arm/configs/at91_dt_defconfig
+@@ -20,7 +20,7 @@ CONFIG_SOC_AT91SAM9263=y
+ CONFIG_SOC_AT91SAM9G45=y
+ CONFIG_SOC_AT91SAM9X5=y
+ CONFIG_SOC_AT91SAM9N12=y
+-CONFIG_MACH_AT91SAM_DT=y
++CONFIG_MACH_AT91SAM9_DT=y
+ CONFIG_AT91_PROGRAMMABLE_CLOCKS=y
+ CONFIG_AT91_TIMER_HZ=128
+ CONFIG_AEABI=y
+diff --git a/arch/arm/configs/at91sam9260_defconfig b/arch/arm/configs/at91sam9260_defconfig
+index 0ea5d2c..05618eb 100644
+--- a/arch/arm/configs/at91sam9260_defconfig
++++ b/arch/arm/configs/at91sam9260_defconfig
+@@ -22,7 +22,7 @@ CONFIG_MACH_QIL_A9260=y
+ CONFIG_MACH_CPU9260=y
+ CONFIG_MACH_FLEXIBITY=y
+ CONFIG_MACH_SNAPPER_9260=y
+-CONFIG_MACH_AT91SAM_DT=y
++CONFIG_MACH_AT91SAM9_DT=y
+ CONFIG_AT91_PROGRAMMABLE_CLOCKS=y
+ # CONFIG_ARM_THUMB is not set
+ CONFIG_ZBOOT_ROM_TEXT=0x0
+diff --git a/arch/arm/configs/at91sam9g20_defconfig b/arch/arm/configs/at91sam9g20_defconfig
+index 3b18810..892e828 100644
+--- a/arch/arm/configs/at91sam9g20_defconfig
++++ b/arch/arm/configs/at91sam9g20_defconfig
+@@ -22,7 +22,7 @@ CONFIG_MACH_PCONTROL_G20=y
+ CONFIG_MACH_GSIA18S=y
+ CONFIG_MACH_USB_A9G20=y
+ CONFIG_MACH_SNAPPER_9260=y
+-CONFIG_MACH_AT91SAM_DT=y
++CONFIG_MACH_AT91SAM9_DT=y
+ CONFIG_AT91_PROGRAMMABLE_CLOCKS=y
+ # CONFIG_ARM_THUMB is not set
+ CONFIG_AEABI=y
+diff --git a/arch/arm/configs/at91sam9g45_defconfig b/arch/arm/configs/at91sam9g45_defconfig
+index 606d48f..5f551b7 100644
+--- a/arch/arm/configs/at91sam9g45_defconfig
++++ b/arch/arm/configs/at91sam9g45_defconfig
+@@ -18,7 +18,7 @@ CONFIG_MODULE_UNLOAD=y
+ CONFIG_ARCH_AT91=y
+ CONFIG_ARCH_AT91SAM9G45=y
+ CONFIG_MACH_AT91SAM9M10G45EK=y
+-CONFIG_MACH_AT91SAM_DT=y
++CONFIG_MACH_AT91SAM9_DT=y
+ CONFIG_AT91_PROGRAMMABLE_CLOCKS=y
+ CONFIG_AT91_SLOW_CLOCK=y
+ CONFIG_AEABI=y
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 98c2e05..440682b 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -108,7 +108,7 @@ config MACH_AT91RM9200_DT
+ 	  Select this if you want to experiment device-tree with
+ 	  an Atmel RM9200 Evaluation Kit.
+ 
+-config MACH_AT91SAM_DT
++config MACH_AT91SAM9_DT
+ 	bool "Atmel AT91SAM Evaluation Kits with device-tree support"
+ 	depends on SOC_AT91SAM9
+ 	select USE_OF
+diff --git a/arch/arm/mach-at91/Makefile b/arch/arm/mach-at91/Makefile
+index 39218ca..5eca35a 100644
+--- a/arch/arm/mach-at91/Makefile
++++ b/arch/arm/mach-at91/Makefile
+@@ -88,7 +88,7 @@ obj-$(CONFIG_MACH_AT91SAM9M10G45EK) += board-sam9m10g45ek.o
+ 
+ # AT91SAM board with device-tree
+ obj-$(CONFIG_MACH_AT91RM9200_DT) += board-rm9200-dt.o
+-obj-$(CONFIG_MACH_AT91SAM_DT) += board-dt.o
++obj-$(CONFIG_MACH_AT91SAM9_DT) += board-dt-sam9.o
+ 
+ # AT91X40 board-specific support
+ obj-$(CONFIG_MACH_AT91EB01)	+= board-eb01.o
+diff --git a/arch/arm/mach-at91/board-dt-sam9.c b/arch/arm/mach-at91/board-dt-sam9.c
+new file mode 100644
+index 0000000..8db3013
+--- /dev/null
++++ b/arch/arm/mach-at91/board-dt-sam9.c
+@@ -0,0 +1,59 @@
++/*
++ *  Setup code for AT91SAM Evaluation Kits with Device Tree support
++ *
++ *  Copyright (C) 2011 Atmel,
++ *                2011 Nicolas Ferre <nicolas.ferre@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++
++#include <linux/types.h>
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/gpio.h>
++#include <linux/of.h>
++#include <linux/of_irq.h>
++#include <linux/of_platform.h>
++
++#include <asm/setup.h>
++#include <asm/irq.h>
++#include <asm/mach/arch.h>
++#include <asm/mach/map.h>
++#include <asm/mach/irq.h>
++
++#include "at91_aic.h"
++#include "board.h"
++#include "generic.h"
++
++
++static const struct of_device_id irq_of_match[] __initconst = {
++
++	{ .compatible = "atmel,at91rm9200-aic", .data = at91_aic_of_init },
++	{ /*sentinel*/ }
++};
++
++static void __init at91_dt_init_irq(void)
++{
++	of_irq_init(irq_of_match);
++}
++
++static void __init at91_dt_device_init(void)
++{
++	of_platform_populate(NULL, of_default_bus_match_table, NULL, NULL);
++}
++
++static const char *at91_dt_board_compat[] __initdata = {
++	"atmel,at91sam9",
++	NULL
++};
++
++DT_MACHINE_START(at91sam_dt, "Atmel AT91SAM (Device Tree)")
++	/* Maintainer: Atmel */
++	.init_time	= at91sam926x_pit_init,
++	.map_io		= at91_map_io,
++	.handle_irq	= at91_aic_handle_irq,
++	.init_early	= at91_dt_initialize,
++	.init_irq	= at91_dt_init_irq,
++	.init_machine	= at91_dt_device_init,
++	.dt_compat	= at91_dt_board_compat,
++MACHINE_END
+diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
+deleted file mode 100644
+index 8db3013..0000000
+--- a/arch/arm/mach-at91/board-dt.c
++++ /dev/null
+@@ -1,59 +0,0 @@
+-/*
+- *  Setup code for AT91SAM Evaluation Kits with Device Tree support
+- *
+- *  Copyright (C) 2011 Atmel,
+- *                2011 Nicolas Ferre <nicolas.ferre@atmel.com>
+- *
+- * Licensed under GPLv2 or later.
+- */
+-
+-#include <linux/types.h>
+-#include <linux/init.h>
+-#include <linux/module.h>
+-#include <linux/gpio.h>
+-#include <linux/of.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
+-
+-#include <asm/setup.h>
+-#include <asm/irq.h>
+-#include <asm/mach/arch.h>
+-#include <asm/mach/map.h>
+-#include <asm/mach/irq.h>
+-
+-#include "at91_aic.h"
+-#include "board.h"
+-#include "generic.h"
+-
+-
+-static const struct of_device_id irq_of_match[] __initconst = {
+-
+-	{ .compatible = "atmel,at91rm9200-aic", .data = at91_aic_of_init },
+-	{ /*sentinel*/ }
+-};
+-
+-static void __init at91_dt_init_irq(void)
+-{
+-	of_irq_init(irq_of_match);
+-}
+-
+-static void __init at91_dt_device_init(void)
+-{
+-	of_platform_populate(NULL, of_default_bus_match_table, NULL, NULL);
+-}
+-
+-static const char *at91_dt_board_compat[] __initdata = {
+-	"atmel,at91sam9",
+-	NULL
+-};
+-
+-DT_MACHINE_START(at91sam_dt, "Atmel AT91SAM (Device Tree)")
+-	/* Maintainer: Atmel */
+-	.init_time	= at91sam926x_pit_init,
+-	.map_io		= at91_map_io,
+-	.handle_irq	= at91_aic_handle_irq,
+-	.init_early	= at91_dt_initialize,
+-	.init_irq	= at91_dt_init_irq,
+-	.init_machine	= at91_dt_device_init,
+-	.dt_compat	= at91_dt_board_compat,
+-MACHINE_END
+-- 
+1.7.10.4
+

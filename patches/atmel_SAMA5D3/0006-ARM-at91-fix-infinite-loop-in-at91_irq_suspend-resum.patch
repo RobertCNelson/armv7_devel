@@ -1,7 +1,7 @@
-From 09b1cb9113c8ec7c62e916ad9f461e5e63680909 Mon Sep 17 00:00:00 2001
+From 6c14c05584ed750372ac767e4cc6e32ef23a59f9 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 8 Mar 2013 16:13:57 +0100
-Subject: [PATCH 3/3] ARM: at91: fix infinite loop in at91_irq_suspend/resume
+Subject: [PATCH 6/6] ARM: at91: fix infinite loop in at91_irq_suspend/resume
 
 Fix an infinite loop when suspending or resuming a device with AIC5 i.e. SAMA5
 devices.

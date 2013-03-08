@@ -1,7 +1,7 @@
-From b427ba3b4cb6006d326f8d7c04e5b014530999cb Mon Sep 17 00:00:00 2001
+From 2c1eaedc17e69f3b08d0c8aa96ea4b87261575eb Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 8 Mar 2013 16:13:58 +0100
-Subject: [PATCH 4/4] ARM: at91: introduce SAMA5 support
+Subject: [PATCH 7/7] ARM: at91: introduce SAMA5 support
 
 This patch introduces the SAMA5 support. It also updates the PMC driver to
 manage clock division which is a requirement since some peripherals can't work
@@ -1840,10 +1840,10 @@ index 0000000..4d0dc3c
 +CONFIG_CRC_CCITT=m
 +CONFIG_CRC_ITU_T=m
 diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
-index 71a60ba..bb48995 100644
+index 8b35c7f..118699a 100644
 --- a/arch/arm/mach-at91/Kconfig
 +++ b/arch/arm/mach-at91/Kconfig
-@@ -32,6 +32,14 @@ config SOC_AT91SAM9
+@@ -29,6 +29,14 @@ config SOC_AT91SAM9
  	select MULTI_IRQ_HANDLER
  	select SPARSE_IRQ
  
@@ -1858,7 +1858,7 @@ index 71a60ba..bb48995 100644
  menu "Atmel AT91 System-on-Chip"
  
  choice
-@@ -44,10 +52,28 @@ config SOC_SAM_V4_V5
+@@ -41,10 +49,28 @@ config SOC_SAM_V4_V5
  	  Select this if you are using one of Atmel's AT91SAM9, AT91RM9200
  	  or AT91X40 SoC.
  
@@ -1887,7 +1887,7 @@ index 71a60ba..bb48995 100644
  if SOC_SAM_V4_V5
  config SOC_AT91RM9200
  	bool "AT91RM9200"
-@@ -518,6 +544,14 @@ config MACH_AT91SAM_DT
+@@ -134,6 +160,14 @@ config MACH_AT91SAM9_DT
  	  Select this if you want to experiment device-tree with
  	  an Atmel Evaluation Kit.
  
@@ -1901,9 +1901,9 @@ index 71a60ba..bb48995 100644
 +
  # ----------------------------------------------------------
  
- comment "AT91 Board Options"
+ comment "AT91 Feature Selections"
 diff --git a/arch/arm/mach-at91/Makefile b/arch/arm/mach-at91/Makefile
-index 3c9cfa1..35fc3d8 100644
+index 74e9b5b..788562d 100644
 --- a/arch/arm/mach-at91/Makefile
 +++ b/arch/arm/mach-at91/Makefile
 @@ -22,6 +22,7 @@ obj-$(CONFIG_SOC_AT91SAM9G45)	+= at91sam9g45.o
@@ -1915,8 +1915,8 @@ index 3c9cfa1..35fc3d8 100644
  obj-$(CONFIG_ARCH_AT91RM9200)	+= at91rm9200_devices.o
  obj-$(CONFIG_ARCH_AT91SAM9260)	+= at91sam9260_devices.o
 @@ -91,6 +92,9 @@ obj-$(CONFIG_MACH_AT91SAM9M10G45EK) += board-sam9m10g45ek.o
- obj-$(CONFIG_MACH_AT91RM9200_DT) += board-rm9200-dt.o
- obj-$(CONFIG_MACH_AT91SAM_DT) += board-dt.o
+ obj-$(CONFIG_MACH_AT91RM9200_DT) += board-dt-rm9200.o
+ obj-$(CONFIG_MACH_AT91SAM9_DT) += board-dt-sam9.o
  
 +# SAMA5 board with device-tree
 +obj-$(CONFIG_MACH_SAMA5_DT) += board-dt-sama5.o
