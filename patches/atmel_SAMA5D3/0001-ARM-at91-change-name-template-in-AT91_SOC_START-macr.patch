@@ -1,13 +1,14 @@
-From 763c7132c091556536861fca132fcc30607787f6 Mon Sep 17 00:00:00 2001
+From ae4215db96c0618201ba18b5bf5209d42bd87731 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
-Date: Mon, 11 Mar 2013 12:19:52 +0100
-Subject: [PATCH 8/8] ARM: at91: change name template in AT91_SOC_START macro
+Date: Thu, 14 Mar 2013 18:05:33 +0100
+Subject: [PATCH 1/4] ARM: at91: change name template in AT91_SOC_START macro
 
 New devices are no more prefixed with at91 so remove the at91 and _name
 concatenation.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Tested-by: Robert Nelson <robertcnelson@gmail.com>
 ---
  arch/arm/mach-at91/at91rm9200.c  |    2 +-
  arch/arm/mach-at91/at91sam9260.c |    2 +-
@@ -125,11 +126,11 @@ index 44a9a62..3a1a799 100644
  	.register_clocks = at91sam9x5_register_clocks,
  AT91_SOC_END
 diff --git a/arch/arm/mach-at91/soc.h b/arch/arm/mach-at91/soc.h
-index 8ad39c0..43a225f 100644
+index 9c6d3d4..f3d3502 100644
 --- a/arch/arm/mach-at91/soc.h
 +++ b/arch/arm/mach-at91/soc.h
-@@ -25,7 +25,7 @@ extern struct at91_init_soc at91sam9n12_soc;
- extern struct at91_init_soc sama5d3_soc;
+@@ -24,7 +24,7 @@ extern struct at91_init_soc at91sam9x5_soc;
+ extern struct at91_init_soc at91sam9n12_soc;
  
  #define AT91_SOC_START(_name)				\
 -struct at91_init_soc __initdata at91##_name##_soc	\

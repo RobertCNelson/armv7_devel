@@ -59,11 +59,10 @@ atmel_fixes () {
 
 atmel_SAMA5D3 () {
 	echo "dir: atmel_SAMA5D3"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0004-ARM-at91-add-AT91_SAM9_TIME-entry-to-select-at91sam9.patch"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0005-ARM-at91-introduce-the-core-type-choice-to-split-ARM.patch"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0006-ARM-at91-fix-infinite-loop-in-at91_irq_suspend-resum.patch"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0007-ARM-at91-introduce-SAMA5-support.patch"
-	${git} "${DIR}/patches/atmel_SAMA5D3/0008-ARM-at91-change-name-template-in-AT91_SOC_START-macr.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0001-ARM-at91-change-name-template-in-AT91_SOC_START-macr.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0002-ARM-at91-add-AT91_SAM9_TIME-entry-to-select-at91sam9.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0003-ARM-at91-introduce-the-core-type-choice-to-split-ARM.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0004-ARM-at91-introduce-SAMA5-support.patch"
 }
 
 arm
