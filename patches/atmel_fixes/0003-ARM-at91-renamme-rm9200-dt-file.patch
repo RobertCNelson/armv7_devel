@@ -1,11 +1,14 @@
-From 8a2f2c0599b5deec5450b0a6aa7f124406da18f6 Mon Sep 17 00:00:00 2001
+From dc348a48085ddfc04506216a7be1b26400b9f0f8 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 19 Feb 2013 18:32:09 +0800
-Subject: [PATCH 3/6] ARM: at91: renamme rm9200 dt file
+Subject: [PATCH 3/3] ARM: at91: renamme rm9200 dt file
 
-to follow the same scheme board-dt-<socs>.c
+Rename the board-rm9200-dt.c file so that we follow the pattern for
+Device Tree board files: board-dt-<name of SoC sharing same core>.c
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+[nicolas.ferre@atmel.com: modify commit message]
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
  arch/arm/mach-at91/Makefile          |    2 +-
  arch/arm/mach-at91/board-dt-rm9200.c |   57 ++++++++++++++++++++++++++++++++++
