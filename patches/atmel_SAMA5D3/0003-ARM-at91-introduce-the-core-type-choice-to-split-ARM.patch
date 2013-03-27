@@ -1,7 +1,7 @@
-From 18d422d0601bd38446afce308d6f5f1acb0985a5 Mon Sep 17 00:00:00 2001
+From 8f0cdcc5700d9f9508385f41f6047fca82334eba Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
-Date: Thu, 14 Mar 2013 18:05:35 +0100
-Subject: [PATCH 3/4] ARM: at91: introduce the core type choice to split
+Date: Fri, 22 Mar 2013 13:24:11 +0000
+Subject: [PATCH 3/6] ARM: at91: introduce the core type choice to split
  ARMv4/5 and ARMv7 arch
 
 As we will introduce SAMA5, we need to distinguish the core architecture. It is
@@ -10,7 +10,7 @@ devices.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-Tested-by: Robert Nelson <robertcnelson@gmail.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
  arch/arm/mach-at91/Kconfig |   22 ++++++++++++++++++----
  1 file changed, 18 insertions(+), 4 deletions(-)

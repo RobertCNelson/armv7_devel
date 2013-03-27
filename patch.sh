@@ -63,6 +63,8 @@ atmel_SAMA5D3 () {
 	${git} "${DIR}/patches/atmel_SAMA5D3/0002-ARM-at91-add-AT91_SAM9_TIME-entry-to-select-at91sam9.patch"
 	${git} "${DIR}/patches/atmel_SAMA5D3/0003-ARM-at91-introduce-the-core-type-choice-to-split-ARM.patch"
 	${git} "${DIR}/patches/atmel_SAMA5D3/0004-ARM-at91-introduce-SAMA5-support.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0005-ARM-at91-dt-add-device-tree-files-for-SAMA5D3-family.patch"
+	${git} "${DIR}/patches/atmel_SAMA5D3/0006-ARM-at91-add-defconfig-for-SAMA5.patch"
 }
 
 arm

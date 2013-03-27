@@ -1,14 +1,14 @@
-From ae4215db96c0618201ba18b5bf5209d42bd87731 Mon Sep 17 00:00:00 2001
+From 84ddb087637849d1bf42f4260da41f1278df4448 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
-Date: Thu, 14 Mar 2013 18:05:33 +0100
-Subject: [PATCH 1/4] ARM: at91: change name template in AT91_SOC_START macro
+Date: Fri, 22 Mar 2013 13:24:09 +0000
+Subject: [PATCH 1/6] ARM: at91: change name template in AT91_SOC_START macro
 
 New devices are no more prefixed with at91 so remove the at91 and _name
 concatenation.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-Tested-by: Robert Nelson <robertcnelson@gmail.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
  arch/arm/mach-at91/at91rm9200.c  |    2 +-
  arch/arm/mach-at91/at91sam9260.c |    2 +-

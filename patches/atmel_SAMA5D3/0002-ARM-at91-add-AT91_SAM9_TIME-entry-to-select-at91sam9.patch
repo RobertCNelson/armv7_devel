@@ -1,7 +1,7 @@
-From fdc76c0c8cdff8477355cee7476095fc7d685d4d Mon Sep 17 00:00:00 2001
+From fc05b6571dc1054c31fc7bb1cdaa186c28f7de79 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
-Date: Thu, 14 Mar 2013 18:05:34 +0100
-Subject: [PATCH 2/4] ARM: at91: add AT91_SAM9_TIME entry to select
+Date: Fri, 22 Mar 2013 13:24:10 +0000
+Subject: [PATCH 2/6] ARM: at91: add AT91_SAM9_TIME entry to select
  at91sam926x_time.c compilation
 
 No more associate at91sam926x_time.c compilation with SOC_AT91SAM9 entry since
@@ -9,7 +9,7 @@ SAMA5D3 devices will use this driver too.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-Tested-by: Robert Nelson <robertcnelson@gmail.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
  arch/arm/mach-at91/Kconfig  |    4 ++++
  arch/arm/mach-at91/Makefile |    3 ++-

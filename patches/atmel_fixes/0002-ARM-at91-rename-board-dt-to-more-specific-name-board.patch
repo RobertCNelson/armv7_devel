@@ -1,7 +1,7 @@
-From a4cf31a0e577cb8509e8645c38dbdbfc9c40ff2c Mon Sep 17 00:00:00 2001
+From 4afcd1db8214890a8f655a1d07d8445812e72932 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 19 Feb 2013 18:30:29 +0800
-Subject: [PATCH 2/3] ARM: at91: rename board-dt to more specific name
+Subject: [PATCH 2/9] ARM: at91: rename board-dt to more specific name
  board-dt-sam9
 
 We will produce a board-dt file per SoC core type. That will ease code
