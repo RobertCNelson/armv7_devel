@@ -1,0 +1,35 @@
+From 0fc593f0550dab58764e25d5a6635f81999011f0 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 22 Mar 2013 11:42:04 +0800
+Subject: [PATCH 317/317] sama5d3: reduce the lookup table size for PMECC.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index f175cf2..68ae6f5 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -1102,7 +1102,7 @@
+ 			reg = <	0x60000000 0x01000000	/* EBI CS3 */
+ 				0xffffc070 0x00000490	/* SMC PMECC regs */
+ 				0xffffc500 0x00000100	/* SMC PMECC Error Location regs */
+-				0x00100000 0x00100000	/* ROM code */
++				0x00110000 0x00018000	/* ROM code */
+ 				0x70000000 0x10000000	/* NFC Command Registers */
+ 				0xffffc000 0x00000070	/* NFC HSMC regs */
+ 				0x00200000 0x00100000	/* NFC SRAM banks */
+@@ -1112,7 +1112,7 @@
+ 			atmel,nand-cmd-offset = <22>;
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&pinctrl_nand0_ale_cle>;
+-			atmel,pmecc-lookup-table-offset = <0x10000 0x18000>;
++			atmel,pmecc-lookup-table-offset = <0x0 0x8000>;
+ 			status = "disabled";
+ 		};
+ 	};
+-- 
+1.7.10.4
+

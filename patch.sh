@@ -63,7 +63,7 @@ atmel_SAMA5 () {
 	#git format-patch -314 | grep 3.6.9
 	#0001-Linux-3.6.9.patch
 	#rm -rf *.patch
-	#git format-patch -313
+	#git format-patch -317
 
 
 	echo "dir: atmel_SAMA5"
@@ -380,7 +380,10 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0311-ARM-at91-trivial-fix-model-name-for-SAM9G15-EK.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0312-ARM-at91-trivial-fix-alsa-driver-module-description-.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0313-ARM-at91-trivial-fix-typo-in-NFC-driver-comments.patch"
-
+	${git} "${DIR}/patches/atmel_SAMA5/0314-mtd-atmel_nand-avoid-to-report-an-error-when-lookup-.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0315-mtd-atmel_nand-make-pmecc-cap-pmecc-sector-size-in-d.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0316-mtd-at91-atmel_nand-for-PMECC-add-code-to-check-the-.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0317-sama5d3-reduce-the-lookup-table-size-for-PMECC.patch"
 }
 
 arm

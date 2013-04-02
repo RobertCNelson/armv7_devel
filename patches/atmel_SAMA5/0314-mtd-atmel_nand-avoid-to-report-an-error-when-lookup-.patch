@@ -1,0 +1,51 @@
+From 83b5a315ad08f357a70ce04913d776678ab79471 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 21 Mar 2013 14:57:01 +0800
+Subject: [PATCH 314/317] mtd: atmel_nand: avoid to report an error when
+ lookup table offset is 0.
+
+Before this patch, we assume the whole ROM code are mapping to memory. So
+it is wrong if the lookup table offset is 0.
+
+After this patch, we can map only the lookup table of ROM code to memory
+intead of the whole ROM code (about 1M). In this case, one lookup table
+offset can be 0.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/mtd/nand/atmel_nand.c |    9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index 0bf72d1..c60b069 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -1288,7 +1288,7 @@ static void atmel_nand_hwctl(struct mtd_info *mtd, int mode)
+ static int __devinit atmel_of_init_port(struct atmel_nand_host *host,
+ 					 struct device_node *np)
+ {
+-	u32 val, table_offset;
++	u32 val;
+ 	u32 offset[2];
+ 	int ecc_mode;
+ 	struct atmel_nand_data *board = &host->board;
+@@ -1363,13 +1363,12 @@ static int __devinit atmel_of_init_port(struct atmel_nand_host *host,
+ 		dev_err(host->dev, "Cannot get PMECC lookup table offset\n");
+ 		return -EINVAL;
+ 	}
+-	table_offset = host->pmecc_sector_size == 512 ? offset[0] : offset[1];
+-
+-	if (!table_offset) {
++	if (!offset[0] && !offset[1]) {
+ 		dev_err(host->dev, "Invalid PMECC lookup table offset\n");
+ 		return -EINVAL;
+ 	}
+-	host->pmecc_lookup_table_offset = table_offset;
++	host->pmecc_lookup_table_offset =
++		(host->pmecc_sector_size == 512) ? offset[0] : offset[1];
+ 
+ 	return 0;
+ }
+-- 
+1.7.10.4
+
