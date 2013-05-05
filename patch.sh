@@ -60,10 +60,10 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -314 | grep 3.6.9
+	#git format-patch -320 | grep 3.6.9
 	#0001-Linux-3.6.9.patch
 	#rm -rf *.patch
-	#git format-patch -317
+	#git format-patch -319 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
 
 
 	echo "dir: atmel_SAMA5"
@@ -384,6 +384,8 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0315-mtd-atmel_nand-make-pmecc-cap-pmecc-sector-size-in-d.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0316-mtd-at91-atmel_nand-for-PMECC-add-code-to-check-the-.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0317-sama5d3-reduce-the-lookup-table-size-for-PMECC.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0318-ARM-at91-sama5d3-reduce-TWI-internal-clock-frequency.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0319-Input-atmel_tsadcc-fix-compilation-as-a-module.patch"
 }
 
 arm

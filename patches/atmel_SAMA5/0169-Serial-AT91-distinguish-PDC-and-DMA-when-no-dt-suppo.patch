@@ -1,7 +1,7 @@
 From 6140511b81c5d017df7d27c45534b5dd168f7c56 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 10:39:49 +0800
-Subject: [PATCH 169/308] Serial: AT91: distinguish PDC and DMA when no dt
+Subject: [PATCH 169/319] Serial: AT91: distinguish PDC and DMA when no dt
  support
 
 Use id table to distinguish PDC and DMA  when no dt support

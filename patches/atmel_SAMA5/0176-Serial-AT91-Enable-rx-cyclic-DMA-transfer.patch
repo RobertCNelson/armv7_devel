@@ -1,7 +1,7 @@
 From d9438e7f7d0c7db33141cdafdd573457ce5b8935 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 14:09:27 +0800
-Subject: [PATCH 176/308] Serial: AT91: Enable rx cyclic DMA transfer
+Subject: [PATCH 176/319] Serial: AT91: Enable rx cyclic DMA transfer
 
 To prevent data overrun, we use cyclic dma transfer for rx.
 

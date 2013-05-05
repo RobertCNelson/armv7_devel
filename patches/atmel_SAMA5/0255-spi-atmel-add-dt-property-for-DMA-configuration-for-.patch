@@ -1,7 +1,7 @@
 From e877e230d5ea7f94b3b3c9cc64bf3f2fc2ae9559 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Wed, 28 Nov 2012 15:18:11 +0800
-Subject: [PATCH 255/308] spi: atmel: add dt property for DMA configuration
+Subject: [PATCH 255/319] spi: atmel: add dt property for DMA configuration
  for sama5d3x
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>

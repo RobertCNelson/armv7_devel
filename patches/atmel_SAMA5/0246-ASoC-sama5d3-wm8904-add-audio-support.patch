@@ -1,7 +1,7 @@
 From d238bbf84f5bb4e4cb5b3e375e5f7e2a0418e0ab Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Mon, 26 Nov 2012 16:38:12 +0800
-Subject: [PATCH 246/308] ASoC: sama5d3-wm8904: add audio support
+Subject: [PATCH 246/319] ASoC: sama5d3-wm8904: add audio support
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---

@@ -1,7 +1,7 @@
 From 40dbdeecd307824c6ff7ee4ad95bcbec28476c0b Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 14:29:36 +0200
-Subject: [PATCH 035/308] video: atmelfb: refactor core setup
+Subject: [PATCH 035/319] video: atmelfb: refactor core setup
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

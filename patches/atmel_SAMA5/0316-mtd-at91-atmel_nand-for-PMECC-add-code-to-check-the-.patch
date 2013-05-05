@@ -1,7 +1,7 @@
 From c283ae57d1641af345dd9346bd0abb63cbcc73bf Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 21 Mar 2013 18:32:30 +0800
-Subject: [PATCH 316/317] mtd: at91: atmel_nand: for PMECC, add code to check
+Subject: [PATCH 316/319] mtd: at91: atmel_nand: for PMECC, add code to check
  the ONFI parameter ECC requirement.
 
 This patch will check NAND flash's ecc minimum requirement in ONFI parameter.

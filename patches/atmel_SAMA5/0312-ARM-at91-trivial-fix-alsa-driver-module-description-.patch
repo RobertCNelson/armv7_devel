@@ -1,7 +1,7 @@
 From 2043ebe5ac403238f5a5b4a4dcb60e953debbbb2 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 19 Feb 2013 18:06:51 +0800
-Subject: [PATCH 312/313] ARM: at91/trivial: fix alsa driver module
+Subject: [PATCH 312/319] ARM: at91/trivial: fix alsa driver module
  description with correct sama5d3 name
 
 ---

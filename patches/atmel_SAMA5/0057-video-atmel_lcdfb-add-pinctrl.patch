@@ -1,7 +1,7 @@
 From a6afe1ec0a39562b721c0316dce317317bc93342 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:08:54 +0200
-Subject: [PATCH 057/308] video: atmel_lcdfb: add pinctrl
+Subject: [PATCH 057/319] video: atmel_lcdfb: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---

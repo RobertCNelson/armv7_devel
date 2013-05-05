@@ -1,7 +1,7 @@
 From 9ed9de460f7debde920996015f76076dbe4929a1 Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:09 +0200
-Subject: [PATCH 219/308] AT91SAM9G45: crypto: same platform data header for
+Subject: [PATCH 219/319] AT91SAM9G45: crypto: same platform data header for
  all crypto peripherals
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8

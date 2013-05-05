@@ -1,0 +1,44 @@
+From 422a3867193254ea5d52257845edf4f7742af600 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Mon, 22 Apr 2013 14:43:34 +0200
+Subject: [PATCH 318/319] ARM: at91: sama5d3: reduce TWI internal clock
+ frequency
+
+There are still I2C unexpected behaviors which are solved by reducing TWI
+internal frequency.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/mach-at91/sama5d3.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/mach-at91/sama5d3.c b/arch/arm/mach-at91/sama5d3.c
+index 9e8a949..fb62a55 100644
+--- a/arch/arm/mach-at91/sama5d3.c
++++ b/arch/arm/mach-at91/sama5d3.c
+@@ -83,19 +83,19 @@ static struct clk twi0_clk = {
+ 	.name		= "twi0_clk",
+ 	.pid		= SAMA5D3_ID_TWI0,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+-	.div		= AT91_PMC_PCR_DIV2,
++	.div		= AT91_PMC_PCR_DIV8,
+ };
+ static struct clk twi1_clk = {
+ 	.name		= "twi1_clk",
+ 	.pid		= SAMA5D3_ID_TWI1,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+-	.div		= AT91_PMC_PCR_DIV2,
++	.div		= AT91_PMC_PCR_DIV8,
+ };
+ static struct clk twi2_clk = {
+ 	.name		= "twi2_clk",
+ 	.pid		= SAMA5D3_ID_TWI2,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+-	.div		= AT91_PMC_PCR_DIV2,
++	.div		= AT91_PMC_PCR_DIV8,
+ };
+ static struct clk mmc0_clk = {
+ 	.name		= "mci0_clk",
+-- 
+1.7.10.4
+

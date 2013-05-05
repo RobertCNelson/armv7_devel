@@ -1,7 +1,7 @@
 From 8b605097f4559fc30c5bc7bc3e09a1d9bf6376b5 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 3 Jan 2013 17:18:46 +0100
-Subject: [PATCH 274/308] SAMA5: fixes for at91_dt_device_init
+Subject: [PATCH 274/319] SAMA5: fixes for at91_dt_device_init
 
 fix typo cm_rev -> mb_rev
 print error number when reading atmel,mb-rev

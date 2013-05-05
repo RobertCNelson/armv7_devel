@@ -1,7 +1,7 @@
 From 1f5f14d4f975bca88f65ba0e0dbd0a5f7ecdf1cf Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 11 Feb 2013 17:53:11 +0100
-Subject: [PATCH 309/310] ARM: at91: enhance linux-at91 at91sam9x5 support
+Subject: [PATCH 309/319] ARM: at91: enhance linux-at91 at91sam9x5 support
 
 This patch enhances the linux-at91 at91sam9x5 support mainly by updating
 device tree files to use latest drivers and to enable dma.

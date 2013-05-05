@@ -1,7 +1,7 @@
 From c582112955dd436920ef070a1c461f05aa9ac63d Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 31 Oct 2012 06:04:59 +0000
-Subject: [PATCH 092/308] net/macb: add pinctrl consumer support
+Subject: [PATCH 092/319] net/macb: add pinctrl consumer support
 
 If no pinctrl available just report a warning as some architecture may not
 need to do anything.

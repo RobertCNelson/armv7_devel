@@ -1,7 +1,7 @@
 From 079654dbdf6ef40224a0b9db69f123aac8de88cb Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 7 Jun 2012 14:19:11 +0800
-Subject: [PATCH 030/308] input: at91: add tsadcc_data for 9x5
+Subject: [PATCH 030/319] input: at91: add tsadcc_data for 9x5
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---

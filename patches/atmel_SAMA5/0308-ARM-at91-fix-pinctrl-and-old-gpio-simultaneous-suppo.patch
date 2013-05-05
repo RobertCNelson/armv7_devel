@@ -1,7 +1,7 @@
 From a6dc0d0bdb276d2d31bf3f969098f5547fd20e72 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 31 Jan 2013 13:17:28 +0100
-Subject: [PATCH 308/308] ARM: at91: fix pinctrl and old gpio simultaneous
+Subject: [PATCH 308/319] ARM: at91: fix pinctrl and old gpio simultaneous
  support
 
 No more compiling the old gpio driver when pinctrl is used leads to too many

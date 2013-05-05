@@ -1,0 +1,27 @@
+From e468857d8b27e37de7c2dfa868f8c05239c6f7ee Mon Sep 17 00:00:00 2001
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Date: Mon, 29 Apr 2013 18:14:08 +0200
+Subject: [PATCH 319/319] Input: atmel_tsadcc: fix compilation as a module
+
+Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/input/touchscreen/atmel_tsadcc.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/atmel_tsadcc.c b/drivers/input/touchscreen/atmel_tsadcc.c
+index 2c64c0b..9435d08 100644
+--- a/drivers/input/touchscreen/atmel_tsadcc.c
++++ b/drivers/input/touchscreen/atmel_tsadcc.c
+@@ -446,7 +446,7 @@ static int __devexit atmel_tsadcc_remove(struct platform_device *pdev)
+ static const struct of_device_id atmel_tsaddcc_dt_ids[] = {
+ 	{ .compatible = "atmel,at91sam9x5-tsadcc"},
+ 	{ /* sentinel */ }
+-}
++};
+ 
+ MODULE_DEVICE_TABLE(of, atmel_tsaddcc_dt_ids);
+ #endif
+-- 
+1.7.10.4
+

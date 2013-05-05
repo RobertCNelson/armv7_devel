@@ -1,7 +1,7 @@
 From 659990d5f151cd7030992a60e6a2e64913070390 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:37:49 +0100
-Subject: [PATCH 285/308] net/macb: no need to test available space in TX ring
+Subject: [PATCH 285/319] net/macb: no need to test available space in TX ring
 
 Space left in TX ring has already been tested at the end of
 start_xmit() function last time it was called: no need to test

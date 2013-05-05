@@ -1,7 +1,7 @@
 From 78255e9a871f662932089b58e44a2c0b414f19ac Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 17 Feb 2012 13:12:21 +0100
-Subject: [PATCH 046/308] video: atmel_lcdfb: HLCD modifications
+Subject: [PATCH 046/319] video: atmel_lcdfb: HLCD modifications
 
 HAS TO BE REWORKED: break compatibility with previous LCD IP due to register
 map changes

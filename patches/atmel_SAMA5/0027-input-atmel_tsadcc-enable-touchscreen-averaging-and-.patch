@@ -1,7 +1,7 @@
 From 5d154f68d429834721f76b0c730878d1461791f6 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 5 Apr 2011 17:30:03 +0200
-Subject: [PATCH 027/308] input: atmel_tsadcc: enable touchscreen averaging
+Subject: [PATCH 027/319] input: atmel_tsadcc: enable touchscreen averaging
  and add fast wake up
 
 Enable the touchscreen average to improve the resulting events. For this

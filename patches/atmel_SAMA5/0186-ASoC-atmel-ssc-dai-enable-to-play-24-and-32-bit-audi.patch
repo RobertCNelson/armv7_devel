@@ -1,7 +1,7 @@
 From bbdef35eb7ff86536bf0458b82175f10aae362d8 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Wed, 19 Dec 2012 14:02:40 +0800
-Subject: [PATCH 186/308] ASoC: atmel-ssc-dai: enable to play 24 and 32 bit
+Subject: [PATCH 186/319] ASoC: atmel-ssc-dai: enable to play 24 and 32 bit
  audio
 
 This patch enable the atmel ssc dai to support 24 and 32 bits audio

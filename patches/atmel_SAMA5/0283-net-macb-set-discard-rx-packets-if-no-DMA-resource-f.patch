@@ -1,7 +1,7 @@
 From 16f8af91c0757b3bebf783781cbab641d965216b Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:33:29 +0100
-Subject: [PATCH 283/308] net/macb: set discard rx packets if no DMA resource
+Subject: [PATCH 283/319] net/macb: set discard rx packets if no DMA resource
  flag
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>

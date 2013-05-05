@@ -1,7 +1,7 @@
 From 42f0c1cb027a859e562256857ebeea4811a65223 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 15 Nov 2012 18:41:48 +0100
-Subject: [PATCH 064/308] i2c: at91: add dt property for DMA configuration
+Subject: [PATCH 064/319] i2c: at91: add dt property for DMA configuration
 
 i2c: at91: add dt property for DMA configuration
 

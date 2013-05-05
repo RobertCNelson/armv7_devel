@@ -1,7 +1,7 @@
 From 3d3980adf0e15c630a1412a185ff9ab9ee524372 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 26 Sep 2012 14:57:45 +0800
-Subject: [PATCH 194/308] pinctrl: at91 add deglitch, debounce, pull down and
+Subject: [PATCH 194/319] pinctrl: at91 add deglitch, debounce, pull down and
  schmitt trigger mux option support
 
 add :

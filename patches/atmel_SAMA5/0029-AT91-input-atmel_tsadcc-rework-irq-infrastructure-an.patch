@@ -1,7 +1,7 @@
 From 807ba1af4949699ee67de06c76bb4e63764af789 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 16 Jun 2011 19:24:04 +0200
-Subject: [PATCH 029/308] AT91/input: atmel_tsadcc: rework irq infrastructure
+Subject: [PATCH 029/319] AT91/input: atmel_tsadcc: rework irq infrastructure
  and parameters
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>

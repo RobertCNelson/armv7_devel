@@ -1,7 +1,7 @@
 From bb84dd3f6f185db270bd5da2708be15ae5f3adb2 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 14 Dec 2012 17:33:01 +0100
-Subject: [PATCH 257/308] SAMA5: sort and update dtb files
+Subject: [PATCH 257/319] SAMA5: sort and update dtb files
 
 This patch is not merged into the big SAMA5 patch to avoid conflicts,
 it will be done for next milestone.

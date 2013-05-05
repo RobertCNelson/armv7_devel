@@ -1,7 +1,7 @@
 From 44e43823ca55b99a18a1c947c06bbd03a5406280 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Wed, 14 Nov 2012 18:09:09 +0800
-Subject: [PATCH 114/308] ASoC: atmel-ssc-dai: register dai and pcm directly
+Subject: [PATCH 114/319] ASoC: atmel-ssc-dai: register dai and pcm directly
 
 change the method for register dai and pcm
   - let the atmel-ssc-dai no longer as a standalone platform device

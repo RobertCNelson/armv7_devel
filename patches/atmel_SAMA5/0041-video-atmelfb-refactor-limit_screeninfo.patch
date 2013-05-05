@@ -1,7 +1,7 @@
 From d6c13075a90dd485650e510955d4a544cfe1d316 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Fri, 20 May 2011 15:04:10 +0200
-Subject: [PATCH 041/308] video: atmelfb: refactor limit_screeninfo
+Subject: [PATCH 041/319] video: atmelfb: refactor limit_screeninfo
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

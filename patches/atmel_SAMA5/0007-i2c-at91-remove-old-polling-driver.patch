@@ -1,7 +1,7 @@
 From aa7b21a112cdceb71aa547676aa9e7d593275b6f Mon Sep 17 00:00:00 2001
 From: Nikolaus Voss <n.voss@weinmann.de>
 Date: Tue, 8 Nov 2011 11:49:24 +0100
-Subject: [PATCH 007/308] i2c: at91: remove old polling driver
+Subject: [PATCH 007/319] i2c: at91: remove old polling driver
 
 It will get replaced by a superior one. Safe to remove since this one
 depends on BROKEN anyhow.

@@ -1,7 +1,7 @@
 From 8e81a2c8ef48293a2c1cfff2f2cf4ee57ccd39f1 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 21 Nov 2012 15:29:38 +0800
-Subject: [PATCH 133/308] MTD: at91: atmel_nand: since PMECC support different
+Subject: [PATCH 133/319] MTD: at91: atmel_nand: since PMECC support different
  ecc correctable bits(2, 4, 8, 12, 24), add code to
  choose the ecc bits according to the ONFI
  parameter's minimum required ecc_bits.

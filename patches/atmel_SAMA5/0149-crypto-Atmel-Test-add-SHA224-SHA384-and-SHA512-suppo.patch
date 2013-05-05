@@ -1,7 +1,7 @@
 From 6d8f5ef1d268a2a50fa9f904725694005238923c Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:18 +0200
-Subject: [PATCH 149/308] crypto: Atmel Test; add SHA224, SHA384 and SHA512
+Subject: [PATCH 149/319] crypto: Atmel Test; add SHA224, SHA384 and SHA512
  support
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8

@@ -1,7 +1,7 @@
 From f475379a00008c713edf8b0c49976071067bb8d8 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 29 Oct 2012 11:14:31 +0100
-Subject: [PATCH 123/308] video: atmel_hlcdfb: add second overlay support
+Subject: [PATCH 123/319] video: atmel_hlcdfb: add second overlay support
 
 New LCD Controller can support a second overlay.
 

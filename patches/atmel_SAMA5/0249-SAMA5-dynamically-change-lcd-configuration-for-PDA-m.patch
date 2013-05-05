@@ -1,7 +1,7 @@
 From 43432b711ef345d9e6b1e26dc30c7767c9cae767 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 7 Dec 2012 10:15:53 +0100
-Subject: [PATCH 249/308] SAMA5: dynamically change lcd configuration for PDA
+Subject: [PATCH 249/319] SAMA5: dynamically change lcd configuration for PDA
  module
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>

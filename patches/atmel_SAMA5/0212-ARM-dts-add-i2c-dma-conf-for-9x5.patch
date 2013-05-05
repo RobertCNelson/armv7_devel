@@ -1,7 +1,7 @@
 From 9a76fe7010307a78fe3b676756544bc318cd3f1a Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 16 Nov 2012 16:53:54 +0100
-Subject: [PATCH 212/308] ARM: dts: add i2c dma conf for 9x5
+Subject: [PATCH 212/319] ARM: dts: add i2c dma conf for 9x5
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
