@@ -31,19 +31,25 @@ ubuntu_arm_gcc_installed () {
 	if [ $(which lsb_release) ] ; then
 		distro_release=$(lsb_release -cs)
 
-		#Linux Mint:
-		#maya=precise=12.04
-		#nadia=quantal=12.10
+		#Linux Mint: Compatibility Matrix
+		case "${distro_release}" in
+		maya)
+			distro_release="precise"
+			;;
+		nadia)
+			distro_release="quantal"
+			;;
+		esac
 
 		case "${distro_release}" in
-		oneiric|precise|maya|quantal|nadia|raring)
+		oneiric|precise|quantal|raring)
 			#http://packages.ubuntu.com/raring/gcc-arm-linux-gnueabi
 			armel_pkg="gcc-arm-linux-gnueabi"
 			;;
 		esac
 
 		case "${distro_release}" in
-		oneiric|precise|maya|quantal|nadia|raring)
+		oneiric|precise|quantal|raring)
 			#http://packages.ubuntu.com/raring/gcc-arm-linux-gnueabihf
 			armhf_pkg="gcc-arm-linux-gnueabihf"
 			;;
@@ -120,28 +126,28 @@ armv7_toolchain () {
 	#Used for Cortex-A
 	#https://launchpad.net/linaro-toolchain-binaries/trunk/2013.03/+download/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux.tar.bz2
 
-	toolchain_name="gcc-linaro-arm-linux-gnueabihf"
-	site="https://launchpad.net/linaro-toolchain-binaries"
-	version="trunk/2013.03"
-	filename="gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux.tar.bz2"
-	directory="gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux"
-	datestamp="20130313-gcc-linaro-arm-linux-gnueabihf"
-	untar="tar -xjf"
+#	toolchain_name="gcc-linaro-arm-linux-gnueabihf"
+#	site="https://launchpad.net/linaro-toolchain-binaries"
+#	version="trunk/2013.03"
+#	filename="gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux.tar.bz2"
+#	directory="gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux"
+#	datestamp="20130313-gcc-linaro-arm-linux-gnueabihf"
+#	untar="tar -xjf"
 
-	binary="bin/arm-linux-gnueabihf-"
+#	binary="bin/arm-linux-gnueabihf-"
 
 	#Used for Cortex-A
 	#https://launchpad.net/linaro-toolchain-binaries/trunk/2013.04/+download/gcc-linaro-arm-linux-gnueabihf-4.8-2013.04-20130417_linux.tar.xz
 
-#	toolchain_name="gcc-linaro-arm-linux-gnueabihf"
-#	site="https://launchpad.net/linaro-toolchain-binaries"
-#	version="trunk/2013.04"
-#	directory="${toolchain_name}-4.8-2013.04-20130417_linux"
-#	filename="${directory}.tar.xz"
-#	datestamp="20130313-${toolchain_name}"
-#	untar="tar -xJf"
+	toolchain_name="gcc-linaro-arm-linux-gnueabihf"
+	site="https://launchpad.net/linaro-toolchain-binaries"
+	version="trunk/2013.04"
+	directory="${toolchain_name}-4.8-2013.04-20130417_linux"
+	filename="${directory}.tar.xz"
+	datestamp="20130313-${toolchain_name}"
+	untar="tar -xJf"
 
-#	binary="bin/arm-linux-gnueabihf-"
+	binary="bin/arm-linux-gnueabihf-"
 
 	dl_gcc_generic
 }
