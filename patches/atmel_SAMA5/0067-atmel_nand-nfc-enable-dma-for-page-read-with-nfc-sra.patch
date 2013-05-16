@@ -1,0 +1,97 @@
+From 72bfde732b996072d44eea1e91cd5ce7969347d7 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 16 Nov 2012 11:24:16 +0800
+Subject: [PATCH 067/138] atmel_nand: nfc: enable dma for page read with nfc
+ sram
+
+---
+ drivers/mtd/nand/atmel_nand.c     |   15 +++++++++++++--
+ drivers/mtd/nand/atmel_nand_nfc.c |   11 +++++++++++
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index ff8c6d9..119ee0a 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -45,7 +45,7 @@
+ 
+ #include <mach/cpu.h>
+ 
+-static int use_dma;
++static int use_dma = 1;
+ module_param(use_dma, int, 0);
+ 
+ static int on_flash_bbt = 0;
+@@ -91,6 +91,8 @@ struct atmel_nfc {
+ 	void __iomem		*hsmc_regs;
+ 	void __iomem		*sram_bank0;
+ 	void __iomem		*sram_bank1;
++	dma_addr_t		sram_bank0_phys;
++	dma_addr_t		sram_bank1_phys;
+ 
+ 	/* Point to the sram bank which include readed data via NFC */
+ 	void __iomem		*data_in_sram;
+@@ -282,7 +284,12 @@ static int atmel_nand_dma_op(struct mtd_info *mtd, void *buf, int len,
+ 	}
+ 
+ 	if (is_read) {
+-		dma_src_addr = host->io_phys;
++		if (host->nfc.data_in_sram)
++			dma_src_addr = get_bank_sram_phys(host) +
++				(host->nfc.data_in_sram - get_bank_sram_base(host));
++		else
++			dma_src_addr = host->io_phys;
++
+ 		dma_dst_addr = phys_addr;
+ 	} else {
+ 		dma_src_addr = phys_addr;
+@@ -309,6 +316,10 @@ static int atmel_nand_dma_op(struct mtd_info *mtd, void *buf, int len,
+ 	dma_async_issue_pending(host->dma_chan);
+ 	wait_for_completion(&host->comp);
+ 
++	if (is_read && host->nfc.data_in_sram)
++		/* After read data from SRAM, need to increase the position */
++		host->nfc.data_in_sram += len;
++
+ 	err = 0;
+ 
+ err_dma:
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+index d69e41f..0fe905e 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.c
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -92,6 +92,14 @@ static void* get_bank_sram_base(struct atmel_nand_host *host)
+ 		return host->nfc.sram_bank0;
+ }
+ 
++static dma_addr_t get_bank_sram_phys(struct atmel_nand_host *host)
++{
++	if (nfc_readl(host->nfc.hsmc_regs, BANK) & ATMEL_HSMC_NFC_BANK1)
++		return host->nfc.sram_bank1_phys;
++	else
++		return host->nfc.sram_bank0_phys;
++}
++
+ static int atmel_nfc_init(struct platform_device *pdev, struct mtd_info *mtd)
+ {
+ 	struct nand_chip *nand_chip = mtd->priv;
+@@ -118,6 +126,8 @@ static int atmel_nfc_init(struct platform_device *pdev, struct mtd_info *mtd)
+ 
+ 	nfc->sram_bank1 = nfc->sram_bank0 + 0x1200;
+ 
++	nfc->sram_bank0_phys = (dma_addr_t)nfc_sram->start;
++	nfc->sram_bank1_phys = nfc->sram_bank0_phys + 0x1200;
+ 	return 0;
+ }
+ 
+@@ -371,6 +381,7 @@ static int atmel_nfc_sram_init(struct mtd_info *mtd)
+ 	cfg_nfc |= ((mtd->oobsize / 4) - 1) << 24;
+ 	cfg_nfc |= ATMEL_HSMC_RSPARE |
+ 			ATMEL_HSMC_NFC_DTOCYC | ATMEL_HSMC_NFC_DTOMUL;
++
+ 	nfc_writel(host->nfc.hsmc_regs, CFG, cfg_nfc);
+ 
+ 	host->nfc.will_write_sram = false;
+-- 
+1.7.10.4
+

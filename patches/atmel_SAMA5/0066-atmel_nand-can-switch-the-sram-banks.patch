@@ -1,0 +1,74 @@
+From 9791a1ba8b15f37bb11b208e54e236604298d6f9 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 16 Nov 2012 16:45:44 +0800
+Subject: [PATCH 066/138] atmel_nand: can switch the sram banks.
+
+---
+ drivers/mtd/nand/atmel_nand_nfc.c |   14 ++++++++++++--
+ drivers/mtd/nand/atmel_nand_nfc.h |    4 ++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+index bdae673..d69e41f 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.c
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -84,6 +84,14 @@ static void nfc_select_chip(struct mtd_info *mtd, int chip)
+ 		nfc_writel(host->nfc.hsmc_regs, CTRL, ATMEL_HSMC_NFC_ENABLE);
+ }
+ 
++static void* get_bank_sram_base(struct atmel_nand_host *host)
++{
++	if (nfc_readl(host->nfc.hsmc_regs, BANK) & ATMEL_HSMC_NFC_BANK1)
++		return host->nfc.sram_bank1;
++	else
++		return host->nfc.sram_bank0;
++}
++
+ static int atmel_nfc_init(struct platform_device *pdev, struct mtd_info *mtd)
+ {
+ 	struct nand_chip *nand_chip = mtd->priv;
+@@ -108,6 +116,8 @@ static int atmel_nfc_init(struct platform_device *pdev, struct mtd_info *mtd)
+ 		return -EIO;
+ 	}
+ 
++	nfc->sram_bank1 = nfc->sram_bank0 + 0x1200;
++
+ 	return 0;
+ }
+ 
+@@ -265,7 +275,7 @@ static void nfc_nand_command(struct mtd_info *mtd, unsigned int command,
+ 
+ 	case NAND_CMD_READ0:
+ 		if (dataen == NFCADDR_CMD_DATAEN) {
+-			host->nfc.data_in_sram = host->nfc.sram_bank0;
++			host->nfc.data_in_sram = get_bank_sram_base(host);
+ 			return;
+ 		}
+ 		/* fall through */
+@@ -281,7 +291,7 @@ static int nfc_sram_write_page(struct mtd_info *mtd, struct nand_chip *chip,
+ 	int cfg, len;
+ 	int status = 0;
+ 	struct atmel_nand_host *host = chip->priv;
+-	char *sram = host->nfc.sram_bank0;
++	char *sram = get_bank_sram_base(host);
+ 
+ 	cfg = nfc_readl(host->nfc.hsmc_regs, CFG);
+ 	len = mtd->writesize;
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.h b/drivers/mtd/nand/atmel_nand_nfc.h
+index 1c5459b..46eb111 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.h
++++ b/drivers/mtd/nand/atmel_nand_nfc.h
+@@ -56,6 +56,10 @@
+ #define ATMEL_HSMC_NFC_CYCLE0		0x18	/* NFC Address Cycle Zero Register */
+ #define		ATMEL_HSMC_NFC_ADDR_CYCLE0	(0xff)
+ 
++#define ATMEL_HSMC_NFC_BANK		0x1c	/* NFC Bank Register */
++#define		ATMEL_HSMC_NFC_BANK0	(0 << 0)
++#define		ATMEL_HSMC_NFC_BANK1	(1 << 0)
++
+ #define nfc_writel(addr, reg, value) \
+ 	writel((value), (addr) + ATMEL_HSMC_NFC_##reg)
+ 
+-- 
+1.7.10.4
+

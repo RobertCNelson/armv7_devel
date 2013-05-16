@@ -1,0 +1,144 @@
+From b790061c0cda12a830f2d75f671156d4598b5c9b Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 22 Mar 2013 13:24:09 +0000
+Subject: [PATCH 017/138] ARM: at91: change name template in AT91_SOC_START
+ macro
+
+New devices are no more prefixed with at91 so remove the at91 and _name
+concatenation.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/mach-at91/at91rm9200.c  |    2 +-
+ arch/arm/mach-at91/at91sam9260.c |    2 +-
+ arch/arm/mach-at91/at91sam9261.c |    2 +-
+ arch/arm/mach-at91/at91sam9263.c |    2 +-
+ arch/arm/mach-at91/at91sam9g45.c |    2 +-
+ arch/arm/mach-at91/at91sam9n12.c |    2 +-
+ arch/arm/mach-at91/at91sam9rl.c  |    2 +-
+ arch/arm/mach-at91/at91sam9x5.c  |    2 +-
+ arch/arm/mach-at91/soc.h         |    2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm/mach-at91/at91rm9200.c b/arch/arm/mach-at91/at91rm9200.c
+index 9706c00..ccce759 100644
+--- a/arch/arm/mach-at91/at91rm9200.c
++++ b/arch/arm/mach-at91/at91rm9200.c
+@@ -384,7 +384,7 @@ static unsigned int at91rm9200_default_irq_priority[NR_AIC_IRQS] __initdata = {
+ 	0	/* Advanced Interrupt Controller (IRQ6) */
+ };
+ 
+-AT91_SOC_START(rm9200)
++AT91_SOC_START(at91rm9200)
+ 	.map_io = at91rm9200_map_io,
+ 	.default_irq_priority = at91rm9200_default_irq_priority,
+ 	.ioremap_registers = at91rm9200_ioremap_registers,
+diff --git a/arch/arm/mach-at91/at91sam9260.c b/arch/arm/mach-at91/at91sam9260.c
+index b67cd53..1833b4c 100644
+--- a/arch/arm/mach-at91/at91sam9260.c
++++ b/arch/arm/mach-at91/at91sam9260.c
+@@ -395,7 +395,7 @@ static unsigned int at91sam9260_default_irq_priority[NR_AIC_IRQS] __initdata = {
+ 	0,	/* Advanced Interrupt Controller */
+ };
+ 
+-AT91_SOC_START(sam9260)
++AT91_SOC_START(at91sam9260)
+ 	.map_io = at91sam9260_map_io,
+ 	.default_irq_priority = at91sam9260_default_irq_priority,
+ 	.ioremap_registers = at91sam9260_ioremap_registers,
+diff --git a/arch/arm/mach-at91/at91sam9261.c b/arch/arm/mach-at91/at91sam9261.c
+index 2998a08..ac7a341b 100644
+--- a/arch/arm/mach-at91/at91sam9261.c
++++ b/arch/arm/mach-at91/at91sam9261.c
+@@ -337,7 +337,7 @@ static unsigned int at91sam9261_default_irq_priority[NR_AIC_IRQS] __initdata = {
+ 	0,	/* Advanced Interrupt Controller */
+ };
+ 
+-AT91_SOC_START(sam9261)
++AT91_SOC_START(at91sam9261)
+ 	.map_io = at91sam9261_map_io,
+ 	.default_irq_priority = at91sam9261_default_irq_priority,
+ 	.ioremap_registers = at91sam9261_ioremap_registers,
+diff --git a/arch/arm/mach-at91/at91sam9263.c b/arch/arm/mach-at91/at91sam9263.c
+index b9fc60d..8e2d9f4 100644
+--- a/arch/arm/mach-at91/at91sam9263.c
++++ b/arch/arm/mach-at91/at91sam9263.c
+@@ -374,7 +374,7 @@ static unsigned int at91sam9263_default_irq_priority[NR_AIC_IRQS] __initdata = {
+ 	0,	/* Advanced Interrupt Controller (IRQ1) */
+ };
+ 
+-AT91_SOC_START(sam9263)
++AT91_SOC_START(at91sam9263)
+ 	.map_io = at91sam9263_map_io,
+ 	.default_irq_priority = at91sam9263_default_irq_priority,
+ 	.ioremap_registers = at91sam9263_ioremap_registers,
+diff --git a/arch/arm/mach-at91/at91sam9g45.c b/arch/arm/mach-at91/at91sam9g45.c
+index d3addee..4fcbe7b 100644
+--- a/arch/arm/mach-at91/at91sam9g45.c
++++ b/arch/arm/mach-at91/at91sam9g45.c
+@@ -418,7 +418,7 @@ static unsigned int at91sam9g45_default_irq_priority[NR_AIC_IRQS] __initdata = {
+ 	0,	/* Advanced Interrupt Controller (IRQ0) */
+ };
+ 
+-AT91_SOC_START(sam9g45)
++AT91_SOC_START(at91sam9g45)
+ 	.map_io = at91sam9g45_map_io,
+ 	.default_irq_priority = at91sam9g45_default_irq_priority,
+ 	.ioremap_registers = at91sam9g45_ioremap_registers,
+diff --git a/arch/arm/mach-at91/at91sam9n12.c b/arch/arm/mach-at91/at91sam9n12.c
+index 5dfc8fd..2c7a2f4 100644
+--- a/arch/arm/mach-at91/at91sam9n12.c
++++ b/arch/arm/mach-at91/at91sam9n12.c
+@@ -226,7 +226,7 @@ void __init at91sam9n12_initialize(void)
+ 	at91_extern_irq = (1 << AT91SAM9N12_ID_IRQ0);
+ }
+ 
+-AT91_SOC_START(sam9n12)
++AT91_SOC_START(at91sam9n12)
+ 	.map_io = at91sam9n12_map_io,
+ 	.register_clocks = at91sam9n12_register_clocks,
+ 	.init = at91sam9n12_initialize,
+diff --git a/arch/arm/mach-at91/at91sam9rl.c b/arch/arm/mach-at91/at91sam9rl.c
+index eb98704..c396007 100644
+--- a/arch/arm/mach-at91/at91sam9rl.c
++++ b/arch/arm/mach-at91/at91sam9rl.c
+@@ -340,7 +340,7 @@ static unsigned int at91sam9rl_default_irq_priority[NR_AIC_IRQS] __initdata = {
+ 	0,	/* Advanced Interrupt Controller */
+ };
+ 
+-AT91_SOC_START(sam9rl)
++AT91_SOC_START(at91sam9rl)
+ 	.map_io = at91sam9rl_map_io,
+ 	.default_irq_priority = at91sam9rl_default_irq_priority,
+ 	.ioremap_registers = at91sam9rl_ioremap_registers,
+diff --git a/arch/arm/mach-at91/at91sam9x5.c b/arch/arm/mach-at91/at91sam9x5.c
+index 44a9a62..3a1a799 100644
+--- a/arch/arm/mach-at91/at91sam9x5.c
++++ b/arch/arm/mach-at91/at91sam9x5.c
+@@ -320,7 +320,7 @@ static void __init at91sam9x5_map_io(void)
+  *  Interrupt initialization
+  * -------------------------------------------------------------------- */
+ 
+-AT91_SOC_START(sam9x5)
++AT91_SOC_START(at91sam9x5)
+ 	.map_io = at91sam9x5_map_io,
+ 	.register_clocks = at91sam9x5_register_clocks,
+ AT91_SOC_END
+diff --git a/arch/arm/mach-at91/soc.h b/arch/arm/mach-at91/soc.h
+index 9c6d3d4..f3d3502 100644
+--- a/arch/arm/mach-at91/soc.h
++++ b/arch/arm/mach-at91/soc.h
+@@ -24,7 +24,7 @@ extern struct at91_init_soc at91sam9x5_soc;
+ extern struct at91_init_soc at91sam9n12_soc;
+ 
+ #define AT91_SOC_START(_name)				\
+-struct at91_init_soc __initdata at91##_name##_soc	\
++struct at91_init_soc __initdata _name##_soc		\
+  __used							\
+ 						= {	\
+ 	.builtin	= 1,				\
+-- 
+1.7.10.4
+

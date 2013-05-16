@@ -1,0 +1,25 @@
+From 9ebf620e9327f0988c1ff9aa6f2e83a84e26158d Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Mon, 6 May 2013 17:35:22 +0200
+Subject: [PATCH 130/138] video: atmel_lcdfb: remove duplicated include
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/video/atmel_lcdfb_core.c |    1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/video/atmel_lcdfb_core.c b/drivers/video/atmel_lcdfb_core.c
+index e1d08ac..13f2573 100644
+--- a/drivers/video/atmel_lcdfb_core.c
++++ b/drivers/video/atmel_lcdfb_core.c
+@@ -18,7 +18,6 @@
+ #include <linux/init.h>
+ #include <linux/delay.h>
+ #include <linux/gfp.h>
+-#include <linux/module.h>
+ #include <linux/platform_data/atmel.h>
+ #include <mach/cpu.h>
+ #include <asm/gpio.h>
+-- 
+1.7.10.4
+

@@ -1,0 +1,31 @@
+From 4663d174c392ea52373b556e0ad917d25d8c62ce Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Fri, 22 Mar 2013 12:32:09 +0100
+Subject: [PATCH 015/138] ARM: at91: remove partial parameter in bootargs for
+ at91sam9x5ek.dtsi
+
+Remove the malformed "mem=" bootargs parameter in at91sam9x5ek.dtsi
+
+Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Cc: stable <stable@vger.kernel.org> # 3.8+
+---
+ arch/arm/boot/dts/at91sam9x5ek.dtsi |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5ek.dtsi b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+index f7841f6..a0b4ff9 100644
+--- a/arch/arm/boot/dts/at91sam9x5ek.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+@@ -13,7 +13,7 @@
+ 	compatible = "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
+ 
+ 	chosen {
+-		bootargs = "128M console=ttyS0,115200 root=/dev/mtdblock1 rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++		bootargs = "console=ttyS0,115200 root=/dev/mtdblock1 rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
+ 	};
+ 
+ 	ahb {
+-- 
+1.7.10.4
+

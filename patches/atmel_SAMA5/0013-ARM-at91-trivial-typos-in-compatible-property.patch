@@ -1,0 +1,87 @@
+From 858154ab51260966bf2d99a3ef67b569ba1c5542 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 21 Mar 2013 18:01:42 +0100
+Subject: [PATCH 013/138] ARM: at91/trivial: typos in compatible property
+
+- unneeded whitespace
+- missing double quote
+
+Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Cc: stable <stable@vger.kernel.org> # 3.8+
+---
+ arch/arm/boot/dts/at91sam9g15.dtsi |    2 +-
+ arch/arm/boot/dts/at91sam9g25.dtsi |    2 +-
+ arch/arm/boot/dts/at91sam9g35.dtsi |    2 +-
+ arch/arm/boot/dts/at91sam9x25.dtsi |    2 +-
+ arch/arm/boot/dts/at91sam9x35.dtsi |    2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm/boot/dts/at91sam9g15.dtsi b/arch/arm/boot/dts/at91sam9g15.dtsi
+index fbe7a70..28467fd 100644
+--- a/arch/arm/boot/dts/at91sam9g15.dtsi
++++ b/arch/arm/boot/dts/at91sam9g15.dtsi
+@@ -10,7 +10,7 @@
+ 
+ / {
+ 	model = "Atmel AT91SAM9G15 SoC";
+-	compatible = "atmel, at91sam9g15, atmel,at91sam9x5";
++	compatible = "atmel,at91sam9g15", "atmel,at91sam9x5";
+ 
+ 	ahb {
+ 		apb {
+diff --git a/arch/arm/boot/dts/at91sam9g25.dtsi b/arch/arm/boot/dts/at91sam9g25.dtsi
+index 05a718f..5fd32df 100644
+--- a/arch/arm/boot/dts/at91sam9g25.dtsi
++++ b/arch/arm/boot/dts/at91sam9g25.dtsi
+@@ -10,7 +10,7 @@
+ 
+ / {
+ 	model = "Atmel AT91SAM9G25 SoC";
+-	compatible = "atmel, at91sam9g25, atmel,at91sam9x5";
++	compatible = "atmel,at91sam9g25", "atmel,at91sam9x5";
+ 
+ 	ahb {
+ 		apb {
+diff --git a/arch/arm/boot/dts/at91sam9g35.dtsi b/arch/arm/boot/dts/at91sam9g35.dtsi
+index f9d14a7..d6fa8af 100644
+--- a/arch/arm/boot/dts/at91sam9g35.dtsi
++++ b/arch/arm/boot/dts/at91sam9g35.dtsi
+@@ -10,7 +10,7 @@
+ 
+ / {
+ 	model = "Atmel AT91SAM9G35 SoC";
+-	compatible = "atmel, at91sam9g35, atmel,at91sam9x5";
++	compatible = "atmel,at91sam9g35", "atmel,at91sam9x5";
+ 
+ 	ahb {
+ 		apb {
+diff --git a/arch/arm/boot/dts/at91sam9x25.dtsi b/arch/arm/boot/dts/at91sam9x25.dtsi
+index 54eb33b..9ac2bc2 100644
+--- a/arch/arm/boot/dts/at91sam9x25.dtsi
++++ b/arch/arm/boot/dts/at91sam9x25.dtsi
+@@ -10,7 +10,7 @@
+ 
+ / {
+ 	model = "Atmel AT91SAM9X25 SoC";
+-	compatible = "atmel, at91sam9x25, atmel,at91sam9x5";
++	compatible = "atmel,at91sam9x25", "atmel,at91sam9x5";
+ 
+ 	ahb {
+ 		apb {
+diff --git a/arch/arm/boot/dts/at91sam9x35.dtsi b/arch/arm/boot/dts/at91sam9x35.dtsi
+index fb102d6..ba67d83 100644
+--- a/arch/arm/boot/dts/at91sam9x35.dtsi
++++ b/arch/arm/boot/dts/at91sam9x35.dtsi
+@@ -10,7 +10,7 @@
+ 
+ / {
+ 	model = "Atmel AT91SAM9X35 SoC";
+-	compatible = "atmel, at91sam9x35, atmel,at91sam9x5";
++	compatible = "atmel,at91sam9x35", "atmel,at91sam9x5";
+ 
+ 	ahb {
+ 		apb {
+-- 
+1.7.10.4
+

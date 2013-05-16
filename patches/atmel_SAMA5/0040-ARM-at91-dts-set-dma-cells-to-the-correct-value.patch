@@ -1,0 +1,82 @@
+From 0b8fb95a4df761f1bb80297d735d74428b899732 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Tue, 16 Apr 2013 14:32:24 +0200
+Subject: [PATCH 040/138] ARM: at91: dts: set #dma-cells to the correct value
+
+Moving to generic DMA DT binding involves to set #dma-cells to 2.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9g45.dtsi |    1 +
+ arch/arm/boot/dts/at91sam9n12.dtsi |    1 +
+ arch/arm/boot/dts/at91sam9x5.dtsi  |    2 ++
+ arch/arm/boot/dts/sama5d3.dtsi     |    4 ++--
+ 4 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index 0fa28af..d02d998 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -108,6 +108,7 @@
+ 				compatible = "atmel,at91sam9g45-dma";
+ 				reg = <0xffffec00 0x200>;
+ 				interrupts = <21 4 0>;
++				#dma-cells = <2>;
+ 			};
+ 
+ 			pinctrl@fffff200 {
+diff --git a/arch/arm/boot/dts/at91sam9n12.dtsi b/arch/arm/boot/dts/at91sam9n12.dtsi
+index 7750f98..acc4526 100644
+--- a/arch/arm/boot/dts/at91sam9n12.dtsi
++++ b/arch/arm/boot/dts/at91sam9n12.dtsi
+@@ -110,6 +110,7 @@
+ 				compatible = "atmel,at91sam9g45-dma";
+ 				reg = <0xffffec00 0x200>;
+ 				interrupts = <20 4 0>;
++				#dma-cells = <2>;
+ 			};
+ 
+ 			pinctrl@fffff400 {
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 284bf24..ef257a7 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -104,12 +104,14 @@
+ 				compatible = "atmel,at91sam9g45-dma";
+ 				reg = <0xffffec00 0x200>;
+ 				interrupts = <20 4 0>;
++				#dma-cells = <2>;
+ 			};
+ 
+ 			dma1: dma-controller@ffffee00 {
+ 				compatible = "atmel,at91sam9g45-dma";
+ 				reg = <0xffffee00 0x200>;
+ 				interrupts = <21 4 0>;
++				#dma-cells = <2>;
+ 			};
+ 
+ 			pinctrl@fffff400 {
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 39b0458..95c00a3 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -348,14 +348,14 @@
+ 				compatible = "atmel,at91sam9g45-dma";
+ 				reg = <0xffffe600 0x200>;
+ 				interrupts = <30 4 0>;
+-				#dma-cells = <1>;
++				#dma-cells = <2>;
+ 			};
+ 
+ 			dma1: dma-controller@ffffe800 {
+ 				compatible = "atmel,at91sam9g45-dma";
+ 				reg = <0xffffe800 0x200>;
+ 				interrupts = <31 4 0>;
+-				#dma-cells = <1>;
++				#dma-cells = <2>;
+ 			};
+ 
+ 			ramc0: ramc@ffffea00 {
+-- 
+1.7.10.4
+

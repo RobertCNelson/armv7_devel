@@ -1,0 +1,44 @@
+From 348a6dae3340a63165f2716f0f21048fef86cd9a Mon Sep 17 00:00:00 2001
+From: Laurent Navet <laurent.navet@gmail.com>
+Date: Mon, 21 Jan 2013 22:16:04 +0100
+Subject: [PATCH 011/138] pcmcia/trivial: at91_cf: fix checkpatch error
+
+fix this checkpatch error:
+- ERROR: switch and case should be at the same indent
+
+Signed-off-by: Laurent Navet <laurent.navet@gmail.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/pcmcia/at91_cf.c |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/pcmcia/at91_cf.c b/drivers/pcmcia/at91_cf.c
+index 8ddc57c..b8f5acf 100644
+--- a/drivers/pcmcia/at91_cf.c
++++ b/drivers/pcmcia/at91_cf.c
+@@ -119,14 +119,14 @@ at91_cf_set_socket(struct pcmcia_socket *sock, struct socket_state_t *s)
+ 	/* switch Vcc if needed and possible */
+ 	if (gpio_is_valid(cf->board->vcc_pin)) {
+ 		switch (s->Vcc) {
+-			case 0:
+-				gpio_set_value(cf->board->vcc_pin, 0);
+-				break;
+-			case 33:
+-				gpio_set_value(cf->board->vcc_pin, 1);
+-				break;
+-			default:
+-				return -EINVAL;
++		case 0:
++			gpio_set_value(cf->board->vcc_pin, 0);
++			break;
++		case 33:
++			gpio_set_value(cf->board->vcc_pin, 1);
++			break;
++		default:
++			return -EINVAL;
+ 		}
+ 	}
+ 
+-- 
+1.7.10.4
+

@@ -1,0 +1,60 @@
+From 07d16bc3984eff5f80633a23fc6975af5ad494b6 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Fri, 29 Mar 2013 10:13:19 +0100
+Subject: [PATCH 033/138] ARM: at91: dts: add adc resolution stuff
+
+Add the ADC low and high resolution configuration and which one to use.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9260.dtsi |    3 +++
+ arch/arm/boot/dts/at91sam9g45.dtsi |    3 +++
+ arch/arm/boot/dts/at91sam9x5.dtsi  |    3 +++
+ 3 files changed, 9 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
+index cb7bcc5..367a604 100644
+--- a/arch/arm/boot/dts/at91sam9260.dtsi
++++ b/arch/arm/boot/dts/at91sam9260.dtsi
+@@ -484,6 +484,9 @@
+ 				atmel,adc-drdy-mask = <0x10000>;
+ 				atmel,adc-status-register = <0x1c>;
+ 				atmel,adc-trigger-register = <0x04>;
++				atmel,adc-res = <8 10>;
++				atmel,adc-res-names = "lowres", "highres";
++				atmel,adc-use-res = "highres";
+ 
+ 				trigger@0 {
+ 					trigger-name = "timer-counter-0";
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index 6b1d4ca..0fa28af 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -484,6 +484,9 @@
+ 				atmel,adc-drdy-mask = <0x10000>;
+ 				atmel,adc-status-register = <0x1c>;
+ 				atmel,adc-trigger-register = <0x08>;
++				atmel,adc-res = <8 10>;
++				atmel,adc-res-names = "lowres", "highres";
++				atmel,adc-use-res = "highres";
+ 
+ 				trigger@0 {
+ 					trigger-name = "external-rising";
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 3f70a6f..284bf24 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -559,6 +559,9 @@
+ 				atmel,adc-drdy-mask = <0x1000000>;
+ 				atmel,adc-status-register = <0x30>;
+ 				atmel,adc-trigger-register = <0xc0>;
++				atmel,adc-res = <8 10>;
++				atmel,adc-res-names = "lowres", "highres";
++				atmel,adc-use-res = "highres";
+ 
+ 				trigger@0 {
+ 					trigger-name = "external-rising";
+-- 
+1.7.10.4
+

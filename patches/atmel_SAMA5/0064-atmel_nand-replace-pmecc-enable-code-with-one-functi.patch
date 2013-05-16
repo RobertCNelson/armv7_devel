@@ -1,0 +1,132 @@
+From 4fd808a13bce5c42585020db814e1f48e1b51129 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 14 Nov 2012 15:02:18 +0800
+Subject: [PATCH 064/138] atmel_nand: replace pmecc enable code with one
+ function.
+
+---
+ drivers/mtd/nand/atmel_nand.c     |   38 ++++++++++++++++++++-----------------
+ drivers/mtd/nand/atmel_nand_ecc.h |    5 +++++
+ drivers/mtd/nand/atmel_nand_nfc.c |   22 +++++++--------------
+ 3 files changed, 33 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index f61a20f..40da4e26 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -784,6 +784,24 @@ normal_check:
+ 	return total_err;
+ }
+ 
++static void pmecc_enable(struct atmel_nand_host *host, enum pmecc_op op)
++{
++	u32 val;
++	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_RST);
++	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DISABLE);
++	val = pmecc_readl_relaxed(host->ecc, CFG);
++
++	if (op == PMECC_READ)
++		pmecc_writel(host->ecc, CFG, (val & ~PMECC_CFG_WRITE_OP)
++			| PMECC_CFG_AUTO_ENABLE);
++	else
++		pmecc_writel(host->ecc, CFG, (val | PMECC_CFG_WRITE_OP)
++			& ~PMECC_CFG_AUTO_ENABLE);
++
++	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_ENABLE);
++	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DATA);
++}
++
+ static int atmel_nand_pmecc_read_page(struct mtd_info *mtd,
+ 	struct nand_chip *chip, uint8_t *buf, int oob_required, int page)
+ {
+@@ -795,15 +813,8 @@ static int atmel_nand_pmecc_read_page(struct mtd_info *mtd,
+ 	unsigned long end_time;
+ 	int bitflips = 0;
+ 
+-	if (!host->use_nfc_sram) {
+-		pmecc_writel(host->ecc, CTRL, PMECC_CTRL_RST);
+-		pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DISABLE);
+-		pmecc_writel(host->ecc, CFG, (pmecc_readl_relaxed(host->ecc, CFG)
+-			& ~PMECC_CFG_WRITE_OP) | PMECC_CFG_AUTO_ENABLE);
+-
+-		pmecc_writel(host->ecc, CTRL, PMECC_CTRL_ENABLE);
+-		pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DATA);
+-	}
++	if (!host->use_nfc_sram)
++		pmecc_enable(host, PMECC_READ);
+ 
+ 	chip->read_buf(mtd, buf, eccsize);
+ 	chip->read_buf(mtd, oob, mtd->oobsize);
+@@ -836,14 +847,7 @@ static int atmel_nand_pmecc_write_page(struct mtd_info *mtd,
+ 	int i, j;
+ 	unsigned long end_time;
+ 
+-	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_RST);
+-	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DISABLE);
+-
+-	pmecc_writel(host->ecc, CFG, (pmecc_readl_relaxed(host->ecc, CFG) |
+-		PMECC_CFG_WRITE_OP) & ~PMECC_CFG_AUTO_ENABLE);
+-
+-	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_ENABLE);
+-	pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DATA);
++	pmecc_enable(host, PMECC_WRITE);
+ 
+ 	chip->write_buf(mtd, (u8 *)buf, mtd->writesize);
+ 
+diff --git a/drivers/mtd/nand/atmel_nand_ecc.h b/drivers/mtd/nand/atmel_nand_ecc.h
+index 8a1e9a6..0d6f27b 100644
+--- a/drivers/mtd/nand/atmel_nand_ecc.h
++++ b/drivers/mtd/nand/atmel_nand_ecc.h
+@@ -148,4 +148,9 @@
+ /* Time out value for reading PMECC status register */
+ #define PMECC_MAX_TIMEOUT_MS			100
+ 
++enum pmecc_op {
++	PMECC_READ,
++	PMECC_WRITE,
++};
++
+ #endif
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+index 41793f8..fb3e880 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.c
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -13,6 +13,8 @@
+ #include "atmel_nand_nfc.h"
+ #include <linux/delay.h>
+ 
++static void pmecc_enable(struct atmel_nand_host *host, enum pmecc_op op);
++
+ static u32 nfc_status;
+ static inline void nfc_read_status(struct atmel_nand_host *host)
+ {
+@@ -206,21 +208,11 @@ static void nfc_nand_command(struct mtd_info *mtd, unsigned int command,
+ 			/* Enable Data transfer to sram */
+ 			dataen = NFCADDR_CMD_DATAEN;
+ 
+-			if (chip->ecc.mode == NAND_ECC_HW && host->has_pmecc) {
+-				/* Need enable PMECC now, since NFC will
+-				 * transfer data in bus after sending nfc
+-				 * read command.
+-				 */
+-				pmecc_writel(host->ecc, CTRL, PMECC_CTRL_RST);
+-				pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DISABLE);
+-				pmecc_writel(host->ecc, CFG,
+-					(pmecc_readl_relaxed(host->ecc, CFG)
+-					& ~PMECC_CFG_WRITE_OP)
+-					| PMECC_CFG_AUTO_ENABLE);
+-
+-				pmecc_writel(host->ecc, CTRL, PMECC_CTRL_ENABLE);
+-				pmecc_writel(host->ecc, CTRL, PMECC_CTRL_DATA);
+-			}
++			/* Need enable PMECC now, since NFC will transfer
++			 * data in bus after sending nfc read command.
++			 */
++			if (chip->ecc.mode == NAND_ECC_HW && host->has_pmecc)
++				pmecc_enable(host, PMECC_READ);
+ 		}
+ 
+ 		cmd2 = NAND_CMD_READSTART << 10;
+-- 
+1.7.10.4
+

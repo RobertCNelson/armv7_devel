@@ -1,0 +1,182 @@
+From 347bb87b2df07472183b74e18cf6e66de3b30713 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 7 May 2013 18:48:28 +0200
+Subject: [PATCH 135/138] ARM: at91: add LCD device and overlays in DT + board
+
+Temporary solution with modification to board-dt-sama5.c
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi      |   40 +++++++++++++++++++++
+ arch/arm/boot/dts/sama5d3xdm.dtsi   |   20 +++++++++++
+ arch/arm/mach-at91/board-dt-sama5.c |   65 ++++++++++++++++++++++++++++++++++-
+ 3 files changed, 124 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 2e643ea..a2aa762 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -164,6 +164,46 @@
+ 				status = "disabled";
+ 			};
+ 
++			lcd_bus@f0030000 {
++				#address-cells = <1>;
++				#size-cells = <1>;
++				compatible = "atmel,at91sam9x5-lcd-bus", "simple-bus";
++				ranges = <0xf0030000 0xf0030000 0x2000>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_lcd>;
++				status = "disabled";
++
++				lcd@f0030000 {
++					compatible = "atmel,at91sam9x5-lcd";
++					reg = <0xf0030000 0xff
++					       0xf0030600 0x3ff>;
++					interrupts = <36 4 3>;
++					status = "disabled";
++				};
++
++				lcdovl1@f0030140 {
++					compatible = "atmel,at91sam9x5-lcd";
++					reg = <0xf0030140 0xff
++					       0xf0030a00 0x3ff>;
++					status = "disabled";
++				};
++
++				lcdovl2@f0030240 {
++					compatible = "atmel,at91sam9x5-lcd";
++					reg = <0xf0030240 0xff
++					       0xf00311fc 0x3ff>;
++					status = "disabled";
++				};
++
++				lcdheo1@f0030340 {
++					compatible = "atmel,sama5d3-heo";
++					reg = <0xf0030340 0xff
++					       0xf0031200 0x3ff>;
++					interrupts = <36 4 3>;
++					status = "disabled";
++				};
++			};
++
+ 			isi: isi@f0034000 {
+ 				compatible = "atmel,at91sam9g45-isi";
+ 				reg = <0xf0034000 0x4000>;
+diff --git a/arch/arm/boot/dts/sama5d3xdm.dtsi b/arch/arm/boot/dts/sama5d3xdm.dtsi
+index 4b8830e..f9f95d2 100644
+--- a/arch/arm/boot/dts/sama5d3xdm.dtsi
++++ b/arch/arm/boot/dts/sama5d3xdm.dtsi
+@@ -25,6 +25,26 @@
+ 				status = "disabled";
+ 			};
+ 
++			lcd_bus@f0030000 {
++				status = "okay";
++
++				lcd@f0030000 {
++					status = "okay";
++				};
++
++				lcdovl1@f0030140 {
++					status = "okay";
++				};
++
++				lcdovl2@f0030240 {
++					status = "okay";
++				};
++
++				lcdheo1@f0030340 {
++					status = "okay";
++				};
++			};
++
+ 			tsadcc: tsadcc@f8018000 {
+ 				status = "okay";
+ 			};
+diff --git a/arch/arm/mach-at91/board-dt-sama5.c b/arch/arm/mach-at91/board-dt-sama5.c
+index 705305e..aa0311c 100644
+--- a/arch/arm/mach-at91/board-dt-sama5.c
++++ b/arch/arm/mach-at91/board-dt-sama5.c
+@@ -26,6 +26,69 @@
+ #include "at91_aic.h"
+ #include "generic.h"
+ 
++/************************************/
++/* TEMPORARY NON-DT STUFF FOR MIURA */
++/************************************/
++#include <linux/fb.h>
++#include <video/atmel_lcdfb.h>
++#include <mach/atmel_hlcdc.h>
++/*
++ * LCD Controller
++ */
++static struct fb_videomode at91_tft_vga_modes[] = {
++	{
++		.name		= "LG",
++		.refresh	= 60,
++		.xres		= 800,		.yres		= 480,
++		.pixclock	= KHZ2PICOS(33260),
++
++		.left_margin	= 88,		.right_margin	= 168,
++		.upper_margin	= 8,		.lower_margin	= 37,
++		.hsync_len	= 128,		.vsync_len	= 2,
++
++		.sync		= 0,
++		.vmode		= FB_VMODE_NONINTERLACED,
++	},
++};
++
++static struct fb_monspecs at91fb_default_monspecs = {
++	.manufacturer	= "LG",
++	.monitor	= "LB043WQ1",
++
++	.modedb		= at91_tft_vga_modes,
++	.modedb_len	= ARRAY_SIZE(at91_tft_vga_modes),
++	.hfmin		= 15000,
++	.hfmax		= 17640,
++	.vfmin		= 57,
++	.vfmax		= 67,
++};
++
++/* Default output mode is TFT 24 bit */
++#define BPP_OUT_DEFAULT_LCDCFG5	(LCDC_LCDCFG5_MODE_OUTPUT_24BPP)
++
++/* Driver datas */
++static struct atmel_lcdfb_info __initdata ek_lcdc_data = {
++	.lcdcon_is_backlight		= true,
++	.alpha_enabled			= false,
++	.default_bpp			= 16,
++	/* Reserve enough memory for 32bpp */
++	.smem_len			= 800 * 480 * 4,
++	/* default_lcdcon2 is used for LCDCFG5 */
++	.default_lcdcon2		= BPP_OUT_DEFAULT_LCDCFG5,
++	.default_monspecs		= &at91fb_default_monspecs,
++	.guard_time			= 9,
++	.lcd_wiring_mode		= ATMEL_LCDC_WIRING_RGB,
++};
++
++
++struct of_dev_auxdata at91_auxdata_lookup[] __initdata = {
++	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf8038000, "atmel_hlcdfb_base", &ek_lcdc_data),
++	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf8038100, "atmel_hlcdfb_ovl1", &ek_lcdc_data),
++	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf0030000, "atmel_hlcdfb_base", &ek_lcdc_data),
++	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf0030140, "atmel_hlcdfb_ovl1", &ek_lcdc_data),
++	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf0030240, "atmel_hlcdfb_ovl2", &ek_lcdc_data),
++	{ /* sentinel */ }
++};
+ 
+ static const struct of_device_id irq_of_match[] __initconst = {
+ 
+@@ -66,7 +129,7 @@ static void __init sama5_dt_device_init(void)
+ 		phy_register_fixup_for_uid(PHY_ID_KSZ9021, MICREL_PHY_ID_MASK,
+ 			ksz9021rn_phy_fixup);
+ 
+-	of_platform_populate(NULL, of_default_bus_match_table, NULL, NULL);
++	of_platform_populate(NULL, of_default_bus_match_table, at91_auxdata_lookup, NULL);
+ }
+ 
+ static const char *sama5_dt_board_compat[] __initdata = {
+-- 
+1.7.10.4
+

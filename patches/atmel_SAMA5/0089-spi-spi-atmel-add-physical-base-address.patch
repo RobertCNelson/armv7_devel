@@ -1,0 +1,39 @@
+From 63c3cb05026603baed3ff0b71c67c5a9e9f22cb3 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Wed, 3 Apr 2013 13:57:42 +0800
+Subject: [PATCH 089/138] spi/spi-atmel: add physical base address
+
+Needed for future use with dmaengine enabled driver.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+[wenyou.yang@atmel.com: submit the patch]
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+Tested-by: Richard Genoud <richard.genoud@gmail.com>
+Signed-off-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
+---
+ drivers/spi/spi-atmel.c |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
+index 4a8b462..cd47afc 100644
+--- a/drivers/spi/spi-atmel.c
++++ b/drivers/spi/spi-atmel.c
+@@ -196,6 +196,7 @@ struct atmel_spi_caps {
+ struct atmel_spi {
+ 	spinlock_t		lock;
+ 
++	phys_addr_t		phybase;
+ 	void __iomem		*regs;
+ 	int			irq;
+ 	struct clk		*clk;
+@@ -996,6 +997,7 @@ static int atmel_spi_probe(struct platform_device *pdev)
+ 	as->regs = ioremap(regs->start, resource_size(regs));
+ 	if (!as->regs)
+ 		goto out_free_buffer;
++	as->phybase = regs->start;
+ 	as->irq = irq;
+ 	as->clk = clk;
+ 
+-- 
+1.7.10.4
+

@@ -1,0 +1,43 @@
+From ec8468863a4c4ebd66155365ece0b0bacbc99aa2 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 18 Apr 2013 10:52:45 +0200
+Subject: [PATCH 081/138] ARM: at91/at91sam9x5.dtsi: add UART0/1 nodes
+
+Reported-by: Douglas Gilbert <dgilbert@interlog.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5.dtsi |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index f650d95..a874f76 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -561,6 +561,24 @@
+ 				status = "disabled";
+ 			};
+ 
++			uart0: serial@f8040000 {
++				compatible = "atmel,at91sam9260-usart";
++				reg = <0xf8040000 0x200>;
++				interrupts = <15 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_uart0>;
++				status = "disabled";
++			};
++
++			uart1: serial@f8044000 {
++				compatible = "atmel,at91sam9260-usart";
++				reg = <0xf8044000 0x200>;
++				interrupts = <16 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_uart1>;
++				status = "disabled";
++			};
++
+ 			adc0: adc@f804c000 {
+ 				compatible = "atmel,at91sam9260-adc";
+ 				reg = <0xf804c000 0x100>;
+-- 
+1.7.10.4
+

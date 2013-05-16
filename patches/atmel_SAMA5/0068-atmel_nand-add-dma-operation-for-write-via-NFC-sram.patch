@@ -1,0 +1,59 @@
+From 15bf5aef79a4d399c81acd33b351ec822730247a Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 16 Nov 2012 17:57:14 +0800
+Subject: [PATCH 068/138] atmel_nand: add dma operation for write via NFC
+ sram.
+
+---
+ drivers/mtd/nand/atmel_nand.c     |    6 +++++-
+ drivers/mtd/nand/atmel_nand_nfc.c |   10 +++++++++-
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index 119ee0a..780018d 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -293,7 +293,11 @@ static int atmel_nand_dma_op(struct mtd_info *mtd, void *buf, int len,
+ 		dma_dst_addr = phys_addr;
+ 	} else {
+ 		dma_src_addr = phys_addr;
+-		dma_dst_addr = host->io_phys;
++
++		if (host->use_nfc_sram)
++			dma_dst_addr = get_bank_sram_phys(host);
++		else
++			dma_dst_addr = host->io_phys;
+ 	}
+ 
+ 	tx = dma_dev->device_prep_dma_memcpy(host->dma_chan, dma_dst_addr,
+diff --git a/drivers/mtd/nand/atmel_nand_nfc.c b/drivers/mtd/nand/atmel_nand_nfc.c
+index 0fe905e..15df9cf 100644
+--- a/drivers/mtd/nand/atmel_nand_nfc.c
++++ b/drivers/mtd/nand/atmel_nand_nfc.c
+@@ -14,6 +14,8 @@
+ #include <linux/delay.h>
+ 
+ static void pmecc_enable(struct atmel_nand_host *host, enum pmecc_op op);
++static int atmel_nand_dma_op(struct mtd_info *mtd, void *buf, int len,
++			       int is_read);
+ 
+ static u32 nfc_status;
+ static inline void nfc_read_status(struct atmel_nand_host *host)
+@@ -313,7 +315,13 @@ static int nfc_sram_write_page(struct mtd_info *mtd, struct nand_chip *chip,
+ 		nfc_writel(host->nfc.hsmc_regs, CFG, cfg & ~ATMEL_HSMC_WSPARE);
+ 
+ 	/* Copy page data to sram that will write to nand via NFC */
+-	memcpy(sram, buf, len);
++	if (use_dma) {
++		if (atmel_nand_dma_op(mtd, (void *)buf, len, 0) != 0)
++			/* Fall back to use cpu copy */
++			memcpy(sram, buf, len);
++	} else {
++		memcpy(sram, buf, len);
++	}
+ 
+ 	if (chip->ecc.mode == NAND_ECC_HW && host->has_pmecc)
+ 		/*
+-- 
+1.7.10.4
+

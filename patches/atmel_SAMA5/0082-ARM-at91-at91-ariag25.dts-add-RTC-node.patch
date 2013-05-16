@@ -1,0 +1,29 @@
+From f49a46d39b2929ae9e991195304b25d90173c1f9 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Thu, 18 Apr 2013 10:35:08 +0200
+Subject: [PATCH 082/138] ARM: at91/at91-ariag25.dts: add RTC node
+
+Reported-by: Douglas Gilbert <dgilbert@interlog.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/at91-ariag25.dts |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91-ariag25.dts b/arch/arm/boot/dts/at91-ariag25.dts
+index 04fd74d..5b07380 100644
+--- a/arch/arm/boot/dts/at91-ariag25.dts
++++ b/arch/arm/boot/dts/at91-ariag25.dts
+@@ -143,6 +143,10 @@
+ 					};
+ 				};
+ 			};
++
++			rtc@fffffeb0 {
++				status = "okay";
++			};
+ 		};
+ 
+ 		usb0: ohci@00600000 {
+-- 
+1.7.10.4
+

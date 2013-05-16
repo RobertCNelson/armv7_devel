@@ -1,0 +1,44 @@
+From 55a8919a86625e4c57dbb6ee9346980c2be5cc59 Mon Sep 17 00:00:00 2001
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Fri, 8 Feb 2013 02:25:55 +0100
+Subject: [PATCH 026/138] ARM: at91: add pinctrl nodes to i2c-gpio on RM92000
+ DT
+
+GPIO pins used by i2c-gpio must be set to multi drive
+(open drain) to work properly.
+
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/at91rm9200.dtsi |    8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91rm9200.dtsi b/arch/arm/boot/dts/at91rm9200.dtsi
+index a7031c6..5d3ed5a 100644
+--- a/arch/arm/boot/dts/at91rm9200.dtsi
++++ b/arch/arm/boot/dts/at91rm9200.dtsi
+@@ -383,6 +383,12 @@
+ 							<0 25 0x1 0x2	/* PA25 periph A with multi drive */
+ 							 0 26 0x1 0x2>;	/* PA26 periph A with multi drive */
+ 					};
++
++					pinctrl_twi_gpio: twi_gpio-0 {
++						atmel,pins =
++							<0 25 0x0 0x2	/* PA25 GPIO with multi drive */
++							 0 26 0x0 0x2>;	/* PA26 GPIO with multi drive */
++					};
+ 				};
+ 
+ 				pioA: gpio@fffff400 {
+@@ -520,6 +526,8 @@
+ 		i2c-gpio,sda-open-drain;
+ 		i2c-gpio,scl-open-drain;
+ 		i2c-gpio,delay-us = <2>;	/* ~100 kHz */
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_twi_gpio>;
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		status = "disabled";
+-- 
+1.7.10.4
+

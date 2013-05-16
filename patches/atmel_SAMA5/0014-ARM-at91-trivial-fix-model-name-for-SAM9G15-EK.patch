@@ -1,0 +1,27 @@
+From 744357abc135554a93ce6e33028d117595512257 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Wed, 20 Feb 2013 17:32:20 +0100
+Subject: [PATCH 014/138] ARM: at91/trivial: fix model name for SAM9G15-EK
+
+Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Cc: stable <stable@vger.kernel.org> # 3.8+
+---
+ arch/arm/boot/dts/at91sam9g15ek.dts |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/at91sam9g15ek.dts b/arch/arm/boot/dts/at91sam9g15ek.dts
+index 86dd3f6..5427b2d 100644
+--- a/arch/arm/boot/dts/at91sam9g15ek.dts
++++ b/arch/arm/boot/dts/at91sam9g15ek.dts
+@@ -11,6 +11,6 @@
+ /include/ "at91sam9x5ek.dtsi"
+ 
+ / {
+-	model = "Atmel AT91SAM9G25-EK";
++	model = "Atmel AT91SAM9G15-EK";
+ 	compatible = "atmel,at91sam9g15ek", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
+ };
+-- 
+1.7.10.4
+

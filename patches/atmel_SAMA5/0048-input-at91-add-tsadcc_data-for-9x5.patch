@@ -1,0 +1,27 @@
+From 42ec3bf519e2f10493732803f3ddfe02a3c4bae6 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 17 Apr 2013 16:00:30 +0200
+Subject: [PATCH 048/138] input: at91: add tsadcc_data for 9x5
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ include/linux/platform_data/atmel.h |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/linux/platform_data/atmel.h b/include/linux/platform_data/atmel.h
+index 6a293b7..c8d1214 100644
+--- a/include/linux/platform_data/atmel.h
++++ b/include/linux/platform_data/atmel.h
+@@ -85,7 +85,9 @@ struct atmel_uart_data {
+  /* Touchscreen Controller */
+ struct at91_tsadcc_data {
+ 	unsigned int    adc_clock;
++	u8		filtering_average;
+ 	u8		pendet_debounce;
++	u8		pendet_sensitivity;
+ 	u8		ts_sample_hold_time;
+ };
+ 
+-- 
+1.7.10.4
+

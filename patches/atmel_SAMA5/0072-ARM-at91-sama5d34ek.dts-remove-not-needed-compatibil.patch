@@ -1,0 +1,32 @@
+From 3c14f802d5631eeedf5fd5e6b43ec12b44fbced8 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Fri, 19 Apr 2013 11:28:34 +0200
+Subject: [PATCH 072/138] ARM: at91/sama5d34ek.dts: remove not needed
+ compatibility string
+
+"atmel,sama5ek" compatibility sting does not correspond to a
+useful board configuration. This d34ek.dts is the only sama5d3
+.dts file affected.
+
+Reported-by: Josh Wu <josh.wu@atmel.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/sama5d34ek.dts |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+index d2739f8..6bebfcd 100644
+--- a/arch/arm/boot/dts/sama5d34ek.dts
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -12,7 +12,7 @@
+ 
+ / {
+ 	model = "Atmel SAMA5D34-EK";
+-	compatible = "atmel,sama5d34ek", "atmel,sama5ek", "atmel,sama5d3xmb", "atmel,sama5d3xcm", "atmel,sama5d3", "atmel,sama5";
++	compatible = "atmel,sama5d34ek", "atmel,sama5d3xmb", "atmel,sama5d3xcm", "atmel,sama5d3", "atmel,sama5";
+ 
+ 	ahb {
+ 		apb {
+-- 
+1.7.10.4
+

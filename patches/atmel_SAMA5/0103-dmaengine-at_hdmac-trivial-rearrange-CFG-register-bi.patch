@@ -1,0 +1,37 @@
+From e6c6a52641e2c34c44c6e7639bfb691378055228 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Mon, 6 May 2013 12:33:38 +0200
+Subject: [PATCH 103/138] dmaengine: at_hdmac/trivial: rearrange CFG register
+ bits assignment
+
+No modification in CFG register configuration, just rearrange
+bits directives to group logically and make it more readable.
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/dma/at_hdmac.c |    9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+index 78c3fb4..9e1ad73 100644
+--- a/drivers/dma/at_hdmac.c
++++ b/drivers/dma/at_hdmac.c
+@@ -1228,11 +1228,10 @@ static struct dma_chan *at_dma_xlate(struct of_phandle_args *dma_spec,
+ 	 * ignored depending on DMA transfer direction.
+ 	 */
+ 	per_id = dma_spec->args[1];
+-	atslave->cfg = ATC_FIFOCFG_HALFFIFO | ATC_DST_H2SEL_HW
+-		      | ATC_SRC_H2SEL_HW | ATC_DST_PER(per_id)
+-		      | ATC_DST_PER_MSB(per_id)
+-		      | ATC_SRC_PER_MSB(per_id)
+-		      | ATC_SRC_PER(per_id);
++	atslave->cfg = ATC_FIFOCFG_HALFFIFO
++		     | ATC_DST_H2SEL_HW | ATC_SRC_H2SEL_HW
++		     | ATC_DST_PER_MSB(per_id) | ATC_DST_PER(per_id)
++		     | ATC_SRC_PER_MSB(per_id) | ATC_SRC_PER(per_id);
+ 	atslave->dma_dev = &dmac_pdev->dev;
+ 
+ 	chan = dma_request_channel(mask, at_dma_filter, atslave);
+-- 
+1.7.10.4
+

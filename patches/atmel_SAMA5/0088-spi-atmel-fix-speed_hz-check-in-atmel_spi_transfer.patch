@@ -1,0 +1,39 @@
+From 198009722c3215dda0d1c8ca953c554f732b9d68 Mon Sep 17 00:00:00 2001
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Tue, 19 Feb 2013 22:44:57 +0100
+Subject: [PATCH 088/138] spi/atmel: fix speed_hz check in
+ atmel_spi_transfer()
+
+atmel_spi_transfer() would check speed_hz and fail if
+the speed was changed in the transfer. After commit
+"spi: make sure all transfer has proper speed set"
+this would happen on all transfers.
+
+Change speed_hz check to only fail if a lower speed
+than max is requested.
+
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Grant Likely <grant.likely@secretlab.ca>
+---
+ drivers/spi/spi-atmel.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
+index ab2ed75..4a8b462 100644
+--- a/drivers/spi/spi-atmel.c
++++ b/drivers/spi/spi-atmel.c
+@@ -859,8 +859,8 @@ static int atmel_spi_transfer(struct spi_device *spi, struct spi_message *msg)
+ 		}
+ 
+ 		/* FIXME implement these protocol options!! */
+-		if (xfer->speed_hz) {
+-			dev_dbg(&spi->dev, "no protocol options yet\n");
++		if (xfer->speed_hz < spi->max_speed_hz) {
++			dev_dbg(&spi->dev, "can't change speed in transfer\n");
+ 			return -ENOPROTOOPT;
+ 		}
+ 
+-- 
+1.7.10.4
+

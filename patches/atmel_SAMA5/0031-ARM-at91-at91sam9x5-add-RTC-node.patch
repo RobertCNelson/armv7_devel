@@ -1,0 +1,31 @@
+From db0cd49b3a7124128c7ae7dc5a40a83dc2e3ab3b Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Fri, 22 Mar 2013 10:16:56 +0100
+Subject: [PATCH 031/138] ARM: at91/at91sam9x5: add RTC node
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5.dtsi |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 3870322..3f70a6f 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -583,6 +583,13 @@
+ 					trigger-value = <0x6>;
+ 				};
+ 			};
++
++			rtc@fffffeb0 {
++				compatible = "atmel,at91rm9200-rtc";
++				reg = <0xfffffeb0 0x40>;
++				interrupts = <1 4 7>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+-- 
+1.7.10.4
+

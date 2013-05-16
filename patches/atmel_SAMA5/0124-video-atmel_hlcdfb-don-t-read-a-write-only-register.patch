@@ -1,0 +1,45 @@
+From ecaa5286c15f5a4f9853060917f41772cf69b095 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Thu, 24 Jan 2013 16:12:20 +0100
+Subject: [PATCH 124/138] video: atmel_hlcdfb: don't read a write only
+ register
+
+Reading a write only register and using its value is useless.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+---
+ drivers/video/atmel_hlcdfb.c |   12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/video/atmel_hlcdfb.c b/drivers/video/atmel_hlcdfb.c
+index 1ae48da..e648ffc 100644
+--- a/drivers/video/atmel_hlcdfb.c
++++ b/drivers/video/atmel_hlcdfb.c
+@@ -163,20 +163,16 @@ void atmel_hlcdfb_start(struct atmel_lcdfb_info *sinfo)
+ {
+ 	u32 value;
+ 
+-	value = lcdc_readl(sinfo, ATMEL_LCDC_LCDEN);
+-	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, value | LCDC_LCDEN_CLKEN);
++	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, LCDC_LCDEN_CLKEN);
+ 	while (!(lcdc_readl(sinfo, ATMEL_LCDC_LCDSR) & LCDC_LCDSR_CLKSTS))
+ 		msleep(1);
+-	value = lcdc_readl(sinfo, ATMEL_LCDC_LCDEN);
+-	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, value | LCDC_LCDEN_SYNCEN);
++	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, LCDC_LCDEN_SYNCEN);
+ 	while (!(lcdc_readl(sinfo, ATMEL_LCDC_LCDSR) & LCDC_LCDSR_LCDSTS))
+ 		msleep(1);
+-	value = lcdc_readl(sinfo, ATMEL_LCDC_LCDEN);
+-	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, value | LCDC_LCDEN_DISPEN);
++	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, LCDC_LCDEN_DISPEN);
+ 	while (!(lcdc_readl(sinfo, ATMEL_LCDC_LCDSR) & LCDC_LCDSR_DISPSTS))
+ 		msleep(1);
+-	value = lcdc_readl(sinfo, ATMEL_LCDC_LCDEN);
+-	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, value | LCDC_LCDEN_PWMEN);
++	lcdc_writel(sinfo, ATMEL_LCDC_LCDEN, LCDC_LCDEN_PWMEN);
+ 	while (!(lcdc_readl(sinfo, ATMEL_LCDC_LCDSR) & LCDC_LCDSR_PWMSTS))
+ 		msleep(1);
+ }
+-- 
+1.7.10.4
+
