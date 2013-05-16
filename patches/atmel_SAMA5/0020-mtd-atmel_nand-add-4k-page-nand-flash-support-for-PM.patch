@@ -1,7 +1,7 @@
 From 4c6281600040f57251a3b5567a81cadfc95dc989 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Mon, 24 Sep 2012 14:50:45 +0800
-Subject: [PATCH 020/319] mtd: atmel_nand: add 4k page nand flash support for
+Subject: [PATCH 020/320] mtd: atmel_nand: add 4k page nand flash support for
  PMECC.
 
 ---

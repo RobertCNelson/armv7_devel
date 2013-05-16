@@ -1,7 +1,7 @@
 From d70241eec7b68dde1a05c7d8ac18c91f4ca8cb13 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 21 Nov 2012 16:41:07 +0800
-Subject: [PATCH 254/319] ARM: dts: add serial dma conf for sama5d3
+Subject: [PATCH 254/320] ARM: dts: add serial dma conf for sama5d3
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---

@@ -1,7 +1,7 @@
 From f7b5deca3e2b9c16c728c0868daa32ad544acb05 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 13 Jun 2012 17:28:40 +0800
-Subject: [PATCH 031/319] input: at91: add dt support for atmel touch screen
+Subject: [PATCH 031/320] input: at91: add dt support for atmel touch screen
  adc controller.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>

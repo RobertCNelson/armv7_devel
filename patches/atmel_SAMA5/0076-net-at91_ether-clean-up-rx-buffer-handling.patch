@@ -1,7 +1,7 @@
 From a2d59dbcb4ce8826ebb77682dfda7a67135bb8da Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:17 +0000
-Subject: [PATCH 076/319] net/at91_ether: clean up rx buffer handling
+Subject: [PATCH 076/320] net/at91_ether: clean up rx buffer handling
 
 This patch does two things:
 * Use macb struct members and remove at91_ether ones

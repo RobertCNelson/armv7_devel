@@ -1,7 +1,7 @@
 From 06bf787037f7e3bc416e4354be652492e1072e43 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 23 Oct 2012 15:06:54 +0800
-Subject: [PATCH 280/319] arm: at91sam9xcm: add specific nand pinctrl
+Subject: [PATCH 280/320] arm: at91sam9xcm: add specific nand pinctrl
 
 the nand is on d16 and 8bit
 

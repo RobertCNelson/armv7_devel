@@ -1,7 +1,7 @@
 From bfd370f65570ee37fa084acc341f865c582edcb6 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 13:08:27 +0800
-Subject: [PATCH 227/319] ARM: dts: add the watchdog nodes for at91sam9g25ek
+Subject: [PATCH 227/320] ARM: dts: add the watchdog nodes for at91sam9g25ek
  boards
 
 Tested on the at91sam9g25ek boards

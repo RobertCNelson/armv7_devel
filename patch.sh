@@ -60,11 +60,12 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -320 | grep 3.6.9
+	#git format-patch -321 | grep 3.6.9
 	#0001-Linux-3.6.9.patch
 	#rm -rf *.patch
-	#git format-patch -319 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
-
+	#git format-patch -320 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
+	#git checkout master -f
+	#git branch -D tmp
 
 	echo "dir: atmel_SAMA5"
 	${git} "${DIR}/patches/atmel_SAMA5/0001-mmc-atmel-mci-remove-not-needed-DMA-capability-test.patch"
@@ -386,6 +387,7 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0317-sama5d3-reduce-the-lookup-table-size-for-PMECC.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0318-ARM-at91-sama5d3-reduce-TWI-internal-clock-frequency.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0319-Input-atmel_tsadcc-fix-compilation-as-a-module.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0320-Change-internal-SRAM-memory-type-to-MT_MEMORY_SO.patch"
 }
 
 arm

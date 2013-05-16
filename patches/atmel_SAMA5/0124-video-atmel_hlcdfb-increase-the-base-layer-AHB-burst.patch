@@ -1,7 +1,7 @@
 From 086d9cef7351c2a3c9322a904ae8b38be94eee34 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 29 Oct 2012 15:32:54 +0100
-Subject: [PATCH 124/319] video: atmel_hlcdfb: increase the base layer AHB
+Subject: [PATCH 124/320] video: atmel_hlcdfb: increase the base layer AHB
  burst length
 
 Increase the base layer AHB burst length from 4 to 16.

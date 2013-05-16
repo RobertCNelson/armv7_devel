@@ -1,7 +1,7 @@
 From a7f57777403b55cacf34c7c5a9767629e58581e4 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 26 Jun 2012 17:42:22 +0800
-Subject: [PATCH 014/319] MTD: at91: add dt parameters for Atmel PMECC
+Subject: [PATCH 014/320] MTD: at91: add dt parameters for Atmel PMECC
 
 Add DT support for PMECC parameters.
 

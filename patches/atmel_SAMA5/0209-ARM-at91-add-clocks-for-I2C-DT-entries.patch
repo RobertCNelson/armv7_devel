@@ -1,7 +1,7 @@
 From 9ef5803612e9a361a1f8358a499ee4a30e4a9c27 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 12 Sep 2012 08:42:15 +0200
-Subject: [PATCH 209/319] ARM: at91: add clocks for I2C DT entries
+Subject: [PATCH 209/320] ARM: at91: add clocks for I2C DT entries
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Nikolaus Voss <n.voss@weinmann.de>

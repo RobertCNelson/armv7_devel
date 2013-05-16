@@ -1,7 +1,7 @@
 From 664b8fc0df77e0c09b3aab454581faac03cb5801 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Mon, 29 Oct 2012 14:29:22 +0800
-Subject: [PATCH 166/319] DMA: AT91: Serial: Add parameter for serial dma use
+Subject: [PATCH 166/320] DMA: AT91: Serial: Add parameter for serial dma use
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---

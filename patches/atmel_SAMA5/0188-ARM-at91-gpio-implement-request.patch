@@ -1,7 +1,7 @@
 From 72fb265503b551b4b1d02d7adbe1858242763131 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 6 Jul 2012 06:48:33 +0800
-Subject: [PATCH 188/319] ARM: at91: gpio: implement request
+Subject: [PATCH 188/320] ARM: at91: gpio: implement request
 
 Configure the pin as pio when requested.
 

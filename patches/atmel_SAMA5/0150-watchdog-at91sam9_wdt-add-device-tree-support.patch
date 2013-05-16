@@ -1,7 +1,7 @@
 From 210e6cf2717a7649df11c92b690321a9081bd6ca Mon Sep 17 00:00:00 2001
 From: Fabio Porcedda <fabio.porcedda@gmail.com>
 Date: Mon, 12 Nov 2012 08:37:25 +0000
-Subject: [PATCH 150/319] watchdog: at91sam9_wdt: add device tree support
+Subject: [PATCH 150/320] watchdog: at91sam9_wdt: add device tree support
 
 Tested on an at91sam9260 board (evk-pro3)
 

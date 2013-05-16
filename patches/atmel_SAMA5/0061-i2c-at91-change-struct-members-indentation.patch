@@ -1,7 +1,7 @@
 From 7c6544885f5293738d062a8b7e63eab4fae514f6 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 14 Nov 2012 11:10:58 +0100
-Subject: [PATCH 061/319] i2c: at91: change struct members indentation
+Subject: [PATCH 061/320] i2c: at91: change struct members indentation
 
 Replace tabs for struct members indentation by space to minimise line changes
 when adding new members which would require extra tabs to keep alignment.

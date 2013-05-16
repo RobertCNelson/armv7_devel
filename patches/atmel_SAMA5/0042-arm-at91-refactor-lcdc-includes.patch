@@ -1,7 +1,7 @@
 From f80634811eb2b0e08df819721f0130145d4c9bde Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Wed, 25 May 2011 15:38:50 +0200
-Subject: [PATCH 042/319] arm: at91: refactor lcdc-includes
+Subject: [PATCH 042/320] arm: at91: refactor lcdc-includes
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

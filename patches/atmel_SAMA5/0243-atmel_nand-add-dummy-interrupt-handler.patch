@@ -1,7 +1,7 @@
 From 0ff228214ddb99deca97b8979fd04ab92707e3c3 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 15 Nov 2012 14:18:05 +0800
-Subject: [PATCH 243/319] atmel_nand: add dummy interrupt handler.
+Subject: [PATCH 243/320] atmel_nand: add dummy interrupt handler.
 
 ---
  drivers/mtd/nand/atmel_nand.c |   38 +++++++++++++++++++++++++++++++++++++-

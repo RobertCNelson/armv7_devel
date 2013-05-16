@@ -1,7 +1,7 @@
 From 673da5e4f6c9b6c54bb915aa07fc6ea726508327 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 16:13:39 +0100
-Subject: [PATCH 295/319] video: atmel_hlcdfb: don't wait when going to
+Subject: [PATCH 295/320] video: atmel_hlcdfb: don't wait when going to
  suspend
 
 For an unknown reason polling the end of dma transfer before going to suspend

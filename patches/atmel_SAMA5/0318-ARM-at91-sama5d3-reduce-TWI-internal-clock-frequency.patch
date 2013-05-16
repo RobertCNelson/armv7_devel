@@ -1,7 +1,7 @@
 From 422a3867193254ea5d52257845edf4f7742af600 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 22 Apr 2013 14:43:34 +0200
-Subject: [PATCH 318/319] ARM: at91: sama5d3: reduce TWI internal clock
+Subject: [PATCH 318/320] ARM: at91: sama5d3: reduce TWI internal clock
  frequency
 
 There are still I2C unexpected behaviors which are solved by reducing TWI

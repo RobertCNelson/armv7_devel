@@ -1,7 +1,7 @@
 From e282e400c5345c7280724b00d53a70c8c72089ab Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Mon, 25 Jun 2012 15:15:54 +0800
-Subject: [PATCH 016/319] MTD: nand: add return value for
+Subject: [PATCH 016/320] MTD: nand: add return value for
  write_page()/write_page_raw() functions in
  structure of nand_ecc_ctrl.
 

@@ -1,7 +1,7 @@
 From 569742ef566a60a527c39417290140b1b695643d Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:07 +0000
-Subject: [PATCH 066/319] net/at91_ether: use macb register definitions
+Subject: [PATCH 066/320] net/at91_ether: use macb register definitions
 
 Use register and bits definitions from the macb header. This makes it
 possible to have one header file for this hardware.

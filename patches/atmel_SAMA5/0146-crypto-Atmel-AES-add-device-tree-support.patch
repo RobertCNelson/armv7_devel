@@ -1,7 +1,7 @@
 From 239a662e15cf93dff5af6f51f1f80e2c3ce32ae1 Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:15 +0200
-Subject: [PATCH 146/319] crypto: Atmel AES; add device tree support
+Subject: [PATCH 146/320] crypto: Atmel AES; add device tree support
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

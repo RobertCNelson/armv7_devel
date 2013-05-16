@@ -1,7 +1,7 @@
 From 2a35816943632f2a972ae5b8f22f68bd0b4482bb Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 18 Oct 2012 10:37:39 +0200
-Subject: [PATCH 232/319] media/video: at91sam9x5-video: add sama5d3 support
+Subject: [PATCH 232/320] media/video: at91sam9x5-video: add sama5d3 support
 
 Changes to at91sam9x5-video.c driver to enable
 SAMA5D3 support (with DT).

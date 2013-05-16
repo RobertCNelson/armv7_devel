@@ -1,7 +1,7 @@
 From d4be3eb24b3f28861f15766531a98b0bac0742e8 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 13:06:53 +0800
-Subject: [PATCH 226/319] ARM: dts: add the watchdog nodes for at91sam9x5 and
+Subject: [PATCH 226/320] ARM: dts: add the watchdog nodes for at91sam9x5 and
  at91sam9n12 SoC
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>

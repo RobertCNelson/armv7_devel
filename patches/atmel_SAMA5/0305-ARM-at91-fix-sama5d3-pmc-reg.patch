@@ -1,7 +1,7 @@
 From 6fe0792f1e7d89d021507d993483b836944c3102 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 29 Jan 2013 22:10:04 +0100
-Subject: [PATCH 305/319] ARM: at91: fix sama5d3 pmc reg
+Subject: [PATCH 305/320] ARM: at91: fix sama5d3 pmc reg
 
 we more registre than 0x100 the last one is PMC_OCR at offset 0x110
 

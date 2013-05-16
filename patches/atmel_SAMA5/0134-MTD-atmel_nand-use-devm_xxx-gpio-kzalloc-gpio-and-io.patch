@@ -1,7 +1,7 @@
 From 029634f9a43760ac7f33bfbc2bc485ecd50374dc Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 13 Nov 2012 11:46:43 +0800
-Subject: [PATCH 134/319] MTD: atmel_nand: use devm_xxx gpio kzalloc, gpio and
+Subject: [PATCH 134/320] MTD: atmel_nand: use devm_xxx gpio kzalloc, gpio and
  ioremap
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>

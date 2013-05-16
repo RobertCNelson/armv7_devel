@@ -1,7 +1,7 @@
 From 5fe7ea954e768fbadefe41a49fcb007411b59a6a Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 13:17:30 +0800
-Subject: [PATCH 157/319] watchdog/at91sam9_wdt: Add to use the watchdog
+Subject: [PATCH 157/320] watchdog/at91sam9_wdt: Add to use the watchdog
  framework
 
 Since the at91sam watchdog inherent characteristics,

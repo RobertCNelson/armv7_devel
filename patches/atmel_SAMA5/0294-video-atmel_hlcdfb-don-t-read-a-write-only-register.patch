@@ -1,7 +1,7 @@
 From 39dca1fe510f57fa18c478e7d0bdf7692ef9b8cd Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 16:12:20 +0100
-Subject: [PATCH 294/319] video: atmel_hlcdfb: don't read a write only
+Subject: [PATCH 294/320] video: atmel_hlcdfb: don't read a write only
  register
 
 Reading a write only register and using its value is useless.

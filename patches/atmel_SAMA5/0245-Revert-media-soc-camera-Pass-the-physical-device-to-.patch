@@ -1,7 +1,7 @@
 From f107d69878b63e1a9a250b16609d3fd96656ed12 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 28 Nov 2012 16:17:28 +0800
-Subject: [PATCH 245/319] Revert "[media] soc-camera: Pass the physical device
+Subject: [PATCH 245/320] Revert "[media] soc-camera: Pass the physical device
  to the power operation" to fix isi crash error.
 
 This reverts commit 2744782ef15151469ddd1e28c14e4b2c950be6dd.

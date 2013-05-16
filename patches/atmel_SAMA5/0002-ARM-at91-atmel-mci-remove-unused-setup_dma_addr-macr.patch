@@ -1,7 +1,7 @@
 From e94addf903b8e6bbaf4e1ce8a4159490420587f8 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 14 Mar 2012 12:46:18 +0100
-Subject: [PATCH 002/319] ARM: at91/atmel-mci: remove unused setup_dma_addr()
+Subject: [PATCH 002/320] ARM: at91/atmel-mci: remove unused setup_dma_addr()
  macro
 
 This macro is not used anymove in atmel-mci driver. It has been removed

@@ -1,7 +1,7 @@
 From ea05fb8c597e5348528d1730e6ea1f4acfceab3c Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Mon, 22 Oct 2012 08:45:31 +0000
-Subject: [PATCH 078/319] net/macb: fix truncate warnings
+Subject: [PATCH 078/320] net/macb: fix truncate warnings
 
 When building macb on x86_64 the following warnings show up:
   drivers/net/ethernet/cadence/macb.c: In function macb_interrupt:

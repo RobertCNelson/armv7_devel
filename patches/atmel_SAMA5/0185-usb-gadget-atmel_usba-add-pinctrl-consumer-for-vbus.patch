@@ -1,7 +1,7 @@
 From c37d08f23a39cf08cec75c30e9839a64330be0a9 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 11 Dec 2012 15:31:52 +0800
-Subject: [PATCH 185/319] usb: gadget: atmel_usba: add pinctrl consumer for
+Subject: [PATCH 185/320] usb: gadget: atmel_usba: add pinctrl consumer for
  vbus
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>

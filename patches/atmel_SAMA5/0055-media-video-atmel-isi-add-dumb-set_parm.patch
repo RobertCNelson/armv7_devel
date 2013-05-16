@@ -1,7 +1,7 @@
 From f63bce5f73492ab6cb06beb04138677447f6cda0 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 10 Jun 2011 17:21:28 +0200
-Subject: [PATCH 055/319] media/video: atmel-isi: add dumb set_parm()
+Subject: [PATCH 055/320] media/video: atmel-isi: add dumb set_parm()
 
 Add dumb set_parm() & get_parm() function to struct soc_camera_host_ops.
 Needed for ffmpeg to be able to capture frames from ISI driver.

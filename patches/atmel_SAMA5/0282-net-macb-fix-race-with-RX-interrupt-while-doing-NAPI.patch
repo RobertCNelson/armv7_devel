@@ -1,7 +1,7 @@
 From 5eaa75564c53e7a8123267632b60fe14ba9d46a3 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:32:33 +0100
-Subject: [PATCH 282/319] net/macb: fix race with RX interrupt while doing
+Subject: [PATCH 282/320] net/macb: fix race with RX interrupt while doing
  NAPI
 
 When interrupts are disabled, an RX condition can occur but

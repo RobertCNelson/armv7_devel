@@ -1,7 +1,7 @@
 From 370e866c94ff1a44d468e883e8731621dd947a7c Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 15:37:12 +0200
-Subject: [PATCH 037/319] video: atmelfb: refactor isr
+Subject: [PATCH 037/320] video: atmelfb: refactor isr
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

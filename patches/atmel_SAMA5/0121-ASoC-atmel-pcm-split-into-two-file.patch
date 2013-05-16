@@ -1,7 +1,7 @@
 From 293094bb28e992e094127f9732351fd8dae26d24 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 27 Nov 2012 17:04:23 +0800
-Subject: [PATCH 121/319] ASoC: atmel-pcm: split into two file
+Subject: [PATCH 121/320] ASoC: atmel-pcm: split into two file
 
 This patch is split original atmel-pcm.c into new atmel-pcm.c and
 atmel-pcm-pdc.c two files. The new atmel-pcm.c is the share routine

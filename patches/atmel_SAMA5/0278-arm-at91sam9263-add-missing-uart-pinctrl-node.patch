@@ -1,7 +1,7 @@
 From 3aab3ce570845cb7eccca71b8da6e58a0906eff9 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 05:52:10 +0800
-Subject: [PATCH 278/319] arm: at91sam9263: add missing uart pinctrl node
+Subject: [PATCH 278/320] arm: at91sam9263: add missing uart pinctrl node
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---

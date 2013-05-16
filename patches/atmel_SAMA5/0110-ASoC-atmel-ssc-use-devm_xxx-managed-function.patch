@@ -1,7 +1,7 @@
 From c8d0b65be8376ccfbf7032d35dace7f6d9c01b19 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 16 Oct 2012 11:56:58 +0800
-Subject: [PATCH 110/319] ASoC: atmel-ssc: use devm_xxx() managed function
+Subject: [PATCH 110/320] ASoC: atmel-ssc: use devm_xxx() managed function
 
 Using the devm_xxx() managed function to stripdown the error
 and remove code.

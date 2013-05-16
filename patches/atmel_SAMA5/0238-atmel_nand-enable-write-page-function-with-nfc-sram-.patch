@@ -1,7 +1,7 @@
 From bdcf37be19bbb25c9138dc7deb0e52f0bf30f0f4 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 16 Nov 2012 16:44:17 +0800
-Subject: [PATCH 238/319] atmel_nand: enable write page function with nfc sram
+Subject: [PATCH 238/320] atmel_nand: enable write page function with nfc sram
  transfer.
 
 ---

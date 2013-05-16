@@ -1,7 +1,7 @@
 From 5cbb62b6034f900117f58cc52d96808cbd10aee2 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Sat, 24 Nov 2012 10:49:19 +0800
-Subject: [PATCH 244/319] atmel_nand: nfc: use interrupt instead of pooling
+Subject: [PATCH 244/320] atmel_nand: nfc: use interrupt instead of pooling
  the status register.
 
 ---

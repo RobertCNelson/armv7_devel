@@ -1,7 +1,7 @@
 From ca7ec75942b287bfc62c21a15c0d08b98c3201c4 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 6 May 2011 17:54:45 +0200
-Subject: [PATCH 028/319] input: atmel_tsadcc: add ACR register and change
+Subject: [PATCH 028/320] input: atmel_tsadcc: add ACR register and change
  trigger period value
 
 Add ACR register which allows to configure internal ADC resistor, that should

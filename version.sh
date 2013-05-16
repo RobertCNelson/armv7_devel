@@ -18,7 +18,7 @@ config="sama5d3_defconfig"
 #Kernel/Build
 KERNEL_REL=3.6
 KERNEL_TAG=${KERNEL_REL}.9
-BUILD=sama5-armv7-d0.8
+BUILD=sama5-armv7-d0.9
 
 #v3.X-rcX + upto SHA
 #KERNEL_SHA=""

@@ -1,7 +1,7 @@
 From 2f33d5da1a975218af55214bb66f252c7cd0386d Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Tue, 25 Sep 2012 16:31:01 +0800
-Subject: [PATCH 140/319] spi: atmel: add support to read dt property for DMA
+Subject: [PATCH 140/320] spi: atmel: add support to read dt property for DMA
  configuration
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>

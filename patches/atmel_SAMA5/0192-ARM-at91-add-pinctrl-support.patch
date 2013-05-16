@@ -1,7 +1,7 @@
 From e955b7e01d98cdf0f12fa2528f5cad82da26cafe Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 18 Oct 2012 17:48:34 +0200
-Subject: [PATCH 192/319] ARM: at91: add pinctrl support
+Subject: [PATCH 192/320] ARM: at91: add pinctrl support
 
 This is also include the gpio controller as the IP share both.
 Each soc will have to describe the SoC limitation and pin configuration via

@@ -1,7 +1,7 @@
 From 2b1cd49722420f30c4bdd861147d61b4ee5c61a7 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 21 Dec 2012 15:33:14 +0800
-Subject: [PATCH 268/319] ARM: at91/dts: leds: remove d3 for sama5d35ek.dts
+Subject: [PATCH 268/320] ARM: at91/dts: leds: remove d3 for sama5d35ek.dts
  since it conflicts with isi camera reset pin
  (PE24). but for revB, no this conflict.
 

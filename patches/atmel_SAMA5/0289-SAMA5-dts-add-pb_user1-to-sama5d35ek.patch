@@ -1,7 +1,7 @@
 From af5cfa0b05fd321d5aa5b3db193204e9859537e7 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:06:23 +0100
-Subject: [PATCH 289/319] SAMA5: dts: add pb_user1 to sama5d35ek
+Subject: [PATCH 289/320] SAMA5: dts: add pb_user1 to sama5d35ek
 
 Add push button pb_user1 as a wake up source for sama5d35ek only since it is
 muxed with a LCD data line.
