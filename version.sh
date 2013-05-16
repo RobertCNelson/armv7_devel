@@ -17,7 +17,7 @@ config="at91_dt_defconfig"
 
 #Kernel/Build
 KERNEL_REL=3.9
-KERNEL_TAG=${KERNEL_REL}
+KERNEL_TAG=${KERNEL_REL}.1
 BUILD=sama5-armv7-d0.15
 
 #v3.X-rcX + upto SHA
