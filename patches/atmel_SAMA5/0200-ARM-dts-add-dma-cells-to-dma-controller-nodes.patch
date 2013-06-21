@@ -1,7 +1,7 @@
 From 294d967d344ec2d2d5232ccb6b51b77113d08dd1 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 16 Nov 2012 16:23:37 +0100
-Subject: [PATCH 200/320] ARM: dts: add dma-cells to dma-controller nodes
+Subject: [PATCH 200/324] ARM: dts: add dma-cells to dma-controller nodes
 
 Temporary dt dma support implementation.
 

@@ -1,7 +1,7 @@
 From 3ec329d579fc1b8331559aac6dc9a048f0a0069a Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:16 +0000
-Subject: [PATCH 075/320] net/at91_ether: use macb dma description struct
+Subject: [PATCH 075/324] net/at91_ether: use macb dma description struct
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---

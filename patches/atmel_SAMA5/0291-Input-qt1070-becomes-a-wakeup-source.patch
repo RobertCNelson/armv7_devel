@@ -1,7 +1,7 @@
 From 8c9ae0506481e3a3693e2e635a2436886bbeab42 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:11:12 +0100
-Subject: [PATCH 291/320] Input: qt1070 becomes a wakeup source
+Subject: [PATCH 291/324] Input: qt1070 becomes a wakeup source
 
 Set qt1070 as a wakeup source.
 

@@ -1,7 +1,7 @@
 From 81bb2bc15e9a3fcad6c3b0d162b827e5f531b0cc Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 13 Dec 2012 15:38:40 +0100
-Subject: [PATCH 228/320] ARM: at91: change serial driver name according to
+Subject: [PATCH 228/324] ARM: at91: change serial driver name according to
  the move to id_table
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>

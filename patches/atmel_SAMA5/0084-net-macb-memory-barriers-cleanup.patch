@@ -1,7 +1,7 @@
 From c935874805241f84109661503cd6d5a11cac142b Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:51 +0000
-Subject: [PATCH 084/320] net/macb: memory barriers cleanup
+Subject: [PATCH 084/324] net/macb: memory barriers cleanup
 
 Remove a couple of unneeded barriers and document the remaining ones.
 

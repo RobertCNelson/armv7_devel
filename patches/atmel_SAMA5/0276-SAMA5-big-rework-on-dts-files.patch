@@ -1,7 +1,7 @@
 From b28abac9604f73456070703823c57bf3d8aec658 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 10 Jan 2013 11:26:42 +0100
-Subject: [PATCH 276/320] SAMA5: big rework on dts files
+Subject: [PATCH 276/324] SAMA5: big rework on dts files
 
 Try to minimize code duplication. It's probably not a final version!
 

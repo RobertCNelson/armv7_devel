@@ -1,7 +1,7 @@
 From 494341f3cf5a373e7bcf2802a97c4c1dba46b6ed Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Fri, 30 Nov 2012 10:32:43 +0800
-Subject: [PATCH 141/320] spi/atmel_spi: Add pinctrl support for atmel spi
+Subject: [PATCH 141/324] spi/atmel_spi: Add pinctrl support for atmel spi
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---

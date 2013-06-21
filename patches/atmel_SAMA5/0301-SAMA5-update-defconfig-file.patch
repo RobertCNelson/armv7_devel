@@ -1,7 +1,7 @@
 From 29dba0a1d146e6a6da6ff35ec982671a724c52dc Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 25 Jan 2013 10:25:11 +0100
-Subject: [PATCH 301/320] SAMA5: update defconfig file
+Subject: [PATCH 301/324] SAMA5: update defconfig file
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---

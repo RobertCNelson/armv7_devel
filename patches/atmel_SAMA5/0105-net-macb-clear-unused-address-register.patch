@@ -1,7 +1,7 @@
 From d624cb68d0d742af4f831a8d4512be5bf53da33b Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Sun, 11 Nov 2012 13:56:28 +0000
-Subject: [PATCH 105/320] net/macb: clear unused address register
+Subject: [PATCH 105/324] net/macb: clear unused address register
 
 Only the first register set is used for matching but
 we support getting the initial hw addr from any of

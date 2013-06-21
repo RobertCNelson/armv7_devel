@@ -1,7 +1,7 @@
 From 65454f77aad06f875d221b0ce29d2778422ed6f3 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:07:17 +0200
-Subject: [PATCH 056/320] media: atmel_isi: add pinctrl
+Subject: [PATCH 056/324] media: atmel_isi: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---

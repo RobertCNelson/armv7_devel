@@ -1,7 +1,7 @@
 From 373d8da7538504d06acecbd4c69a4e32aa5eeac2 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 13 Nov 2012 13:15:11 +0800
-Subject: [PATCH 233/320] atmel_nand: add nand flash controller(NFC)
+Subject: [PATCH 233/324] atmel_nand: add nand flash controller(NFC)
  definitions
 
 ---

@@ -1,7 +1,7 @@
 From 9bf30f0772782b83a0d0453d9d10cee12ce038ff Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:45:18 +0100
-Subject: [PATCH 287/320] net/macb: when freeing tx buffer, make sure to unmap
+Subject: [PATCH 287/324] net/macb: when freeing tx buffer, make sure to unmap
  them
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>

@@ -1,7 +1,7 @@
 From 15ef818b25769c69fa4dd9f292eaa3bf1935320b Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 16 Aug 2012 17:36:55 +0800
-Subject: [PATCH 187/320] arm: at91: use macro to declare soc boot data
+Subject: [PATCH 187/324] arm: at91: use macro to declare soc boot data
 
 Instead of check the pointer of the init function, check the new builtin bool
 to known if the soc is enabled.

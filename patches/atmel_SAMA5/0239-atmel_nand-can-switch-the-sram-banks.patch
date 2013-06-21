@@ -1,7 +1,7 @@
 From 4b1b38d18cb13bc3aa5e7a08ece6ea26d9bd48a3 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 16 Nov 2012 16:45:44 +0800
-Subject: [PATCH 239/320] atmel_nand: can switch the sram banks.
+Subject: [PATCH 239/324] atmel_nand: can switch the sram banks.
 
 ---
  drivers/mtd/nand/atmel_nand_nfc.c |   14 ++++++++++++--

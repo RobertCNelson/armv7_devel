@@ -1,7 +1,7 @@
 From 6daccff0ac82e73e54c60eba964a2439c2974b85 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Mon, 24 Sep 2012 14:57:08 +0200
-Subject: [PATCH 017/320] MTD: atmel_nand: add 9x5 to list of SoC with DMA
+Subject: [PATCH 017/324] MTD: atmel_nand: add 9x5 to list of SoC with DMA
 
 Temporary: may have to be replaced by a device-tree property.
 

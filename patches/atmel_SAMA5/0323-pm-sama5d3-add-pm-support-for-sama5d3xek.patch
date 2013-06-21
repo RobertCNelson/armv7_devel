@@ -1,0 +1,123 @@
+From 2f25fa058facb6b9a28f0ca0e9463a77f6428b4e Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Thu, 9 May 2013 17:42:14 +0800
+Subject: [PATCH 323/324] pm/sama5d3: add pm support for sama5d3xek
+
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ arch/arm/mach-at91/cpuidle.c      |    3 ++-
+ arch/arm/mach-at91/pm.c           |    6 +++--
+ arch/arm/mach-at91/pm_slowclock.S |   52 ++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 57 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/mach-at91/cpuidle.c b/arch/arm/mach-at91/cpuidle.c
+index d28ef8f..31ba270 100644
+--- a/arch/arm/mach-at91/cpuidle.c
++++ b/arch/arm/mach-at91/cpuidle.c
+@@ -39,7 +39,8 @@ static int at91_enter_idle(struct cpuidle_device *dev,
+ 	else if (cpu_is_at91sam9g45())
+ 		at91sam_ddr_standby(2);
+ 	else if (cpu_is_at91sam9x5()
+-		|| cpu_is_at91sam9n12())
++		|| cpu_is_at91sam9n12()
++		|| cpu_is_sama5d3())
+ 		at91sam_ddr_standby(1);
+ 	else
+ 		at91sam9_standby();
+diff --git a/arch/arm/mach-at91/pm.c b/arch/arm/mach-at91/pm.c
+index e5427eb..b81c2c7 100644
+--- a/arch/arm/mach-at91/pm.c
++++ b/arch/arm/mach-at91/pm.c
+@@ -239,7 +239,8 @@ static int at91_pm_enter(suspend_state_t state)
+ 					memctrl = AT91_MEMCTRL_MC;
+ 				else if (cpu_is_at91sam9g45()
+ 					|| cpu_is_at91sam9x5()
+-					|| cpu_is_at91sam9n12())
++					|| cpu_is_at91sam9n12()
++					|| cpu_is_sama5d3())
+ 					memctrl = AT91_MEMCTRL_DDRSDR;
+ #ifdef CONFIG_AT91_SLOW_CLOCK
+ 				/* copy slow_clock handler to SRAM, and call it */
+@@ -272,7 +273,8 @@ static int at91_pm_enter(suspend_state_t state)
+ 			else if (cpu_is_at91sam9g45())
+ 				at91sam_ddr_standby(2);
+ 			else if (cpu_is_at91sam9x5()
+-				|| cpu_is_at91sam9n12())
++				|| cpu_is_at91sam9n12()
++				|| cpu_is_sama5d3())
+ 				at91sam_ddr_standby(1);
+ 			else
+ 				at91sam9_standby();
+diff --git a/arch/arm/mach-at91/pm_slowclock.S b/arch/arm/mach-at91/pm_slowclock.S
+index 098c28d..5569ac3 100644
+--- a/arch/arm/mach-at91/pm_slowclock.S
++++ b/arch/arm/mach-at91/pm_slowclock.S
+@@ -102,6 +102,56 @@ tmp2	.req	r5
+ 2:
+ 	.endm
+ 
++/*
++ * Put the processor to enter into Standby mode, wait for interrupt to wakeup
++ */
++	.macro _do_wfi
++
++#if defined(CONFIG_CPU_V7)
++	/*
++	 * Excute ISB instruction flushed the pipeline in the processor,
++	 * so that all instructions that come after the ISB instruction
++	 * in program order are fetched from cache or memory.
++	 */
++	isb
++
++	/*
++	 * Execute a barrier instruction to ensure that all cache,
++	 * TLB and branch predictor maintenance operations issued
++	 * by any CPU in the cluster have completed.
++	 */
++	dsb
++	dmb
++
++	/*
++	 * Execute a WFI instruction and wait until the
++	 * STANDBYWFI output is asserted to indicate that the
++	 * CPU is in idle and low power state. CPU can specualatively
++	 * prefetch the instructions so add NOPs after WFI
++	 */
++	wfi		@ Wait For Interrupt
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++	nop
++#else
++	mcr	p15, 0, tmp1, c7, c0, 4
++#endif
++
++	.endm
++
+ 	.text
+ 
+ /* void at91_slow_clock(void __iomem *pmc, void __iomem *sdramc,
+@@ -220,7 +270,7 @@ sdr_sr_done:
+ 	str	tmp1, [pmc, #AT91_CKGR_MOR]
+ 
+ 	/* Wait for interrupt */
+-	mcr	p15, 0, tmp1, c7, c0, 4
++	_do_wfi
+ 
+ 	/* Turn on the main oscillator */
+ 	ldr	tmp1, [pmc, #AT91_CKGR_MOR]
+-- 
+1.7.10.4
+

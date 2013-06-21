@@ -1,7 +1,7 @@
 From decf507de518654929d3e8979ea00cf3473c20bb Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 28 Nov 2012 14:37:47 +0100
-Subject: [PATCH 143/320] can: at91_can: add pinctrl support
+Subject: [PATCH 143/324] can: at91_can: add pinctrl support
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---

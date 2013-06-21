@@ -1,7 +1,7 @@
 From 563f20d5aa6f8f2fd94e5d5b3e0224ad314a6817 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 11:00:01 +0800
-Subject: [PATCH 170/320] Serial: AT91: Request tx dma channel
+Subject: [PATCH 170/324] Serial: AT91: Request tx dma channel
 
 Request a slave dma channel for tx dma use
 

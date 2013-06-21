@@ -1,7 +1,7 @@
 From f4c2e67c725e41d2d1dbd47238bce576cc4ecae2 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Fri, 16 Nov 2012 04:47:15 +0000
-Subject: [PATCH 107/320] net/ethernet: remove useless is_valid_ether_addr
+Subject: [PATCH 107/324] net/ethernet: remove useless is_valid_ether_addr
  from drivers ndo_open
 
 If ndo_validate_addr is set to the generic eth_validate_addr

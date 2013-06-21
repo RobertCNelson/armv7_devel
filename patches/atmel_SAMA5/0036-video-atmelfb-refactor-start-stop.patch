@@ -1,7 +1,7 @@
 From 92d07c3eb12e3f50da8a72ed36984c217ed8f8ca Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 15:12:30 +0200
-Subject: [PATCH 036/320] video: atmelfb: refactor start/stop
+Subject: [PATCH 036/324] video: atmelfb: refactor start/stop
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

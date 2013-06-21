@@ -1,7 +1,7 @@
 From 82ed743f8fff78473f3877084831a91a0fe0fdef Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Mon, 22 Oct 2012 08:45:34 +0000
-Subject: [PATCH 081/320] net/at91_ether: add pdata flag for reverse Eth addr
+Subject: [PATCH 081/324] net/at91_ether: add pdata flag for reverse Eth addr
 
 This will allow us to remove the last mach include from at91_ether
 and also make it easier to share address setup with macb.

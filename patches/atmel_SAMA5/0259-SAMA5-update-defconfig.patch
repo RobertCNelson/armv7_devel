@@ -1,7 +1,7 @@
 From 2869e922ec139707b60679d2cffb71c6e8e33640 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 18 Dec 2012 17:23:10 +0100
-Subject: [PATCH 259/320] SAMA5: update defconfig
+Subject: [PATCH 259/324] SAMA5: update defconfig
 
 Add support for SPI flash and usb video devices
 

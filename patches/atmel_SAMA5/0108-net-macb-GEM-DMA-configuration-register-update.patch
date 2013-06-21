@@ -1,7 +1,7 @@
 From 1192cca6eb395719dc1102b01d930874e63bb67a Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 19 Sep 2012 15:14:34 +0200
-Subject: [PATCH 108/320] net/macb: GEM DMA configuration register update
+Subject: [PATCH 108/324] net/macb: GEM DMA configuration register update
 
 Add information to the DMA Configuration Register to
 maximize system performance:

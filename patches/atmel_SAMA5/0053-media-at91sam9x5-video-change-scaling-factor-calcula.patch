@@ -1,7 +1,7 @@
 From 8ad00bbdaaf6bc28c290b66287247a787b1431ab Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 18:30:47 +0200
-Subject: [PATCH 053/320] media/at91sam9x5-video: change scaling factor
+Subject: [PATCH 053/324] media/at91sam9x5-video: change scaling factor
  calculation
 
 Useful for future revision of the HEO IP

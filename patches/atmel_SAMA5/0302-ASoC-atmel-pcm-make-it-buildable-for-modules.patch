@@ -1,7 +1,7 @@
 From add489fd830a7ae4bc39b9cb443965e46da93862 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 29 Jan 2013 11:11:19 +0800
-Subject: [PATCH 302/320] ASoC: atmel-pcm: make it buildable for modules
+Subject: [PATCH 302/324] ASoC: atmel-pcm: make it buildable for modules
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---

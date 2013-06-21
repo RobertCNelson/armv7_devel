@@ -1,7 +1,7 @@
 From 53f3b9421deea74489086777e9ae8f97af4a4ba1 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Thu, 24 Jan 2013 18:12:54 +0100
-Subject: [PATCH 281/320] ARM: sama5: update the dts for audio
+Subject: [PATCH 281/324] ARM: sama5: update the dts for audio
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---

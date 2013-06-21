@@ -1,7 +1,7 @@
 From c4eb35816acb2ec65001df5205d1fd848540a6d0 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Tue, 7 Jun 2011 12:58:36 +0200
-Subject: [PATCH 045/320] video: atmel_lcdfb: add error-msg when out of memory
+Subject: [PATCH 045/324] video: atmel_lcdfb: add error-msg when out of memory
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

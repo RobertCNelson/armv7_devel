@@ -1,7 +1,7 @@
 From a7762d7deb694661030b4c6b8de373b931127fea Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:06:37 +0200
-Subject: [PATCH 063/320] i2c: at91: add pinctrl
+Subject: [PATCH 063/324] i2c: at91: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---

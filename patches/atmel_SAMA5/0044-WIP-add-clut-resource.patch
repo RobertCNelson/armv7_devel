@@ -1,7 +1,7 @@
 From b365b98d583a20422bce31761ab2a27715030069 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Mon, 30 May 2011 17:04:35 +0200
-Subject: [PATCH 044/320] WIP: add clut resource
+Subject: [PATCH 044/324] WIP: add clut resource
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

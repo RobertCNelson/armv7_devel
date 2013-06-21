@@ -1,0 +1,114 @@
+From 06d0f2d6bd5f2d9a52a8b34acedb19fc80df3cb2 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Fri, 3 May 2013 16:37:39 +0800
+Subject: [PATCH 322/324] pm/ddr: make ddr-sdram enter self refresh mode when
+ excuting pm and cpuidle
+
+Change the implementation of function to be used on other boards with ddr-sdram.
+
+inline void at91sam9g45_standby(void)
+==>
+inline void at91sam_ddr_standby(unsigned int bank)
+
+Add support to at91sam9x5ek, at91sam9n12ek
+
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ arch/arm/mach-at91/cpuidle.c |    5 ++++-
+ arch/arm/mach-at91/pm.c      |    9 +++++++--
+ arch/arm/mach-at91/pm.h      |   22 ++++++++++------------
+ 3 files changed, 21 insertions(+), 15 deletions(-)
+
+diff --git a/arch/arm/mach-at91/cpuidle.c b/arch/arm/mach-at91/cpuidle.c
+index 0c63815..d28ef8f 100644
+--- a/arch/arm/mach-at91/cpuidle.c
++++ b/arch/arm/mach-at91/cpuidle.c
+@@ -37,7 +37,10 @@ static int at91_enter_idle(struct cpuidle_device *dev,
+ 	if (cpu_is_at91rm9200())
+ 		at91rm9200_standby();
+ 	else if (cpu_is_at91sam9g45())
+-		at91sam9g45_standby();
++		at91sam_ddr_standby(2);
++	else if (cpu_is_at91sam9x5()
++		|| cpu_is_at91sam9n12())
++		at91sam_ddr_standby(1);
+ 	else
+ 		at91sam9_standby();
+ 
+diff --git a/arch/arm/mach-at91/pm.c b/arch/arm/mach-at91/pm.c
+index 0df2f79..e5427eb 100644
+--- a/arch/arm/mach-at91/pm.c
++++ b/arch/arm/mach-at91/pm.c
+@@ -237,7 +237,9 @@ static int at91_pm_enter(suspend_state_t state)
+ 
+ 				if (cpu_is_at91rm9200())
+ 					memctrl = AT91_MEMCTRL_MC;
+-				else if (cpu_is_at91sam9g45())
++				else if (cpu_is_at91sam9g45()
++					|| cpu_is_at91sam9x5()
++					|| cpu_is_at91sam9n12())
+ 					memctrl = AT91_MEMCTRL_DDRSDR;
+ #ifdef CONFIG_AT91_SLOW_CLOCK
+ 				/* copy slow_clock handler to SRAM, and call it */
+@@ -268,7 +270,10 @@ static int at91_pm_enter(suspend_state_t state)
+ 			if (cpu_is_at91rm9200())
+ 				at91rm9200_standby();
+ 			else if (cpu_is_at91sam9g45())
+-				at91sam9g45_standby();
++				at91sam_ddr_standby(2);
++			else if (cpu_is_at91sam9x5()
++				|| cpu_is_at91sam9n12())
++				at91sam_ddr_standby(1);
+ 			else
+ 				at91sam9_standby();
+ 			break;
+diff --git a/arch/arm/mach-at91/pm.h b/arch/arm/mach-at91/pm.h
+index 38f467c..36302b7 100644
+--- a/arch/arm/mach-at91/pm.h
++++ b/arch/arm/mach-at91/pm.h
+@@ -42,32 +42,30 @@ static inline void at91rm9200_standby(void)
+ 		  "r" (lpr));
+ }
+ 
+-/* We manage both DDRAM/SDRAM controllers, we need more than one value to
+- * remember.
+- */
+-static inline void at91sam9g45_standby(void)
++static inline void at91sam_ddr_standby(unsigned int bank)
+ {
+ 	/* Those two values allow us to delay self-refresh activation
+ 	 * to the maximum. */
+ 	u32 lpr0, lpr1;
+ 	u32 saved_lpr0, saved_lpr1;
+ 
+-	saved_lpr1 = at91_ramc_read(1, AT91_DDRSDRC_LPR);
+-	lpr1 = saved_lpr1 & ~AT91_DDRSDRC_LPCB;
+-	lpr1 |= AT91_DDRSDRC_LPCB_SELF_REFRESH;
+-
+ 	saved_lpr0 = at91_ramc_read(0, AT91_DDRSDRC_LPR);
+ 	lpr0 = saved_lpr0 & ~AT91_DDRSDRC_LPCB;
+ 	lpr0 |= AT91_DDRSDRC_LPCB_SELF_REFRESH;
+-
+-	/* self-refresh mode now */
+ 	at91_ramc_write(0, AT91_DDRSDRC_LPR, lpr0);
+-	at91_ramc_write(1, AT91_DDRSDRC_LPR, lpr1);
++
++	if (bank > 1) {
++		saved_lpr1 = at91_ramc_read(1, AT91_DDRSDRC_LPR);
++		lpr1 = saved_lpr1 & ~AT91_DDRSDRC_LPCB;
++		lpr1 |= AT91_DDRSDRC_LPCB_SELF_REFRESH;
++		at91_ramc_write(1, AT91_DDRSDRC_LPR, lpr1);
++	}
+ 
+ 	cpu_do_idle();
+ 
+ 	at91_ramc_write(0, AT91_DDRSDRC_LPR, saved_lpr0);
+-	at91_ramc_write(1, AT91_DDRSDRC_LPR, saved_lpr1);
++	if (bank > 1)
++		at91_ramc_write(1, AT91_DDRSDRC_LPR, saved_lpr1);
+ }
+ 
+ #ifdef CONFIG_SOC_AT91SAM9263
+-- 
+1.7.10.4
+

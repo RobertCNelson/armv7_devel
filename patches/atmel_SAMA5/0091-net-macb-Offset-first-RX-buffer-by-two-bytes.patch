@@ -1,7 +1,7 @@
 From 9cac66e70c7789a8e3792f1c3406c36686c7bda1 Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:58 +0000
-Subject: [PATCH 091/320] net/macb: Offset first RX buffer by two bytes
+Subject: [PATCH 091/324] net/macb: Offset first RX buffer by two bytes
 
 Make the ethernet frame payload word-aligned, possibly making the
 memcpy into the skb a bit faster. This will be even more important

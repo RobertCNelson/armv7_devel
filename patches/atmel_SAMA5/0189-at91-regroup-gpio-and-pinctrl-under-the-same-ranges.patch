@@ -1,7 +1,7 @@
 From 8f18eefe64a304e629121871eed59ecba81b354d Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 4 Jul 2012 17:20:46 +0800
-Subject: [PATCH 189/320] at91: regroup gpio and pinctrl under the same ranges
+Subject: [PATCH 189/324] at91: regroup gpio and pinctrl under the same ranges
 
 Fix also the reg size as we have 512 bytes bank not 256 bytes per gpio/mux
 controller

@@ -1,7 +1,7 @@
 From 1ce5e34bb9ba3c81d51d000579f0508a076329fa Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:09 +0000
-Subject: [PATCH 068/320] net/at91_ether: use macb defs for rx dma buffers
+Subject: [PATCH 068/324] net/at91_ether: use macb defs for rx dma buffers
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---

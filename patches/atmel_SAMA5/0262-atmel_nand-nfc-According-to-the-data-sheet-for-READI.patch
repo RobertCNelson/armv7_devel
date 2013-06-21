@@ -1,7 +1,7 @@
 From 69ca21920fe5bd139cffa8e30eb896e84a0c886e Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 20 Dec 2012 18:40:39 +0800
-Subject: [PATCH 262/320] atmel_nand: nfc: According to the data sheet, for
+Subject: [PATCH 262/324] atmel_nand: nfc: According to the data sheet, for
  READID nand command, it is not need to wait for the
  ready/busy pin.
 

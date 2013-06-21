@@ -1,7 +1,7 @@
 From f2e583de699ab0bd666e1732317e62f35aa51e65 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Mon, 10 Dec 2012 09:45:48 +0800
-Subject: [PATCH 179/320] USB: gadget: atmel_usba: add device tree support
+Subject: [PATCH 179/324] USB: gadget: atmel_usba: add device tree support
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---

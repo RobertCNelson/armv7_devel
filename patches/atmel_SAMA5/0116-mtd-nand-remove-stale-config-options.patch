@@ -1,7 +1,7 @@
 From 4650b45f0780cb7431f9eba04aee0b60c0e20f66 Mon Sep 17 00:00:00 2001
 From: Richard Genoud <richard.genoud@gmail.com>
 Date: Fri, 22 Jun 2012 15:29:28 +0200
-Subject: [PATCH 116/320] mtd: nand: remove stale config options
+Subject: [PATCH 116/324] mtd: nand: remove stale config options
 
 The commit bf4289cba02b8cf770ecd7959ca70839f0dd9d3c removed the use of
 CONFIG_MTD_NAND_ATMEL_ECC_NONE and CONFIG_MTD_NAND_ATMEL_ECC_HW but the

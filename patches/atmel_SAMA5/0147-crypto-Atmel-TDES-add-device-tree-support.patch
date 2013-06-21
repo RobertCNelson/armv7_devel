@@ -1,7 +1,7 @@
 From 17dd75ee6f8f042c28434808e3d8151a7df1e5ac Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:16 +0200
-Subject: [PATCH 147/320] crypto: Atmel TDES; add device tree support
+Subject: [PATCH 147/324] crypto: Atmel TDES; add device tree support
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

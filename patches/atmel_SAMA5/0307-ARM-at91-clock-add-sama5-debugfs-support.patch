@@ -1,7 +1,7 @@
 From 6861be4e08db03bf082bb9cbfa90413ce87308fc Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 29 Jan 2013 22:10:06 +0100
-Subject: [PATCH 307/320] ARM: at91: clock: add sama5 debugfs support
+Subject: [PATCH 307/324] ARM: at91: clock: add sama5 debugfs support
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---

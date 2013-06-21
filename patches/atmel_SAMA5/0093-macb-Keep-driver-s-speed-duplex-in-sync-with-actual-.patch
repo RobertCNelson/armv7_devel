@@ -1,7 +1,7 @@
 From 3d5b6760002b0be77ad00bc8a898975f7a998d63 Mon Sep 17 00:00:00 2001
 From: Vitalii Demianets <vitas@nppfactor.kiev.ua>
 Date: Fri, 2 Nov 2012 07:09:24 +0000
-Subject: [PATCH 093/320] macb: Keep driver's speed/duplex in sync with actual
+Subject: [PATCH 093/324] macb: Keep driver's speed/duplex in sync with actual
  NCFGR
 
 When underlying phy driver restores its state very fast after being brought

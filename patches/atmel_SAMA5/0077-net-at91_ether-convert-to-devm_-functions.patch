@@ -1,7 +1,7 @@
 From bb66bca4889d36de32786eefd0a3d525a589d1de Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:18 +0000
-Subject: [PATCH 077/320] net/at91_ether: convert to devm_* functions
+Subject: [PATCH 077/324] net/at91_ether: convert to devm_* functions
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---

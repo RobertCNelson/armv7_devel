@@ -1,7 +1,7 @@
 From 93c1cf305dd677b9ecc0f9e2c91cd6ee4ab51bd9 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 16:16:15 +0100
-Subject: [PATCH 296/320] video: atmel_hlcdfb: now, suspend/resume is managed
+Subject: [PATCH 296/324] video: atmel_hlcdfb: now, suspend/resume is managed
  only by the base layer
 
 When going to suspend or resume the functions will be called by the base layer

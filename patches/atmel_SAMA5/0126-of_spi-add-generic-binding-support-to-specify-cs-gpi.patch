@@ -1,7 +1,7 @@
 From 18e1657692d10326b73ed41fbea5802901b6319f Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Mon, 30 Jan 2012 12:37:40 +0800
-Subject: [PATCH 126/320] of_spi: add generic binding support to specify cs
+Subject: [PATCH 126/324] of_spi: add generic binding support to specify cs
  gpio
 
 This will allow to use gpio for chip select with no modification in the

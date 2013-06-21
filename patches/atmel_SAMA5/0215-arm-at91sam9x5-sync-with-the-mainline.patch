@@ -1,7 +1,7 @@
 From 98877819385b8bdab0927b91d2f6e1bfb514c694 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 06:08:16 +0800
-Subject: [PATCH 215/320] arm: at91sam9x5: sync with the mainline
+Subject: [PATCH 215/324] arm: at91sam9x5: sync with the mainline
 
 where we have one dtsi per soc and one dts per board
 we have also a common dtsi name at91sam9x5ek.dtsi for the based board

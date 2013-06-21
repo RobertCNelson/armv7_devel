@@ -1,7 +1,7 @@
 From c2d7e0ecf1301a755522b9597a4d01dc7756ce96 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 14:11:05 +0800
-Subject: [PATCH 223/320] ARM: dts: introduce simple bus to represent the LCDC
+Subject: [PATCH 223/324] ARM: dts: introduce simple bus to represent the LCDC
 
 Introduce simple bus to represent the LCDC itself so we can attached the
 pinctrl to it

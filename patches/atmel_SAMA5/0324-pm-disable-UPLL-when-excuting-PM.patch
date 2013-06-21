@@ -1,0 +1,72 @@
+From 59134b04621dd73254d54cb67d9ffbf4f626dbc5 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Fri, 10 May 2013 08:55:54 +0800
+Subject: [PATCH 324/324] pm: disable UPLL when excuting PM
+
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ arch/arm/mach-at91/pm_slowclock.S |   27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/arch/arm/mach-at91/pm_slowclock.S b/arch/arm/mach-at91/pm_slowclock.S
+index 5569ac3..49d6dd9 100644
+--- a/arch/arm/mach-at91/pm_slowclock.S
++++ b/arch/arm/mach-at91/pm_slowclock.S
+@@ -38,6 +38,7 @@
+ #define MOSCRDY_TIMEOUT 	1000
+ #define PLLALOCK_TIMEOUT	1000
+ #define PLLBLOCK_TIMEOUT	1000
++#define UPLLLOCK_TIMEOUT	1000
+ 
+ pmc	.req	r0
+ sdramc	.req	r1
+@@ -103,6 +104,20 @@ tmp2	.req	r5
+ 	.endm
+ 
+ /*
++ * Wait until UTMI PLL has locked.
++ */
++	.macro wait_uplllock
++	mov	tmp2, #UPLLLOCK_TIMEOUT
++1:	sub	tmp2, tmp2, #1
++	cmp	tmp2, #0
++	beq	2f
++	ldr	tmp1, [pmc, #AT91_PMC_SR]
++	tst	tmp1, #AT91_PMC_LOCKU
++	beq	1b
++2:
++	.endm
++
++/*
+  * Put the processor to enter into Standby mode, wait for interrupt to wakeup
+  */
+ 	.macro _do_wfi
+@@ -264,6 +279,11 @@ sdr_sr_done:
+ 	mov	tmp1, #AT91_PMC_PLLCOUNT
+ 	str	tmp1, [pmc, #AT91_CKGR_PLLBR]
+ 
++	/* Disable UTMI PLL */
++	ldr	tmp1, [pmc, #AT91_CKGR_UCKR]
++	bic	tmp1, tmp1, #AT91_PMC_UPLLEN
++	str	tmp1, [pmc, #AT91_CKGR_UCKR]
++
+ 	/* Turn off the main oscillator */
+ 	ldr	tmp1, [pmc, #AT91_CKGR_MOR]
+ 	bic	tmp1, tmp1, #AT91_PMC_MOSCEN
+@@ -291,6 +311,13 @@ sdr_sr_done:
+ 	wait_pllblock
+ 2:
+ 
++	/* Turn on UTMI PLL */
++	ldr	tmp1, [pmc, #AT91_CKGR_UCKR]
++	orr	tmp1, tmp1, #AT91_PMC_UPLLEN
++	str	tmp1, [pmc, #AT91_CKGR_UCKR]
++
++	wait_uplllock
++
+ 	/* Restore PLLA setting */
+ 	ldr	tmp1, .saved_pllar
+ 	str	tmp1, [pmc, #AT91_CKGR_PLLAR]
+-- 
+1.7.10.4
+

@@ -63,12 +63,9 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -321 | grep 3.6.9
-	#0001-Linux-3.6.9.patch
-	#rm -rf *.patch
-	#git format-patch -320 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
-	#git checkout master -f
-	#git branch -D tmp
+	#git format-patch -325 | grep 3.6.9 ; rm -rf *.patch
+	#git format-patch -324 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
+	#git checkout master -f ; git branch -D tmp
 
 	echo "dir: atmel_SAMA5"
 	${git} "${DIR}/patches/atmel_SAMA5/0001-mmc-atmel-mci-remove-not-needed-DMA-capability-test.patch"
@@ -391,6 +388,10 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0318-ARM-at91-sama5d3-reduce-TWI-internal-clock-frequency.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0319-Input-atmel_tsadcc-fix-compilation-as-a-module.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0320-Change-internal-SRAM-memory-type-to-MT_MEMORY_SO.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0321-Change-the-internal-SRAM-memory-type-MT_MEMORY_NONCA.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0322-pm-ddr-make-ddr-sdram-enter-self-refresh-mode-when-e.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0323-pm-sama5d3-add-pm-support-for-sama5d3xek.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0324-pm-disable-UPLL-when-excuting-PM.patch"
 }
 
 arm

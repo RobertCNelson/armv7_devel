@@ -1,7 +1,7 @@
 From b791691491c14a7698509ad80406f0a3c9bad298 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 3 Jan 2013 17:30:30 +0100
-Subject: [PATCH 275/320] SAMA5: remove all mb-revB device tree part
+Subject: [PATCH 275/324] SAMA5: remove all mb-revB device tree part
 
 Remove mb-revB dts files since dtb is modified on the fly by the bootloader.
 

@@ -1,7 +1,7 @@
 From ac929fef974f56fd998f15dbb7e4f97ae3795baf Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 19 Feb 2013 18:06:51 +0800
-Subject: [PATCH 313/320] ARM: at91/trivial: fix typo in NFC driver comments
+Subject: [PATCH 313/324] ARM: at91/trivial: fix typo in NFC driver comments
 
 ---
  drivers/mtd/nand/atmel_nand_nfc.c |    4 ++--
