@@ -13,7 +13,8 @@ if [ "${GIT_NOEDIT}" ] ; then
 	GIT_OPTS="${GIT_OPTS} --no-edit"
 fi
 
-config="at91_dt_defconfig"
+#config="at91_dt_defconfig"
+config="sama5_defconfig"
 
 #linaro_toolchain="arm9_gcc_4_7"
 #linaro_toolchain="cortex_gcc_4_6"
@@ -22,8 +23,8 @@ linaro_toolchain="cortex_gcc_4_8"
 
 #Kernel/Build
 KERNEL_REL=3.10
-KERNEL_TAG=${KERNEL_REL}
-BUILD=sama5-armv7-d0.3
+KERNEL_TAG=${KERNEL_REL}.1
+BUILD=sama5-armv7-d0.4
 
 #v3.X-rcX + upto SHA
 KERNEL_SHA=""
