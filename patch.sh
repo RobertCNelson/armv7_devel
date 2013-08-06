@@ -65,17 +65,6 @@ atmel_fixes () {
 
 atmel_SAMA5D3 () {
 	echo "dir: atmel_SAMA5D3"
-
-	#git checkout v3.10 -b tmp
-	#git pull --no-edit git://github.com/RobertCNelson/linux.git linux-3.10-at91
-	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.10-at91
-	#git rebase e2042957414ea30f23d806121c620b0bc8062494
-
-	#git format-patch -1 | grep 'ARM-at91-add-LUT-entry-to-at91sam9g45-resources.patch' ; rm -rf *.patch
-	#0001-ARM-at91-add-LUT-entry-to-at91sam9g45-resources.patch
-	#git format-patch -0 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
-	#git checkout master -f ; git branch -D tmp
-
 }
 
 arm

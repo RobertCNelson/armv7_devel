@@ -2,8 +2,13 @@
 #
 ARCH=$(uname -m)
 
-#Dual/Quad Core arms are now more prevalent, so don't just limit to x86:
-CORES=$(cat /proc/cpuinfo | grep processor | wc -l)
+#Dual/Quad Core arms are now more prevalent, so just don't limit it x86:
+check_cpuinfo=$(cat /proc/cpuinfo | grep "^processor" | awk '{print $1}' | head -n 1)
+if [ "x${check_cpuinfo}" = "xprocessor" ] ; then
+	CORES=$(cat /proc/cpuinfo | grep "^processor" | wc -l)
+else
+	CORES=1
+fi
 
 unset GIT_OPTS
 unset GIT_NOEDIT
@@ -22,15 +27,15 @@ config="sama5_defconfig"
 linaro_toolchain="cortex_gcc_4_8"
 
 #Kernel/Build
-KERNEL_REL=3.10
-KERNEL_TAG=${KERNEL_REL}.1
-BUILD=sama5-armv7-d0.4
+KERNEL_REL=3.11
+KERNEL_TAG=${KERNEL_REL}-rc4
+BUILD=sama5-armv7-d0
 
 #v3.X-rcX + upto SHA
 KERNEL_SHA=""
 
 #git branch
-BRANCH="v3.10.x-sama5-armv7"
+BRANCH="v3.11.x-sama5-armv7"
 
 BUILDREV=1.0
 DISTRO=cross
