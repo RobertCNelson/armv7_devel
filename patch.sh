@@ -64,7 +64,8 @@ atmel_fixes () {
 }
 
 atmel_SAMA5D3 () {
-	echo "dir: atmel_SAMA5D3"
+#	echo "pulling linux-3.10-at91"
+#	git pull ${GIT_OPTS} ${git_patchset} linux-3.10-at91
 
 	#git checkout v3.10 -b tmp
 	#git pull --no-edit git://github.com/RobertCNelson/linux.git linux-3.10-at91
@@ -76,6 +77,7 @@ atmel_SAMA5D3 () {
 	#git format-patch -0 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
 	#git checkout master -f ; git branch -D tmp
 
+	echo "dir: atmel_SAMA5D3"
 }
 
 arm
