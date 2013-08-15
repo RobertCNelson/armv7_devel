@@ -1,7 +1,7 @@
 From 2f25fa058facb6b9a28f0ca0e9463a77f6428b4e Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Thu, 9 May 2013 17:42:14 +0800
-Subject: [PATCH 323/324] pm/sama5d3: add pm support for sama5d3xek
+Subject: [PATCH 323/334] pm/sama5d3: add pm support for sama5d3xek
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---

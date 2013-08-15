@@ -1,7 +1,7 @@
 From f1640cf2b4fa5ef204882e29ad0f8570b75047f8 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 23 Nov 2012 15:22:52 +0100
-Subject: [PATCH 109/324] rtc: at91: add dt support
+Subject: [PATCH 109/334] rtc: at91: add dt support
 
 Add the DT support for Atmel RTC.
 

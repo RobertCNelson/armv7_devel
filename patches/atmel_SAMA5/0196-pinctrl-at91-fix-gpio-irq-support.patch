@@ -1,7 +1,7 @@
 From 7c2f819c92867cecda26b42aa2cc037bdc7657cb Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 08:45:55 +0800
-Subject: [PATCH 196/324] pinctrl: at91: fix gpio irq support
+Subject: [PATCH 196/334] pinctrl: at91: fix gpio irq support
 
 we can not use readl/writel_relaxed for interrupts
 

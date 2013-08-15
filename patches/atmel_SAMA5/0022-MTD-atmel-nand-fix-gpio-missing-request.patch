@@ -1,7 +1,7 @@
 From 34a3a02a637d2608045d8183e151c69016f5151e Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 12 Jul 2012 13:20:22 +0800
-Subject: [PATCH 022/324] MTD: atmel nand: fix gpio missing request
+Subject: [PATCH 022/334] MTD: atmel nand: fix gpio missing request
 
 without this the gpio will not be muxed as a gpio by the current custom pinmux
 or later by the pinctrl

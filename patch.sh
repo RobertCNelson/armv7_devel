@@ -65,8 +65,8 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -325 | grep 3.6.9 ; rm -rf *.patch
-	#git format-patch -324 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
+	#git format-patch -335 | grep 3.6.9 ; rm -rf *.patch
+	#git format-patch -334 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
 	#git checkout master -f ; git branch -D tmp
 
 	echo "dir: atmel_SAMA5"
@@ -394,6 +394,16 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0322-pm-ddr-make-ddr-sdram-enter-self-refresh-mode-when-e.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0323-pm-sama5d3-add-pm-support-for-sama5d3xek.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0324-pm-disable-UPLL-when-excuting-PM.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0325-mmc-atmel-mci-pio-hang-on-block-errors.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0326-dmaengine-at_hdmac-fix-race-condition-in-atc_advance.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0327-ARM-at91-add-LUT-entry-to-at91sam9g45-resources.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0328-ARM-at91-DT-at91sam9x5ek-fix-USB-host-property-to-en.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0329-sama5d3-make-the-led-D2-as-heartbeat.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0330-sama5d33ek-enable-led-D3.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0331-serial-at91-distinguish-usart-and-uart.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0332-serial-at91-make-UART-support-dma-and-pdc-transfers.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0333-ARM-at91-dts-add-all-serial-dma-configurations-for-s.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0334-ARM-at91-add-missing-uart-clocks-DT-entries-for-sama.patch"
 }
 
 arm

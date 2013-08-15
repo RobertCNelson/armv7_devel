@@ -1,7 +1,7 @@
 From 65fbc375b2c4eb3a2bdb68055039274ebf5443d1 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 5 Dec 2012 17:00:48 +0100
-Subject: [PATCH 178/324] ARM: AT91: IIO: add pinctrl support to at91_adc
+Subject: [PATCH 178/334] ARM: AT91: IIO: add pinctrl support to at91_adc
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---

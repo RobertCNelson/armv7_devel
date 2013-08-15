@@ -1,7 +1,7 @@
 From 1d0cbcd9a7517d9af4d977928de0fb2e64bf312b Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 29 Jan 2013 13:49:10 +0800
-Subject: [PATCH 304/324] ASoC: sama5_wm8904: disable clock when remove
+Subject: [PATCH 304/334] ASoC: sama5_wm8904: disable clock when remove
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---

@@ -1,7 +1,7 @@
 From c38f156e5be7070adb4cb6ee924435c777a1bdef Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Tue, 22 Jan 2013 19:15:55 +0800
-Subject: [PATCH 273/324] spi/spi_atmel: fix compilation issue when no DT
+Subject: [PATCH 273/334] spi/spi_atmel: fix compilation issue when no DT
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---

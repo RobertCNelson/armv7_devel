@@ -1,7 +1,7 @@
 From fe2597df03740da09074337ee3ac95763cd5ba33 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 17 Nov 2010 13:12:11 +0100
-Subject: [PATCH 026/324] input: atmel_tsadcc: add touch screen pressure
+Subject: [PATCH 026/334] input: atmel_tsadcc: add touch screen pressure
  measurement
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>

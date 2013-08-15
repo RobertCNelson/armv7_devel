@@ -1,7 +1,7 @@
 From 9af95b748267df04ea41d26d5dfbefb5bcc6f539 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Sun, 11 Nov 2012 13:56:27 +0000
-Subject: [PATCH 104/324] net/macb: add support for phy irq via gpio pin
+Subject: [PATCH 104/334] net/macb: add support for phy irq via gpio pin
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>

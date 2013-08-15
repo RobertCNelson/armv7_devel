@@ -1,7 +1,7 @@
 From f84e0b961fb2fa5bd575f280d01cdde2f7c917a7 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 19:05:25 +0200
-Subject: [PATCH 216/324] ARM: at91: add LCD pdata for 9x5 LCD
+Subject: [PATCH 216/334] ARM: at91: add LCD pdata for 9x5 LCD
 
 Temporary in board-dt
 

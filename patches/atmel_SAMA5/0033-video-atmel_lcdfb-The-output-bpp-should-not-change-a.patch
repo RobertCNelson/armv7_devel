@@ -1,7 +1,7 @@
 From a10b86c46e4cfc82e8b01b52e3f99d6a22e4ca8f Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 9 Mar 2011 11:21:51 +0800
-Subject: [PATCH 033/324] video/atmel_lcdfb: The output bpp should not change
+Subject: [PATCH 033/334] video/atmel_lcdfb: The output bpp should not change
  according to memory bpp
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8

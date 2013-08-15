@@ -1,7 +1,7 @@
 From 84458d53986785a090fabec78eea21a7997abaad Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 20 Nov 2012 10:03:04 +0100
-Subject: [PATCH 252/324] ARM: at91: add dma conf to i2c nodes
+Subject: [PATCH 252/334] ARM: at91: add dma conf to i2c nodes
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---

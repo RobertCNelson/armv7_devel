@@ -1,7 +1,7 @@
 From acdc39ce038e10e6c940d7b8a23b60da64ddb8a4 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 16:40:13 +0200
-Subject: [PATCH 038/324] video: atmelfb: refactor backlight routines
+Subject: [PATCH 038/334] video: atmelfb: refactor backlight routines
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

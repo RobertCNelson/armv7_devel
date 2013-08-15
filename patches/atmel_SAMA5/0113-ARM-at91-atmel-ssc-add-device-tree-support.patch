@@ -1,7 +1,7 @@
 From 89718c49ed582bd5da442cadf05adf1e92f5b8ca Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Wed, 7 Nov 2012 11:41:41 +0800
-Subject: [PATCH 113/324] ARM: at91: atmel-ssc: add device tree support
+Subject: [PATCH 113/334] ARM: at91: atmel-ssc: add device tree support
 
 Add atmel-ssc for device tree support
 

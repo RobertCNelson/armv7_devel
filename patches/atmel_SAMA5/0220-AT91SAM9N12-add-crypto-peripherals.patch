@@ -1,7 +1,7 @@
 From 0661b0742b63005f3e59fd568751cb9f99e645ea Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:13 +0200
-Subject: [PATCH 220/324] AT91SAM9N12: add crypto peripherals
+Subject: [PATCH 220/334] AT91SAM9N12: add crypto peripherals
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

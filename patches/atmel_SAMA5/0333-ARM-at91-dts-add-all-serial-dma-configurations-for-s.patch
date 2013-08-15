@@ -1,0 +1,102 @@
+From d4cac194ce6214a9cd12def76747d9ea38b13272 Mon Sep 17 00:00:00 2001
+From: Elen Song <elen.song@atmel.com>
+Date: Wed, 31 Jul 2013 13:28:12 +0800
+Subject: [PATCH 333/334] ARM: at91: dts: add all serial dma configurations
+ for sama5d3x
+
+Signed-off-by: Elen Song <elen.song@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3.dtsi |   46 +++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 43 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 68ae6f5..4efc983 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -21,6 +21,8 @@
+ 		serial2 = &usart1;
+ 		serial3 = &usart2;
+ 		serial4 = &usart3;
++		serial5 = &uart0;
++		serial6 = &uart1;
+ 		gpio0 = &pioA;
+ 		gpio1 = &pioB;
+ 		gpio2 = &pioC;
+@@ -369,23 +371,57 @@
+ 			};
+ 
+ 			usart2: serial@f8020000 {
+-				compatible = "atmel,at91sam9260-usart";
++				compatible = "atmel,at91sam9x5-usart";
+ 				reg = <0xf8020000 0x100>;
+ 				interrupts = <14 4 5>;
++				atmel,use-dma-rx;
++				dma-rx = <&dma1 0x20000208>;
++				atmel,use-dma-tx;
++				dma-tx = <&dma1 0x10002070>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_usart2>;
+ 				status = "disabled";
+ 			};
+ 
+ 			usart3: serial@f8024000 {
+-				compatible = "atmel,at91sam9260-usart";
++				compatible = "atmel,at91sam9x5-usart";
+ 				reg = <0xf8024000 0x100>;
+ 				interrupts = <15 4 5>;
++				atmel,use-dma-rx;
++				dma-rx = <&dma1 0x2000020a>;
++				atmel,use-dma-tx;
++				dma-tx = <&dma1 0x10002090>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_usart3>;
+ 				status = "disabled";
+ 			};
+ 
++			uart0: serial@f0024000 {
++				compatible = "atmel,at91sam9x5-usart";
++				reg = <0xf0024000 0x100>;
++				interrupts = <16 4 5>;
++				atmel,use-dma-rx;
++				dma-rx = <&dma0 0x2000020c>;
++				atmel,use-dma-tx;
++				dma-tx = <&dma0 0x100020b0>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_uart0>;
++				status = "disabled";
++			};
++
++			uart1: serial@f8028000 {
++				compatible = "atmel,at91sam9x5-usart";
++				reg = <0xf8028000 0x100>;
++				interrupts = <17 4 5>;
++				atmel,use-dma-rx;
++				dma-rx = <&dma1 0x20000206>;
++				atmel,use-dma-tx;
++				dma-tx = <&dma1 0x10002050>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_uart1>;
++				status = "disabled";
++			};
++
+ 			macb1: ethernet@f802c000 {
+ 				compatible = "cdns,at32ap7000-macb", "cdns,macb";
+ 				reg = <0xf802c000 0x100>;
+@@ -452,9 +488,13 @@
+ 			};
+ 
+ 			dbgu: serial@ffffee00 {
+-				compatible = "atmel,at91sam9260-usart";
++				compatible = "atmel,at91sam9x5-usart";
+ 				reg = <0xffffee00 0x200>;
+ 				interrupts = <2 4 7>;
++				atmel,use-dma-rx;
++				dma-rx = <&dma1 0x2000020e>;
++				atmel,use-dma-tx;
++				dma-tx = <&dma1 0x100020d0>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&pinctrl_dbgu>;
+ 				status = "disabled";
+-- 
+1.7.10.4
+

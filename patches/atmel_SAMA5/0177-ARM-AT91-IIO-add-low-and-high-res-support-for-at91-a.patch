@@ -1,7 +1,7 @@
 From 260698ee583736c00efc9fcbec9b1b19c229ea3a Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 28 Nov 2012 11:00:49 +0100
-Subject: [PATCH 177/324] ARM: AT91: IIO: add low and high res support for
+Subject: [PATCH 177/334] ARM: AT91: IIO: add low and high res support for
  at91 adc
 
 at91 adc offers the choice between two resolutions: low and high.

@@ -1,7 +1,7 @@
 From 21b65c978b07ce7bbf2af0166195aee9728a120f Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 11 Oct 2012 14:00:31 +0200
-Subject: [PATCH 250/324] ARM: at91: add peripheral clock division support for
+Subject: [PATCH 250/334] ARM: at91: add peripheral clock division support for
  sama5
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>

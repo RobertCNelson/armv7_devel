@@ -1,0 +1,98 @@
+From 24e0333e54faaf2b252920a4754a46464a0fdb4e Mon Sep 17 00:00:00 2001
+From: Elen Song <elen.song@atmel.com>
+Date: Wed, 31 Jul 2013 11:41:00 +0800
+Subject: [PATCH 331/334] serial: at91: distinguish usart and uart
+
+Distinguish usart and uart by read ip name register,
+The usart read name is USAR,
+The uart and dbgu read name is DBGU.
+
+Signed-off-by: Elen Song <elen.song@atmel.com>
+---
+ drivers/tty/serial/atmel_serial.c |   37 +++++++++++++++++++++++++++++++++++++
+ include/linux/atmel_serial.h      |    2 ++
+ 2 files changed, 39 insertions(+)
+
+diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+index 13ea530..8669115 100644
+--- a/drivers/tty/serial/atmel_serial.c
++++ b/drivers/tty/serial/atmel_serial.c
+@@ -101,6 +101,7 @@ static void atmel_stop_rx(struct uart_port *port);
+ #define UART_PUT_BRGR(port,v)	__raw_writel(v, (port)->membase + ATMEL_US_BRGR)
+ #define UART_PUT_RTOR(port,v)	__raw_writel(v, (port)->membase + ATMEL_US_RTOR)
+ #define UART_PUT_TTGR(port, v)	__raw_writel(v, (port)->membase + ATMEL_US_TTGR)
++#define UART_GET_IP_NAME(port)	__raw_readl((port)->membase + ATMEL_US_NAME)
+ 
+  /* PDC registers */
+ #define UART_PUT_PTCR(port,v)	__raw_writel(v, (port)->membase + ATMEL_PDC_PTCR)
+@@ -173,6 +174,7 @@ struct atmel_uart_port {
+ 
+ 	struct serial_rs485	rs485;		/* rs485 settings */
+ 	unsigned int		tx_done_mask;
++	bool			is_usart;       /* usart or uart */
+ };
+ 
+ static struct atmel_uart_port atmel_ports[ATMEL_MAX_UART];
+@@ -1567,6 +1569,34 @@ static void atmel_tasklet_func(unsigned long data)
+ }
+ 
+ /*
++ * Get ip name usart or uart
++ */
++static int atmel_get_ip_name(struct uart_port *port)
++{
++	struct atmel_uart_port *atmel_port = to_atmel_uart_port(port);
++	int name = UART_GET_IP_NAME(port);
++	int usart, uart;
++	/* usart and uart ascii */
++	usart = 0x55534152;
++	uart = 0x44424755;
++
++	atmel_port->is_usart = false;
++
++	if (name == usart) {
++		dev_dbg(port->dev, "This is usart\n");
++		atmel_port->is_usart = true;
++	} else if (name == uart) {
++		dev_dbg(port->dev, "This is uart\n");
++		atmel_port->is_usart = false;
++	} else {
++		dev_err(port->dev, "Not supported ip name, set to uart\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/*
+  * Perform initialization and enable port for reception
+  */
+ static int atmel_startup(struct uart_port *port)
+@@ -2578,6 +2608,13 @@ static int __devinit atmel_serial_probe(struct platform_device *pdev)
+ 		UART_PUT_CR(&port->uart, ATMEL_US_RTSEN);
+ 	}
+ 
++	/*
++	 * Get port name of usart or uart
++	 */
++	ret = atmel_get_ip_name(&port->uart);
++	if (ret < 0)
++		goto err_add_port;
++
+ 	return 0;
+ 
+ err_add_port:
+diff --git a/include/linux/atmel_serial.h b/include/linux/atmel_serial.h
+index fd68337..be201ca 100644
+--- a/include/linux/atmel_serial.h
++++ b/include/linux/atmel_serial.h
+@@ -124,4 +124,6 @@
+ #define ATMEL_US_NER		0x44			/* Number of Errors Register */
+ #define ATMEL_US_IF		0x4c			/* IrDA Filter Register */
+ 
++#define ATMEL_US_NAME		0xf0			/* Ip Name */
++
+ #endif
+-- 
+1.7.10.4
+

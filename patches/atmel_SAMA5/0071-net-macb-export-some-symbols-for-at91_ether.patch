@@ -1,7 +1,7 @@
 From 545e5aa52cbd3653579b64c67a3185f9d34d5762 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:12 +0000
-Subject: [PATCH 071/324] net/macb: export some symbols for at91_ether
+Subject: [PATCH 071/334] net/macb: export some symbols for at91_ether
 
 Export some symbols to start sharing code between
 macb and at91_ether drivers.

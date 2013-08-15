@@ -1,7 +1,7 @@
 From 6160d8eb325221b486f0a94968aea1c44a0e377b Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 12 Dec 2012 17:52:04 +0100
-Subject: [PATCH 184/324] net/macb: Try to optimize struct macb layout
+Subject: [PATCH 184/334] net/macb: Try to optimize struct macb layout
 
 Move TX-related fields to the top of the struct so that they end up on
 the same cache line. Move the NAPI struct below that since it is used

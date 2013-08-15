@@ -1,7 +1,7 @@
 From 91ece27736953d2fe6d4b83b198bba1e4852376b Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 24 Jun 2011 13:03:29 +0200
-Subject: [PATCH 047/324] atmel_lcdfb: change pixel clock ratio calculation
+Subject: [PATCH 047/334] atmel_lcdfb: change pixel clock ratio calculation
 
 DIV_ROUND_UP() was used to calculate the pixel clock divider
 in atmel_hlcdfb_setup_core_base().

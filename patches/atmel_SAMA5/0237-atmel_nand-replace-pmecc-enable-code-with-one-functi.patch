@@ -1,7 +1,7 @@
 From 427e143c6ffc937b93e9cec522edd831802b5729 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 14 Nov 2012 15:02:18 +0800
-Subject: [PATCH 237/324] atmel_nand: replace pmecc enable code with one
+Subject: [PATCH 237/334] atmel_nand: replace pmecc enable code with one
  function.
 
 ---

@@ -1,7 +1,7 @@
 From 9347a51912e103d51a2ce01aa1355042272bcc48 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Sat, 14 Jul 2012 15:26:08 +0800
-Subject: [PATCH 190/324] arm: at91: at91sam9x5: fix gpio number per bank
+Subject: [PATCH 190/334] arm: at91: at91sam9x5: fix gpio number per bank
 
 On the at91sam9x5 SoC series, GPIO banks B and D only have 19 and 22
 pins. So add a property to set this parameter.

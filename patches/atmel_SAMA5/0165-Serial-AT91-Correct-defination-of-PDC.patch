@@ -1,7 +1,7 @@
 From fae56e46f1edb3d586bc2552450131430879968a Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 21 Nov 2012 15:28:06 +0800
-Subject: [PATCH 165/324] Serial: AT91: Correct defination of PDC
+Subject: [PATCH 165/334] Serial: AT91: Correct defination of PDC
 
 use_pdc_xx, atmel_use_pdc_xx is for pdc use
 use_dma_xx, atmel_use_dma_xx is for dma use

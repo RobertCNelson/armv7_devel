@@ -1,7 +1,7 @@
 From 84741c454583cabb6d86cb409054d31ba4ce10cd Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 18 Dec 2012 17:00:27 +0100
-Subject: [PATCH 261/324] atmel_nand: nfc: change printk to dev_dbg
+Subject: [PATCH 261/334] atmel_nand: nfc: change printk to dev_dbg
 
 Change timeout printk to dev_dbg to not see it into boot logs.
 

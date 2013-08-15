@@ -1,0 +1,71 @@
+From 2adc4aa5326381ecf5f9846312bcadf0b9bbf4b5 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Wed, 14 Aug 2013 13:01:25 +0800
+Subject: [PATCH 334/334] ARM: at91: add missing uart clocks DT entries for
+ sama5d3
+
+Add clocks to clock lookup table for uart DT entries.
+
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ arch/arm/mach-at91/include/mach/sama5d3.h |    2 ++
+ arch/arm/mach-at91/sama5d3.c              |   16 ++++++++++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/arch/arm/mach-at91/include/mach/sama5d3.h b/arch/arm/mach-at91/include/mach/sama5d3.h
+index 2fcfed4..3f551de 100644
+--- a/arch/arm/mach-at91/include/mach/sama5d3.h
++++ b/arch/arm/mach-at91/include/mach/sama5d3.h
+@@ -29,6 +29,8 @@
+ #define SAMA5D3_ID_USART1	13	/* USART1 */
+ #define SAMA5D3_ID_USART2	14	/* USART2 */
+ #define SAMA5D3_ID_USART3	15	/* USART3 */
++#define SAMA5D3_ID_UART0	16	/* UART0 */
++#define SAMA5D3_ID_UART1	17	/* UART1 */
+ #define SAMA5D3_ID_TWI0		18	/* Two-Wire Interface 0 */
+ #define SAMA5D3_ID_TWI1		19	/* Two-Wire Interface 1 */
+ #define SAMA5D3_ID_TWI2		20	/* Two-Wire Interface 2 */
+diff --git a/arch/arm/mach-at91/sama5d3.c b/arch/arm/mach-at91/sama5d3.c
+index fb62a55..c499446 100644
+--- a/arch/arm/mach-at91/sama5d3.c
++++ b/arch/arm/mach-at91/sama5d3.c
+@@ -79,6 +79,18 @@ static struct clk usart3_clk = {
+ 	.type		= CLK_TYPE_PERIPHERAL,
+ 	.div		= AT91_PMC_PCR_DIV2,
+ };
++static struct clk uart0_clk = {
++	.name		= "uart0_clk",
++	.pid		= SAMA5D3_ID_UART0,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
++static struct clk uart1_clk = {
++	.name		= "uart1_clk",
++	.pid		= SAMA5D3_ID_UART1,
++	.type		= CLK_TYPE_PERIPHERAL,
++	.div		= AT91_PMC_PCR_DIV2,
++};
+ static struct clk twi0_clk = {
+ 	.name		= "twi0_clk",
+ 	.pid		= SAMA5D3_ID_TWI0,
+@@ -240,6 +252,8 @@ static struct clk *periph_clocks[] __initdata = {
+ 	&usart1_clk,
+ 	&usart2_clk,
+ 	&usart3_clk,
++	&uart0_clk,
++	&uart1_clk,
+ 	&twi0_clk,
+ 	&twi1_clk,
+ 	&twi2_clk,
+@@ -298,6 +312,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("usart", "f0020000.serial", &usart1_clk),
+ 	CLKDEV_CON_DEV_ID("usart", "f8020000.serial", &usart2_clk),
+ 	CLKDEV_CON_DEV_ID("usart", "f8024000.serial", &usart3_clk),
++	CLKDEV_CON_DEV_ID("usart", "f0024000.serial", &uart0_clk),
++	CLKDEV_CON_DEV_ID("usart", "f8028000.serial", &uart1_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "f0014000.i2c", &twi0_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "f0018000.i2c", &twi1_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "f801c000.i2c", &twi2_clk),
+-- 
+1.7.10.4
+

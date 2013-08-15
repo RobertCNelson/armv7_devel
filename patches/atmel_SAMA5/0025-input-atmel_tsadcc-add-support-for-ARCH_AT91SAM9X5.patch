@@ -1,7 +1,7 @@
 From 66b7ed9cbbee1135aee466169cb40396ce3cddaf Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 17 Nov 2010 12:28:13 +0100
-Subject: [PATCH 025/324] input: atmel_tsadcc: add support for ARCH_AT91SAM9X5
+Subject: [PATCH 025/334] input: atmel_tsadcc: add support for ARCH_AT91SAM9X5
 
 XXX: split header creation in a new patch (or don't do it)
 

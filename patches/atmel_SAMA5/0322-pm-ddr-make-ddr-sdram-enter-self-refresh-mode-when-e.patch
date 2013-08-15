@@ -1,7 +1,7 @@
 From 06d0f2d6bd5f2d9a52a8b34acedb19fc80df3cb2 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Fri, 3 May 2013 16:37:39 +0800
-Subject: [PATCH 322/324] pm/ddr: make ddr-sdram enter self refresh mode when
+Subject: [PATCH 322/334] pm/ddr: make ddr-sdram enter self refresh mode when
  excuting pm and cpuidle
 
 Change the implementation of function to be used on other boards with ddr-sdram.

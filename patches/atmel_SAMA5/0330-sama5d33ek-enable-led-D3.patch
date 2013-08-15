@@ -1,0 +1,31 @@
+From eafce7411457b3301a2b87f6583b4131118cbb91 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 18 Jul 2013 11:53:09 +0800
+Subject: [PATCH 330/334] sama5d33ek: enable led D3
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d33ek.dts |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d33ek.dts b/arch/arm/boot/dts/sama5d33ek.dts
+index 106454b..672b236 100644
+--- a/arch/arm/boot/dts/sama5d33ek.dts
++++ b/arch/arm/boot/dts/sama5d33ek.dts
+@@ -42,6 +42,13 @@
+ 		};
+ 	};
+ 
++	leds {
++		d3 {
++			label = "d3";
++			gpios = <&pioE 24 0>;
++		};
++	};
++
+ 	sound {
+ 		status = "okay";
+ 	};
+-- 
+1.7.10.4
+

@@ -1,7 +1,7 @@
 From 551c5957ccdc59133a0b4e1361af21d7587fe4a4 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Fri, 18 Jan 2013 14:52:56 +0800
-Subject: [PATCH 271/324] ASoC: sama5-wm8904: setting dai format through dai
+Subject: [PATCH 271/334] ASoC: sama5-wm8904: setting dai format through dai
  link
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>

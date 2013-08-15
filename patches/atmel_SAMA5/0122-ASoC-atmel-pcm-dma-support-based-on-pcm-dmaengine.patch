@@ -1,7 +1,7 @@
 From 9dc488361b791cd9ab7fad660024dec5fbdf1ce4 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 27 Nov 2012 17:52:53 +0800
-Subject: [PATCH 122/324] ASoC: atmel-pcm: dma support based on pcm dmaengine
+Subject: [PATCH 122/334] ASoC: atmel-pcm: dma support based on pcm dmaengine
 
 Specify overrun bit in interrupt mask
 Add dmaengine specific routines

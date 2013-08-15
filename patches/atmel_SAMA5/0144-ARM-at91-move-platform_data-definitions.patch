@@ -1,7 +1,7 @@
 From 3c71d3f0891781b1ae730efedfa5b5d3dc1abe12 Mon Sep 17 00:00:00 2001
 From: Arnd Bergmann <arnd@arndb.de>
 Date: Fri, 24 Aug 2012 15:10:04 +0200
-Subject: [PATCH 144/324] ARM: at91: move platform_data definitions
+Subject: [PATCH 144/334] ARM: at91: move platform_data definitions
 
 Platform data for device drivers should be defined in
 include/linux/platform_data/*.h, not in the architecture

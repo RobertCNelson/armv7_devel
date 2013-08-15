@@ -1,7 +1,7 @@
 From 6e4acde2b1cac1b91222f25065d76c0b57c35047 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 12:39:12 +0800
-Subject: [PATCH 156/324] watchdog/at91sam9_wdt: Remove the global variable
+Subject: [PATCH 156/334] watchdog/at91sam9_wdt: Remove the global variable
  at91wdt_private
 
 Remove the global variable at91wdt_private

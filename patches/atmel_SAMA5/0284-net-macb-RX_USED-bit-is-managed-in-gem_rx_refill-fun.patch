@@ -1,7 +1,7 @@
 From 228af4663741bca7cd297854f6440de88d634eb6 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:35:41 +0100
-Subject: [PATCH 284/324] net/macb: RX_USED bit is managed in gem_rx_refill
+Subject: [PATCH 284/334] net/macb: RX_USED bit is managed in gem_rx_refill
  function
 
 Simply give back RX descriptor to hardware when it has actually

@@ -1,7 +1,7 @@
 From d6bda3d8e8afdfd99820204bb29efd758aca87bd Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Tue, 13 Nov 2012 15:01:19 +0800
-Subject: [PATCH 155/324] watchdog/at91sam9_wdt: Remove the file_operations
+Subject: [PATCH 155/334] watchdog/at91sam9_wdt: Remove the file_operations
  struct
 
 Since the file_operations for actions like open(), close, write()

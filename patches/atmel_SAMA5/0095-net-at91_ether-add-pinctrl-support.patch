@@ -1,7 +1,7 @@
 From 0bbfde30486c6078175c062d0753a61ceb33b9fe Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Sun, 4 Nov 2012 21:34:52 +0000
-Subject: [PATCH 095/324] net: at91_ether: add pinctrl support
+Subject: [PATCH 095/334] net: at91_ether: add pinctrl support
 
 If no pinctrl available just report a warning as some architecture may not
 need to do anything.

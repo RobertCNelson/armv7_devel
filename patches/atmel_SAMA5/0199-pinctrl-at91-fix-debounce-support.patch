@@ -1,7 +1,7 @@
 From d4d7844ad688541747dda9c6e9b3a7ee20c41cd8 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 24 Oct 2012 01:15:51 +0800
-Subject: [PATCH 199/324] pinctrl: at91: fix debounce support
+Subject: [PATCH 199/334] pinctrl: at91: fix debounce support
 
 add missing mask check
 

@@ -1,0 +1,59 @@
+From 73cc0f3cf9bd55bc12e2f748c95a25ae5a041e36 Mon Sep 17 00:00:00 2001
+From: Ludovic Desroches <ludovic.desroches@atmel.com>
+Date: Thu, 18 Apr 2013 09:52:59 +0200
+Subject: [PATCH 326/334] dmaengine: at_hdmac: fix race condition in
+ atc_advance_work()
+
+The BUG_ON() directive is triggered probably due to a latency
+modification following inclusion of commit c10d73671ad3 ("softirq:
+reduce latencies").  This condition has not been met before 3.9-rc1 and
+doesn't trigger without this patch.
+
+We now make sure that DMA channel is idle before calling
+atc_complete_all() which makes the BUG_ON() "protection" useless.
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Acked-by: Vinod Koul <vinod.koul@intel.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+---
+ drivers/dma/at_hdmac.c |    9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+index 5eb7d11..f2898d4 100644
+--- a/drivers/dma/at_hdmac.c
++++ b/drivers/dma/at_hdmac.c
+@@ -418,8 +418,6 @@ static void atc_complete_all(struct at_dma_chan *atchan)
+ 
+ 	dev_vdbg(chan2dev(&atchan->chan_common), "complete all\n");
+ 
+-	BUG_ON(atc_chan_is_enabled(atchan));
+-
+ 	/*
+ 	 * Submit queued descriptors ASAP, i.e. before we go through
+ 	 * the completed ones.
+@@ -476,6 +474,9 @@ static void atc_advance_work(struct at_dma_chan *atchan)
+ {
+ 	dev_vdbg(chan2dev(&atchan->chan_common), "advance_work\n");
+ 
++	if (atc_chan_is_enabled(atchan))
++		return;
++
+ 	if (list_empty(&atchan->active_list) ||
+ 	    list_is_singular(&atchan->active_list)) {
+ 		atc_complete_all(atchan);
+@@ -1192,9 +1193,7 @@ static void atc_issue_pending(struct dma_chan *chan)
+ 		return;
+ 
+ 	spin_lock_irqsave(&atchan->lock, flags);
+-	if (!atc_chan_is_enabled(atchan)) {
+-		atc_advance_work(atchan);
+-	}
++	atc_advance_work(atchan);
+ 	spin_unlock_irqrestore(&atchan->lock, flags);
+ }
+ 
+-- 
+1.7.10.4
+
