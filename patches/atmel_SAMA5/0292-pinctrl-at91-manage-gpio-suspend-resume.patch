@@ -1,7 +1,7 @@
 From e85cb65039f30545bca5d4814347925987834d4d Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:14:01 +0100
-Subject: [PATCH 292/334] pinctrl: at91: manage gpio suspend/resume
+Subject: [PATCH 292/335] pinctrl: at91: manage gpio suspend/resume
 
 gpio suspend/resume and wakeup sources where not managed so it was impossible
 to wake up the system with a gpio.

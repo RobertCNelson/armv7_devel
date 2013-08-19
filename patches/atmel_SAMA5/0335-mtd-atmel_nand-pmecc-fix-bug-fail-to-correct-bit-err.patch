@@ -1,0 +1,40 @@
+From e5fb8621b409acf95c64d543102e2c89aa006b42 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Mon, 19 Aug 2013 14:46:42 +0800
+Subject: [PATCH 335/335] mtd: atmel_nand: pmecc: fix bug fail to correct bit
+ error in 1024-bytes sector
+
+The PMECC use BCH algorithm to correct error. In BCH algorithm, the primitive
+polynomial value is GF(2^13) for 512-bytes sector size. And it is GF(2^14) for
+1024-bytes sector size.
+
+This patch will choose correct degree of the remainders(13 or 14) for
+different sector size.
+Tested in AT91SAM9X5-EK with MLC nand flash.
+
+More detail can be refered to section 5.4.1 of:
+  AT91SAM ARM-based Embedded MPU Application Note
+  <http://www.atmel.com/Images/doc11127.pdf>
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/mtd/nand/atmel_nand.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index 5e38a52..2c9b825 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -1093,7 +1093,8 @@ static int __init atmel_pmecc_nand_init_params(struct platform_device *pdev,
+ 	switch (mtd->writesize) {
+ 	case 2048:
+ 	case 4096:
+-		host->pmecc_degree = PMECC_GF_DIMENSION_13;
++		host->pmecc_degree = (sector_size == 512) ?
++			PMECC_GF_DIMENSION_13 : PMECC_GF_DIMENSION_14;
+ 		host->pmecc_cw_len = (1 << host->pmecc_degree) - 1;
+ 		host->pmecc_sector_number = mtd->writesize / sector_size;
+ 		host->pmecc_bytes_per_sector = pmecc_get_ecc_bytes(
+-- 
+1.7.10.4
+

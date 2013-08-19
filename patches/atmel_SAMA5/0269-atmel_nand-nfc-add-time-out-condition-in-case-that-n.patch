@@ -1,7 +1,7 @@
 From 8e82ac99d673e301518ef82a9e14f161e07fdc72 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 9 Jan 2013 17:05:59 +0800
-Subject: [PATCH 269/334] atmel_nand: nfc: add time out condition in case that
+Subject: [PATCH 269/335] atmel_nand: nfc: add time out condition in case that
  nand flash cannot be found.
 
 This patch fix the dead loop if nand flash cannot be found, such as when U-Boot doesn't configurate the SMC timing.

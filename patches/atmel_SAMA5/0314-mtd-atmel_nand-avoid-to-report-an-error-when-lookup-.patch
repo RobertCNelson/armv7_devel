@@ -1,7 +1,7 @@
 From 83b5a315ad08f357a70ce04913d776678ab79471 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 21 Mar 2013 14:57:01 +0800
-Subject: [PATCH 314/334] mtd: atmel_nand: avoid to report an error when
+Subject: [PATCH 314/335] mtd: atmel_nand: avoid to report an error when
  lookup table offset is 0.
 
 Before this patch, we assume the whole ROM code are mapping to memory. So

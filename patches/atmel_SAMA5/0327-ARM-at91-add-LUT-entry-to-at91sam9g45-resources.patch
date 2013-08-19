@@ -1,7 +1,7 @@
 From f984a5b5d12c50c900385c44922f1a20593a7cc2 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 27 Jun 2013 17:05:42 +0200
-Subject: [PATCH 327/334] ARM: at91: add LUT entry to at91sam9g45 resources
+Subject: [PATCH 327/335] ARM: at91: add LUT entry to at91sam9g45 resources
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---

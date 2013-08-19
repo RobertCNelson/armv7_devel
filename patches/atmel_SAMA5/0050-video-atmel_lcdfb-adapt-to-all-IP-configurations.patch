@@ -1,7 +1,7 @@
 From 31137a7a991f8c078cf0b8b52603c0b380aa07ae Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 18:23:00 +0200
-Subject: [PATCH 050/334] video: atmel_lcdfb: adapt to all IP configurations
+Subject: [PATCH 050/335] video: atmel_lcdfb: adapt to all IP configurations
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---

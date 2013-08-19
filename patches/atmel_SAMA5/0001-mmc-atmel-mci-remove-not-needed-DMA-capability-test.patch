@@ -1,7 +1,7 @@
 From 68919cf996b530722dd7e61904d79c4c6aac17d9 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 7 Jun 2012 10:54:33 +0200
-Subject: [PATCH 001/334] mmc: atmel-mci: remove not needed DMA capability
+Subject: [PATCH 001/335] mmc: atmel-mci: remove not needed DMA capability
  test
 
 The test about DMA capability is not needed as it is

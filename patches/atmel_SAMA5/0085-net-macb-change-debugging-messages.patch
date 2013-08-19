@@ -1,7 +1,7 @@
 From 857cc9c7d71551de2a64feb3f37e6bb95ec0322a Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:52 +0000
-Subject: [PATCH 085/334] net/macb: change debugging messages
+Subject: [PATCH 085/335] net/macb: change debugging messages
 
 Convert some noisy netdev_dbg() statements to netdev_vdbg(). Defining
 DEBUG will no longer fill up the logs; VERBOSE_DEBUG still does.

@@ -1,7 +1,7 @@
 From b6b579ced4cb3215b8cae7a325b5c0875c3a9033 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 13:00:04 +0800
-Subject: [PATCH 161/334] watchdog/at91sam9_wdt: Remove the __initdata of
+Subject: [PATCH 161/335] watchdog/at91sam9_wdt: Remove the __initdata of
  at91wdt_wdd
 
 For this variable will be used in the time handler.

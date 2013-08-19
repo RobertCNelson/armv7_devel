@@ -1,7 +1,7 @@
 From 8277c0498c35da0d4490a2b7bbe080d4cd3873aa Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 13 Jun 2012 17:38:06 +0800
-Subject: [PATCH 231/334] enable SAMA5D3 support in touch screen adc
+Subject: [PATCH 231/335] enable SAMA5D3 support in touch screen adc
  controller driver.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>

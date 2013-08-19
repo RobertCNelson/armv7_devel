@@ -1,7 +1,7 @@
 From db7289c5be03110ce4dd17a69a470cdb2e7eecea Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 13:46:54 +0800
-Subject: [PATCH 174/334] DMA: AT91: Get residual bytes in dma buffer
+Subject: [PATCH 174/335] DMA: AT91: Get residual bytes in dma buffer
 
 Add support for returning the residue for a particular descriptor by
 reading the BTSIZE in CTRLA register.

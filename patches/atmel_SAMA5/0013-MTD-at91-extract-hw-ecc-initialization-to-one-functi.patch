@@ -1,7 +1,7 @@
 From f69a533da1125249e309608209a309862db35cac Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 31 May 2012 18:09:20 +0800
-Subject: [PATCH 013/334] MTD: at91: extract hw ecc initialization to one
+Subject: [PATCH 013/335] MTD: at91: extract hw ecc initialization to one
  function
 
 This patch moves hw ecc initialization code to one function.

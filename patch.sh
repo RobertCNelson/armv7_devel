@@ -65,8 +65,8 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -335 | grep 3.6.9 ; rm -rf *.patch
-	#git format-patch -334 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
+	#git format-patch -336 | grep 3.6.9 ; rm -rf *.patch
+	#git format-patch -335 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
 	#git checkout master -f ; git branch -D tmp
 
 	echo "dir: atmel_SAMA5"
@@ -404,6 +404,7 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0332-serial-at91-make-UART-support-dma-and-pdc-transfers.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0333-ARM-at91-dts-add-all-serial-dma-configurations-for-s.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0334-ARM-at91-add-missing-uart-clocks-DT-entries-for-sama.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0335-mtd-atmel_nand-pmecc-fix-bug-fail-to-correct-bit-err.patch"
 }
 
 arm

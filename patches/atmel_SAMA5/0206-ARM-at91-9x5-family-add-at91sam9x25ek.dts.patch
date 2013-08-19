@@ -1,7 +1,7 @@
 From 58ace17ac69cc66ec2854695bb8851b0a95b3400 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 2 Oct 2012 11:55:18 +0200
-Subject: [PATCH 206/334] ARM: at91/9x5 family: add at91sam9x25ek.dts
+Subject: [PATCH 206/335] ARM: at91/9x5 family: add at91sam9x25ek.dts
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---

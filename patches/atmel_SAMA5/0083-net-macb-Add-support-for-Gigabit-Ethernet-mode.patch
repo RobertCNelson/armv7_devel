@@ -1,7 +1,7 @@
 From 65878962212b72607ce8aafbc9b8fd038c43c73d Mon Sep 17 00:00:00 2001
 From: Patrice Vilchez <patrice.vilchez@atmel.com>
 Date: Wed, 31 Oct 2012 06:04:50 +0000
-Subject: [PATCH 083/334] net/macb: Add support for Gigabit Ethernet mode
+Subject: [PATCH 083/335] net/macb: Add support for Gigabit Ethernet mode
 
 Add Gigabit Ethernet mode to GEM cadence IP and enable RGMII connection.
 

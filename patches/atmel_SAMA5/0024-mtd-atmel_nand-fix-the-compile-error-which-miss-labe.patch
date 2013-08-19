@@ -1,7 +1,7 @@
 From 1a5a5adf4eb18974535bc13eec8473023a725dd6 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Mon, 24 Sep 2012 08:06:30 +0800
-Subject: [PATCH 024/334] mtd: atmel_nand: fix the compile error which miss
+Subject: [PATCH 024/335] mtd: atmel_nand: fix the compile error which miss
  label "err_ecc_ioremap"
 
 Add err_ecc_ioremap label to fix following errors:

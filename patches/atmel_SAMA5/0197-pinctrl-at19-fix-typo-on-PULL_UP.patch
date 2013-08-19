@@ -1,7 +1,7 @@
 From e5a578779df96832aecf8f282d54fa4d8a0bf97d Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 23 Oct 2012 13:47:30 +0800
-Subject: [PATCH 197/334] pinctrl: at19: fix typo on PULL_UP
+Subject: [PATCH 197/335] pinctrl: at19: fix typo on PULL_UP
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---

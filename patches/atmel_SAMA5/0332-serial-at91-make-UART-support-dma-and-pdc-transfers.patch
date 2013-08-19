@@ -1,7 +1,7 @@
 From 19378d31d2ce833c2fb525f12a8a94195920b012 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 31 Jul 2013 13:00:37 +0800
-Subject: [PATCH 332/334] serial: at91: make UART support dma and pdc
+Subject: [PATCH 332/335] serial: at91: make UART support dma and pdc
  transfers
 
 Because the UART lack of receive timeout register, so we use a timer to trigger

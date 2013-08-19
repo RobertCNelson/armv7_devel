@@ -1,7 +1,7 @@
 From 3c94c53691881c6072db384d56569b9a536d7cdf Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 19:04:39 +0200
-Subject: [PATCH 207/334] ARM: at91: add new at91sam9g35ek.dts
+Subject: [PATCH 207/335] ARM: at91: add new at91sam9g35ek.dts
 
 With LCD DT definition
 

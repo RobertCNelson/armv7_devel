@@ -1,7 +1,7 @@
 From 3db9861d855460ff96fda993682ed14bedf1ed17 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Thu, 9 May 2013 13:14:59 +0800
-Subject: [PATCH 321/334] Change the internal SRAM memory type
+Subject: [PATCH 321/335] Change the internal SRAM memory type
  MT_MEMORY_NONCACHED
 
 Because MT_DEVICE is not executable in armv7, we change

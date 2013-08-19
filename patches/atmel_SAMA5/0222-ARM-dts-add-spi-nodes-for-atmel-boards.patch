@@ -1,7 +1,7 @@
 From 6ae4356f367be283781faa35028cbf11e01f5ce4 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Fri, 23 Nov 2012 17:58:39 +0100
-Subject: [PATCH 222/334] ARM: dts: add spi nodes for atmel boards
+Subject: [PATCH 222/335] ARM: dts: add spi nodes for atmel boards
 
 From: Richard Genoud <richard.genoud@gmail.com>
 

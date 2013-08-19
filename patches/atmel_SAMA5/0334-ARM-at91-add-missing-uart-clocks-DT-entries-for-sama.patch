@@ -1,7 +1,7 @@
 From 2adc4aa5326381ecf5f9846312bcadf0b9bbf4b5 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Wed, 14 Aug 2013 13:01:25 +0800
-Subject: [PATCH 334/334] ARM: at91: add missing uart clocks DT entries for
+Subject: [PATCH 334/335] ARM: at91: add missing uart clocks DT entries for
  sama5d3
 
 Add clocks to clock lookup table for uart DT entries.

@@ -1,7 +1,7 @@
 From cdcd2aec33152bd41f31bd70f8defd6d42ac85b3 Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:55 +0000
-Subject: [PATCH 088/334] net/macb: clean up ring buffer logic
+Subject: [PATCH 088/335] net/macb: clean up ring buffer logic
 
 Instead of masking head and tail every time we increment them, just let them
 wrap through UINT_MAX and mask them when subscripting. Add simple accessor

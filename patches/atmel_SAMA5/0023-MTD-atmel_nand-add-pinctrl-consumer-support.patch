@@ -1,7 +1,7 @@
 From 005c98f91fc6d5f58623da5cc8fd70ae45b45900 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 12 Jul 2012 23:31:39 +0800
-Subject: [PATCH 023/334] MTD: atmel_nand: add pinctrl consumer support
+Subject: [PATCH 023/335] MTD: atmel_nand: add pinctrl consumer support
 
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>

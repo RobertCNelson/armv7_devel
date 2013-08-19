@@ -1,7 +1,7 @@
 From e8ee5f25131e6df49abfd3705d8e15453aa62d3c Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:55 +0000
-Subject: [PATCH 101/334] net/at91_ether: drop board_data private struct
+Subject: [PATCH 101/335] net/at91_ether: drop board_data private struct
  member
 
 No longer used after gpio phy interrupt support was

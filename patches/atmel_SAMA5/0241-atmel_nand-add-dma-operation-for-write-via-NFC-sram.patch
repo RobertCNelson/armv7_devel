@@ -1,7 +1,7 @@
 From ae2124a1a4b4237237b390f69549254a61631a69 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 16 Nov 2012 17:57:14 +0800
-Subject: [PATCH 241/334] atmel_nand: add dma operation for write via NFC
+Subject: [PATCH 241/335] atmel_nand: add dma operation for write via NFC
  sram.
 
 ---

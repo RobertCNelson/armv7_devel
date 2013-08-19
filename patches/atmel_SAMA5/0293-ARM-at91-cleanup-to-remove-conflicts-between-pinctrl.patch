@@ -1,7 +1,7 @@
 From 98830613f7f0b66cb688397832a6fd6a77a9b1f3 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:49:10 +0100
-Subject: [PATCH 293/334] ARM: at91: cleanup to remove conflicts between
+Subject: [PATCH 293/335] ARM: at91: cleanup to remove conflicts between
  pinctrl and the old gpio driver
 
 Don't compile old gpio driver when using device tree because we can have

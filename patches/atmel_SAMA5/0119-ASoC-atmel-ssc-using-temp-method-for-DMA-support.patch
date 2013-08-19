@@ -1,7 +1,7 @@
 From 5bc2e8734caa7247a0801e9cc0ccc7fb02ede7f1 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Thu, 15 Nov 2012 16:18:31 +0800
-Subject: [PATCH 119/334] ASoC: atmel-ssc: using temp method for DMA support
+Subject: [PATCH 119/335] ASoC: atmel-ssc: using temp method for DMA support
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---

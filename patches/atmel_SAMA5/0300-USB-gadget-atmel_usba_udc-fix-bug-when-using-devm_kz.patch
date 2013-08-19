@@ -1,7 +1,7 @@
 From 97d4e2b0bc977b860919761d02afdadfad42df48 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Fri, 25 Jan 2013 15:52:43 +0800
-Subject: [PATCH 300/334] USB: gadget: atmel_usba_udc: fix bug when using
+Subject: [PATCH 300/335] USB: gadget: atmel_usba_udc: fix bug when using
  devm_kzalloc
 
 When build atmel_usba_udc as a module, insmod and rmmod, repeat serval

@@ -1,7 +1,7 @@
 From 39f3e40c8a556c8081fe85493cd426286b22f6f0 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:08:51 +0100
-Subject: [PATCH 290/334] ARM: at91: fix infinite loop for AIC5
+Subject: [PATCH 290/335] ARM: at91: fix infinite loop for AIC5
 
 Fix infinite loops when going to suspend/resume in AIC5 case.
 

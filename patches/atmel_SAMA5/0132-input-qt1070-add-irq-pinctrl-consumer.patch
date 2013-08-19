@@ -1,7 +1,7 @@
 From 45ec305965fa93bffe01c6a530e75c7eeb11b35e Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Wed, 28 Nov 2012 17:21:43 +0800
-Subject: [PATCH 132/334] input: qt1070: add irq pinctrl consumer
+Subject: [PATCH 132/335] input: qt1070: add irq pinctrl consumer
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---

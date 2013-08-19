@@ -1,7 +1,7 @@
 From 59663df468ecae35b3281f6794083f4572108503 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 14 Nov 2012 14:38:31 +0800
-Subject: [PATCH 236/334] atmel_nand: nfc: enable read operation via nfc sram.
+Subject: [PATCH 236/335] atmel_nand: nfc: enable read operation via nfc sram.
 
 ---
  drivers/mtd/nand/atmel_nand.c     |   46 ++++++++++++++++++-----

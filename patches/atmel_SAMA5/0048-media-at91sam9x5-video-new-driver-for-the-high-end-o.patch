@@ -1,7 +1,7 @@
 From 53d950215d802586f6e14b43ca822e56a5cd4ac5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Date: Tue, 24 May 2011 23:45:21 +0200
-Subject: [PATCH 048/334] media/at91sam9x5-video: new driver for the high end
+Subject: [PATCH 048/335] media/at91sam9x5-video: new driver for the high end
  overlay on at91sam9x5
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8

@@ -1,7 +1,7 @@
 From 5d6862cd4aadec0f298ca48a3f87211bc02fd3ef Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:41:51 +0100
-Subject: [PATCH 286/334] net/macb: fix the macb_close() function
+Subject: [PATCH 286/335] net/macb: fix the macb_close() function
 
 Disable interrupt earlier in the close function then
 stop transmission gracefully before resetting the hardware

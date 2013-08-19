@@ -1,7 +1,7 @@
 From d4cac194ce6214a9cd12def76747d9ea38b13272 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 31 Jul 2013 13:28:12 +0800
-Subject: [PATCH 333/334] ARM: at91: dts: add all serial dma configurations
+Subject: [PATCH 333/335] ARM: at91: dts: add all serial dma configurations
  for sama5d3x
 
 Signed-off-by: Elen Song <elen.song@atmel.com>

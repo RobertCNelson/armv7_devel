@@ -1,7 +1,7 @@
 From a822470ee91c516a730ba0f227dd750266b7e85e Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 10:30:30 +0800
-Subject: [PATCH 168/334] Serial: AT91: use compatible device to distinguish
+Subject: [PATCH 168/335] Serial: AT91: use compatible device to distinguish
  dma from pdc
 
 atmel,at91sam9260-usart is for soc with pdc use

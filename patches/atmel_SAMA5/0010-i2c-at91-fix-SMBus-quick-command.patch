@@ -1,7 +1,7 @@
 From 1a04dd29f97d936355bf14a5430204e0f54272f0 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 9 Nov 2012 17:46:46 +0100
-Subject: [PATCH 010/334] i2c: at91: fix SMBus quick command
+Subject: [PATCH 010/335] i2c: at91: fix SMBus quick command
 
 The driver claims to support SMBus quick command but it was not the case.
 This patch fixes this issue.

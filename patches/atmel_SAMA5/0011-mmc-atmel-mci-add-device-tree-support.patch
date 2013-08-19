@@ -1,7 +1,7 @@
 From 9741db478156b2ac4803aa012a82e7041c55cf5c Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 20 Mar 2012 18:41:48 +0100
-Subject: [PATCH 011/334] mmc: atmel-mci: add device tree support
+Subject: [PATCH 011/335] mmc: atmel-mci: add device tree support
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---

@@ -1,7 +1,7 @@
 From 3fc31b028361ee1b833b36bed10b3eea057b2d1a Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 25 Sep 2012 10:40:22 +0800
-Subject: [PATCH 205/334] at91: 9x5: add DT parameters to enable PMECC
+Subject: [PATCH 205/335] at91: 9x5: add DT parameters to enable PMECC
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---

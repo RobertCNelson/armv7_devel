@@ -1,7 +1,7 @@
 From d5a2b40695df0455366e3e443b5d73753eac51f2 Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:07 +0200
-Subject: [PATCH 145/334] crypto: add atmel-test driver
+Subject: [PATCH 145/335] crypto: add atmel-test driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

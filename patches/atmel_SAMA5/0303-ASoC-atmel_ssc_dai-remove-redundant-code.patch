@@ -1,7 +1,7 @@
 From 7295ec80a9214b49df514f35e2f689381b9d4e92 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 29 Jan 2013 11:51:38 +0800
-Subject: [PATCH 303/334] ASoC: atmel_ssc_dai: remove redundant code
+Subject: [PATCH 303/335] ASoC: atmel_ssc_dai: remove redundant code
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
