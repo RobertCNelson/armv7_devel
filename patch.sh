@@ -56,7 +56,8 @@ cleanup () {
 
 arm () {
 	echo "dir: arm"
-	${git} "${DIR}/patches/arm/0001-deb-pkg-Simplify-architecture-matching-for-cross-bui.patch"
+#	${git} "${DIR}/patches/arm/0001-deb-pkg-Simplify-architecture-matching-for-cross-bui.patch"
+	${git} "${DIR}/patches/arm/0001-builddeb-just-use-armhf-at-this-point.patch"
 }
 
 atmel_fixes () {
