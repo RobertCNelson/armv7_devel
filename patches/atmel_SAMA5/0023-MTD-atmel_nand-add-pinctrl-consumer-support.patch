@@ -1,14 +1,14 @@
 From 005c98f91fc6d5f58623da5cc8fd70ae45b45900 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 12 Jul 2012 23:31:39 +0800
-Subject: [PATCH 023/335] MTD: atmel_nand: add pinctrl consumer support
+Subject: [PATCH 023/382] MTD: atmel_nand: add pinctrl consumer support
 
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- drivers/mtd/nand/atmel_nand.c |    9 +++++++++
+ drivers/mtd/nand/atmel_nand.c | 9 +++++++++
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
@@ -46,5 +46,5 @@ index d68e8c2..15e541c 100644
  		res = devm_gpio_request(&pdev->dev,
  				host->board.rdy_pin, "nand_rdy");
 -- 
-1.7.10.4
+1.8.4.rc3
 

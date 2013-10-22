@@ -1,0 +1,35 @@
+From 98381077627284a21f5d1deb44fd529e68676805 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Mon, 23 Sep 2013 11:54:08 +0800
+Subject: [PATCH 360/382] ov2643: get correct ov2643's format in try_fmt
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/media/video/ov2640.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/video/ov2640.c b/drivers/media/video/ov2640.c
+index af6d1a6..a904f7c 100644
+--- a/drivers/media/video/ov2640.c
++++ b/drivers/media/video/ov2640.c
+@@ -932,11 +932,16 @@ static int ov2640_try_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_mbus_framefmt *mf)
+ {
+ 	const struct ov2640_win_size *win;
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ov2640_priv *priv = to_ov2640(client);
+ 
+ 	/*
+ 	 * select suitable win
+ 	 */
+-	win = ov2640_select_win(&mf->width, &mf->height);
++	if (priv->model == V4L2_IDENT_OV2640)
++		win = ov2640_select_win(&mf->width, &mf->height);
++	else
++		win = ov2643_select_win(&mf->width, &mf->height);
+ 
+ 	mf->field	= V4L2_FIELD_NONE;
+ 
+-- 
+1.8.4.rc3
+

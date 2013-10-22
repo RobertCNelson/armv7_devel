@@ -1,12 +1,11 @@
 From 07fc3e56c72e28add78d3d5842cdcf946b443ed9 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Wed, 12 Dec 2012 11:33:30 +0800
-Subject: [PATCH 180/335] ASoC: atmel-pcm-dma: fix aplay without parameters
- bug
+Subject: [PATCH 180/382] ASoC: atmel-pcm-dma: fix aplay without parameters bug
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- sound/soc/atmel/atmel-pcm-dma.c |    3 ++-
+ sound/soc/atmel/atmel-pcm-dma.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/sound/soc/atmel/atmel-pcm-dma.c b/sound/soc/atmel/atmel-pcm-dma.c
@@ -24,5 +23,5 @@ index 30184a4..d8b0222 100644
  	return 0;
  }
 -- 
-1.7.10.4
+1.8.4.rc3
 

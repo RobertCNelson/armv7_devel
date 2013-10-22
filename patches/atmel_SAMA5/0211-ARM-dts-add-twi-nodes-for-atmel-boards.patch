@@ -1,7 +1,7 @@
 From a06630f6976dea11f9d9eb0fa99da8e0be484db9 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 12 Sep 2012 08:42:17 +0200
-Subject: [PATCH 211/335] ARM: dts: add twi nodes for atmel boards
+Subject: [PATCH 211/382] ARM: dts: add twi nodes for atmel boards
 
 Still use i2c-gpio on boards which have a SoC with a TWI IP which
 doesn't have clock stretching in transmission mode.
@@ -10,9 +10,9 @@ Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 ---
- arch/arm/boot/dts/at91sam9g25ek.dts    |   12 ++++++++++++
- arch/arm/boot/dts/at91sam9m10g45ek.dts |    8 ++++++++
- arch/arm/boot/dts/at91sam9n12ek.dts    |    8 ++++++++
+ arch/arm/boot/dts/at91sam9g25ek.dts    | 12 ++++++++++++
+ arch/arm/boot/dts/at91sam9m10g45ek.dts |  8 ++++++++
+ arch/arm/boot/dts/at91sam9n12ek.dts    |  8 ++++++++
  3 files changed, 28 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9g25ek.dts b/arch/arm/boot/dts/at91sam9g25ek.dts
@@ -77,5 +77,5 @@ index 44b42d9..ccc94de 100644
  
  		nand0: nand@40000000 {
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,14 +1,14 @@
 From e85cb65039f30545bca5d4814347925987834d4d Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:14:01 +0100
-Subject: [PATCH 292/335] pinctrl: at91: manage gpio suspend/resume
+Subject: [PATCH 292/382] pinctrl: at91: manage gpio suspend/resume
 
 gpio suspend/resume and wakeup sources where not managed so it was impossible
 to wake up the system with a gpio.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/pinctrl/pinctrl-at91.c |   48 ++++++++++++++++++++++++++++++++++++++++
+ drivers/pinctrl/pinctrl-at91.c | 48 ++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 48 insertions(+)
 
 diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
@@ -83,5 +83,5 @@ index f2e4ef5..eea4f2c 100644
  #define gpio_irq_set_wake	NULL
  #endif
 -- 
-1.7.10.4
+1.8.4.rc3
 

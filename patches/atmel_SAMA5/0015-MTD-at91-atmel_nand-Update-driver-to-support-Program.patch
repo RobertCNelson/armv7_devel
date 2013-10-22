@@ -1,7 +1,7 @@
 From 8b1a74bc4fa2c25952167c0900d7525ac4a8d452 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 29 Jun 2012 15:29:21 +0800
-Subject: [PATCH 015/335] MTD: at91: atmel_nand: Update driver to support
+Subject: [PATCH 015/382] MTD: at91: atmel_nand: Update driver to support
  Programmable Multibit ECC controller
 
 The Programmable Multibit ECC (PMECC) controller is a programmable binary
@@ -21,8 +21,8 @@ Signed-off-by: Josh Wu <josh.wu@atmel.com>
 Tested-by: Richard Genoud <richard.genoud@gmail.com>
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/mtd/nand/atmel_nand.c     |  747 ++++++++++++++++++++++++++++++++++++-
- drivers/mtd/nand/atmel_nand_ecc.h |  114 +++++-
+ drivers/mtd/nand/atmel_nand.c     | 747 +++++++++++++++++++++++++++++++++++++-
+ drivers/mtd/nand/atmel_nand_ecc.h | 114 +++++-
  2 files changed, 859 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
@@ -955,5 +955,5 @@ index 578c776..8a1e9a6 100644
 +
  #endif
 -- 
-1.7.10.4
+1.8.4.rc3
 

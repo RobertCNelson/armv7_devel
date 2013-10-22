@@ -1,14 +1,14 @@
 From 7c6544885f5293738d062a8b7e63eab4fae514f6 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 14 Nov 2012 11:10:58 +0100
-Subject: [PATCH 061/335] i2c: at91: change struct members indentation
+Subject: [PATCH 061/382] i2c: at91: change struct members indentation
 
 Replace tabs for struct members indentation by space to minimise line changes
 when adding new members which would require extra tabs to keep alignment.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/i2c/busses/i2c-at91.c |   30 +++++++++++++++---------------
+ drivers/i2c/busses/i2c-at91.c | 30 +++++++++++++++---------------
  1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/i2c/busses/i2c-at91.c b/drivers/i2c/busses/i2c-at91.c
@@ -56,5 +56,5 @@ index 77ddc74..cf8268f 100644
  
  static unsigned at91_twi_read(struct at91_twi_dev *dev, unsigned reg)
 -- 
-1.7.10.4
+1.8.4.rc3
 

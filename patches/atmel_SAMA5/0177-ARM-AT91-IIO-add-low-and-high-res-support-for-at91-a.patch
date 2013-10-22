@@ -1,8 +1,8 @@
 From 260698ee583736c00efc9fcbec9b1b19c229ea3a Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 28 Nov 2012 11:00:49 +0100
-Subject: [PATCH 177/335] ARM: AT91: IIO: add low and high res support for
- at91 adc
+Subject: [PATCH 177/382] ARM: AT91: IIO: add low and high res support for at91
+ adc
 
 at91 adc offers the choice between two resolutions: low and high.
 The low and high resolution values depends on adc IP version, as many IP
@@ -11,8 +11,8 @@ been added to the dt bindings.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- .../devicetree/bindings/arm/atmel-adc.txt          |   11 +++
- drivers/iio/adc/at91_adc.c                         |   74 ++++++++++++++++++--
+ .../devicetree/bindings/arm/atmel-adc.txt          | 11 ++++
+ drivers/iio/adc/at91_adc.c                         | 74 ++++++++++++++++++++--
  2 files changed, 81 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/arm/atmel-adc.txt b/Documentation/devicetree/bindings/arm/atmel-adc.txt
@@ -161,5 +161,5 @@ index 3bd5540..5f9bced 100644
  	/* Setup the ADC channels available on the board */
  	ret = at91_adc_channel_init(idev);
 -- 
-1.7.10.4
+1.8.4.rc3
 

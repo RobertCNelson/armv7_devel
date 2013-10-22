@@ -1,7 +1,7 @@
 From 5dcedb3eee7e62d998ad0549ac17e99c054e5d71 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Mon, 30 Jan 2012 12:45:22 +0800
-Subject: [PATCH 131/335] spi/atmel_spi: add DT support
+Subject: [PATCH 131/382] spi/atmel_spi: add DT support
 
 The atmel_spi use only gpio for chip select.
 
@@ -16,8 +16,8 @@ Cc: rob@landley.net
 Cc: linux-doc@vger.kernel.org
 Cc: richard.genoud@gmail.com
 ---
- .../devicetree/bindings/spi/spi_atmel.txt          |   23 +++++
- drivers/spi/spi-atmel.c                            |  102 +++++++++++++++++---
+ .../devicetree/bindings/spi/spi_atmel.txt          |  23 +++++
+ drivers/spi/spi-atmel.c                            | 102 ++++++++++++++++++---
  2 files changed, 113 insertions(+), 12 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/spi/spi_atmel.txt
 
@@ -284,5 +284,5 @@ index 37f54c3..e032e3d 100644
  	.resume		= atmel_spi_resume,
  	.probe		= atmel_spi_probe,
 -- 
-1.7.10.4
+1.8.4.rc3
 

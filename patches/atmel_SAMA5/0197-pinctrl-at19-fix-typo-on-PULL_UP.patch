@@ -1,11 +1,11 @@
 From e5a578779df96832aecf8f282d54fa4d8a0bf97d Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 23 Oct 2012 13:47:30 +0800
-Subject: [PATCH 197/335] pinctrl: at19: fix typo on PULL_UP
+Subject: [PATCH 197/382] pinctrl: at19: fix typo on PULL_UP
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- drivers/pinctrl/pinctrl-at91.c |    2 +-
+ drivers/pinctrl/pinctrl-at91.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
@@ -22,5 +22,5 @@ index 605fffd..1a2404b 100644
  #define DEGLITCH	(1 << 2)
  #define PULL_DOWN	(1 << 3)
 -- 
-1.7.10.4
+1.8.4.rc3
 

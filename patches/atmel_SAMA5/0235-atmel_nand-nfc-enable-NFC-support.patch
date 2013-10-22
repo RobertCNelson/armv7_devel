@@ -1,11 +1,11 @@
 From f918fbafabb6beff745539565c49c54ce5f2a05a Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 16 Nov 2012 16:39:42 +0800
-Subject: [PATCH 235/335] atmel_nand: nfc: enable NFC support.
+Subject: [PATCH 235/382] atmel_nand: nfc: enable NFC support.
 
 ---
- drivers/mtd/nand/atmel_nand.c     |   67 ++++++------
- drivers/mtd/nand/atmel_nand_nfc.c |  213 +++++++++++++++++++++++++++++++++++++
+ drivers/mtd/nand/atmel_nand.c     |  67 ++++++------
+ drivers/mtd/nand/atmel_nand_nfc.c | 213 ++++++++++++++++++++++++++++++++++++++
  2 files changed, 249 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
@@ -327,5 +327,5 @@ index 122567f..938130b 100644
 +}
 +
 -- 
-1.7.10.4
+1.8.4.rc3
 

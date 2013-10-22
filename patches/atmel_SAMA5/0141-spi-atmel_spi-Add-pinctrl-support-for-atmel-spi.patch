@@ -1,11 +1,11 @@
 From 494341f3cf5a373e7bcf2802a97c4c1dba46b6ed Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Fri, 30 Nov 2012 10:32:43 +0800
-Subject: [PATCH 141/335] spi/atmel_spi: Add pinctrl support for atmel spi
+Subject: [PATCH 141/382] spi/atmel_spi: Add pinctrl support for atmel spi
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- drivers/spi/spi-atmel.c |    8 ++++++++
+ drivers/spi/spi-atmel.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
@@ -40,5 +40,5 @@ index 251fa0b..aa8cdbe 100644
  	if (irq < 0)
  		return irq;
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 857cc9c7d71551de2a64feb3f37e6bb95ec0322a Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:52 +0000
-Subject: [PATCH 085/335] net/macb: change debugging messages
+Subject: [PATCH 085/382] net/macb: change debugging messages
 
 Convert some noisy netdev_dbg() statements to netdev_vdbg(). Defining
 DEBUG will no longer fill up the logs; VERBOSE_DEBUG still does.
@@ -13,7 +13,7 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Tested-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/macb.c |   22 ++++++++++++----------
+ drivers/net/ethernet/cadence/macb.c | 22 ++++++++++++----------
  1 file changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -110,5 +110,5 @@ index e7f554d..b161d73 100644
  
  	ctrl = MACB_BF(TX_FRMLEN, len);
 -- 
-1.7.10.4
+1.8.4.rc3
 

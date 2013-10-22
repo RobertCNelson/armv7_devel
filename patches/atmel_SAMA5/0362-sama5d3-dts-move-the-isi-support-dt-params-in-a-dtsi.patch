@@ -1,0 +1,176 @@
+From 0e51faff592220446857b881bb4b8316bcdb9428 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Mon, 23 Sep 2013 16:34:00 +0800
+Subject: [PATCH 362/382] sama5d3/dts: move the isi support dt params in a dtsi
+ file
+
+Includes sama5d3mb_isi.dtsi in the end of sama5d3xek.dts will enable ISI
+support. Otherwise will enable audio support.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d31ek.dts     |  3 +++
+ arch/arm/boot/dts/sama5d33ek.dts     |  3 +++
+ arch/arm/boot/dts/sama5d34ek.dts     |  3 +++
+ arch/arm/boot/dts/sama5d35ek.dts     | 16 +++++++++++++---
+ arch/arm/boot/dts/sama5d36ek.dts     | 11 ++++++-----
+ arch/arm/boot/dts/sama5d3mb_isi.dtsi | 33 +++++++++++++++++++++++++++++++++
+ 6 files changed, 61 insertions(+), 8 deletions(-)
+ create mode 100644 arch/arm/boot/dts/sama5d3mb_isi.dtsi
+
+diff --git a/arch/arm/boot/dts/sama5d31ek.dts b/arch/arm/boot/dts/sama5d31ek.dts
+index 37129f9..568c634 100644
+--- a/arch/arm/boot/dts/sama5d31ek.dts
++++ b/arch/arm/boot/dts/sama5d31ek.dts
+@@ -53,3 +53,6 @@
+ 		status = "okay";
+ 	};
+ };
++
++/* Uncomment following line will enable ISI support */
++/* /include/ "sama5d3mb_isi.dtsi" */
+diff --git a/arch/arm/boot/dts/sama5d33ek.dts b/arch/arm/boot/dts/sama5d33ek.dts
+index 672b236..a71b886 100644
+--- a/arch/arm/boot/dts/sama5d33ek.dts
++++ b/arch/arm/boot/dts/sama5d33ek.dts
+@@ -53,3 +53,6 @@
+ 		status = "okay";
+ 	};
+ };
++
++/* Uncomment following line will enable ISI support */
++/* /include/ "sama5d3mb_isi.dtsi" */
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+index d14af2f..9bedb1b 100644
+--- a/arch/arm/boot/dts/sama5d34ek.dts
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -63,3 +63,6 @@
+ 		status = "okay";
+ 	};
+ };
++
++/* Uncomment following line will enable ISI support */
++/* /include/ "sama5d3mb_isi.dtsi" */
+diff --git a/arch/arm/boot/dts/sama5d35ek.dts b/arch/arm/boot/dts/sama5d35ek.dts
+index 21ff187..4613813 100644
+--- a/arch/arm/boot/dts/sama5d35ek.dts
++++ b/arch/arm/boot/dts/sama5d35ek.dts
+@@ -23,19 +23,23 @@
+ 				status = "okay";
+ 			};
+ 
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
+ 			can0: can@f000c000 {
+ 				status = "okay";
+ 			};
+ 
+-			i2c1: i2c@f0018000 {
++			i2c0: i2c@f0014000 {
+ 				status = "okay";
+ 			};
+ 
+-			macb0: ethernet@f0028000 {
++			i2c1: i2c@f0018000 {
+ 				status = "okay";
+ 			};
+ 
+-			isi: isi@f0034000 {
++			macb0: ethernet@f0028000 {
+ 				status = "okay";
+ 			};
+ 
+@@ -45,6 +49,10 @@
+ 		};
+ 	};
+ 
++	sound {
++		status = "okay";
++	};
++
+ 	gpio_keys {
+ 		compatible = "gpio-keys";
+ 		#address-cells = <1>;
+@@ -58,3 +66,5 @@
+ 		};
+ 	};
+ };
++
++/include/ "sama5d3mb_isi.dtsi"
+diff --git a/arch/arm/boot/dts/sama5d36ek.dts b/arch/arm/boot/dts/sama5d36ek.dts
+index 76c9d51..706dbd8 100644
+--- a/arch/arm/boot/dts/sama5d36ek.dts
++++ b/arch/arm/boot/dts/sama5d36ek.dts
+@@ -32,6 +32,10 @@
+ 				status = "okay";
+ 			};
+ 
++			i2c0: i2c@f0014000 {
++				status = "okay";
++			};
++
+ 			i2c1: i2c@f0018000 {
+ 				status = "okay";
+ 
+@@ -46,11 +50,6 @@
+ 				status = "okay";
+ 			};
+ 
+-			/* ISI VSYNC/HSYNC Conflict with i2c0 */
+-			isi: isi@f0034000 {
+-				status = "okay";
+-			};
+-
+ 			macb1: ethernet@f802c000 {
+ 				status = "okay";
+ 			};
+@@ -62,3 +61,5 @@
+ 		status = "okay";
+ 	};
+ };
++
++/include/ "sama5d3mb_isi.dtsi"
+diff --git a/arch/arm/boot/dts/sama5d3mb_isi.dtsi b/arch/arm/boot/dts/sama5d3mb_isi.dtsi
+new file mode 100644
+index 0000000..ec08065
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d3mb_isi.dtsi
+@@ -0,0 +1,33 @@
++/*
++ * sama5d3mb_isi.dtsi - Device Tree file for SAMA5-EK board to enable ISI
++ * Includes this dtsi in the end of sama5d3xek.dts will enable ISI.
++ *
++ * Licensed under GPLv2 or later.
++ */
++
++/ {
++	ahb {
++		apb {
++			i2c0: i2c@f0014000 {
++				status = "disabled";
++			};
++
++			/* ISI VSYNC/HSYNC Conflict with i2c0 */
++			isi: isi@f0034000 {
++				status = "okay";
++			};
++		};
++	};
++
++	/* As sound depends on i2c0, we disable sound as well */
++	sound {
++		status = "disabled";
++	};
++
++	leds {
++		d3 {
++			/* Conflict with ISI module's reset pin */
++			status = "disabled";
++		};
++	};
++};
+-- 
+1.8.4.rc3
+

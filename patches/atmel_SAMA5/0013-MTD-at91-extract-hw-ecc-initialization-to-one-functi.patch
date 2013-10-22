@@ -1,7 +1,7 @@
 From f69a533da1125249e309608209a309862db35cac Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 31 May 2012 18:09:20 +0800
-Subject: [PATCH 013/335] MTD: at91: extract hw ecc initialization to one
+Subject: [PATCH 013/382] MTD: at91: extract hw ecc initialization to one
  function
 
 This patch moves hw ecc initialization code to one function.
@@ -9,7 +9,7 @@ This patch moves hw ecc initialization code to one function.
 Signed-off-by: Hong Xu <hong.xu@atmel.com>
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
- drivers/mtd/nand/atmel_nand.c |  127 +++++++++++++++++++++--------------------
+ drivers/mtd/nand/atmel_nand.c | 127 ++++++++++++++++++++++--------------------
  1 file changed, 66 insertions(+), 61 deletions(-)
 
 diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
@@ -185,5 +185,5 @@ index 97ac671..7a41a04 100644
  err_nand_ioremap:
  	kfree(host);
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 03900444de9fdf78d19ce472e5b7884fc13fa76b Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Mon, 19 Nov 2012 06:00:21 +0000
-Subject: [PATCH 106/335] net/macb: move to circ_buf macros and fix initial
+Subject: [PATCH 106/382] net/macb: move to circ_buf macros and fix initial
  condition
 
 Move to circular buffers management macro and correct an error
@@ -23,7 +23,7 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Tested-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/macb.c |   17 +++++++----------
+ drivers/net/ethernet/cadence/macb.c | 17 +++++++----------
  1 file changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -90,5 +90,5 @@ index edb2aba..27991dd 100644
  
  	spin_unlock_irqrestore(&bp->lock, flags);
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,0 +1,88 @@
+From 07a8c080c4272d0943ff26f8f87d38b33a9c64f5 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 19 Jun 2013 12:10:38 +0800
+Subject: [PATCH 353/382] ov5640: add a flag to choose ov5640 or ov5642 sensor
+ init reg list.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/media/video/ov5642.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/video/ov5642.c b/drivers/media/video/ov5642.c
+index 0bc9331..e6bfd4b 100644
+--- a/drivers/media/video/ov5642.c
++++ b/drivers/media/video/ov5642.c
+@@ -614,6 +614,8 @@ struct ov5642 {
+ 	/* blanking information */
+ 	int total_width;
+ 	int total_height;
++
++	bool is_ov5640;	/* true means is ov5640. */
+ };
+ 
+ static const struct ov5642_datafmt ov5642_colour_fmts[] = {
+@@ -884,6 +886,13 @@ static int ov5642_s_crop(struct v4l2_subdev *sd, struct v4l2_crop *a)
+ 	priv->crop_rect.width		= rect->width;
+ 	priv->crop_rect.height		= rect->height;
+ 
++	/* ov5640 */
++	if (priv->is_ov5640) {
++		ret = ov5642_write_array(client, ov5640_test_regs_init);
++		return ret;
++	}
++
++	/* ov5642 */
+ 	ret = ov5642_write_array(client, ov5642_default_regs_init);
+ 	if (!ret)
+ 		ret = ov5642_set_resolution(sd);
+@@ -934,12 +943,22 @@ static int ov5642_g_mbus_config(struct v4l2_subdev *sd,
+ static int ov5642_s_power(struct v4l2_subdev *sd, int on)
+ {
+ 	struct i2c_client *client;
++	struct ov5642 *priv;
+ 	int ret;
+ 
+ 	if (!on)
+ 		return 0;
+ 
+ 	client = v4l2_get_subdevdata(sd);
++	priv = to_ov5642(client);
++
++	/* ov5640 */
++	if (priv->is_ov5640) {
++		ret = ov5642_write_array(client, ov5640_test_regs_init);
++		return ret;
++	}
++
++	/* ov5642 */
+ 	ret = ov5642_write_array(client, ov5642_default_regs_init);
+ 	if (!ret)
+ 		ret = ov5642_set_resolution(sd);
+@@ -976,6 +995,7 @@ static struct v4l2_subdev_ops ov5642_subdev_ops = {
+ 
+ static int ov5642_video_probe(struct i2c_client *client)
+ {
++	struct ov5642 *priv = to_ov5642(client);
+ 	int ret;
+ 	u8 id_high, id_low;
+ 	u16 id;
+@@ -995,8 +1015,14 @@ static int ov5642_video_probe(struct i2c_client *client)
+ 
+ 	dev_info(&client->dev, "Chip ID 0x%04x detected\n", id);
+ 
+-	if (id != 0x5642)
++	switch (id) {
++	case 0x5640:
++		priv->is_ov5640 = true;	/* fall through */
++	case 0x5642:
++		break;
++	default:
+ 		return -ENODEV;
++	};
+ 
+ 	return 0;
+ }
+-- 
+1.8.4.rc3
+

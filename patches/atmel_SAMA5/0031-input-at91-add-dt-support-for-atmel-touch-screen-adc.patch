@@ -1,12 +1,12 @@
 From f7b5deca3e2b9c16c728c0868daa32ad544acb05 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 13 Jun 2012 17:28:40 +0800
-Subject: [PATCH 031/335] input: at91: add dt support for atmel touch screen
+Subject: [PATCH 031/382] input: at91: add dt support for atmel touch screen
  adc controller.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
- drivers/input/touchscreen/atmel_tsadcc.c |   86 ++++++++++++++++++++++++++++--
+ drivers/input/touchscreen/atmel_tsadcc.c | 86 ++++++++++++++++++++++++++++++--
  1 file changed, 82 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/touchscreen/atmel_tsadcc.c b/drivers/input/touchscreen/atmel_tsadcc.c
@@ -154,5 +154,5 @@ index 397d17a..021f87e 100644
  };
  module_platform_driver(atmel_tsadcc_driver);
 -- 
-1.7.10.4
+1.8.4.rc3
 

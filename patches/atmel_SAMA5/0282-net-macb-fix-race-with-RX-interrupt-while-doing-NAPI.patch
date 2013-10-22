@@ -1,8 +1,7 @@
 From 5eaa75564c53e7a8123267632b60fe14ba9d46a3 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:32:33 +0100
-Subject: [PATCH 282/335] net/macb: fix race with RX interrupt while doing
- NAPI
+Subject: [PATCH 282/382] net/macb: fix race with RX interrupt while doing NAPI
 
 When interrupts are disabled, an RX condition can occur but
 it is not reported when enabling interrupts again. We need to check
@@ -10,7 +9,7 @@ RSR and use napi_reschedule() if condition is met.
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.c |    5 +++++
+ drivers/net/ethernet/cadence/macb.c | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -30,5 +29,5 @@ index 403601f..07fa8dc 100644
  
  	/* TODO: Handle errors */
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 63d7f35b281dd22d1ffd3df888f5754a05e1538d Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 12 Feb 2013 14:57:17 +0100
-Subject: [PATCH 310/335] dt: define of_find_device_by_node when dt is not
+Subject: [PATCH 310/382] dt: define of_find_device_by_node when dt is not
  enabled
 
 Temporary workaround since some at91 drivers use this function even if dt is
@@ -9,7 +9,7 @@ not enabled causing compilation issue.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- include/linux/of_platform.h |    6 ++++++
+ include/linux/of_platform.h | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/include/linux/of_platform.h b/include/linux/of_platform.h
@@ -28,5 +28,5 @@ index b47d204..25f9be1 100644
 +
  #endif	/* _LINUX_OF_PLATFORM_H */
 -- 
-1.7.10.4
+1.8.4.rc3
 

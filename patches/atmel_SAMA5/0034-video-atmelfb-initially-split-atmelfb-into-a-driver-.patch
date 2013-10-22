@@ -1,8 +1,8 @@
 From 31bd49d05e82d2cd1c8675a9786430b7ba635cfb Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 09:42:55 +0200
-Subject: [PATCH 034/335] video: atmelfb: initially split atmelfb into a
- driver and library part
+Subject: [PATCH 034/382] video: atmelfb: initially split atmelfb into a driver
+ and library part
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -2635,5 +2635,5 @@ index 5183ab7..4fa084b 100644
  #define ATMEL_LCDC_DMABADDR1	0x00
  #define ATMEL_LCDC_DMABADDR2	0x04
 -- 
-1.7.10.4
+1.8.4.rc3
 

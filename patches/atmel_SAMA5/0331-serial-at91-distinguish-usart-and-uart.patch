@@ -1,7 +1,7 @@
 From 24e0333e54faaf2b252920a4754a46464a0fdb4e Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 31 Jul 2013 11:41:00 +0800
-Subject: [PATCH 331/335] serial: at91: distinguish usart and uart
+Subject: [PATCH 331/382] serial: at91: distinguish usart and uart
 
 Distinguish usart and uart by read ip name register,
 The usart read name is USAR,
@@ -9,8 +9,8 @@ The uart and dbgu read name is DBGU.
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/tty/serial/atmel_serial.c |   37 +++++++++++++++++++++++++++++++++++++
- include/linux/atmel_serial.h      |    2 ++
+ drivers/tty/serial/atmel_serial.c | 37 +++++++++++++++++++++++++++++++++++++
+ include/linux/atmel_serial.h      |  2 ++
  2 files changed, 39 insertions(+)
 
 diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
@@ -94,5 +94,5 @@ index fd68337..be201ca 100644
 +
  #endif
 -- 
-1.7.10.4
+1.8.4.rc3
 

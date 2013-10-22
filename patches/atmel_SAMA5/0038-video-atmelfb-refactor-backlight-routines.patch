@@ -1,7 +1,7 @@
 From acdc39ce038e10e6c940d7b8a23b60da64ddb8a4 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 16:40:13 +0200
-Subject: [PATCH 038/335] video: atmelfb: refactor backlight routines
+Subject: [PATCH 038/382] video: atmelfb: refactor backlight routines
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -9,9 +9,9 @@ Content-Transfer-Encoding: 8bit
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/atmel_lcdfb.c      |   61 +++++++++++++++++++++++++++++++
- drivers/video/atmel_lcdfb_core.c |   73 ++++----------------------------------
- include/video/atmel_lcdc.h       |    3 ++
+ drivers/video/atmel_lcdfb.c      | 61 +++++++++++++++++++++++++++++++++
+ drivers/video/atmel_lcdfb_core.c | 73 ++++------------------------------------
+ include/video/atmel_lcdc.h       |  3 ++
  3 files changed, 71 insertions(+), 66 deletions(-)
 
 diff --git a/drivers/video/atmel_lcdfb.c b/drivers/video/atmel_lcdfb.c
@@ -252,5 +252,5 @@ index 14b5664..e7c0a3f 100644
  
   /* LCD Controller info data structure, stored in device platform_data */
 -- 
-1.7.10.4
+1.8.4.rc3
 

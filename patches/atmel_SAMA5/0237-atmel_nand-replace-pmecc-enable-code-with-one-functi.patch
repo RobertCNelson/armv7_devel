@@ -1,13 +1,13 @@
 From 427e143c6ffc937b93e9cec522edd831802b5729 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 14 Nov 2012 15:02:18 +0800
-Subject: [PATCH 237/335] atmel_nand: replace pmecc enable code with one
+Subject: [PATCH 237/382] atmel_nand: replace pmecc enable code with one
  function.
 
 ---
- drivers/mtd/nand/atmel_nand.c     |   38 ++++++++++++++++++++-----------------
- drivers/mtd/nand/atmel_nand_ecc.h |    5 +++++
- drivers/mtd/nand/atmel_nand_nfc.c |   22 +++++++--------------
+ drivers/mtd/nand/atmel_nand.c     | 38 +++++++++++++++++++++-----------------
+ drivers/mtd/nand/atmel_nand_ecc.h |  5 +++++
+ drivers/mtd/nand/atmel_nand_nfc.c | 22 +++++++---------------
  3 files changed, 33 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
@@ -128,5 +128,5 @@ index 41793f8..fb3e880 100644
  
  		cmd2 = NAND_CMD_READSTART << 10;
 -- 
-1.7.10.4
+1.8.4.rc3
 

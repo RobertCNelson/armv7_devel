@@ -1,13 +1,13 @@
 From 294d967d344ec2d2d5232ccb6b51b77113d08dd1 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 16 Nov 2012 16:23:37 +0100
-Subject: [PATCH 200/335] ARM: dts: add dma-cells to dma-controller nodes
+Subject: [PATCH 200/382] ARM: dts: add dma-cells to dma-controller nodes
 
 Temporary dt dma support implementation.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- arch/arm/boot/dts/at91sam9x5.dtsi |    2 ++
+ arch/arm/boot/dts/at91sam9x5.dtsi | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
@@ -30,5 +30,5 @@ index bc7a178..0e8cdfd 100644
  
  			pinctrl@fffff200 {
 -- 
-1.7.10.4
+1.8.4.rc3
 

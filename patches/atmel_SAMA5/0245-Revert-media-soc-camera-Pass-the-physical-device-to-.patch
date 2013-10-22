@@ -1,7 +1,7 @@
 From f107d69878b63e1a9a250b16609d3fd96656ed12 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 28 Nov 2012 16:17:28 +0800
-Subject: [PATCH 245/335] Revert "[media] soc-camera: Pass the physical device
+Subject: [PATCH 245/382] Revert "[media] soc-camera: Pass the physical device
  to the power operation" to fix isi crash error.
 
 This reverts commit 2744782ef15151469ddd1e28c14e4b2c950be6dd.
@@ -63,7 +63,7 @@ Code: c038dab4 e5913000 e1510003 1a000005 (e59030ac)
 ---[ end trace 6a8f2d1b849c6dfd ]---
 Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
 ---
- drivers/media/video/soc_camera.c |    6 +++---
+ drivers/media/video/soc_camera.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/video/soc_camera.c b/drivers/media/video/soc_camera.c
@@ -98,5 +98,5 @@ index 1bde255..a930383 100644
  			dev_err(icd->pdev,
  				"Platform failed to power-off the camera.\n");
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 3d3980adf0e15c630a1412a185ff9ab9ee524372 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 26 Sep 2012 14:57:45 +0800
-Subject: [PATCH 194/335] pinctrl: at91 add deglitch, debounce, pull down and
+Subject: [PATCH 194/382] pinctrl: at91 add deglitch, debounce, pull down and
  schmitt trigger mux option support
 
 add :
@@ -12,7 +12,7 @@ add :
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- drivers/pinctrl/pinctrl-at91.c |  110 ++++++++++++++++++++++++++++++++++++++++
+ drivers/pinctrl/pinctrl-at91.c | 110 +++++++++++++++++++++++++++++++++++++++++
  1 file changed, 110 insertions(+)
 
 diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
@@ -190,5 +190,5 @@ index 9c0fe11..73f7245 100644
  }
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

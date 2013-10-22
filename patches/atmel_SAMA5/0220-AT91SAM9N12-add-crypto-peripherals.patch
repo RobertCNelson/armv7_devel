@@ -1,7 +1,7 @@
 From 0661b0742b63005f3e59fd568751cb9f99e645ea Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:13 +0200
-Subject: [PATCH 220/335] AT91SAM9N12: add crypto peripherals
+Subject: [PATCH 220/382] AT91SAM9N12: add crypto peripherals
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -11,8 +11,8 @@ Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Eric Bénard <eric@eukrea.com>
 Tested-by: Eric Bénard <eric@eukrea.com>
 ---
- arch/arm/mach-at91/at91sam9n12.c              |   16 ++++++++++++++++
- arch/arm/mach-at91/include/mach/at91sam9n12.h |    2 ++
+ arch/arm/mach-at91/at91sam9n12.c              | 16 ++++++++++++++++
+ arch/arm/mach-at91/include/mach/at91sam9n12.h |  2 ++
  2 files changed, 18 insertions(+)
 
 diff --git a/arch/arm/mach-at91/at91sam9n12.c b/arch/arm/mach-at91/at91sam9n12.c
@@ -78,5 +78,5 @@ index d374b87..e07b0de 100644
  #define AT91SAM9N12_ID_IRQ0	31	/* Advanced Interrupt Controller */
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

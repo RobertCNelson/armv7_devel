@@ -1,15 +1,15 @@
 From 5dc6720828022ba9c11d170c14a545becc52494b Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 11 Dec 2012 15:23:38 +0800
-Subject: [PATCH 258/335] ARM: sama5: add usba vbus pinctrl and enable
+Subject: [PATCH 258/382] ARM: sama5: add usba vbus pinctrl and enable
  detecting
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- arch/arm/boot/dts/sama5d31ek.dts |   11 +++++++++--
- arch/arm/boot/dts/sama5d33ek.dts |   11 +++++++++--
- arch/arm/boot/dts/sama5d34ek.dts |   11 +++++++++--
- arch/arm/boot/dts/sama5d35ek.dts |   11 +++++++++--
+ arch/arm/boot/dts/sama5d31ek.dts | 11 +++++++++--
+ arch/arm/boot/dts/sama5d33ek.dts | 11 +++++++++--
+ arch/arm/boot/dts/sama5d34ek.dts | 11 +++++++++--
+ arch/arm/boot/dts/sama5d35ek.dts | 11 +++++++++--
  4 files changed, 36 insertions(+), 8 deletions(-)
 
 diff --git a/arch/arm/boot/dts/sama5d31ek.dts b/arch/arm/boot/dts/sama5d31ek.dts
@@ -153,5 +153,5 @@ index 4557b6c..d060ebe 100644
  					   &pioD 27 1
  					  >;
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From b4002177226a2a7c5055489a40206d1ffc0e68b7 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 6 Sep 2011 17:49:35 +0200
-Subject: [PATCH 003/335] mmc: atmel-mci: support 8-bit buswidth
+Subject: [PATCH 003/382] mmc: atmel-mci: support 8-bit buswidth
 
 This patch adds support for 8-bit buswidth.
 Relevant SDCR value modified.
@@ -10,7 +10,7 @@ Derived from a patch by Jaehoon Chung on dw_mmc.
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/mmc/host/atmel-mci.c |    3 +++
+ drivers/mmc/host/atmel-mci.c | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/mmc/host/atmel-mci.c b/drivers/mmc/host/atmel-mci.c
@@ -28,5 +28,5 @@ index 630b9bc..68917de 100644
  
  	if (ios->clock) {
 -- 
-1.7.10.4
+1.8.4.rc3
 

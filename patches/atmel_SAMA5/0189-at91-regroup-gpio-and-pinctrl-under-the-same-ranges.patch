@@ -1,7 +1,7 @@
 From 8f18eefe64a304e629121871eed59ecba81b354d Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 4 Jul 2012 17:20:46 +0800
-Subject: [PATCH 189/335] at91: regroup gpio and pinctrl under the same ranges
+Subject: [PATCH 189/382] at91: regroup gpio and pinctrl under the same ranges
 
 Fix also the reg size as we have 512 bytes bank not 256 bytes per gpio/mux
 controller
@@ -10,11 +10,11 @@ Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/boot/dts/at91sam9260.dtsi |   59 ++++++++++++---------
- arch/arm/boot/dts/at91sam9263.dtsi |  102 +++++++++++++++++++-----------------
- arch/arm/boot/dts/at91sam9g45.dtsi |   95 +++++++++++++++++----------------
- arch/arm/boot/dts/at91sam9n12.dtsi |   83 +++++++++++++++--------------
- arch/arm/boot/dts/at91sam9x5.dtsi  |   77 ++++++++++++++-------------
+ arch/arm/boot/dts/at91sam9260.dtsi |  59 +++++++++++----------
+ arch/arm/boot/dts/at91sam9263.dtsi | 102 ++++++++++++++++++++-----------------
+ arch/arm/boot/dts/at91sam9g45.dtsi |  95 ++++++++++++++++++----------------
+ arch/arm/boot/dts/at91sam9n12.dtsi |  83 ++++++++++++++++--------------
+ arch/arm/boot/dts/at91sam9x5.dtsi  |  77 +++++++++++++++-------------
  5 files changed, 225 insertions(+), 191 deletions(-)
 
 diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
@@ -498,5 +498,5 @@ index 8a387a8..bc6cd3f 100644
  
  			dbgu: serial@fffff200 {
 -- 
-1.7.10.4
+1.8.4.rc3
 

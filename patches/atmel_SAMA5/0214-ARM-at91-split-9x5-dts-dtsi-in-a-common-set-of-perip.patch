@@ -1,7 +1,7 @@
 From 98660e4590f15c26a183aeb3a9712089f76a2d4a Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 2 Oct 2012 11:50:15 +0200
-Subject: [PATCH 214/335] ARM: at91: split 9x5 dts/dtsi in a "common" set of
+Subject: [PATCH 214/382] ARM: at91: split 9x5 dts/dtsi in a "common" set of
  peripherals
 
 Creating this new at91sam9x5_common.dtsi, will allow to cover the
@@ -12,8 +12,8 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Conflicts:
 	arch/arm/boot/dts/at91sam9g25ek.dts
 ---
- arch/arm/boot/dts/at91sam9g25ek.dts      |   19 +----------
- arch/arm/boot/dts/at91sam9x5_common.dtsi |   54 ++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9g25ek.dts      | 19 +----------
+ arch/arm/boot/dts/at91sam9x5_common.dtsi | 54 ++++++++++++++++++++++++++++++++
  2 files changed, 55 insertions(+), 18 deletions(-)
  create mode 100644 arch/arm/boot/dts/at91sam9x5_common.dtsi
 
@@ -121,5 +121,5 @@ index 0000000..b805425
 +	};
 +};
 -- 
-1.7.10.4
+1.8.4.rc3
 

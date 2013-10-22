@@ -1,7 +1,7 @@
 From c8d0b65be8376ccfbf7032d35dace7f6d9c01b19 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 16 Oct 2012 11:56:58 +0800
-Subject: [PATCH 110/335] ASoC: atmel-ssc: use devm_xxx() managed function
+Subject: [PATCH 110/382] ASoC: atmel-ssc: use devm_xxx() managed function
 
 Using the devm_xxx() managed function to stripdown the error
 and remove code.
@@ -9,7 +9,7 @@ and remove code.
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 Signed-off-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
 ---
- drivers/misc/atmel-ssc.c |   47 +++++++++++++++-------------------------------
+ drivers/misc/atmel-ssc.c | 47 +++++++++++++++--------------------------------
  1 file changed, 15 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
@@ -107,5 +107,5 @@ index 5bb1877..23dcb76 100644
  
  	return 0;
 -- 
-1.7.10.4
+1.8.4.rc3
 

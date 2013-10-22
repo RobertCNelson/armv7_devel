@@ -1,7 +1,7 @@
 From ca7ec75942b287bfc62c21a15c0d08b98c3201c4 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 6 May 2011 17:54:45 +0200
-Subject: [PATCH 028/335] input: atmel_tsadcc: add ACR register and change
+Subject: [PATCH 028/382] input: atmel_tsadcc: add ACR register and change
  trigger period value
 
 Add ACR register which allows to configure internal ADC resistor, that should
@@ -11,8 +11,8 @@ value causes continuous irq.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/input/touchscreen/atmel_tsadcc.c |   30 +++++++++++++++++++++++++++++-
- drivers/input/touchscreen/atmel_tsadcc.h |    3 +++
+ drivers/input/touchscreen/atmel_tsadcc.c | 30 +++++++++++++++++++++++++++++-
+ drivers/input/touchscreen/atmel_tsadcc.h |  3 +++
  2 files changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/input/touchscreen/atmel_tsadcc.c b/drivers/input/touchscreen/atmel_tsadcc.c
@@ -89,5 +89,5 @@ index 572770a..fe74506 100644
  #define	  ATMEL_TSADCC_TSMODE		(3 <<  0)	/* Touch Screen Mode */
  #define	    ATMEL_TSADCC_TSMODE_NO		(0 << 0)	/* No Touch Screen */
 -- 
-1.7.10.4
+1.8.4.rc3
 

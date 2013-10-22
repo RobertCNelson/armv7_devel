@@ -1,7 +1,7 @@
 From 72fb265503b551b4b1d02d7adbe1858242763131 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 6 Jul 2012 06:48:33 +0800
-Subject: [PATCH 188/335] ARM: at91: gpio: implement request
+Subject: [PATCH 188/382] ARM: at91: gpio: implement request
 
 Configure the pin as pio when requested.
 
@@ -13,7 +13,7 @@ Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/mach-at91/gpio.c |   12 ++++++++++++
+ arch/arm/mach-at91/gpio.c | 12 ++++++++++++
  1 file changed, 12 insertions(+)
 
 diff --git a/arch/arm/mach-at91/gpio.c b/arch/arm/mach-at91/gpio.c
@@ -54,5 +54,5 @@ index be42cf0..3b8f463 100644
  					unsigned offset)
  {
 -- 
-1.7.10.4
+1.8.4.rc3
 

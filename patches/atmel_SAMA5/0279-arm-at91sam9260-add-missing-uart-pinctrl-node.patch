@@ -1,11 +1,11 @@
 From 539745d6883275847bb8e56a639727004050be91 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 05:52:10 +0800
-Subject: [PATCH 279/335] arm: at91sam9260: add missing uart pinctrl node
+Subject: [PATCH 279/382] arm: at91sam9260: add missing uart pinctrl node
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/boot/dts/at91sam9260.dtsi |  109 ++++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9260.dtsi | 109 +++++++++++++++++++++++++++++++++++++
  1 file changed, 109 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
@@ -178,5 +178,5 @@ index e1cb127..357fdaa 100644
  			};
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

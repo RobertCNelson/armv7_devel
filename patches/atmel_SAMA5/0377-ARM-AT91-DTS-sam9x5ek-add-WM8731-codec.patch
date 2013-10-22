@@ -1,0 +1,33 @@
+From b68723404b1a72e02a1b0f94fb95e48b802566e2 Mon Sep 17 00:00:00 2001
+From: Richard Genoud <richard.genoud@gmail.com>
+Date: Mon, 12 Aug 2013 14:31:00 +0200
+Subject: [PATCH 377/382] ARM: AT91: DTS: sam9x5ek: add WM8731 codec
+
+The WM8731 codec on sam9x5ek board is on i2c, address 1A
+
+Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
+[Cherry-pick: 4dc6e27cbf0773077f4d72551b78d6d87d61bd17]
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5ek.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5ek.dtsi b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+index d7b677b..d089b6b 100644
+--- a/arch/arm/boot/dts/at91sam9x5ek.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+@@ -104,6 +104,11 @@
+ 
+ 			i2c0: i2c@f8010000 {
+ 				status = "okay";
++
++				wm8731: wm8731@1a {
++					compatible = "wm8731";
++					reg = <0x1a>;
++				};
+ 			};
+ 		};
+ 
+-- 
+1.8.4.rc3
+

@@ -1,24 +1,24 @@
 From b28abac9604f73456070703823c57bf3d8aec658 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 10 Jan 2013 11:26:42 +0100
-Subject: [PATCH 276/335] SAMA5: big rework on dts files
+Subject: [PATCH 276/382] SAMA5: big rework on dts files
 
 Try to minimize code duplication. It's probably not a final version!
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- arch/arm/boot/dts/sama5d3.dtsi       |  199 +++++++++++++++++-----------------
- arch/arm/boot/dts/sama5d31ek.dts     |  159 +--------------------------
- arch/arm/boot/dts/sama5d31ek_pda.dts |  174 +----------------------------
- arch/arm/boot/dts/sama5d33ek.dts     |  164 +---------------------------
- arch/arm/boot/dts/sama5d33ek_pda.dts |  179 +-----------------------------
- arch/arm/boot/dts/sama5d34ek.dts     |  159 +--------------------------
- arch/arm/boot/dts/sama5d34ek_pda.dts |  174 +----------------------------
- arch/arm/boot/dts/sama5d35ek.dts     |  160 +--------------------------
- arch/arm/boot/dts/sama5d3cm.dtsi     |   12 +-
- arch/arm/boot/dts/sama5d3dm.dtsi     |   62 +++++++++++
- arch/arm/boot/dts/sama5d3mb.dtsi     |  168 ++++++++++++++++++++++++++++
- arch/arm/boot/dts/sama5d3pda.dtsi    |   76 +++++++++++++
+ arch/arm/boot/dts/sama5d3.dtsi       | 199 +++++++++++++++++------------------
+ arch/arm/boot/dts/sama5d31ek.dts     | 159 ++--------------------------
+ arch/arm/boot/dts/sama5d31ek_pda.dts | 174 ++----------------------------
+ arch/arm/boot/dts/sama5d33ek.dts     | 164 +----------------------------
+ arch/arm/boot/dts/sama5d33ek_pda.dts | 179 +------------------------------
+ arch/arm/boot/dts/sama5d34ek.dts     | 159 ++--------------------------
+ arch/arm/boot/dts/sama5d34ek_pda.dts | 174 ++----------------------------
+ arch/arm/boot/dts/sama5d35ek.dts     | 160 +---------------------------
+ arch/arm/boot/dts/sama5d3cm.dtsi     |  12 ++-
+ arch/arm/boot/dts/sama5d3dm.dtsi     |  62 +++++++++++
+ arch/arm/boot/dts/sama5d3mb.dtsi     | 168 +++++++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d3pda.dtsi    |  76 +++++++++++++
  12 files changed, 449 insertions(+), 1237 deletions(-)
  create mode 100644 arch/arm/boot/dts/sama5d3dm.dtsi
  create mode 100644 arch/arm/boot/dts/sama5d3mb.dtsi
@@ -2244,5 +2244,5 @@ index 0000000..5d0dfb1
 +	};
 +};
 -- 
-1.7.10.4
+1.8.4.rc3
 

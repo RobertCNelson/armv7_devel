@@ -1,14 +1,14 @@
 From f2e583de699ab0bd666e1732317e62f35aa51e65 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Mon, 10 Dec 2012 09:45:48 +0800
-Subject: [PATCH 179/335] USB: gadget: atmel_usba: add device tree support
+Subject: [PATCH 179/382] USB: gadget: atmel_usba: add device tree support
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- .../devicetree/bindings/usb/atmel-usb.txt          |   85 ++++++++
- drivers/usb/gadget/Kconfig                         |    2 +-
- drivers/usb/gadget/atmel_usba_udc.c                |  211 +++++++++++++++-----
- drivers/usb/gadget/atmel_usba_udc.h                |    1 +
+ .../devicetree/bindings/usb/atmel-usb.txt          |  85 +++++++++
+ drivers/usb/gadget/Kconfig                         |   2 +-
+ drivers/usb/gadget/atmel_usba_udc.c                | 211 ++++++++++++++++-----
+ drivers/usb/gadget/atmel_usba_udc.h                |   1 +
  4 files changed, 249 insertions(+), 50 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/usb/atmel-usb.txt b/Documentation/devicetree/bindings/usb/atmel-usb.txt
@@ -419,5 +419,5 @@ index 9791259..a7b2d25 100644
  	struct clk *hclk;
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

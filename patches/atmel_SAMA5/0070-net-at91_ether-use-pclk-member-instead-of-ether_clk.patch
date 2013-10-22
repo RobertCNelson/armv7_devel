@@ -1,14 +1,14 @@
 From ad9cc4e1aa19dc445afa815bc7fc6d395501bd42 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:11 +0000
-Subject: [PATCH 070/335] net/at91_ether: use pclk member instead of ether_clk
+Subject: [PATCH 070/382] net/at91_ether: use pclk member instead of ether_clk
 
 Remove old at91_priv member and use pclk member from macb.
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |   24 ++++++++++++------------
- drivers/net/ethernet/cadence/macb.h       |    1 -
+ drivers/net/ethernet/cadence/at91_ether.c | 24 ++++++++++++------------
+ drivers/net/ethernet/cadence/macb.h       |  1 -
  2 files changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -110,5 +110,5 @@ index 5661094..138311f 100644
  	/* PHY */
  	unsigned long phy_type;			/* type of PHY (PHY_ID) */
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From b95397425fbd6174d30ff9b8a68ea50123f7d67d Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:51 +0000
-Subject: [PATCH 097/335] net/macb: support reversed hw addr
+Subject: [PATCH 097/382] net/macb: support reversed hw addr
 
 This is used on one AT91RM9200 board where a bootloader stores
 the Ethernet address in the wrong order.
@@ -12,7 +12,7 @@ with the at91_ether driver.
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/macb.c |   24 ++++++++++++++++++------
+ drivers/net/ethernet/cadence/macb.c | 24 ++++++++++++++++++------
  1 file changed, 18 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -61,5 +61,5 @@ index 3b609be..a9e5a50 100644
  		if (is_valid_ether_addr(addr)) {
  			memcpy(bp->dev->dev_addr, addr, sizeof(addr));
 -- 
-1.7.10.4
+1.8.4.rc3
 

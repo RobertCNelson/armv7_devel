@@ -1,11 +1,11 @@
 From 3206169901826a4f90d0a58bc8a51ff50916038f Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 20 Dec 2012 12:04:53 +0100
-Subject: [PATCH 263/335] ARM: at91/board-dt: add fake ISI material
+Subject: [PATCH 263/382] ARM: at91/board-dt: add fake ISI material
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- arch/arm/mach-at91/board-dt.c |    6 ++++++
+ arch/arm/mach-at91/board-dt.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
@@ -26,5 +26,5 @@ index 5427f86..0dda409 100644
  
  struct of_dev_auxdata at91_auxdata_lookup[] __initdata = {
 -- 
-1.7.10.4
+1.8.4.rc3
 

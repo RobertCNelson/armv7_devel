@@ -1,7 +1,7 @@
 From 9dc488361b791cd9ab7fad660024dec5fbdf1ce4 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 27 Nov 2012 17:52:53 +0800
-Subject: [PATCH 122/335] ASoC: atmel-pcm: dma support based on pcm dmaengine
+Subject: [PATCH 122/382] ASoC: atmel-pcm: dma support based on pcm dmaengine
 
 Specify overrun bit in interrupt mask
 Add dmaengine specific routines
@@ -10,11 +10,11 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 [voice.shen@atmel.com: adapt to soc dmaengine framework]
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- sound/soc/atmel/Kconfig         |    5 +
- sound/soc/atmel/Makefile        |    2 +
- sound/soc/atmel/atmel-pcm-dma.c |  240 +++++++++++++++++++++++++++++++++++++++
- sound/soc/atmel/atmel-pcm.h     |   14 +++
- sound/soc/atmel/atmel_ssc_dai.c |   17 ++-
+ sound/soc/atmel/Kconfig         |   5 +
+ sound/soc/atmel/Makefile        |   2 +
+ sound/soc/atmel/atmel-pcm-dma.c | 240 ++++++++++++++++++++++++++++++++++++++++
+ sound/soc/atmel/atmel-pcm.h     |  14 +++
+ sound/soc/atmel/atmel_ssc_dai.c |  17 ++-
  5 files changed, 276 insertions(+), 2 deletions(-)
  create mode 100644 sound/soc/atmel/atmel-pcm-dma.c
 
@@ -377,5 +377,5 @@ index b33e382..b186a69 100644
  }
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,18 +1,18 @@
 From 9ef5803612e9a361a1f8358a499ee4a30e4a9c27 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 12 Sep 2012 08:42:15 +0200
-Subject: [PATCH 209/335] ARM: at91: add clocks for I2C DT entries
+Subject: [PATCH 209/382] ARM: at91: add clocks for I2C DT entries
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Nikolaus Voss <n.voss@weinmann.de>
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 ---
- arch/arm/mach-at91/at91sam9260.c |    1 +
- arch/arm/mach-at91/at91sam9263.c |    1 +
- arch/arm/mach-at91/at91sam9g45.c |    2 ++
- arch/arm/mach-at91/at91sam9n12.c |    2 ++
- arch/arm/mach-at91/at91sam9x5.c  |    3 +++
+ arch/arm/mach-at91/at91sam9260.c | 1 +
+ arch/arm/mach-at91/at91sam9263.c | 1 +
+ arch/arm/mach-at91/at91sam9g45.c | 2 ++
+ arch/arm/mach-at91/at91sam9n12.c | 2 ++
+ arch/arm/mach-at91/at91sam9x5.c  | 3 +++
  5 files changed, 9 insertions(+)
 
 diff --git a/arch/arm/mach-at91/at91sam9260.c b/arch/arm/mach-at91/at91sam9260.c
@@ -80,5 +80,5 @@ index c964761..a963306 100644
  	CLKDEV_CON_DEV_ID(NULL, "fffff600.gpio", &pioAB_clk),
  	CLKDEV_CON_DEV_ID(NULL, "fffff800.gpio", &pioCD_clk),
 -- 
-1.7.10.4
+1.8.4.rc3
 

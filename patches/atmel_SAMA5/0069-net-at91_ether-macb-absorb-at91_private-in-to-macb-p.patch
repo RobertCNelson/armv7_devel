@@ -1,7 +1,7 @@
 From d6e866c0ea10f74462b9d1838b11b11c9e7d8520 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:10 +0000
-Subject: [PATCH 069/335] net/at91_ether/macb: absorb at91_private in to macb
+Subject: [PATCH 069/382] net/at91_ether/macb: absorb at91_private in to macb
  private struct
 
 This will make it easier to share code between the drivers and
@@ -9,9 +9,9 @@ eventually merge them into one driver.
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |   70 ++++++++++++++---------------
- drivers/net/ethernet/cadence/at91_ether.h |   44 ------------------
- drivers/net/ethernet/cadence/macb.h       |   36 +++++++++++++++
+ drivers/net/ethernet/cadence/at91_ether.c | 70 +++++++++++++++----------------
+ drivers/net/ethernet/cadence/at91_ether.h | 44 -------------------
+ drivers/net/ethernet/cadence/macb.h       | 36 ++++++++++++++++
  3 files changed, 71 insertions(+), 79 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -439,5 +439,5 @@ index 0e5d55b..5661094 100644
  
  static inline bool macb_is_gem(struct macb *bp)
 -- 
-1.7.10.4
+1.8.4.rc3
 

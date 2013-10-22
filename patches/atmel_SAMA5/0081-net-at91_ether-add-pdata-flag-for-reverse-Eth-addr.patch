@@ -1,7 +1,7 @@
 From 82ed743f8fff78473f3877084831a91a0fe0fdef Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Mon, 22 Oct 2012 08:45:34 +0000
-Subject: [PATCH 081/335] net/at91_ether: add pdata flag for reverse Eth addr
+Subject: [PATCH 081/382] net/at91_ether: add pdata flag for reverse Eth addr
 
 This will allow us to remove the last mach include from at91_ether
 and also make it easier to share address setup with macb.
@@ -9,10 +9,10 @@ and also make it easier to share address setup with macb.
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- arch/arm/mach-at91/board-csb337.c         |    2 ++
- drivers/net/ethernet/cadence/Kconfig      |    1 -
- drivers/net/ethernet/cadence/at91_ether.c |    5 ++---
- include/linux/platform_data/macb.h        |    1 +
+ arch/arm/mach-at91/board-csb337.c         | 2 ++
+ drivers/net/ethernet/cadence/Kconfig      | 1 -
+ drivers/net/ethernet/cadence/at91_ether.c | 5 ++---
+ include/linux/platform_data/macb.h        | 1 +
  4 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm/mach-at91/board-csb337.c b/arch/arm/mach-at91/board-csb337.c
@@ -78,5 +78,5 @@ index b081c72..044a124 100644
  
  #endif /* __MACB_PDATA_H__ */
 -- 
-1.7.10.4
+1.8.4.rc3
 

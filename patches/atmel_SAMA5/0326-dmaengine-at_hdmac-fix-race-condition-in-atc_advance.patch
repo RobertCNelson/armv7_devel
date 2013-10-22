@@ -1,7 +1,7 @@
 From 73cc0f3cf9bd55bc12e2f748c95a25ae5a041e36 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 18 Apr 2013 09:52:59 +0200
-Subject: [PATCH 326/335] dmaengine: at_hdmac: fix race condition in
+Subject: [PATCH 326/382] dmaengine: at_hdmac: fix race condition in
  atc_advance_work()
 
 The BUG_ON() directive is triggered probably due to a latency
@@ -17,7 +17,7 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Vinod Koul <vinod.koul@intel.com>
 Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 ---
- drivers/dma/at_hdmac.c |    9 ++++-----
+ drivers/dma/at_hdmac.c | 9 ++++-----
  1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
@@ -55,5 +55,5 @@ index 5eb7d11..f2898d4 100644
  }
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

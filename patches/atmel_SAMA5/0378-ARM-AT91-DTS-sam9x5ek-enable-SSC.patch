@@ -1,0 +1,32 @@
+From 6a9338a71bccca595d9e283cf9fb8199bacd9920 Mon Sep 17 00:00:00 2001
+From: Richard Genoud <richard.genoud@gmail.com>
+Date: Mon, 12 Aug 2013 14:31:01 +0200
+Subject: [PATCH 378/382] ARM: AT91: DTS: sam9x5ek: enable SSC
+
+Enable the SSC needed for the WM8731 codec
+
+Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
+[Cherry-pick: 45b763526eea9b2edaabb90c6c9d78f67c34c95d]
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5ek.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5ek.dtsi b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+index d089b6b..c55bfef 100644
+--- a/arch/arm/boot/dts/at91sam9x5ek.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+@@ -94,6 +94,10 @@
+ 				};
+ 			};
+ 
++			ssc0: ssc@f0010000 {
++				status = "okay";
++			};
++
+ 			macb0: ethernet@f802c000 {
+ 				phy-mode = "rmii";
+ 			};
+-- 
+1.8.4.rc3
+

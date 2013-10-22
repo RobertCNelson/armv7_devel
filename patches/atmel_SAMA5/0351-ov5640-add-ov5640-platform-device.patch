@@ -1,0 +1,64 @@
+From 6eb3b205d1cf83e7ea679d9ac9c6363305dca4d5 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 14 Jun 2013 11:42:43 +0800
+Subject: [PATCH 351/382] ov5640: add ov5640 platform device
+
+note: need to enable ov2640 selection in menuconfig since board-dt.c only register
+the i2c device when ov2640 is selected.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/mach-at91/board-dt.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
+index efdd727..136f888 100644
+--- a/arch/arm/mach-at91/board-dt.c
++++ b/arch/arm/mach-at91/board-dt.c
+@@ -204,13 +204,23 @@ out:
+ 	return ret;
+ }
+ 
+-static struct i2c_board_info i2c_camera = {
++static struct i2c_board_info i2c_ov2640 = {
+ 	I2C_BOARD_INFO("ov2640", 0x30),
+ };
++static struct i2c_board_info i2c_ov5640 = {
++	I2C_BOARD_INFO("ov5642", 0x3c),
++};
+ 
+ static struct soc_camera_link iclink_ov2640 = {
+ 	.bus_id			= -1,
+-	.board_info		= &i2c_camera,
++	.board_info		= &i2c_ov2640,
++	.i2c_adapter_id		= 0,
++	.power			= i2c_camera_power,
++	.query_bus_param	= isi_camera_query_bus_param,
++};
++static struct soc_camera_link iclink_ov5640 = {
++	.bus_id			= -1,
++	.board_info		= &i2c_ov5640,
+ 	.i2c_adapter_id		= 0,
+ 	.power			= i2c_camera_power,
+ 	.query_bus_param	= isi_camera_query_bus_param,
+@@ -223,9 +233,17 @@ static struct platform_device isi_ov2640 = {
+ 		.platform_data = &iclink_ov2640,
+ 	},
+ };
++static struct platform_device isi_ov5640 = {
++	.name	= "soc-camera-pdrv",
++	.id	= 1,
++	.dev	= {
++		.platform_data = &iclink_ov5640,
++	},
++};
+ 
+ static struct platform_device *devices[] __initdata = {
+ 	&isi_ov2640,
++	&isi_ov5640,
+ };
+ #endif
+ 
+-- 
+1.8.4.rc3
+

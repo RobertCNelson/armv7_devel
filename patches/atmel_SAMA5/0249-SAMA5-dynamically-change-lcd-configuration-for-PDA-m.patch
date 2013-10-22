@@ -1,12 +1,12 @@
 From 43432b711ef345d9e6b1e26dc30c7767c9cae767 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 7 Dec 2012 10:15:53 +0100
-Subject: [PATCH 249/335] SAMA5: dynamically change lcd configuration for PDA
+Subject: [PATCH 249/382] SAMA5: dynamically change lcd configuration for PDA
  module
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- arch/arm/mach-at91/board-dt.c |   29 +++++++++++++++++++++++++++++
+ arch/arm/mach-at91/board-dt.c | 29 +++++++++++++++++++++++++++++
  1 file changed, 29 insertions(+)
 
 diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
@@ -50,5 +50,5 @@ index 06f4f0b..5427f86 100644
  
  	of_platform_populate(NULL, of_default_bus_match_table, at91_auxdata_lookup, NULL);
 -- 
-1.7.10.4
+1.8.4.rc3
 

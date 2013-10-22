@@ -1,14 +1,14 @@
 From b0600a8aed80be3dbc9c158aad85058984665251 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 17 Oct 2012 10:14:48 +0200
-Subject: [PATCH 208/335] ARM: at91: add LCD HEO DT entry for at91sam9x5
+Subject: [PATCH 208/382] ARM: at91: add LCD HEO DT entry for at91sam9x5
 
 At91sam9x5.dtsi entry and activated in sam9g35ek.dts.
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- arch/arm/boot/dts/at91sam9g35ek.dts |    4 ++++
- arch/arm/boot/dts/at91sam9x5.dtsi   |    7 +++++++
+ arch/arm/boot/dts/at91sam9g35ek.dts | 4 ++++
+ arch/arm/boot/dts/at91sam9x5.dtsi   | 7 +++++++
  2 files changed, 11 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9g35ek.dts b/arch/arm/boot/dts/at91sam9g35ek.dts
@@ -45,5 +45,5 @@ index 4d6721d..fadd73b 100644
  
  		nand0: nand@40000000 {
 -- 
-1.7.10.4
+1.8.4.rc3
 

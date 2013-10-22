@@ -1,7 +1,7 @@
 From 3d5b6760002b0be77ad00bc8a898975f7a998d63 Mon Sep 17 00:00:00 2001
 From: Vitalii Demianets <vitas@nppfactor.kiev.ua>
 Date: Fri, 2 Nov 2012 07:09:24 +0000
-Subject: [PATCH 093/335] macb: Keep driver's speed/duplex in sync with actual
+Subject: [PATCH 093/382] macb: Keep driver's speed/duplex in sync with actual
  NCFGR
 
 When underlying phy driver restores its state very fast after being brought
@@ -17,7 +17,7 @@ duplex in sync with actual content of NCFGR.
 Signed-off-by: Vitalii Demianets <vitas@nppfactor.kiev.ua>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/macb.c |    2 ++
+ drivers/net/ethernet/cadence/macb.c | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -34,5 +34,5 @@ index c374875..13c3c33 100644
  	macb_configure_dma(bp);
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

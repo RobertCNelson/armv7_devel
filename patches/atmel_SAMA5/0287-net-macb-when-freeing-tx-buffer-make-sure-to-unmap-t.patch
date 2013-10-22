@@ -1,12 +1,12 @@
 From 9bf30f0772782b83a0d0453d9d10cee12ce038ff Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:45:18 +0100
-Subject: [PATCH 287/335] net/macb: when freeing tx buffer, make sure to unmap
+Subject: [PATCH 287/382] net/macb: when freeing tx buffer, make sure to unmap
  them
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.c |   37 +++++++++++++++++++++++++++++++----
+ drivers/net/ethernet/cadence/macb.c | 37 +++++++++++++++++++++++++++++++++----
  1 file changed, 33 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -65,5 +65,5 @@ index de26438..8e04fb1 100644
  	if (bp->rx_ring) {
  		dma_free_coherent(&bp->pdev->dev, RX_RING_BYTES,
 -- 
-1.7.10.4
+1.8.4.rc3
 

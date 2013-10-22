@@ -1,0 +1,57 @@
+From de7b74654c75c77cbc8c3d1b69544011f61605b7 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 29 May 2013 15:38:41 +0800
+Subject: [PATCH 336/382] sama5d3: add sama5d36 chip id and name.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/mach-at91/include/mach/cpu.h | 3 ++-
+ arch/arm/mach-at91/setup.c            | 4 ++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-at91/include/mach/cpu.h b/arch/arm/mach-at91/include/mach/cpu.h
+index 7d8df52..3f8db05 100644
+--- a/arch/arm/mach-at91/include/mach/cpu.h
++++ b/arch/arm/mach-at91/include/mach/cpu.h
+@@ -52,6 +52,7 @@
+ #define ARCH_EXID_SAMA5D33	0x00414300
+ #define ARCH_EXID_SAMA5D34	0x00414301
+ #define ARCH_EXID_SAMA5D35	0x00584300
++#define ARCH_EXID_SAMA5D36	0x00004301
+ 
+ #define ARCH_FAMILY_AT91X92	0x09200000
+ #define ARCH_FAMILY_AT91SAM9	0x01900000
+@@ -104,7 +105,7 @@ enum at91_soc_subtype {
+ 
+ 	/* SAMA5D3 */
+ 	AT91_SOC_SAMA5D31, AT91_SOC_SAMA5D33, AT91_SOC_SAMA5D34,
+-	AT91_SOC_SAMA5D35,
++	AT91_SOC_SAMA5D35, AT91_SOC_SAMA5D36,
+ 
+ 	/* Unknown subtype */
+ 	AT91_SOC_SUBTYPE_NONE
+diff --git a/arch/arm/mach-at91/setup.c b/arch/arm/mach-at91/setup.c
+index 98d55ef..cdce477 100644
+--- a/arch/arm/mach-at91/setup.c
++++ b/arch/arm/mach-at91/setup.c
+@@ -228,6 +228,9 @@ static void __init soc_detect(u32 dbgu_base)
+ 		case ARCH_EXID_SAMA5D35:
+ 			at91_soc_initdata.subtype = AT91_SOC_SAMA5D35;
+ 			break;
++		case ARCH_EXID_SAMA5D36:
++			at91_soc_initdata.subtype = AT91_SOC_SAMA5D36;
++			break;
+ 		}
+ 	}
+ }
+@@ -270,6 +273,7 @@ static const char *soc_subtype_name[] = {
+ 	[AT91_SOC_SAMA5D33]	= "sama5d33",
+ 	[AT91_SOC_SAMA5D34]	= "sama5d34",
+ 	[AT91_SOC_SAMA5D35]	= "sama5d35",
++	[AT91_SOC_SAMA5D36]	= "sama5d36",
+ 	[AT91_SOC_SUBTYPE_NONE]	= "Unknown"
+ };
+ 
+-- 
+1.8.4.rc3
+

@@ -1,13 +1,13 @@
 From 41141ef84402ca063ec6064a2b4a07bddb40aa55 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 12 Jul 2012 23:35:02 +0800
-Subject: [PATCH 191/335] ARM: at91: add dummies pinctrl for non dt platform
+Subject: [PATCH 191/382] ARM: at91: add dummies pinctrl for non dt platform
 
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/mach-at91/setup.c |    3 +++
+ arch/arm/mach-at91/setup.c | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/arch/arm/mach-at91/setup.c b/arch/arm/mach-at91/setup.c
@@ -30,5 +30,5 @@ index bd0e88c..6d5fe8a 100644
 +	pinctrl_provide_dummies();
  }
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,13 +1,13 @@
 From d4be3eb24b3f28861f15766531a98b0bac0742e8 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 13:06:53 +0800
-Subject: [PATCH 226/335] ARM: dts: add the watchdog nodes for at91sam9x5 and
+Subject: [PATCH 226/382] ARM: dts: add the watchdog nodes for at91sam9x5 and
  at91sam9n12 SoC
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- arch/arm/boot/dts/at91sam9n12.dtsi |    6 ++++++
- arch/arm/boot/dts/at91sam9x5.dtsi  |    6 ++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi | 6 ++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  | 6 ++++++
  2 files changed, 12 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9n12.dtsi b/arch/arm/boot/dts/at91sam9n12.dtsi
@@ -45,5 +45,5 @@ index 1d8db44..756c9c1 100644
  
  		nand0: nand@40000000 {
 -- 
-1.7.10.4
+1.8.4.rc3
 

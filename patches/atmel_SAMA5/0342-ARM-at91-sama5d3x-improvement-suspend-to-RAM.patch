@@ -1,0 +1,63 @@
+From 81e051c82ce82cec1a9fcc2dff09849b5cc26b2f Mon Sep 17 00:00:00 2001
+From: Patrice Vilchez <patrice.vilchez@atmel.com>
+Date: Thu, 18 Jul 2013 17:41:13 +0200
+Subject: [PATCH 342/382] ARM: at91: sama5d3x improvement suspend to RAM
+
+Signed-off-by: Patrice Vilchez <patrice.vilchez@atmel.com>
+[Remove the action to disable the internal RC clock since it is done in bootstrap]
+Signed-off-by: Wenyou Yang <Wenyou.yang@atmel.com>
+---
+ arch/arm/mach-at91/pm_slowclock.S | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-at91/pm_slowclock.S b/arch/arm/mach-at91/pm_slowclock.S
+index b6bd723..9bb4ffb 100644
+--- a/arch/arm/mach-at91/pm_slowclock.S
++++ b/arch/arm/mach-at91/pm_slowclock.S
+@@ -139,6 +139,13 @@ tmp2	.req	r5
+ 	dmb
+ 
+ 	/*
++	 * AT91 PMC: Switch off Processor Clock
++	 *
++	 */
++	mov	tmp1, #AT91_PMC_PCK
++	str	tmp1, [pmc, #AT91_PMC_SCDR]
++
++	/*
+ 	 * Execute a WFI instruction and wait until the
+ 	 * STANDBYWFI output is asserted to indicate that the
+ 	 * CPU is in idle and low power state. CPU can specualatively
+@@ -272,6 +279,10 @@ sdr_sr_done:
+ 	orr	tmp1, tmp1, #(1 << 29)		/* bit 29 always set */
+ 	str	tmp1, [pmc, #AT91_CKGR_PLLAR]
+ 
++	/* Disable DDRCK (SAMA5D3) */
++	mov 	tmp1, #(1 << 2)
++	str	tmp1, [pmc, #AT91_PMC_SCDR]
++
+ 	/* Save PLLB setting and disable it */
+ 	ldr	tmp1, [pmc, #AT91_CKGR_PLLBR]
+ 	str	tmp1, .saved_pllbr
+@@ -320,6 +331,10 @@ sdr_sr_done:
+ 
+ 	wait_uplllock
+ 
++	/* Enable DDRCK (SAMA5D3) */
++	mov 	tmp1, #(1 << 2)
++	str	tmp1, [pmc, #AT91_PMC_SCER]
++
+ 	/* Restore PLLA setting */
+ 	ldr	tmp1, .saved_pllar
+ 	str	tmp1, [pmc, #AT91_CKGR_PLLAR]
+@@ -331,7 +346,6 @@ sdr_sr_done:
+ 3:
+ 	wait_pllalock
+ 4:
+-
+ #ifdef SLOWDOWN_MASTER_CLOCK
+ 	/*
+ 	 * First set PRES if it was not 0,
+-- 
+1.8.4.rc3
+

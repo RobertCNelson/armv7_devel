@@ -1,7 +1,7 @@
 From d9438e7f7d0c7db33141cdafdd573457ce5b8935 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 14:09:27 +0800
-Subject: [PATCH 176/335] Serial: AT91: Enable rx cyclic DMA transfer
+Subject: [PATCH 176/382] Serial: AT91: Enable rx cyclic DMA transfer
 
 To prevent data overrun, we use cyclic dma transfer for rx.
 
@@ -15,7 +15,7 @@ the dma callback will also check the residual bytes and filp the receiving datas
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/tty/serial/atmel_serial.c |  131 ++++++++++++++++++++++++++++++++++++-
+ drivers/tty/serial/atmel_serial.c | 131 +++++++++++++++++++++++++++++++++++++-
  1 file changed, 130 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
@@ -204,5 +204,5 @@ index 33d8d55..9d2a873 100644
  		/* enable receive only */
  		UART_PUT_IER(port, ATMEL_US_RXRDY);
 -- 
-1.7.10.4
+1.8.4.rc3
 

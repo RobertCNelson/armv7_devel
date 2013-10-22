@@ -1,11 +1,11 @@
 From a6afe1ec0a39562b721c0316dce317317bc93342 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:08:54 +0200
-Subject: [PATCH 057/335] video: atmel_lcdfb: add pinctrl
+Subject: [PATCH 057/382] video: atmel_lcdfb: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/video/atmel_lcdfb_core.c |    9 +++++++++
+ drivers/video/atmel_lcdfb_core.c | 9 +++++++++
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/video/atmel_lcdfb_core.c b/drivers/video/atmel_lcdfb_core.c
@@ -43,5 +43,5 @@ index 133d4ad..b71a80c 100644
  	sinfo->irq_base = platform_get_irq(pdev, 0);
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

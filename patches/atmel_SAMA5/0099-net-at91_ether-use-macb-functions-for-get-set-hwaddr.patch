@@ -1,13 +1,12 @@
 From 20490990a006b2109e6b0029eac788d4cce5c6b6 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:53 +0000
-Subject: [PATCH 099/335] net/at91_ether: use macb functions for get/set
- hwaddr
+Subject: [PATCH 099/382] net/at91_ether: use macb functions for get/set hwaddr
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |  112 +----------------------------
+ drivers/net/ethernet/cadence/at91_ether.c | 112 +-----------------------------
  1 file changed, 3 insertions(+), 109 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -155,5 +154,5 @@ index 6eb928e..2f89e64 100644
  	res = at91ether_get_phy_mode_dt(pdev);
  	if (res < 0) {
 -- 
-1.7.10.4
+1.8.4.rc3
 

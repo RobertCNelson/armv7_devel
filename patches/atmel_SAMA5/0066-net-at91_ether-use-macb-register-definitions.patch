@@ -1,7 +1,7 @@
 From 569742ef566a60a527c39417290140b1b695643d Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:07 +0000
-Subject: [PATCH 066/335] net/at91_ether: use macb register definitions
+Subject: [PATCH 066/382] net/at91_ether: use macb register definitions
 
 Use register and bits definitions from the macb header. This makes it
 possible to have one header file for this hardware.
@@ -10,7 +10,7 @@ Process was scripted and the resulting object file has the same checksum.
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |  164 +++++++++++++++--------------
+ drivers/net/ethernet/cadence/at91_ether.c | 164 +++++++++++++++---------------
  1 file changed, 84 insertions(+), 80 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -394,5 +394,5 @@ index 4e980a7..201d01d 100644
  	if ((lp->phy_type == MII_DM9161_ID) || (lp->phy_type == MII_DM9161A_ID))
  		printk(KERN_INFO "%s: Davicom 9161 PHY %s\n", dev->name, (lp->phy_media == PORT_FIBRE) ? "(Fiber)" : "(Copper)");
 -- 
-1.7.10.4
+1.8.4.rc3
 

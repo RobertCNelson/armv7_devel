@@ -1,11 +1,11 @@
 From 373d8da7538504d06acecbd4c69a4e32aa5eeac2 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 13 Nov 2012 13:15:11 +0800
-Subject: [PATCH 233/335] atmel_nand: add nand flash controller(NFC)
+Subject: [PATCH 233/382] atmel_nand: add nand flash controller(NFC)
  definitions
 
 ---
- drivers/mtd/nand/atmel_nand_nfc.h |  101 +++++++++++++++++++++++++++++++++++++
+ drivers/mtd/nand/atmel_nand_nfc.h | 101 ++++++++++++++++++++++++++++++++++++++
  1 file changed, 101 insertions(+)
  create mode 100644 drivers/mtd/nand/atmel_nand_nfc.h
 
@@ -117,5 +117,5 @@ index 0000000..1c5459b
 +
 +#endif
 -- 
-1.7.10.4
+1.8.4.rc3
 

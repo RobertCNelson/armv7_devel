@@ -1,28 +1,28 @@
 From 2b1cd49722420f30c4bdd861147d61b4ee5c61a7 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 21 Dec 2012 15:33:14 +0800
-Subject: [PATCH 268/335] ARM: at91/dts: leds: remove d3 for sama5d35ek.dts
- since it conflicts with isi camera reset pin
- (PE24). but for revB, no this conflict.
+Subject: [PATCH 268/382] ARM: at91/dts: leds: remove d3 for sama5d35ek.dts
+ since it conflicts with isi camera reset pin (PE24). but for revB, no this
+ conflict.
 
 in this patch, also move the leds node from sama5d3.dtsi to sama5d3cm.dtsi.
 ---
- arch/arm/boot/dts/sama5d3.dtsi               |   15 ---------------
- arch/arm/boot/dts/sama5d31ek.dts             |    9 +--------
- arch/arm/boot/dts/sama5d31ek_mb-revB.dts     |    9 +--------
- arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts |    9 +--------
- arch/arm/boot/dts/sama5d31ek_pda.dts         |    9 +--------
- arch/arm/boot/dts/sama5d33ek.dts             |    9 +--------
- arch/arm/boot/dts/sama5d33ek_mb-revB.dts     |    9 +--------
- arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts |    9 +--------
- arch/arm/boot/dts/sama5d33ek_pda.dts         |    9 +--------
- arch/arm/boot/dts/sama5d34ek.dts             |    9 +--------
- arch/arm/boot/dts/sama5d34ek_mb-revB.dts     |    9 +--------
- arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts |    9 +--------
- arch/arm/boot/dts/sama5d34ek_pda.dts         |    9 +--------
- arch/arm/boot/dts/sama5d35ek.dts             |   13 +------------
- arch/arm/boot/dts/sama5d35ek_mb-revB.dts     |    9 +--------
- arch/arm/boot/dts/sama5d3cm.dtsi             |   10 ++++++++++
+ arch/arm/boot/dts/sama5d3.dtsi               | 15 ---------------
+ arch/arm/boot/dts/sama5d31ek.dts             |  9 +--------
+ arch/arm/boot/dts/sama5d31ek_mb-revB.dts     |  9 +--------
+ arch/arm/boot/dts/sama5d31ek_mb-revB_pda.dts |  9 +--------
+ arch/arm/boot/dts/sama5d31ek_pda.dts         |  9 +--------
+ arch/arm/boot/dts/sama5d33ek.dts             |  9 +--------
+ arch/arm/boot/dts/sama5d33ek_mb-revB.dts     |  9 +--------
+ arch/arm/boot/dts/sama5d33ek_mb-revB_pda.dts |  9 +--------
+ arch/arm/boot/dts/sama5d33ek_pda.dts         |  9 +--------
+ arch/arm/boot/dts/sama5d34ek.dts             |  9 +--------
+ arch/arm/boot/dts/sama5d34ek_mb-revB.dts     |  9 +--------
+ arch/arm/boot/dts/sama5d34ek_mb-revB_pda.dts |  9 +--------
+ arch/arm/boot/dts/sama5d34ek_pda.dts         |  9 +--------
+ arch/arm/boot/dts/sama5d35ek.dts             | 13 +------------
+ arch/arm/boot/dts/sama5d35ek_mb-revB.dts     |  9 +--------
+ arch/arm/boot/dts/sama5d3cm.dtsi             | 10 ++++++++++
  16 files changed, 24 insertions(+), 131 deletions(-)
 
 diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
@@ -379,5 +379,5 @@ index a087b29..6419a79 100644
 +	};
  };
 -- 
-1.7.10.4
+1.8.4.rc3
 

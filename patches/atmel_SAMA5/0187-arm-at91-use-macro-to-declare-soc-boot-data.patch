@@ -1,7 +1,7 @@
 From 15ef818b25769c69fa4dd9f292eaa3bf1935320b Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 16 Aug 2012 17:36:55 +0800
-Subject: [PATCH 187/335] arm: at91: use macro to declare soc boot data
+Subject: [PATCH 187/382] arm: at91: use macro to declare soc boot data
 
 Instead of check the pointer of the init function, check the new builtin bool
 to known if the soc is enabled.
@@ -11,15 +11,15 @@ DT SoC.
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/mach-at91/at91rm9200.c  |    4 ++--
- arch/arm/mach-at91/at91sam9260.c |    4 ++--
- arch/arm/mach-at91/at91sam9261.c |    4 ++--
- arch/arm/mach-at91/at91sam9263.c |    4 ++--
- arch/arm/mach-at91/at91sam9g45.c |    4 ++--
- arch/arm/mach-at91/at91sam9n12.c |    4 ++--
- arch/arm/mach-at91/at91sam9rl.c  |    4 ++--
- arch/arm/mach-at91/at91sam9x5.c  |    4 ++--
- arch/arm/mach-at91/soc.h         |   12 +++++++++++-
+ arch/arm/mach-at91/at91rm9200.c  |  4 ++--
+ arch/arm/mach-at91/at91sam9260.c |  4 ++--
+ arch/arm/mach-at91/at91sam9261.c |  4 ++--
+ arch/arm/mach-at91/at91sam9263.c |  4 ++--
+ arch/arm/mach-at91/at91sam9g45.c |  4 ++--
+ arch/arm/mach-at91/at91sam9n12.c |  4 ++--
+ arch/arm/mach-at91/at91sam9rl.c  |  4 ++--
+ arch/arm/mach-at91/at91sam9x5.c  |  4 ++--
+ arch/arm/mach-at91/soc.h         | 12 +++++++++++-
  9 files changed, 27 insertions(+), 17 deletions(-)
 
 diff --git a/arch/arm/mach-at91/at91rm9200.c b/arch/arm/mach-at91/at91rm9200.c
@@ -187,5 +187,5 @@ index a9cfeb1..9c6d3d4 100644
  
  #if !defined(CONFIG_SOC_AT91RM9200)
 -- 
-1.7.10.4
+1.8.4.rc3
 

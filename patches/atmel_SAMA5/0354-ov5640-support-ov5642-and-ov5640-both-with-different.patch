@@ -1,0 +1,42 @@
+From 0179aed4d41ec1b71b741eafb4fc179fe6302178 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Tue, 13 Aug 2013 14:51:05 +0800
+Subject: [PATCH 354/382] ov5640: support ov5642 and ov5640 both with different
+ connect type(MIPI or PARALLEL)
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/media/video/ov5642.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/media/video/ov5642.c b/drivers/media/video/ov5642.c
+index e6bfd4b..dd2dc16 100644
+--- a/drivers/media/video/ov5642.c
++++ b/drivers/media/video/ov5642.c
+@@ -933,10 +933,23 @@ static int ov5642_cropcap(struct v4l2_subdev *sd, struct v4l2_cropcap *a)
+ static int ov5642_g_mbus_config(struct v4l2_subdev *sd,
+ 				struct v4l2_mbus_config *cfg)
+ {
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct soc_camera_link *icl = soc_camera_i2c_to_link(client);
++	struct ov5642 *priv = to_ov5642(client);
++
+ 	cfg->type = V4L2_MBUS_CSI2;
+ 	cfg->flags = V4L2_MBUS_CSI2_2_LANE | V4L2_MBUS_CSI2_CHANNEL_0 |
+ 					V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+ 
++
++	if (priv->is_ov5640) {
++		cfg->flags = V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_MASTER |
++			V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_HIGH |
++			V4L2_MBUS_DATA_ACTIVE_HIGH;
++		cfg->type = V4L2_MBUS_PARALLEL;
++		cfg->flags = soc_camera_apply_board_flags(icl, cfg);
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+1.8.4.rc3
+

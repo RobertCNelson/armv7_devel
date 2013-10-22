@@ -1,7 +1,7 @@
 From 239a662e15cf93dff5af6f51f1f80e2c3ce32ae1 Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:15 +0200
-Subject: [PATCH 146/335] crypto: Atmel AES; add device tree support
+Subject: [PATCH 146/382] crypto: Atmel AES; add device tree support
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -11,9 +11,9 @@ Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Eric Bénard <eric@eukrea.com>
 Tested-by: Eric Bénard <eric@eukrea.com>
 ---
- drivers/crypto/atmel-aes.c                 |  626 ++++++++++++++++++++++------
- include/linux/platform_data/atmel-aes.h    |   22 -
- include/linux/platform_data/atmel-crypto.h |   22 +
+ drivers/crypto/atmel-aes.c                 | 626 +++++++++++++++++++++++------
+ include/linux/platform_data/atmel-aes.h    |  22 -
+ include/linux/platform_data/atmel-crypto.h |  22 +
  3 files changed, 524 insertions(+), 146 deletions(-)
  delete mode 100644 include/linux/platform_data/atmel-aes.h
  create mode 100644 include/linux/platform_data/atmel-crypto.h
@@ -1066,5 +1066,5 @@ index 0000000..67f685f
 +
 +#endif /* __LINUX_ATMEL_CRYPTO_H */
 -- 
-1.7.10.4
+1.8.4.rc3
 

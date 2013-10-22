@@ -1,14 +1,14 @@
 From b6b579ced4cb3215b8cae7a325b5c0875c3a9033 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 13:00:04 +0800
-Subject: [PATCH 161/335] watchdog/at91sam9_wdt: Remove the __initdata of
+Subject: [PATCH 161/382] watchdog/at91sam9_wdt: Remove the __initdata of
  at91wdt_wdd
 
 For this variable will be used in the time handler.
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- drivers/watchdog/at91sam9_wdt.c |    2 +-
+ drivers/watchdog/at91sam9_wdt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/watchdog/at91sam9_wdt.c b/drivers/watchdog/at91sam9_wdt.c
@@ -25,5 +25,5 @@ index aeb7a35..2cf9045 100644
  	.min_timeout = MIN_HEARTBEAT,
  	.max_timeout = MAX_HEARTBEAT,
 -- 
-1.7.10.4
+1.8.4.rc3
 

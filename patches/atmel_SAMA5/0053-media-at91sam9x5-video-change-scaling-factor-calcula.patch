@@ -1,14 +1,14 @@
 From 8ad00bbdaaf6bc28c290b66287247a787b1431ab Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 18:30:47 +0200
-Subject: [PATCH 053/335] media/at91sam9x5-video: change scaling factor
+Subject: [PATCH 053/382] media/at91sam9x5-video: change scaling factor
  calculation
 
 Useful for future revision of the HEO IP
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/media/video/at91sam9x5-video.c |   36 ++++++++++++++++++++++++++------
+ drivers/media/video/at91sam9x5-video.c | 36 ++++++++++++++++++++++++++++------
  1 file changed, 30 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/video/at91sam9x5-video.c b/drivers/media/video/at91sam9x5-video.c
@@ -73,5 +73,5 @@ index 9d7e6c5..1e5a0a7 100644
  	at91sam9x5_video_params(pix->width, pix->height, priv->rotation,
  			&hwxstride, &hwpstride, &priv->y_offset);
 -- 
-1.7.10.4
+1.8.4.rc3
 

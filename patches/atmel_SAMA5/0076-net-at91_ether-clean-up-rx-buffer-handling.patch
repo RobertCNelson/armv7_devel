@@ -1,7 +1,7 @@
 From a2d59dbcb4ce8826ebb77682dfda7a67135bb8da Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:17 +0000
-Subject: [PATCH 076/335] net/at91_ether: clean up rx buffer handling
+Subject: [PATCH 076/382] net/at91_ether: clean up rx buffer handling
 
 This patch does two things:
 * Use macb struct members and remove at91_ether ones
@@ -9,8 +9,8 @@ This patch does two things:
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |  106 ++++++++++++++++++-----------
- drivers/net/ethernet/cadence/macb.h       |   13 ----
+ drivers/net/ethernet/cadence/at91_ether.c | 106 +++++++++++++++++++-----------
+ drivers/net/ethernet/cadence/macb.h       |  13 ----
  2 files changed, 68 insertions(+), 51 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -265,5 +265,5 @@ index 31a877a..a362751 100644
  
  extern const struct ethtool_ops macb_ethtool_ops;
 -- 
-1.7.10.4
+1.8.4.rc3
 

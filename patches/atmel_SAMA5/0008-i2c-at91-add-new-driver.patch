@@ -1,7 +1,7 @@
 From f9adebb1f6f2946bccafeb3a17f6162c21b229e4 Mon Sep 17 00:00:00 2001
 From: Nikolaus Voss <n.voss@weinmann.de>
 Date: Tue, 8 Nov 2011 11:49:46 +0100
-Subject: [PATCH 008/335] i2c: at91: add new driver
+Subject: [PATCH 008/382] i2c: at91: add new driver
 
 This driver has the following properties compared to the old driver:
 1. Support for multiple interfaces.
@@ -32,21 +32,21 @@ fixed:
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 ---
- arch/arm/mach-at91/at91rm9200.c          |    1 +
- arch/arm/mach-at91/at91rm9200_devices.c  |    2 +-
- arch/arm/mach-at91/at91sam9260.c         |    2 +
- arch/arm/mach-at91/at91sam9260_devices.c |    8 +-
- arch/arm/mach-at91/at91sam9261.c         |    2 +
- arch/arm/mach-at91/at91sam9261_devices.c |    8 +-
- arch/arm/mach-at91/at91sam9263.c         |    1 +
- arch/arm/mach-at91/at91sam9263_devices.c |    2 +-
- arch/arm/mach-at91/at91sam9g45.c         |    2 +
- arch/arm/mach-at91/at91sam9g45_devices.c |    4 +-
- arch/arm/mach-at91/at91sam9rl.c          |    2 +
- arch/arm/mach-at91/at91sam9rl_devices.c  |    2 +-
- drivers/i2c/busses/Kconfig               |   17 +-
- drivers/i2c/busses/Makefile              |    1 +
- drivers/i2c/busses/i2c-at91.c            |  505 ++++++++++++++++++++++++++++++
+ arch/arm/mach-at91/at91rm9200.c          |   1 +
+ arch/arm/mach-at91/at91rm9200_devices.c  |   2 +-
+ arch/arm/mach-at91/at91sam9260.c         |   2 +
+ arch/arm/mach-at91/at91sam9260_devices.c |   8 +-
+ arch/arm/mach-at91/at91sam9261.c         |   2 +
+ arch/arm/mach-at91/at91sam9261_devices.c |   8 +-
+ arch/arm/mach-at91/at91sam9263.c         |   1 +
+ arch/arm/mach-at91/at91sam9263_devices.c |   2 +-
+ arch/arm/mach-at91/at91sam9g45.c         |   2 +
+ arch/arm/mach-at91/at91sam9g45_devices.c |   4 +-
+ arch/arm/mach-at91/at91sam9rl.c          |   2 +
+ arch/arm/mach-at91/at91sam9rl_devices.c  |   2 +-
+ drivers/i2c/busses/Kconfig               |  17 +-
+ drivers/i2c/busses/Makefile              |   1 +
+ drivers/i2c/busses/i2c-at91.c            | 505 +++++++++++++++++++++++++++++++
  15 files changed, 545 insertions(+), 14 deletions(-)
  create mode 100644 drivers/i2c/busses/i2c-at91.c
 
@@ -796,5 +796,5 @@ index 0000000..78bcad0
 +MODULE_LICENSE("GPL");
 +MODULE_ALIAS("platform:at91_i2c");
 -- 
-1.7.10.4
+1.8.4.rc3
 

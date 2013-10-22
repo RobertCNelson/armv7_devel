@@ -1,8 +1,8 @@
 From f4c2e67c725e41d2d1dbd47238bce576cc4ecae2 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Fri, 16 Nov 2012 04:47:15 +0000
-Subject: [PATCH 107/335] net/ethernet: remove useless is_valid_ether_addr
- from drivers ndo_open
+Subject: [PATCH 107/382] net/ethernet: remove useless is_valid_ether_addr from
+ drivers ndo_open
 
 If ndo_validate_addr is set to the generic eth_validate_addr
 function there is no point in calling is_valid_ether_addr
@@ -16,19 +16,19 @@ in the actual behavior.
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/8390/etherh.c        |    6 ------
- drivers/net/ethernet/cadence/at91_ether.c |    3 ---
- drivers/net/ethernet/cadence/macb.c       |    3 ---
- drivers/net/ethernet/dnet.c               |    3 ---
- drivers/net/ethernet/i825xx/ether1.c      |    6 ------
- drivers/net/ethernet/micrel/ks8695net.c   |    3 ---
- drivers/net/ethernet/nxp/lpc_eth.c        |    4 +---
- drivers/net/ethernet/seeq/ether3.c        |    6 ------
- drivers/net/ethernet/smsc/smc911x.c       |   10 ----------
- drivers/net/ethernet/smsc/smc91x.c        |   10 ----------
- drivers/net/ethernet/smsc/smsc911x.c      |    5 -----
- drivers/net/ethernet/wiznet/w5100.c       |    2 --
- drivers/net/ethernet/wiznet/w5300.c       |    2 --
+ drivers/net/ethernet/8390/etherh.c        |  6 ------
+ drivers/net/ethernet/cadence/at91_ether.c |  3 ---
+ drivers/net/ethernet/cadence/macb.c       |  3 ---
+ drivers/net/ethernet/dnet.c               |  3 ---
+ drivers/net/ethernet/i825xx/ether1.c      |  6 ------
+ drivers/net/ethernet/micrel/ks8695net.c   |  3 ---
+ drivers/net/ethernet/nxp/lpc_eth.c        |  4 +---
+ drivers/net/ethernet/seeq/ether3.c        |  6 ------
+ drivers/net/ethernet/smsc/smc911x.c       | 10 ----------
+ drivers/net/ethernet/smsc/smc91x.c        | 10 ----------
+ drivers/net/ethernet/smsc/smsc911x.c      |  5 -----
+ drivers/net/ethernet/wiznet/w5100.c       |  2 --
+ drivers/net/ethernet/wiznet/w5300.c       |  2 --
  13 files changed, 1 insertion(+), 62 deletions(-)
 
 diff --git a/drivers/net/ethernet/8390/etherh.c b/drivers/net/ethernet/8390/etherh.c
@@ -245,5 +245,5 @@ index bdd8891..cf8f0a6 100644
  	napi_enable(&priv->napi);
  	netif_start_queue(ndev);
 -- 
-1.7.10.4
+1.8.4.rc3
 

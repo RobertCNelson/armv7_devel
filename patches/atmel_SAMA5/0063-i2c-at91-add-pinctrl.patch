@@ -1,11 +1,11 @@
 From a7762d7deb694661030b4c6b8de373b931127fea Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:06:37 +0200
-Subject: [PATCH 063/335] i2c: at91: add pinctrl
+Subject: [PATCH 063/382] i2c: at91: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/i2c/busses/i2c-at91.c |    8 ++++++++
+ drivers/i2c/busses/i2c-at91.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/i2c/busses/i2c-at91.c b/drivers/i2c/busses/i2c-at91.c
@@ -42,5 +42,5 @@ index dd8a08d..bdf07b9 100644
  	if (!dev->pdata)
  		return -ENODEV;
 -- 
-1.7.10.4
+1.8.4.rc3
 

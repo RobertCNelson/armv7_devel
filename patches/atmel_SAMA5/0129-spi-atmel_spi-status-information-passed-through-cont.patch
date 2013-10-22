@@ -1,7 +1,7 @@
 From 1e50c6f8d30163d1a932a06995e10eea75e3ebb8 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 16 Mar 2011 11:29:12 +0800
-Subject: [PATCH 129/335] spi/atmel_spi: status information passed through
+Subject: [PATCH 129/382] spi/atmel_spi: status information passed through
  controller data
 
 The status of transfer is stored in controller data structure
@@ -12,7 +12,7 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Cc: grant.likely@secretlab.ca
 Cc: spi-devel-general@lists.sourceforge.net
 ---
- drivers/spi/spi-atmel.c |   13 ++++++++-----
+ drivers/spi/spi-atmel.c | 13 ++++++++-----
  1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
@@ -74,5 +74,5 @@ index fc1222a..76a1baf 100644
  			} else {
  				if (xfer->cs_change) {
 -- 
-1.7.10.4
+1.8.4.rc3
 

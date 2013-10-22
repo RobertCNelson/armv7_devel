@@ -1,7 +1,7 @@
 From 767db8f3cff07546992a2df1da9a89cfbdbc5851 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 16 Mar 2011 10:50:13 +0800
-Subject: [PATCH 127/335] spi/atmel_spi: add physical base address
+Subject: [PATCH 127/382] spi/atmel_spi: add physical base address
 
 Needed for future use with dmaengine enabled driver.
 
@@ -9,7 +9,7 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Cc: grant.likely@secretlab.ca
 Cc: spi-devel-general@lists.sourceforge.net
 ---
- drivers/spi/spi-atmel.c |    2 ++
+ drivers/spi/spi-atmel.c | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
@@ -33,5 +33,5 @@ index 16d6a83..2e040be 100644
  	as->clk = clk;
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

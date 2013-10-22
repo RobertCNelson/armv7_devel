@@ -1,0 +1,27 @@
+From b25addb3a3ca187a360572035d9a5516863c522b Mon Sep 17 00:00:00 2001
+From: Patrice Vilchez <patrice.vilchez@atmel.com>
+Date: Thu, 18 Jul 2013 17:40:32 +0200
+Subject: [PATCH 341/382] micrel ksz9021: add generic phy suspend/resume
+ functions
+
+Signed-off-by: Patrice Vilchez <patrice.vilchez@atmel.com>
+---
+ drivers/net/phy/micrel.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
+index 2165d5f..0cfd973 100644
+--- a/drivers/net/phy/micrel.c
++++ b/drivers/net/phy/micrel.c
+@@ -203,6 +203,8 @@ static struct phy_driver ksphy_driver[] = {
+ 	.read_status	= genphy_read_status,
+ 	.ack_interrupt	= kszphy_ack_interrupt,
+ 	.config_intr	= ksz9021_config_intr,
++	.suspend	= genphy_suspend,
++	.resume		= genphy_resume,
+ 	.driver		= { .owner = THIS_MODULE, },
+ } };
+ 
+-- 
+1.8.4.rc3
+

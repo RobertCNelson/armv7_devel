@@ -1,13 +1,13 @@
 From 2869e922ec139707b60679d2cffb71c6e8e33640 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 18 Dec 2012 17:23:10 +0100
-Subject: [PATCH 259/335] SAMA5: update defconfig
+Subject: [PATCH 259/382] SAMA5: update defconfig
 
 Add support for SPI flash and usb video devices
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- arch/arm/configs/sama5d3_defconfig |    5 ++++-
+ arch/arm/configs/sama5d3_defconfig | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/configs/sama5d3_defconfig b/arch/arm/configs/sama5d3_defconfig
@@ -34,5 +34,5 @@ index 3959dfc..aeff4e8 100644
  CONFIG_SOC_CAMERA=y
  CONFIG_SOC_CAMERA_OV2640=y
 -- 
-1.7.10.4
+1.8.4.rc3
 

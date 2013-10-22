@@ -1,0 +1,43 @@
+From 8ce0755f2eae82c57365f96291367466a9430654 Mon Sep 17 00:00:00 2001
+From: Richard Genoud <richard.genoud@gmail.com>
+Date: Mon, 12 Aug 2013 14:31:02 +0200
+Subject: [PATCH 379/382] ARM: AT91: DTS: sam9x5ek: add sound configuration
+
+The sam9x5ek board has 2 jacks:
+headphone wired on RHPOUT/LHPOUT of the wm8731
+line in wired on LLINEIN/RLINEIN of the wm8731
+
+Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
+[Cherry-pick: 90d01929ad38259596371c78df8a9ecf37a7f815]
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5ek.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5ek.dtsi b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+index c55bfef..abcd6d2 100644
+--- a/arch/arm/boot/dts/at91sam9x5ek.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+@@ -129,4 +129,19 @@
+ 			status = "okay";
+ 		};
+ 	};
++
++	sound {
++		compatible = "atmel,sam9x5-wm8731-audio";
++
++		atmel,model = "wm8731 @ AT91SAM9X5EK";
++
++		atmel,audio-routing =
++			"Headphone Jack", "RHPOUT",
++			"Headphone Jack", "LHPOUT",
++			"LLINEIN", "Line In Jack",
++			"RLINEIN", "Line In Jack";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8731>;
++	};
+ };
+-- 
+1.8.4.rc3
+

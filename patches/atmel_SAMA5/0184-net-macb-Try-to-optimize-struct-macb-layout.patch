@@ -1,7 +1,7 @@
 From 6160d8eb325221b486f0a94968aea1c44a0e377b Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 12 Dec 2012 17:52:04 +0100
-Subject: [PATCH 184/335] net/macb: Try to optimize struct macb layout
+Subject: [PATCH 184/382] net/macb: Try to optimize struct macb layout
 
 Move TX-related fields to the top of the struct so that they end up on
 the same cache line. Move the NAPI struct below that since it is used
@@ -13,7 +13,7 @@ Signed-off-by: Havard Skinnemoen <havard@skinnemoen.net>
 [nicolas.ferre@atmel.com: adapt to newer kernel]
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.h |   25 +++++++++++++------------
+ drivers/net/ethernet/cadence/macb.h | 25 +++++++++++++------------
  1 file changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.h b/drivers/net/ethernet/cadence/macb.h
@@ -73,5 +73,5 @@ index cef146f..aeeb729 100644
  	struct phy_device	*phy_dev;
  	unsigned int 		link;
 -- 
-1.7.10.4
+1.8.4.rc3
 

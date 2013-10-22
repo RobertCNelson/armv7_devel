@@ -1,7 +1,7 @@
 From b234472acdeb6e41335a4478aec2ce185cad192e Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 12:56:34 +0800
-Subject: [PATCH 158/335] watchdog/at91sam9_wdt: Remove the options:
+Subject: [PATCH 158/382] watchdog/at91sam9_wdt: Remove the options:
  WDIOF_SETTIMEOUT and WDIOF_MAGICCLOSE
 
 Since the Watchdog Timer Mode Register can be only written only once,
@@ -10,7 +10,7 @@ and WDIOF_MAGICCLOSE options
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- drivers/watchdog/at91sam9_wdt.c |    3 +--
+ drivers/watchdog/at91sam9_wdt.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/watchdog/at91sam9_wdt.c b/drivers/watchdog/at91sam9_wdt.c
@@ -28,5 +28,5 @@ index 93ae4e4..7ed3264 100644
  
  static int at91wdt_start(struct watchdog_device *wddev)
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 495937277bd0175b75dd7da7defabf33bcffe65e Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 12 Dec 2012 17:34:43 +0100
-Subject: [PATCH 183/335] net/macb: change RX path for GEM
+Subject: [PATCH 183/382] net/macb: change RX path for GEM
 
 GEM is able to adapt its DMA buffer size, so change
 the RX path to take advantage of this possibility and
@@ -11,8 +11,8 @@ differences between MACB and GEM adapter type.
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.c |  308 +++++++++++++++++++++++++++++------
- drivers/net/ethernet/cadence/macb.h |   13 ++
+ drivers/net/ethernet/cadence/macb.c | 308 ++++++++++++++++++++++++++++++------
+ drivers/net/ethernet/cadence/macb.h |  13 ++
  2 files changed, 272 insertions(+), 49 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -468,5 +468,5 @@ index 2681455..cef146f 100644
  	struct phy_device	*phy_dev;
  	unsigned int 		link;
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 2cdfa06078bd8a5ce658966f81bc340d2464620a Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 20 Nov 2012 16:38:17 +0800
-Subject: [PATCH 115/335] ASoC: atmel-ssc: add phybase in device structure
+Subject: [PATCH 115/382] ASoC: atmel-ssc: add phybase in device structure
 
 Useful for future dmaengine use.
 
@@ -9,8 +9,8 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- drivers/misc/atmel-ssc.c  |    2 ++
- include/linux/atmel-ssc.h |    1 +
+ drivers/misc/atmel-ssc.c  | 2 ++
+ include/linux/atmel-ssc.h | 1 +
  2 files changed, 3 insertions(+)
 
 diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
@@ -39,5 +39,5 @@ index 1ca0e32..deb0ae5 100644
  	struct platform_device	*pdev;
  	struct atmel_ssc_platform_data *pdata;
 -- 
-1.7.10.4
+1.8.4.rc3
 

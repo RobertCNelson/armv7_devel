@@ -1,13 +1,13 @@
 From d4d7844ad688541747dda9c6e9b3a7ee20c41cd8 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 24 Oct 2012 01:15:51 +0800
-Subject: [PATCH 199/335] pinctrl: at91: fix debounce support
+Subject: [PATCH 199/382] pinctrl: at91: fix debounce support
 
 add missing mask check
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- drivers/pinctrl/pinctrl-at91.c |    2 +-
+ drivers/pinctrl/pinctrl-at91.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
@@ -24,5 +24,5 @@ index b836567..f2e4ef5 100644
  	if (info->ops->set_pulldown)
  		info->ops->set_pulldown(pio, mask, config & PULL_DOWN);
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From ac22120858e5523346d3814a443b0453182689d4 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Fri, 20 May 2011 14:51:45 +0200
-Subject: [PATCH 040/335] video: atmelfb: refactor LUT
+Subject: [PATCH 040/382] video: atmelfb: refactor LUT
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -9,9 +9,9 @@ Content-Transfer-Encoding: 8bit
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/atmel_lcdfb.c      |    1 +
- drivers/video/atmel_lcdfb_core.c |    6 ++++--
- include/video/atmel_lcdc.h       |    8 ++------
+ drivers/video/atmel_lcdfb.c      | 1 +
+ drivers/video/atmel_lcdfb_core.c | 6 ++++--
+ include/video/atmel_lcdc.h       | 8 ++------
  3 files changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/video/atmel_lcdfb.c b/drivers/video/atmel_lcdfb.c
@@ -76,5 +76,5 @@ index 866ab47..6c470c4 100644
  
  #endif /* __ATMEL_LCDC_H__ */
 -- 
-1.7.10.4
+1.8.4.rc3
 

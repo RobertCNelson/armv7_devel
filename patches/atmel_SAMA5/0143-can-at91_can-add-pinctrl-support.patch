@@ -1,11 +1,11 @@
 From decf507de518654929d3e8979ea00cf3473c20bb Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 28 Nov 2012 14:37:47 +0100
-Subject: [PATCH 143/335] can: at91_can: add pinctrl support
+Subject: [PATCH 143/382] can: at91_can: add pinctrl support
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/net/can/at91_can.c |    9 +++++++++
+ drivers/net/can/at91_can.c | 9 +++++++++
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/net/can/at91_can.c b/drivers/net/can/at91_can.c
@@ -43,5 +43,5 @@ index 641beb9..1cf6104 100644
  				resource_size(res),
  				pdev->name)) {
 -- 
-1.7.10.4
+1.8.4.rc3
 

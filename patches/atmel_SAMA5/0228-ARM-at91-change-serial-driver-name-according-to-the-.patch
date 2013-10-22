@@ -1,15 +1,15 @@
 From 81bb2bc15e9a3fcad6c3b0d162b827e5f531b0cc Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 13 Dec 2012 15:38:40 +0100
-Subject: [PATCH 228/335] ARM: at91: change serial driver name according to
- the move to id_table
+Subject: [PATCH 228/382] ARM: at91: change serial driver name according to the
+ move to id_table
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- arch/arm/mach-at91/at91sam9260.c         |   14 +++++++-------
- arch/arm/mach-at91/at91sam9260_devices.c |   14 +++++++-------
- arch/arm/mach-at91/at91sam9g45.c         |   10 +++++-----
- arch/arm/mach-at91/at91sam9g45_devices.c |   10 +++++-----
+ arch/arm/mach-at91/at91sam9260.c         | 14 +++++++-------
+ arch/arm/mach-at91/at91sam9260_devices.c | 14 +++++++-------
+ arch/arm/mach-at91/at91sam9g45.c         | 10 +++++-----
+ arch/arm/mach-at91/at91sam9g45_devices.c | 10 +++++-----
  4 files changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/arch/arm/mach-at91/at91sam9260.c b/arch/arm/mach-at91/at91sam9260.c
@@ -175,5 +175,5 @@ index 40b59d9..4a77c4b 100644
  	.dev		= {
  				.dma_mask		= &uart3_dmamask,
 -- 
-1.7.10.4
+1.8.4.rc3
 

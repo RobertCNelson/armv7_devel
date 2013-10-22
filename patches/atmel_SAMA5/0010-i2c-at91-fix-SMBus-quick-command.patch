@@ -1,14 +1,14 @@
 From 1a04dd29f97d936355bf14a5430204e0f54272f0 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 9 Nov 2012 17:46:46 +0100
-Subject: [PATCH 010/335] i2c: at91: fix SMBus quick command
+Subject: [PATCH 010/382] i2c: at91: fix SMBus quick command
 
 The driver claims to support SMBus quick command but it was not the case.
 This patch fixes this issue.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/i2c/busses/i2c-at91.c |    7 ++++++-
+ drivers/i2c/busses/i2c-at91.c | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/i2c/busses/i2c-at91.c b/drivers/i2c/busses/i2c-at91.c
@@ -37,5 +37,5 @@ index aa59a25..c02bf20 100644
  
  		if (at91_twi_read(dev, AT91_TWI_SR) & AT91_TWI_RXRDY) {
 -- 
-1.7.10.4
+1.8.4.rc3
 

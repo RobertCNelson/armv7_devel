@@ -1,11 +1,11 @@
 From 32036b9e9ba25fd760f31b5ec2e80b33b8bb88dd Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:08:12 +0200
-Subject: [PATCH 058/335] mmc: at91: add pinctrl
+Subject: [PATCH 058/382] mmc: at91: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/mmc/host/atmel-mci.c |   36 ++++++++++++++++++++++++++++++------
+ drivers/mmc/host/atmel-mci.c | 36 ++++++++++++++++++++++++++++++------
  1 file changed, 30 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/mmc/host/atmel-mci.c b/drivers/mmc/host/atmel-mci.c
@@ -87,5 +87,5 @@ index a3f6482..bdb8e9b 100644
  	if (irq < 0)
  		return irq;
 -- 
-1.7.10.4
+1.8.4.rc3
 

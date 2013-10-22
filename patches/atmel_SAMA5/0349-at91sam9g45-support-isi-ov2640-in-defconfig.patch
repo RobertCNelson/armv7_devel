@@ -1,0 +1,27 @@
+From 5c1f6198e58c4721525047ec296491e7489be77e Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 12 Sep 2013 18:07:14 +0800
+Subject: [PATCH 349/382] at91sam9g45: support isi & ov2640 in defconfig
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/at91sam9g45_defconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/configs/at91sam9g45_defconfig b/arch/arm/configs/at91sam9g45_defconfig
+index f8ef6ba..d19c1b9 100644
+--- a/arch/arm/configs/at91sam9g45_defconfig
++++ b/arch/arm/configs/at91sam9g45_defconfig
+@@ -210,3 +210,9 @@ CONFIG_CRYPTO_ECB=y
+ CONFIG_CRYPTO_USER_API_HASH=m
+ CONFIG_CRYPTO_USER_API_SKCIPHER=m
+ # CONFIG_CRYPTO_HW is not set
++CONFIG_MEDIA_SUPPORT=y
++CONFIG_MEDIA_CAMERA_SUPPORT=y
++CONFIG_V4L_PLATFORM_DRIVERS=y
++CONFIG_SOC_CAMERA=y
++CONFIG_SOC_CAMERA_OV2640=y
++CONFIG_VIDEO_ATMEL_ISI=y
+-- 
+1.8.4.rc3
+

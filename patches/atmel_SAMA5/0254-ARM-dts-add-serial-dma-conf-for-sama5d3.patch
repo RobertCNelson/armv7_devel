@@ -1,11 +1,11 @@
 From d70241eec7b68dde1a05c7d8ac18c91f4ca8cb13 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 21 Nov 2012 16:41:07 +0800
-Subject: [PATCH 254/335] ARM: dts: add serial dma conf for sama5d3
+Subject: [PATCH 254/382] ARM: dts: add serial dma conf for sama5d3
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- arch/arm/boot/dts/sama5d3.dtsi |    8 ++++++++
+ arch/arm/boot/dts/sama5d3.dtsi | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
@@ -35,5 +35,5 @@ index d4233f5..32f8c08 100644
  				pinctrl-0 = <&pinctrl_usart1>;
  				status = "disabled";
 -- 
-1.7.10.4
+1.8.4.rc3
 

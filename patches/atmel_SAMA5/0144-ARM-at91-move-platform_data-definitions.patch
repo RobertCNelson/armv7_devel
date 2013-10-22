@@ -1,7 +1,7 @@
 From 3c71d3f0891781b1ae730efedfa5b5d3dc1abe12 Mon Sep 17 00:00:00 2001
 From: Arnd Bergmann <arnd@arndb.de>
 Date: Fri, 24 Aug 2012 15:10:04 +0200
-Subject: [PATCH 144/335] ARM: at91: move platform_data definitions
+Subject: [PATCH 144/382] ARM: at91: move platform_data definitions
 
 Platform data for device drivers should be defined in
 include/linux/platform_data/*.h, not in the architecture
@@ -18,13 +18,13 @@ Acked-by: Vinod Koul <vinod.koul@linux.intel.com>
 Cc: Jean-Christophe Plagniol-Villard <plagnioj@jcrosoft.com>
 Cc: Dan Williams <djbw@fb.com>
 ---
- arch/arm/mach-at91/at91sam9g45_devices.c    |    2 +-
- arch/arm/mach-at91/at91sam9rl_devices.c     |    2 +-
- arch/arm/mach-at91/include/mach/at_hdmac.h  |   61 ---------------------------
- arch/arm/mach-at91/include/mach/atmel-mci.h |    2 +-
- drivers/dma/at_hdmac_regs.h                 |    2 +-
- include/linux/platform_data/atmel-aes.h     |    2 +-
- include/linux/platform_data/dma-atmel.h     |   61 +++++++++++++++++++++++++++
+ arch/arm/mach-at91/at91sam9g45_devices.c    |  2 +-
+ arch/arm/mach-at91/at91sam9rl_devices.c     |  2 +-
+ arch/arm/mach-at91/include/mach/at_hdmac.h  | 61 -----------------------------
+ arch/arm/mach-at91/include/mach/atmel-mci.h |  2 +-
+ drivers/dma/at_hdmac_regs.h                 |  2 +-
+ include/linux/platform_data/atmel-aes.h     |  2 +-
+ include/linux/platform_data/dma-atmel.h     | 61 +++++++++++++++++++++++++++++
  7 files changed, 66 insertions(+), 66 deletions(-)
  delete mode 100644 arch/arm/mach-at91/include/mach/at_hdmac.h
  create mode 100644 include/linux/platform_data/dma-atmel.h
@@ -229,5 +229,5 @@ index 0000000..cab0997
 +
 +#endif /* AT_HDMAC_H */
 -- 
-1.7.10.4
+1.8.4.rc3
 

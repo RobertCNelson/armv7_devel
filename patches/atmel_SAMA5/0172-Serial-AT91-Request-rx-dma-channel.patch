@@ -1,14 +1,14 @@
 From 0c7985afb407690f6a51c24e81545b298e81523b Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 13:36:20 +0800
-Subject: [PATCH 172/335] Serial: AT91: Request rx dma channel
+Subject: [PATCH 172/382] Serial: AT91: Request rx dma channel
 
 Request a cyclic dma channel for rx dma use.
 Use cyclic transfer is to prevent receive data overrun.
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/tty/serial/atmel_serial.c |  112 ++++++++++++++++++++++++++++++++++++-
+ drivers/tty/serial/atmel_serial.c | 112 +++++++++++++++++++++++++++++++++++++-
  1 file changed, 111 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
@@ -168,5 +168,5 @@ index 9491400..33d8d55 100644
  		atmel_tx_dma_release(atmel_port);
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,0 +1,25 @@
+From a78cfffbda6a73eb64f592ff3feb37458d78864a Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 25 Sep 2013 14:50:41 +0800
+Subject: [PATCH 372/382] ARM: at91: sam9x5: add ssc0 alias
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index c421d4a..6e500bf 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -30,6 +30,7 @@
+ 		i2c0 = &i2c0;
+ 		i2c1 = &i2c1;
+ 		i2c2 = &i2c2;
++		ssc0 = &ssc0;
+ 	};
+ 	cpus {
+ 		cpu@0 {
+-- 
+1.8.4.rc3
+

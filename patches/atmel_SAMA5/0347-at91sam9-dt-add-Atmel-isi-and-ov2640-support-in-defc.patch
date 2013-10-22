@@ -1,0 +1,28 @@
+From 0ddc1ef9c745f3469208486eb5f7df0ba0280fac Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 11 Sep 2013 18:15:24 +0800
+Subject: [PATCH 347/382] at91sam9/dt: add Atmel isi and ov2640 support in
+ defconfig
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/at91_dt_defconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+index a1556ea..f53e1e6 100644
+--- a/arch/arm/configs/at91_dt_defconfig
++++ b/arch/arm/configs/at91_dt_defconfig
+@@ -212,3 +212,9 @@ CONFIG_CRC_CCITT=m
+ CONFIG_CRC_ITU_T=m
+ CONFIG_CRC7=m
+ CONFIG_AVERAGE=y
++CONFIG_MEDIA_SUPPORT=y
++CONFIG_MEDIA_CAMERA_SUPPORT=y
++CONFIG_V4L_PLATFORM_DRIVERS=y
++CONFIG_SOC_CAMERA=y
++CONFIG_SOC_CAMERA_OV2640=y
++CONFIG_VIDEO_ATMEL_ISI=y
+-- 
+1.8.4.rc3
+

@@ -1,13 +1,13 @@
 From 2f25fa058facb6b9a28f0ca0e9463a77f6428b4e Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Thu, 9 May 2013 17:42:14 +0800
-Subject: [PATCH 323/335] pm/sama5d3: add pm support for sama5d3xek
+Subject: [PATCH 323/382] pm/sama5d3: add pm support for sama5d3xek
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- arch/arm/mach-at91/cpuidle.c      |    3 ++-
- arch/arm/mach-at91/pm.c           |    6 +++--
- arch/arm/mach-at91/pm_slowclock.S |   52 ++++++++++++++++++++++++++++++++++++-
+ arch/arm/mach-at91/cpuidle.c      |  3 ++-
+ arch/arm/mach-at91/pm.c           |  6 +++--
+ arch/arm/mach-at91/pm_slowclock.S | 52 ++++++++++++++++++++++++++++++++++++++-
  3 files changed, 57 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm/mach-at91/cpuidle.c b/arch/arm/mach-at91/cpuidle.c
@@ -119,5 +119,5 @@ index 098c28d..5569ac3 100644
  	/* Turn on the main oscillator */
  	ldr	tmp1, [pmc, #AT91_CKGR_MOR]
 -- 
-1.7.10.4
+1.8.4.rc3
 

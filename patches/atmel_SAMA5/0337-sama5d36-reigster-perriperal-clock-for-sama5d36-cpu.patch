@@ -1,0 +1,78 @@
+From 0fcf43366721efa817d5deca23f76c0038de25f2 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 7 Jun 2013 11:57:57 +0800
+Subject: [PATCH 337/382] sama5d36: reigster perriperal clock for sama5d36 cpu
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/mach-at91/include/mach/cpu.h |  2 ++
+ arch/arm/mach-at91/sama5d3.c          | 12 +++++++-----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm/mach-at91/include/mach/cpu.h b/arch/arm/mach-at91/include/mach/cpu.h
+index 3f8db05..852eaa5 100644
+--- a/arch/arm/mach-at91/include/mach/cpu.h
++++ b/arch/arm/mach-at91/include/mach/cpu.h
+@@ -207,12 +207,14 @@ static inline int at91_soc_is_detected(void)
+ #define cpu_is_sama5d33()	(at91_soc_initdata.subtype == AT91_SOC_SAMA5D33)
+ #define cpu_is_sama5d34()	(at91_soc_initdata.subtype == AT91_SOC_SAMA5D34)
+ #define cpu_is_sama5d35()	(at91_soc_initdata.subtype == AT91_SOC_SAMA5D35)
++#define cpu_is_sama5d36()	(at91_soc_initdata.subtype == AT91_SOC_SAMA5D36)
+ #else
+ #define cpu_is_sama5d3()	(0)
+ #define cpu_is_sama5d31()	(0)
+ #define cpu_is_sama5d32()	(0)
+ #define cpu_is_sama5d34()	(0)
+ #define cpu_is_sama5d35()	(0)
++#define cpu_is_sama5d36()	(0)
+ #endif
+ 
+ /*
+diff --git a/arch/arm/mach-at91/sama5d3.c b/arch/arm/mach-at91/sama5d3.c
+index c499446..1903dfa 100644
+--- a/arch/arm/mach-at91/sama5d3.c
++++ b/arch/arm/mach-at91/sama5d3.c
+@@ -177,13 +177,13 @@ static struct clk udphs_clk = {
+ 	.pid		= SAMA5D3_ID_UDPHS,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+ };
+-/* gmac only for sama5d33, sama5d34, sama5d35 */
++/* gmac only for sama5d33, sama5d34, sama5d35, sama5d36 */
+ static struct clk macb0_clk = {
+ 	.name		= "macb0_clk",
+ 	.pid		= SAMA5D3_ID_GMAC,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+ };
+-/* emac only for sama5d31, sama5d35 */
++/* emac only for sama5d31, sama5d35, sama5d36 */
+ static struct clk macb1_clk = {
+ 	.name		= "macb1_clk",
+ 	.pid		= SAMA5D3_ID_EMAC,
+@@ -195,7 +195,7 @@ static struct clk lcdc_clk = {
+ 	.pid		= SAMA5D3_ID_LCDC,
+ 	.type		= CLK_TYPE_PERIPHERAL,
+ };
+-/* isi only for sama5d33, sama5d35 */
++/* isi only for sama5d33, sama5d35, sama5d36 */
+ static struct clk isi_clk = {
+ 	.name		= "isi_clk",
+ 	.pid		= SAMA5D3_ID_ISI,
+@@ -357,11 +357,13 @@ static void __init sama5d3_register_clocks(void)
+ 
+ 	if ( cpu_is_sama5d33()
+ 	|| cpu_is_sama5d34()
+-	|| cpu_is_sama5d35() )
++	|| cpu_is_sama5d35()
++	|| cpu_is_sama5d36())
+ 		clk_register(&macb0_clk);
+ 
+ 	if ( cpu_is_sama5d31()
+-	|| cpu_is_sama5d35() )
++	|| cpu_is_sama5d35()
++	|| cpu_is_sama5d36())
+ 		clk_register(&macb1_clk);
+ 
+ 	if (!cpu_is_sama5d35())
+-- 
+1.8.4.rc3
+

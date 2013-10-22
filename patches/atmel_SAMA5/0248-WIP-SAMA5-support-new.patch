@@ -1,7 +1,7 @@
 From 94013fa8f016d2c52c772e8e60853f79798a91cb Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 19 Nov 2012 18:26:49 +0100
-Subject: [PATCH 248/335] WIP: SAMA5 support (new)
+Subject: [PATCH 248/382] WIP: SAMA5 support (new)
 
 Marvellous patch:
 - breaks single kernel for multi soc (DMA peripheral interface)
@@ -3322,5 +3322,5 @@ index bb709fd..2edfe34 100644
  config CAN_TI_HECC
  	depends on CAN_DEV && ARCH_OMAP3
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 6ae4356f367be283781faa35028cbf11e01f5ce4 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Fri, 23 Nov 2012 17:58:39 +0100
-Subject: [PATCH 222/335] ARM: dts: add spi nodes for atmel boards
+Subject: [PATCH 222/382] ARM: dts: add spi nodes for atmel boards
 
 From: Richard Genoud <richard.genoud@gmail.com>
 
@@ -10,11 +10,11 @@ Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
 [wenyou.yang@atmel.com: remove the cs-gpios property for sam9x5ek boards]
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- arch/arm/boot/dts/at91sam9263ek.dts         |    9 +++++++++
- arch/arm/boot/dts/at91sam9g20ek_common.dtsi |    9 +++++++++
- arch/arm/boot/dts/at91sam9g25ek.dts         |    9 +++++++++
- arch/arm/boot/dts/at91sam9m10g45ek.dts      |    9 +++++++++
- arch/arm/boot/dts/at91sam9n12ek.dts         |    9 +++++++++
+ arch/arm/boot/dts/at91sam9263ek.dts         | 9 +++++++++
+ arch/arm/boot/dts/at91sam9g20ek_common.dtsi | 9 +++++++++
+ arch/arm/boot/dts/at91sam9g25ek.dts         | 9 +++++++++
+ arch/arm/boot/dts/at91sam9m10g45ek.dts      | 9 +++++++++
+ arch/arm/boot/dts/at91sam9n12ek.dts         | 9 +++++++++
  5 files changed, 45 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9263ek.dts b/arch/arm/boot/dts/at91sam9263ek.dts
@@ -118,5 +118,5 @@ index ccc94de..517b62b 100644
  
  		nand0: nand@40000000 {
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 3ae943529b03e24e9bb2ef088c6bac8c2d68f5f3 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:56 +0000
-Subject: [PATCH 102/335] net/at91_ether: clean up print outs
+Subject: [PATCH 102/382] net/at91_ether: clean up print outs
 
 Convert all printk's to netdev_ counterparts and fix up some
 printed texts.
@@ -9,7 +9,7 @@ printed texts.
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |   17 +++++++----------
+ drivers/net/ethernet/cadence/at91_ether.c | 17 +++++++----------
  1 file changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -71,5 +71,5 @@ index 67b66c4..cf0cf06 100644
  	return 0;
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

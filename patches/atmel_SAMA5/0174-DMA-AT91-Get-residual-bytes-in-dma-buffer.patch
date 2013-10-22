@@ -1,7 +1,7 @@
 From db7289c5be03110ce4dd17a69a470cdb2e7eecea Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 13:46:54 +0800
-Subject: [PATCH 174/335] DMA: AT91: Get residual bytes in dma buffer
+Subject: [PATCH 174/382] DMA: AT91: Get residual bytes in dma buffer
 
 Add support for returning the residue for a particular descriptor by
 reading the BTSIZE in CTRLA register.
@@ -15,8 +15,8 @@ reading the BTSIZE in CTRLA register.
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/dma/at_hdmac.c      |  130 +++++++++++++++++++++++++++++++++++++------
- drivers/dma/at_hdmac_regs.h |    3 +
+ drivers/dma/at_hdmac.c      | 130 ++++++++++++++++++++++++++++++++++++++------
+ drivers/dma/at_hdmac_regs.h |   3 +
  2 files changed, 116 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
@@ -235,5 +235,5 @@ index d758f33..8e5caf7 100644
  
  	spinlock_t		lock;
 -- 
-1.7.10.4
+1.8.4.rc3
 

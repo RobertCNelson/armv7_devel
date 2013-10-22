@@ -1,14 +1,14 @@
 From dd6dca88430d6d0a55bd6f8c2d0a335e1a9e0bfa Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 6 Dec 2012 09:34:00 +0800
-Subject: [PATCH 175/335] DMA: AT91: Check fifo empty
+Subject: [PATCH 175/382] DMA: AT91: Check fifo empty
 
 The data may still remain in dma fifo when caculate the residue,
 check fifo empty flag until dma timeout, if not, restart a new tasklet to finish remain data.
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/dma/at_hdmac.c |   20 +++++++++++++++++++-
+ drivers/dma/at_hdmac.c | 20 +++++++++++++++++++-
  1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
@@ -74,5 +74,5 @@ index b254e07..5eb7d11 100644
  	if (atc_chan_is_paused(atchan))
  		atc_control(chan, DMA_RESUME, 0);
 -- 
-1.7.10.4
+1.8.4.rc3
 

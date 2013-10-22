@@ -1,14 +1,14 @@
 From 1da434772c93621ffb3c59e6ebc6fc1e47a932a8 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 16 Oct 2012 11:56:59 +0800
-Subject: [PATCH 111/335] ASoC: atmel-ssc: use module_platform_driver macro
+Subject: [PATCH 111/382] ASoC: atmel-ssc: use module_platform_driver macro
 
 This patch removes some code duplication by using module_platform_driver
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 Signed-off-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
 ---
- drivers/misc/atmel-ssc.c |   18 ++++--------------
+ drivers/misc/atmel-ssc.c | 18 ++++--------------
  1 file changed, 4 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
@@ -53,5 +53,5 @@ index 23dcb76..ac00f83 100644
  MODULE_AUTHOR("Hans-Christian Egtvedt <hcegtvedt@atmel.com>");
  MODULE_DESCRIPTION("SSC driver for Atmel AVR32 and AT91");
 -- 
-1.7.10.4
+1.8.4.rc3
 

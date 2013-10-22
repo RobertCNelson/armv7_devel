@@ -1,7 +1,7 @@
 From 1b1cac3916f851a65e5fcd149a09b1940d3e6787 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 12 Sep 2012 08:42:16 +0200
-Subject: [PATCH 210/335] ARM: dts: add twi nodes for atmel SoCs
+Subject: [PATCH 210/382] ARM: dts: add twi nodes for atmel SoCs
 
 Add TWI nodes for atmel SoCs but keep i2c-gpio ones in order to let the
 choice to the user in dts files.
@@ -10,12 +10,12 @@ Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 ---
- arch/arm/boot/dts/at91sam9260.dtsi |   10 ++++++++++
- arch/arm/boot/dts/at91sam9263.dtsi |   10 ++++++++++
- arch/arm/boot/dts/at91sam9g20.dtsi |    4 ++++
- arch/arm/boot/dts/at91sam9g45.dtsi |   20 ++++++++++++++++++++
- arch/arm/boot/dts/at91sam9n12.dtsi |   20 ++++++++++++++++++++
- arch/arm/boot/dts/at91sam9x5.dtsi  |   30 ++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9260.dtsi | 10 ++++++++++
+ arch/arm/boot/dts/at91sam9263.dtsi | 10 ++++++++++
+ arch/arm/boot/dts/at91sam9g20.dtsi |  4 ++++
+ arch/arm/boot/dts/at91sam9g45.dtsi | 20 ++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi | 20 ++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  | 30 ++++++++++++++++++++++++++++++
  6 files changed, 94 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
@@ -214,5 +214,5 @@ index fadd73b..019b5be 100644
  				compatible = "atmel,at91sam9260-adc";
  				reg = <0xf804c000 0x100>;
 -- 
-1.7.10.4
+1.8.4.rc3
 

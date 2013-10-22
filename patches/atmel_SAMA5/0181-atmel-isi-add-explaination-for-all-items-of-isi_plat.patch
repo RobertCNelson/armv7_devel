@@ -1,11 +1,11 @@
 From c8c76853588e480f5a7baa40805bb35970b34e6c Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 12 Dec 2012 14:18:20 +0800
-Subject: [PATCH 181/335] atmel-isi: add explaination for all items of
+Subject: [PATCH 181/382] atmel-isi: add explaination for all items of
  isi_platform_data.
 
 ---
- include/media/atmel-isi.h |   23 +++++++++++++++++++++++
+ include/media/atmel-isi.h | 23 +++++++++++++++++++++++
  1 file changed, 23 insertions(+)
 
 diff --git a/include/media/atmel-isi.h b/include/media/atmel-isi.h
@@ -43,5 +43,5 @@ index 6568230..df2ba19 100644
  	u8 has_emb_sync;
  	u8 emb_crc_sync;
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 6140511b81c5d017df7d27c45534b5dd168f7c56 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 10:39:49 +0800
-Subject: [PATCH 169/335] Serial: AT91: distinguish PDC and DMA when no dt
+Subject: [PATCH 169/382] Serial: AT91: distinguish PDC and DMA when no dt
  support
 
 Use id table to distinguish PDC and DMA  when no dt support
@@ -9,7 +9,7 @@ remove useless PDC configuration
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/tty/serial/atmel_serial.c |   25 +++++++++++++------------
+ drivers/tty/serial/atmel_serial.c | 25 +++++++++++++------------
  1 file changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
@@ -70,5 +70,5 @@ index 31ad95f..b3bdea5 100644
  		.name	= "atmel_usart",
  		.owner	= THIS_MODULE,
 -- 
-1.7.10.4
+1.8.4.rc3
 

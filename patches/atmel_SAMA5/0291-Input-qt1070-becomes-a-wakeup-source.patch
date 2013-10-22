@@ -1,13 +1,13 @@
 From 8c9ae0506481e3a3693e2e635a2436886bbeab42 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:11:12 +0100
-Subject: [PATCH 291/335] Input: qt1070 becomes a wakeup source
+Subject: [PATCH 291/382] Input: qt1070 becomes a wakeup source
 
 Set qt1070 as a wakeup source.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/input/keyboard/qt1070.c |    7 +++++++
+ drivers/input/keyboard/qt1070.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
 diff --git a/drivers/input/keyboard/qt1070.c b/drivers/input/keyboard/qt1070.c
@@ -29,5 +29,5 @@ index b266dbf..ab9e8b1 100644
  	err = input_register_device(data->input);
  	if (err) {
 -- 
-1.7.10.4
+1.8.4.rc3
 

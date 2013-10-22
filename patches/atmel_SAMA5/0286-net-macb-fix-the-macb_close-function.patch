@@ -1,7 +1,7 @@
 From 5d6862cd4aadec0f298ca48a3f87211bc02fd3ef Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:41:51 +0100
-Subject: [PATCH 286/335] net/macb: fix the macb_close() function
+Subject: [PATCH 286/382] net/macb: fix the macb_close() function
 
 Disable interrupt earlier in the close function then
 stop transmission gracefully before resetting the hardware
@@ -11,7 +11,7 @@ handler that is not needed.
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.c |   27 ++++++++++++++-------------
+ drivers/net/ethernet/cadence/macb.c | 27 ++++++++++++++-------------
  1 file changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -76,5 +76,5 @@ index bec3913..de26438 100644
  	macb_free_consistent(bp);
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

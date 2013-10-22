@@ -1,7 +1,7 @@
 From bd08b2e131c959794bc7eda4be47acdde0c933bd Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 20 Dec 2012 15:47:00 +0100
-Subject: [PATCH 266/335] atmel: spi: quick implementation of WDRBT feature
+Subject: [PATCH 266/382] atmel: spi: quick implementation of WDRBT feature
 
 Wait Data Read Before Transfer (WDRBT) prevents overrun error in reception.
 Implemention is a draft, this feature appears before 9x5, so this path has to
@@ -9,7 +9,7 @@ be reworked.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/spi/spi-atmel.c |   13 +++++++++++--
+ drivers/spi/spi-atmel.c | 13 +++++++++++--
  1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
@@ -68,5 +68,5 @@ index aa8cdbe..2f65401 100644
  		gpio_set_value(asd->npcs_pin, active);
  	} else {
 -- 
-1.7.10.4
+1.8.4.rc3
 

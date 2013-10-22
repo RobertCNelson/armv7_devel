@@ -1,0 +1,147 @@
+From 7c0bdf5cc6668f41c8af7572dbc9abbcb6ff898f Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 7 Jun 2013 11:57:57 +0800
+Subject: [PATCH 338/382] sama5d36: add d36 dts, which is D35 + lcd.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d36ek.dts     | 54 ++++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/sama5d36ek_pda.dts | 54 ++++++++++++++++++++++++++++++++++++
+ arch/arm/mach-at91/Makefile.boot     |  2 ++
+ 3 files changed, 110 insertions(+)
+ create mode 100644 arch/arm/boot/dts/sama5d36ek.dts
+ create mode 100644 arch/arm/boot/dts/sama5d36ek_pda.dts
+
+diff --git a/arch/arm/boot/dts/sama5d36ek.dts b/arch/arm/boot/dts/sama5d36ek.dts
+new file mode 100644
+index 0000000..ef06005
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d36ek.dts
+@@ -0,0 +1,54 @@
++/*
++ * sama5d36ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3mb.dtsi"
++/include/ "sama5d3dm.dtsi"
++
++/ {
++	model = "Atmel SAMA5D36-EK";
++	compatible = "atmel,sama5d36ek", "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			spi0: spi@f0004000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				24c256@50 {
++					compatible = "24c256";
++					reg = <0x50>;
++					pagesize = <64>;
++				};
++			};
++
++			macb0: ethernet@f0028000 {
++				status = "okay";
++			};
++
++			isi: isi@f0034000 {
++				status = "okay";
++			};
++
++			macb1: ethernet@f802c000 {
++				status = "okay";
++			};
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/sama5d36ek_pda.dts b/arch/arm/boot/dts/sama5d36ek_pda.dts
+new file mode 100644
+index 0000000..7e8fa82
+--- /dev/null
++++ b/arch/arm/boot/dts/sama5d36ek_pda.dts
+@@ -0,0 +1,54 @@
++/*
++ * sama5d36ek.dts - Device Tree file for SAMA5-EK board
++ *
++ *  Copyright (C) 2012 Atmel,
++ *                2012 Ludovic Desroches <ludovic.desroches@atmel.com>
++ *
++ * Licensed under GPLv2 or later.
++ */
++/dts-v1/;
++/include/ "sama5d3mb.dtsi"
++/include/ "sama5d3pda.dtsi"
++
++/ {
++	model = "Atmel SAMA5D36-EK_PDA";
++	compatible = "atmel,sama5d36ek", "atmel,sama5ek", "atmel,sama5d3", "atmel,sama5";
++
++	chosen {
++		bootargs = "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/uboot/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
++	};
++
++	ahb {
++		apb {
++			spi0: spi@f0004000 {
++				status = "okay";
++			};
++
++			can0: can@f000c000 {
++				status = "okay";
++			};
++
++			i2c1: i2c@f0018000 {
++				status = "okay";
++
++				24c256@50 {
++					compatible = "24c256";
++					reg = <0x50>;
++					pagesize = <64>;
++				};
++			};
++
++			macb0: ethernet@f0028000 {
++				status = "okay";
++			};
++
++			isi: isi@f0034000 {
++				status = "okay";
++			};
++
++			macb1: ethernet@f802c000 {
++				status = "okay";
++			};
++		};
++	};
++};
+diff --git a/arch/arm/mach-at91/Makefile.boot b/arch/arm/mach-at91/Makefile.boot
+index d82a3e3..5487148 100644
+--- a/arch/arm/mach-at91/Makefile.boot
++++ b/arch/arm/mach-at91/Makefile.boot
+@@ -48,3 +48,5 @@ dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d33ek_pda.dtb
+ dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d34ek.dtb
+ dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d34ek_pda.dtb
+ dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d35ek.dtb
++dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d36ek.dtb
++dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d36ek_pda.dtb
+-- 
+1.8.4.rc3
+

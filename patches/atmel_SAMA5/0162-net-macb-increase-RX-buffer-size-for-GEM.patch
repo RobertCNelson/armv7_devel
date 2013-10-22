@@ -1,7 +1,7 @@
 From 1a12cade6532c44a24961eb7843d03ea82f27a12 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 30 Nov 2012 11:18:29 +0100
-Subject: [PATCH 162/335] net/macb: increase RX buffer size for GEM
+Subject: [PATCH 162/382] net/macb: increase RX buffer size for GEM
 
 Macb Ethernet controller requires a RX buffer of 128 bytes. It is
 highly sub-optimal for Gigabit-capable GEM that is able to use
@@ -12,8 +12,8 @@ DMA Configuration Register specification.
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.c |   45 ++++++++++++++++++++++++++++-------
- drivers/net/ethernet/cadence/macb.h |    1 +
+ drivers/net/ethernet/cadence/macb.c | 45 ++++++++++++++++++++++++++++++-------
+ drivers/net/ethernet/cadence/macb.h |  1 +
  2 files changed, 38 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -148,5 +148,5 @@ index 570908b..2681455 100644
  	unsigned int		tx_head, tx_tail;
  	struct macb_dma_desc	*tx_ring;
 -- 
-1.7.10.4
+1.8.4.rc3
 

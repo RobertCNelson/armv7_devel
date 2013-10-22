@@ -1,14 +1,14 @@
 From 0447b4b373f803626f16db95743f6910359622d9 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 11:35:11 +0800
-Subject: [PATCH 171/335] Serial: AT91: Enable tx dma
+Subject: [PATCH 171/382] Serial: AT91: Enable tx dma
 
 Tx dma will setup a single transfer,
 when transfer end, it will call atmel_dma_tx_complete to do finish stuff.
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/tty/serial/atmel_serial.c |   99 +++++++++++++++++++++++++++++++++++++
+ drivers/tty/serial/atmel_serial.c | 99 +++++++++++++++++++++++++++++++++++++++
  1 file changed, 99 insertions(+)
 
 diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
@@ -136,5 +136,5 @@ index 1b48513..9491400 100644
  		atmel_tx_chars(port);
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

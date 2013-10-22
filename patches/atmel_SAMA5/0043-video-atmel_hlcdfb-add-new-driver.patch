@@ -1,7 +1,7 @@
 From 5bd41f919279b2313251cf985785b3570e9fbb28 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Mon, 23 May 2011 15:36:52 +0200
-Subject: [PATCH 043/335] video: atmel_hlcdfb: add new driver
+Subject: [PATCH 043/382] video: atmel_hlcdfb: add new driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -9,10 +9,10 @@ Content-Transfer-Encoding: 8bit
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/Kconfig            |    9 +
- drivers/video/Makefile           |    1 +
- drivers/video/atmel_hlcdfb.c     |  514 ++++++++++++++++++++++++++++++++++++++
- drivers/video/atmel_lcdfb_core.c |   15 ++
+ drivers/video/Kconfig            |   9 +
+ drivers/video/Makefile           |   1 +
+ drivers/video/atmel_hlcdfb.c     | 514 +++++++++++++++++++++++++++++++++++++++
+ drivers/video/atmel_lcdfb_core.c |  15 ++
  4 files changed, 539 insertions(+)
  create mode 100644 drivers/video/atmel_hlcdfb.c
 
@@ -602,5 +602,5 @@ index 060d41f..cd57361 100644
  }
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

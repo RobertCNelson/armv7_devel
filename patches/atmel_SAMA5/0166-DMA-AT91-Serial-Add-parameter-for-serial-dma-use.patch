@@ -1,13 +1,13 @@
 From 664b8fc0df77e0c09b3aab454581faac03cb5801 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Mon, 29 Oct 2012 14:29:22 +0800
-Subject: [PATCH 166/335] DMA: AT91: Serial: Add parameter for serial dma use
+Subject: [PATCH 166/382] DMA: AT91: Serial: Add parameter for serial dma use
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- arch/arm/mach-at91/include/mach/board.h |    2 ++
- drivers/tty/serial/atmel_serial.c       |    1 +
- include/linux/platform_data/dma-atmel.h |   10 ++++++++++
+ arch/arm/mach-at91/include/mach/board.h |  2 ++
+ drivers/tty/serial/atmel_serial.c       |  1 +
+ include/linux/platform_data/dma-atmel.h | 10 ++++++++++
  3 files changed, 13 insertions(+)
 
 diff --git a/arch/arm/mach-at91/include/mach/board.h b/arch/arm/mach-at91/include/mach/board.h
@@ -62,5 +62,5 @@ index cab0997..bb05302 100644
  
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

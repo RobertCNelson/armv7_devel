@@ -1,8 +1,8 @@
 From 1252324656561b924dd5ad378ce4c2512c06a8b2 Mon Sep 17 00:00:00 2001
 From: Wei Yongjun <yongjun_wei@trendmicro.com.cn>
 Date: Fri, 7 Sep 2012 14:54:25 +0800
-Subject: [PATCH 004/335] usb: gadget: at91_udc: move the dereference below
- the NULL test
+Subject: [PATCH 004/382] usb: gadget: at91_udc: move the dereference below the
+ NULL test
 
 The dereference should be moved below the NULL test.
 
@@ -12,7 +12,7 @@ spatch with a semantic match is used to found this.
 Signed-off-by: Wei Yongjun <yongjun_wei@trendmicro.com.cn>
 Signed-off-by: Felipe Balbi <balbi@ti.com>
 ---
- drivers/usb/gadget/at91_udc.c |    3 ++-
+ drivers/usb/gadget/at91_udc.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/gadget/at91_udc.c b/drivers/usb/gadget/at91_udc.c
@@ -37,5 +37,5 @@ index 660fd53..89d90b5 100644
  		DBG("bogus device state\n");
  		return -ESHUTDOWN;
 -- 
-1.7.10.4
+1.8.4.rc3
 

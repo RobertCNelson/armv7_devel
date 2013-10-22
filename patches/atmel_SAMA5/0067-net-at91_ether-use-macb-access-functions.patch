@@ -1,14 +1,14 @@
 From 4ffb02bc695ba1218d38d02e07d1bb659ce88a75 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:08 +0000
-Subject: [PATCH 067/335] net/at91_ether: use macb access functions
+Subject: [PATCH 067/382] net/at91_ether: use macb access functions
 
 Use macb read/write funtions and remove the old at91_ether ones.
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |  144 +++++++++++++----------------
- drivers/net/ethernet/cadence/at91_ether.h |    2 +-
+ drivers/net/ethernet/cadence/at91_ether.c | 144 +++++++++++++-----------------
+ drivers/net/ethernet/cadence/at91_ether.h |   2 +-
  2 files changed, 64 insertions(+), 82 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -397,5 +397,5 @@ index 0ef6328..63e7e06 100644
  
  	/* PHY */
 -- 
-1.7.10.4
+1.8.4.rc3
 

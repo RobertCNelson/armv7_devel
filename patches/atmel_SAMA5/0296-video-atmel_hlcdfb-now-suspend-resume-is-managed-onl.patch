@@ -1,7 +1,7 @@
 From 93c1cf305dd677b9ecc0f9e2c91cd6ee4ab51bd9 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 16:16:15 +0100
-Subject: [PATCH 296/335] video: atmel_hlcdfb: now, suspend/resume is managed
+Subject: [PATCH 296/382] video: atmel_hlcdfb: now, suspend/resume is managed
  only by the base layer
 
 When going to suspend or resume the functions will be called by the base layer
@@ -11,7 +11,7 @@ offsets to access some registers are wrong.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/video/atmel_hlcdfb.c |    8 ++++++++
+ drivers/video/atmel_hlcdfb.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/video/atmel_hlcdfb.c b/drivers/video/atmel_hlcdfb.c
@@ -47,5 +47,5 @@ index 3897c9b..d1136a5 100644
  	atmel_hlcdfb_start(sinfo);
  	if (sinfo->atmel_lcdfb_power_control)
 -- 
-1.7.10.4
+1.8.4.rc3
 

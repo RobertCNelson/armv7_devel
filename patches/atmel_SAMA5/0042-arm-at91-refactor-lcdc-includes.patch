@@ -1,7 +1,7 @@
 From f80634811eb2b0e08df819721f0130145d4c9bde Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Wed, 25 May 2011 15:38:50 +0200
-Subject: [PATCH 042/335] arm: at91: refactor lcdc-includes
+Subject: [PATCH 042/382] arm: at91: refactor lcdc-includes
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -11,23 +11,23 @@ Among others the HEO-ISR bit is fixed.
 Signed-off-by: Wolfram Sang <w.sang@pengutronix.de>
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- arch/arm/mach-at91/at91sam9261_devices.c          |    4 +-
- arch/arm/mach-at91/at91sam9263_devices.c          |    4 +-
- arch/arm/mach-at91/at91sam9g45_devices.c          |    4 +-
- arch/arm/mach-at91/at91sam9rl_devices.c           |    4 +-
- arch/arm/mach-at91/board-neocore926.c             |    4 +-
- arch/arm/mach-at91/board-sam9261ek.c              |    4 +-
- arch/arm/mach-at91/board-sam9263ek.c              |    4 +-
- arch/arm/mach-at91/board-sam9m10g45ek.c           |    4 +-
- arch/arm/mach-at91/board-sam9rlek.c               |    4 +-
- arch/arm/mach-at91/include/mach/atmel_hlcdc.h     |  718 +++++++++++++++++
- arch/arm/mach-at91/include/mach/atmel_hlcdc_ovl.h |  156 ++++
- arch/arm/mach-at91/include/mach/atmel_hlcdfb.h    |  865 ---------------------
- arch/arm/mach-at91/include/mach/atmel_lcdc.h      |  177 +++++
- drivers/video/atmel_lcdfb.c                       |    3 +-
- drivers/video/atmel_lcdfb_core.c                  |    2 +-
- include/video/atmel_lcdc.h                        |  248 ------
- include/video/atmel_lcdfb.h                       |  100 +++
+ arch/arm/mach-at91/at91sam9261_devices.c          |   4 +-
+ arch/arm/mach-at91/at91sam9263_devices.c          |   4 +-
+ arch/arm/mach-at91/at91sam9g45_devices.c          |   4 +-
+ arch/arm/mach-at91/at91sam9rl_devices.c           |   4 +-
+ arch/arm/mach-at91/board-neocore926.c             |   4 +-
+ arch/arm/mach-at91/board-sam9261ek.c              |   4 +-
+ arch/arm/mach-at91/board-sam9263ek.c              |   4 +-
+ arch/arm/mach-at91/board-sam9m10g45ek.c           |   4 +-
+ arch/arm/mach-at91/board-sam9rlek.c               |   4 +-
+ arch/arm/mach-at91/include/mach/atmel_hlcdc.h     | 718 ++++++++++++++++++
+ arch/arm/mach-at91/include/mach/atmel_hlcdc_ovl.h | 156 ++++
+ arch/arm/mach-at91/include/mach/atmel_hlcdfb.h    | 865 ----------------------
+ arch/arm/mach-at91/include/mach/atmel_lcdc.h      | 177 +++++
+ drivers/video/atmel_lcdfb.c                       |   3 +-
+ drivers/video/atmel_lcdfb_core.c                  |   2 +-
+ include/video/atmel_lcdc.h                        | 248 -------
+ include/video/atmel_lcdfb.h                       | 100 +++
  17 files changed, 1181 insertions(+), 1124 deletions(-)
  create mode 100644 arch/arm/mach-at91/include/mach/atmel_hlcdc.h
  create mode 100644 arch/arm/mach-at91/include/mach/atmel_hlcdc_ovl.h
@@ -2544,5 +2544,5 @@ index 0000000..3a0dfc7
 +
 +#endif /* __ATMEL_LCDC_H__ */
 -- 
-1.7.10.4
+1.8.4.rc3
 

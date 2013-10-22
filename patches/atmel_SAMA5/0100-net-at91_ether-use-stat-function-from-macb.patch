@@ -1,14 +1,14 @@
 From 4e674e16387da5de71117ba310742db3ffc24a6d Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:54 +0000
-Subject: [PATCH 100/335] net/at91_ether: use stat function from macb
+Subject: [PATCH 100/382] net/at91_ether: use stat function from macb
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |   49 +++++------------------------
- drivers/net/ethernet/cadence/macb.c       |    3 +-
- drivers/net/ethernet/cadence/macb.h       |    1 +
+ drivers/net/ethernet/cadence/at91_ether.c | 49 +++++--------------------------
+ drivers/net/ethernet/cadence/macb.c       |  3 +-
+ drivers/net/ethernet/cadence/macb.h       |  1 +
  3 files changed, 11 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -144,5 +144,5 @@ index d723494..97f74dd 100644
  void macb_set_hwaddr(struct macb *bp);
  void macb_get_hwaddr(struct macb *bp);
 -- 
-1.7.10.4
+1.8.4.rc3
 

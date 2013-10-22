@@ -1,18 +1,18 @@
 From 78255e9a871f662932089b58e44a2c0b414f19ac Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 17 Feb 2012 13:12:21 +0100
-Subject: [PATCH 046/335] video: atmel_lcdfb: HLCD modifications
+Subject: [PATCH 046/382] video: atmel_lcdfb: HLCD modifications
 
 HAS TO BE REWORKED: break compatibility with previous LCD IP due to register
 map changes
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- arch/arm/mach-at91/include/mach/atmel_hlcdc.h |   43 +++++++++++++++++++++++++
- drivers/video/atmel_hlcdfb.c                  |    5 +--
- drivers/video/atmel_lcdfb.c                   |    1 +
- drivers/video/atmel_lcdfb_core.c              |    1 +
- drivers/video/backlight/Kconfig               |    4 +--
+ arch/arm/mach-at91/include/mach/atmel_hlcdc.h | 43 +++++++++++++++++++++++++++
+ drivers/video/atmel_hlcdfb.c                  |  5 ++--
+ drivers/video/atmel_lcdfb.c                   |  1 +
+ drivers/video/atmel_lcdfb_core.c              |  1 +
+ drivers/video/backlight/Kconfig               |  4 +--
  5 files changed, 50 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm/mach-at91/include/mach/atmel_hlcdc.h b/arch/arm/mach-at91/include/mach/atmel_hlcdc.h
@@ -234,5 +234,5 @@ index cf28276..de0a3d6 100644
  	  This provides a backlight control internal to the Atmel LCDC
  	  driver.  If the LCD "contrast control" on your board is wired
 -- 
-1.7.10.4
+1.8.4.rc3
 

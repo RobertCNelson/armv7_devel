@@ -1,0 +1,25 @@
+From 602d3f4fd8deb2faa4ddf8e3323be5c6b31d1c72 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 12 Sep 2013 16:27:57 +0800
+Subject: [PATCH 348/382] at91sam9g45: support ubi file system in defconfig
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/at91sam9g45_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/configs/at91sam9g45_defconfig b/arch/arm/configs/at91sam9g45_defconfig
+index 606d48f..f8ef6ba 100644
+--- a/arch/arm/configs/at91sam9g45_defconfig
++++ b/arch/arm/configs/at91sam9g45_defconfig
+@@ -191,6 +191,7 @@ CONFIG_VFAT_FS=y
+ CONFIG_TMPFS=y
+ CONFIG_JFFS2_FS=y
+ CONFIG_JFFS2_SUMMARY=y
++CONFIG_UBIFS_FS=y
+ CONFIG_CRAMFS=m
+ CONFIG_SQUASHFS=m
+ CONFIG_SQUASHFS_EMBEDDED=y
+-- 
+1.8.4.rc3
+

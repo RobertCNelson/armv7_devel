@@ -1,12 +1,12 @@
 From 21ae5f9854ceb567190332f1728466c837a81f6a Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:06 +0000
-Subject: [PATCH 065/335] net/macb: add AT91RM9200 specific registers and bits
+Subject: [PATCH 065/382] net/macb: add AT91RM9200 specific registers and bits
  to header
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
- drivers/net/ethernet/cadence/macb.h |    6 ++++++
+ drivers/net/ethernet/cadence/macb.h | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/net/ethernet/cadence/macb.h b/drivers/net/ethernet/cadence/macb.h
@@ -41,5 +41,5 @@ index 335e288..0e5d55b 100644
  #define MACB_COMP_SIZE				1
  #define MACB_UND_OFFSET				6
 -- 
-1.7.10.4
+1.8.4.rc3
 

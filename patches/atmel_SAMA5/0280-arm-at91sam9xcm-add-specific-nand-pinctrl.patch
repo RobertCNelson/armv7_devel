@@ -1,13 +1,13 @@
 From 06bf787037f7e3bc416e4354be652492e1072e43 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 23 Oct 2012 15:06:54 +0800
-Subject: [PATCH 280/335] arm: at91sam9xcm: add specific nand pinctrl
+Subject: [PATCH 280/382] arm: at91sam9xcm: add specific nand pinctrl
 
 the nand is on d16 and 8bit
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/boot/dts/at91sam9x5cm.dtsi |    1 +
+ arch/arm/boot/dts/at91sam9x5cm.dtsi | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9x5cm.dtsi b/arch/arm/boot/dts/at91sam9x5cm.dtsi
@@ -23,5 +23,5 @@ index 4027ac7..ca049fb 100644
  
  			at91bootstrap@0 {
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,0 +1,86 @@
+From a7262c70b3e1f8670eeea560ccde122603bf4b94 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 18 Jul 2013 15:10:29 +0800
+Subject: [PATCH 339/382] sama5d36: add sound in dts
+
+Since ISI conflict with I2C0, the sound still cannot work in sama5d36ek.
+But in future new version of MB will connect the sound in I2C1. In that
+case, only need move the wm8904 node under I2C1, then sound should work
+perfectly.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d36ek.dts     | 10 ++++++++++
+ arch/arm/boot/dts/sama5d36ek_pda.dts | 11 +++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sama5d36ek.dts b/arch/arm/boot/dts/sama5d36ek.dts
+index ef06005..76c9d51 100644
+--- a/arch/arm/boot/dts/sama5d36ek.dts
++++ b/arch/arm/boot/dts/sama5d36ek.dts
+@@ -24,6 +24,10 @@
+ 				status = "okay";
+ 			};
+ 
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
+ 			can0: can@f000c000 {
+ 				status = "okay";
+ 			};
+@@ -42,6 +46,7 @@
+ 				status = "okay";
+ 			};
+ 
++			/* ISI VSYNC/HSYNC Conflict with i2c0 */
+ 			isi: isi@f0034000 {
+ 				status = "okay";
+ 			};
+@@ -51,4 +56,9 @@
+ 			};
+ 		};
+ 	};
++
++	/* Sound can work if the i2c bus, which connect the codec, is enabled */
++	sound {
++		status = "okay";
++	};
+ };
+diff --git a/arch/arm/boot/dts/sama5d36ek_pda.dts b/arch/arm/boot/dts/sama5d36ek_pda.dts
+index 7e8fa82..dfbbf8c 100644
+--- a/arch/arm/boot/dts/sama5d36ek_pda.dts
++++ b/arch/arm/boot/dts/sama5d36ek_pda.dts
+@@ -24,6 +24,11 @@
+ 				status = "okay";
+ 			};
+ 
++			ssc0: ssc@f0008000 {
++				status = "okay";
++			};
++
++
+ 			can0: can@f000c000 {
+ 				status = "okay";
+ 			};
+@@ -42,6 +47,7 @@
+ 				status = "okay";
+ 			};
+ 
++			/* ISI VSYNC/HSYNC Conflict with i2c0 */
+ 			isi: isi@f0034000 {
+ 				status = "okay";
+ 			};
+@@ -51,4 +57,9 @@
+ 			};
+ 		};
+ 	};
++
++	/* Sound can work if the i2c bus, which connect the codec, is enabled */
++	sound {
++		status = "okay";
++	};
+ };
+-- 
+1.8.4.rc3
+

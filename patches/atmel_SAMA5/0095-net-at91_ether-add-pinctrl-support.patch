@@ -1,7 +1,7 @@
 From 0bbfde30486c6078175c062d0753a61ceb33b9fe Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Sun, 4 Nov 2012 21:34:52 +0000
-Subject: [PATCH 095/335] net: at91_ether: add pinctrl support
+Subject: [PATCH 095/382] net: at91_ether: add pinctrl support
 
 If no pinctrl available just report a warning as some architecture may not
 need to do anything.
@@ -12,7 +12,7 @@ Cc: Nicolas Ferre <nicolas.ferre@atmel.com>
 Cc: netdev@vger.kernel.org
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |   11 +++++++++++
+ drivers/net/ethernet/cadence/at91_ether.c | 11 +++++++++++
  1 file changed, 11 insertions(+)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -50,5 +50,5 @@ index 039e7ef..6eb928e 100644
  	if (!dev)
  		return -ENOMEM;
 -- 
-1.7.10.4
+1.8.4.rc3
 

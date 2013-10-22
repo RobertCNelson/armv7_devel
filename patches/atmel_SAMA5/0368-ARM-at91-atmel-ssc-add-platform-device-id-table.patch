@@ -1,0 +1,281 @@
+From 37b39f3199fd5478f6c26ba4217f9379e8dc96b1 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 6 Nov 2012 13:57:51 +0800
+Subject: [PATCH 368/382] ARM: at91: atmel-ssc: add platform device id table
+
+Add platform device id to check whether the SSC controller support
+pdc or dam for data transfer
+
+If match "at91rm9200_ssc", which support pdc for data transfer
+If match "at91sam9g45_ssc", which support dma for data transfer
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/mach-at91/at91rm9200.c          | 6 +++---
+ arch/arm/mach-at91/at91rm9200_devices.c  | 6 +++---
+ arch/arm/mach-at91/at91sam9260.c         | 2 +-
+ arch/arm/mach-at91/at91sam9260_devices.c | 2 +-
+ arch/arm/mach-at91/at91sam9261.c         | 6 +++---
+ arch/arm/mach-at91/at91sam9261_devices.c | 6 +++---
+ arch/arm/mach-at91/at91sam9263.c         | 4 ++--
+ arch/arm/mach-at91/at91sam9263_devices.c | 4 ++--
+ arch/arm/mach-at91/at91sam9g45.c         | 4 ++--
+ arch/arm/mach-at91/at91sam9g45_devices.c | 4 ++--
+ arch/arm/mach-at91/at91sam9rl.c          | 4 ++--
+ arch/arm/mach-at91/at91sam9rl_devices.c  | 4 ++--
+ sound/soc/atmel/sam9g20_wm8731.c         | 4 ++--
+ 13 files changed, 28 insertions(+), 28 deletions(-)
+
+diff --git a/arch/arm/mach-at91/at91rm9200.c b/arch/arm/mach-at91/at91rm9200.c
+index a3e4710..bc9e79e 100644
+--- a/arch/arm/mach-at91/at91rm9200.c
++++ b/arch/arm/mach-at91/at91rm9200.c
+@@ -184,9 +184,9 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("t0_clk", "atmel_tcb.1", &tc3_clk),
+ 	CLKDEV_CON_DEV_ID("t1_clk", "atmel_tcb.1", &tc4_clk),
+ 	CLKDEV_CON_DEV_ID("t2_clk", "atmel_tcb.1", &tc5_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.0", &ssc0_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.1", &ssc1_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.2", &ssc2_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.2", &ssc2_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91rm9200.0", &twi_clk),
+ 	/* fake hclk clock */
+ 	CLKDEV_CON_DEV_ID("hclk", "at91_ohci", &ohci_clk),
+diff --git a/arch/arm/mach-at91/at91rm9200_devices.c b/arch/arm/mach-at91/at91rm9200_devices.c
+index 751ac24..cd20345 100644
+--- a/arch/arm/mach-at91/at91rm9200_devices.c
++++ b/arch/arm/mach-at91/at91rm9200_devices.c
+@@ -736,7 +736,7 @@ static struct resource ssc0_resources[] = {
+ };
+ 
+ static struct platform_device at91rm9200_ssc0_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 0,
+ 	.dev	= {
+ 		.dma_mask		= &ssc0_dmamask,
+@@ -778,7 +778,7 @@ static struct resource ssc1_resources[] = {
+ };
+ 
+ static struct platform_device at91rm9200_ssc1_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 1,
+ 	.dev	= {
+ 		.dma_mask		= &ssc1_dmamask,
+@@ -820,7 +820,7 @@ static struct resource ssc2_resources[] = {
+ };
+ 
+ static struct platform_device at91rm9200_ssc2_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 2,
+ 	.dev	= {
+ 		.dma_mask		= &ssc2_dmamask,
+diff --git a/arch/arm/mach-at91/at91sam9260.c b/arch/arm/mach-at91/at91sam9260.c
+index 0860212..98d352a 100644
+--- a/arch/arm/mach-at91/at91sam9260.c
++++ b/arch/arm/mach-at91/at91sam9260.c
+@@ -210,7 +210,7 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("t0_clk", "atmel_tcb.1", &tc3_clk),
+ 	CLKDEV_CON_DEV_ID("t1_clk", "atmel_tcb.1", &tc4_clk),
+ 	CLKDEV_CON_DEV_ID("t2_clk", "atmel_tcb.1", &tc5_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.0", &ssc_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9260.0", &twi_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g20.0", &twi_clk),
+ 	/* more usart lookup table for DT entries */
+diff --git a/arch/arm/mach-at91/at91sam9260_devices.c b/arch/arm/mach-at91/at91sam9260_devices.c
+index d7d7a54..7abff53 100644
+--- a/arch/arm/mach-at91/at91sam9260_devices.c
++++ b/arch/arm/mach-at91/at91sam9260_devices.c
+@@ -824,7 +824,7 @@ static struct resource ssc_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9260_ssc_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 0,
+ 	.dev	= {
+ 		.dma_mask		= &ssc_dmamask,
+diff --git a/arch/arm/mach-at91/at91sam9261.c b/arch/arm/mach-at91/at91sam9261.c
+index 4d262f3..8307fc0 100644
+--- a/arch/arm/mach-at91/at91sam9261.c
++++ b/arch/arm/mach-at91/at91sam9261.c
+@@ -174,9 +174,9 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("t0_clk", "atmel_tcb.0", &tc0_clk),
+ 	CLKDEV_CON_DEV_ID("t1_clk", "atmel_tcb.0", &tc1_clk),
+ 	CLKDEV_CON_DEV_ID("t2_clk", "atmel_tcb.0", &tc2_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.0", &ssc0_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.1", &ssc1_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.2", &ssc2_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.2", &ssc2_clk),
+ 	CLKDEV_CON_DEV_ID("hclk", "at91_ohci", &hck0),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9261.0", &twi_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g10.0", &twi_clk),
+diff --git a/arch/arm/mach-at91/at91sam9261_devices.c b/arch/arm/mach-at91/at91sam9261_devices.c
+index 978a72f..f5396cd 100644
+--- a/arch/arm/mach-at91/at91sam9261_devices.c
++++ b/arch/arm/mach-at91/at91sam9261_devices.c
+@@ -708,7 +708,7 @@ static struct resource ssc0_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9261_ssc0_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 0,
+ 	.dev	= {
+ 		.dma_mask		= &ssc0_dmamask,
+@@ -750,7 +750,7 @@ static struct resource ssc1_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9261_ssc1_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 1,
+ 	.dev	= {
+ 		.dma_mask		= &ssc1_dmamask,
+@@ -792,7 +792,7 @@ static struct resource ssc2_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9261_ssc2_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 2,
+ 	.dev	= {
+ 		.dma_mask		= &ssc2_dmamask,
+diff --git a/arch/arm/mach-at91/at91sam9263.c b/arch/arm/mach-at91/at91sam9263.c
+index 09ae108..ea71fd5 100644
+--- a/arch/arm/mach-at91/at91sam9263.c
++++ b/arch/arm/mach-at91/at91sam9263.c
+@@ -186,8 +186,8 @@ static struct clk *periph_clocks[] __initdata = {
+ static struct clk_lookup periph_clocks_lookups[] = {
+ 	/* One additional fake clock for macb_hclk */
+ 	CLKDEV_CON_ID("hclk", &macb_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.0", &ssc0_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.1", &ssc1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
+ 	CLKDEV_CON_DEV_ID("mci_clk", "at91_mci.0", &mmc0_clk),
+ 	CLKDEV_CON_DEV_ID("mci_clk", "at91_mci.1", &mmc1_clk),
+ 	CLKDEV_CON_DEV_ID("spi_clk", "atmel_spi.0", &spi0_clk),
+diff --git a/arch/arm/mach-at91/at91sam9263_devices.c b/arch/arm/mach-at91/at91sam9263_devices.c
+index 9db4c91..39b4f2d 100644
+--- a/arch/arm/mach-at91/at91sam9263_devices.c
++++ b/arch/arm/mach-at91/at91sam9263_devices.c
+@@ -1176,7 +1176,7 @@ static struct resource ssc0_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9263_ssc0_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 0,
+ 	.dev	= {
+ 		.dma_mask		= &ssc0_dmamask,
+@@ -1218,7 +1218,7 @@ static struct resource ssc1_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9263_ssc1_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 1,
+ 	.dev	= {
+ 		.dma_mask		= &ssc1_dmamask,
+diff --git a/arch/arm/mach-at91/at91sam9g45.c b/arch/arm/mach-at91/at91sam9g45.c
+index 90edfd7..514fd44 100644
+--- a/arch/arm/mach-at91/at91sam9g45.c
++++ b/arch/arm/mach-at91/at91sam9g45.c
+@@ -239,8 +239,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("t0_clk", "atmel_tcb.1", &tcb0_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g10.0", &twi0_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g10.1", &twi1_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.0", &ssc0_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.1", &ssc1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91sam9g45_ssc.0", &ssc0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91sam9g45_ssc.1", &ssc1_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "atmel-trng", &trng_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "atmel_sha", &aestdessha_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "atmel_tdes", &aestdessha_clk),
+diff --git a/arch/arm/mach-at91/at91sam9g45_devices.c b/arch/arm/mach-at91/at91sam9g45_devices.c
+index ea10fa8..e33fcaa 100644
+--- a/arch/arm/mach-at91/at91sam9g45_devices.c
++++ b/arch/arm/mach-at91/at91sam9g45_devices.c
+@@ -1472,7 +1472,7 @@ static struct resource ssc0_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9g45_ssc0_device = {
+-	.name	= "ssc",
++	.name	= "at91sam9g45_ssc",
+ 	.id	= 0,
+ 	.dev	= {
+ 		.dma_mask		= &ssc0_dmamask,
+@@ -1514,7 +1514,7 @@ static struct resource ssc1_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9g45_ssc1_device = {
+-	.name	= "ssc",
++	.name	= "at91sam9g45_ssc",
+ 	.id	= 1,
+ 	.dev	= {
+ 		.dma_mask		= &ssc1_dmamask,
+diff --git a/arch/arm/mach-at91/at91sam9rl.c b/arch/arm/mach-at91/at91sam9rl.c
+index cbe72e4..9a21971 100644
+--- a/arch/arm/mach-at91/at91sam9rl.c
++++ b/arch/arm/mach-at91/at91sam9rl.c
+@@ -184,8 +184,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
+ 	CLKDEV_CON_DEV_ID("t0_clk", "atmel_tcb.0", &tc0_clk),
+ 	CLKDEV_CON_DEV_ID("t1_clk", "atmel_tcb.0", &tc1_clk),
+ 	CLKDEV_CON_DEV_ID("t2_clk", "atmel_tcb.0", &tc2_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.0", &ssc0_clk),
+-	CLKDEV_CON_DEV_ID("pclk", "ssc.1", &ssc1_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
++	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g20.0", &twi0_clk),
+ 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g20.1", &twi1_clk),
+ 	CLKDEV_CON_ID("pioA", &pioA_clk),
+diff --git a/arch/arm/mach-at91/at91sam9rl_devices.c b/arch/arm/mach-at91/at91sam9rl_devices.c
+index 62c6062..37a0fab 100644
+--- a/arch/arm/mach-at91/at91sam9rl_devices.c
++++ b/arch/arm/mach-at91/at91sam9rl_devices.c
+@@ -834,7 +834,7 @@ static struct resource ssc0_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9rl_ssc0_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 0,
+ 	.dev	= {
+ 		.dma_mask		= &ssc0_dmamask,
+@@ -876,7 +876,7 @@ static struct resource ssc1_resources[] = {
+ };
+ 
+ static struct platform_device at91sam9rl_ssc1_device = {
+-	.name	= "ssc",
++	.name	= "at91rm9200_ssc",
+ 	.id	= 1,
+ 	.dev	= {
+ 		.dma_mask		= &ssc1_dmamask,
+diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
+index c883514..42a1a47 100644
+--- a/sound/soc/atmel/sam9g20_wm8731.c
++++ b/sound/soc/atmel/sam9g20_wm8731.c
+@@ -179,10 +179,10 @@ static int at91sam9g20ek_wm8731_init(struct snd_soc_pcm_runtime *rtd)
+ static struct snd_soc_dai_link at91sam9g20ek_dai = {
+ 	.name = "WM8731",
+ 	.stream_name = "WM8731 PCM",
+-	.cpu_dai_name = "atmel-ssc-dai.0",
++	.cpu_dai_name = "at91rm9200_ssc.0",
+ 	.codec_dai_name = "wm8731-hifi",
+ 	.init = at91sam9g20ek_wm8731_init,
+-	.platform_name = "atmel-pcm-audio",
++	.platform_name = "at91rm9200_ssc.0",
+ 	.codec_name = "wm8731.0-001b",
+ 	.ops = &at91sam9g20ek_ops,
+ };
+-- 
+1.8.4.rc3
+

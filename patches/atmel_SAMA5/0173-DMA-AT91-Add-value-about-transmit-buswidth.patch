@@ -1,15 +1,15 @@
 From 2831579f205781371bdd65f58b239cb7d6af6748 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Tue, 4 Dec 2012 13:36:48 +0800
-Subject: [PATCH 173/335] DMA: AT91: Add value about transmit buswidth
+Subject: [PATCH 173/382] DMA: AT91: Add value about transmit buswidth
 
 The transmit buswidth is limited by peripheral buswidth,
 tx_buswidth will save the peripheral buswidth, but to memcpy, either src width or dst width is the buswidth
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/dma/at_hdmac.c      |    3 +++
- drivers/dma/at_hdmac_regs.h |    2 ++
+ drivers/dma/at_hdmac.c      | 3 +++
+ drivers/dma/at_hdmac_regs.h | 2 ++
  2 files changed, 5 insertions(+)
 
 diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
@@ -61,5 +61,5 @@ index 116e4ad..d758f33 100644
  
  static inline struct at_desc *
 -- 
-1.7.10.4
+1.8.4.rc3
 

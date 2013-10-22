@@ -1,0 +1,95 @@
+From 19dcc0d6d195e595d7ee83fa11570e2cd3b53b03 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 5 Sep 2013 15:56:26 +0800
+Subject: [PATCH 344/382] at91sam9x5: dt: add isi pinctrl and dt property
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9x5.dtsi   | 30 ++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9x5ek.dtsi | 15 +++++++++++++++
+ 2 files changed, 45 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 11412c2..c421d4a 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -266,6 +266,13 @@
+ 				};
+ 			};
+ 
++			isi: isi@f8048000 {
++				compatible = "atmel,at91sam9g45-isi";
++				reg = <0xf8048000 0x4000>;
++				interrupts = <25 4 5>;
++				status = "disabled";
++			};
++
+ 			tsadcc: tsadcc@f804c000 {
+ 				compatible = "atmel,at91sam9x5-tsadcc";
+ 				reg = <0xf804c000 0x4000>;
+@@ -684,6 +691,29 @@
+ 					};
+ 				};
+ 
++				isi {
++					pinctrl_isi: isi-0 {
++						atmel,pins =
++							<2 0 0x2 0x0	/* PC0 periph B ISI_D0, conflicts with LCDDAT0 */
++							 2 1 0x2 0x0	/* PC1 periph B ISI_D1, conflicts with LCDDAT1 */
++							 2 2 0x2 0x0	/* PC2 periph B ISI_D2, conflicts with LCDDAT2 */
++							 2 3 0x2 0x0	/* PC3 periph B ISI_D3, conflicts with LCDDAT3 */
++							 2 4 0x2 0x0	/* PC4 periph B ISI_D4, conflicts with LCDDAT4 */
++							 2 5 0x2 0x0	/* PC5 periph B ISI_D5, conflicts with LCDDAT5 */
++							 2 6 0x2 0x0	/* PC6 periph B ISI_D6, conflicts with LCDDAT6 */
++							 2 7 0x2 0x0	/* PC7 periph B ISI_D7, conflicts with LCDDAT7 */
++							 2 12 0x2 0x0	/* PC12 periph B ISI_PCK, conflicts with LCDDAT12 */
++							 2 14 0x2 0x0	/* PC14 periph B ISI_HSYNC, conflicts with LCDDAT14 */
++							 2 13 0x2 0x0	/* PC13 periph B ISI_VSYNC, conflicts with LCDDAT13 */
++							 2 8 0x2 0x0	/* PC8 periph B ISI_PD8, conflicts with LCDDAT8 */
++							 2 9 0x2 0x0>;	/* PC9 periph B ISI_PD9, conflicts with LCDDAT9 */
++					};
++					pinctrl_isi_pck_as_mck: isi_pck_as_mck-0 {
++						atmel,pins =
++							<2 15 0x3 0x0>;	/* PC15 periph C ISI_MCK */
++					};
++				};
++
+ 				lcd {
+ 					pinctrl_lcd: lcd-0 {
+ 						atmel,pins =
+diff --git a/arch/arm/boot/dts/at91sam9x5ek.dtsi b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+index 5791a0c..d7b677b 100644
+--- a/arch/arm/boot/dts/at91sam9x5ek.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5ek.dtsi
+@@ -38,6 +38,11 @@
+ 				};
+ 			};
+ 
++			isi: isi@f8048000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_isi &pinctrl_isi_pck_as_mck &pinctrl_isi_power &pinctrl_isi_reset>;
++			};
++
+ 			pinctrl@fffff400 {
+ 				board {
+ 					pinctrl_mmc0_cd: mmc0_cd {
+@@ -49,6 +54,16 @@
+ 						atmel,pins =
+ 							<3 14 0x0 0x5>;	/* PD14 gpio with pullup deglitch */
+ 					};
++
++					pinctrl_isi_reset: isi_reset-0 {
++						atmel,pins =
++							<0 7 0x0 0x0>;   /* PA7 gpio, conflicted with TXD2, SPI0_NPCS1 */
++					};
++
++					pinctrl_isi_power: isi_power-0 {
++						atmel,pins =
++							<0 13 0x0 0x0>; /* PA13 gpio, conflicted with SPI0_SPCK, MCI1_CK */
++					};
+ 				};
+ 			};
+ 
+-- 
+1.8.4.rc3
+

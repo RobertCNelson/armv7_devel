@@ -1,0 +1,29 @@
+From 11c475cc93cae3f81217ad2824c5710ddeac7fb9 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 27 Sep 2013 16:52:25 +0800
+Subject: [PATCH 381/382] ov5640: fix bug when fail to detect ov5640, the i2c
+ bus is not available
+
+That will impact the audio codec detection.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/media/video/ov5642.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/video/ov5642.c b/drivers/media/video/ov5642.c
+index 9c7e73c..5f2b8ee 100644
+--- a/drivers/media/video/ov5642.c
++++ b/drivers/media/video/ov5642.c
+@@ -1466,6 +1466,8 @@ static int ov5642_probe(struct i2c_client *client,
+ 	return 0;
+ 
+ error:
++	/* revisit: read a dummy data to recover the i2c bus */
++	i2c_smbus_read_byte_data(client, 0x00);
+ 	kfree(priv);
+ 	return ret;
+ }
+-- 
+1.8.4.rc3
+

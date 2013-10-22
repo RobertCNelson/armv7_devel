@@ -1,27 +1,27 @@
 From 98877819385b8bdab0927b91d2f6e1bfb514c694 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 06:08:16 +0800
-Subject: [PATCH 215/335] arm: at91sam9x5: sync with the mainline
+Subject: [PATCH 215/382] arm: at91sam9x5: sync with the mainline
 
 where we have one dtsi per soc and one dts per board
 we have also a common dtsi name at91sam9x5ek.dtsi for the based board
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/boot/dts/at91sam9g15.dtsi       |   28 +++++++++
- arch/arm/boot/dts/at91sam9g15ek.dts      |   16 +++++
- arch/arm/boot/dts/at91sam9g25.dtsi       |   28 +++++++++
- arch/arm/boot/dts/at91sam9g25ek.dts      |   42 +------------
- arch/arm/boot/dts/at91sam9g35.dtsi       |   28 +++++++++
- arch/arm/boot/dts/at91sam9g35ek.dts      |   14 +----
- arch/arm/boot/dts/at91sam9x25.dtsi       |   28 +++++++++
- arch/arm/boot/dts/at91sam9x25ek.dts      |   26 ++------
- arch/arm/boot/dts/at91sam9x35.dtsi       |   28 +++++++++
- arch/arm/boot/dts/at91sam9x35ek.dts      |   16 +++++
- arch/arm/boot/dts/at91sam9x5.dtsi        |   97 +++++++++++++++++++++++++++---
- arch/arm/boot/dts/at91sam9x5_common.dtsi |   54 -----------------
- arch/arm/boot/dts/at91sam9x5ek.dtsi      |   80 ++++++++++++++++++++++++
- arch/arm/mach-at91/Makefile.boot         |    2 +
+ arch/arm/boot/dts/at91sam9g15.dtsi       | 28 +++++++++
+ arch/arm/boot/dts/at91sam9g15ek.dts      | 16 ++++++
+ arch/arm/boot/dts/at91sam9g25.dtsi       | 28 +++++++++
+ arch/arm/boot/dts/at91sam9g25ek.dts      | 42 +-------------
+ arch/arm/boot/dts/at91sam9g35.dtsi       | 28 +++++++++
+ arch/arm/boot/dts/at91sam9g35ek.dts      | 14 +----
+ arch/arm/boot/dts/at91sam9x25.dtsi       | 28 +++++++++
+ arch/arm/boot/dts/at91sam9x25ek.dts      | 26 ++-------
+ arch/arm/boot/dts/at91sam9x35.dtsi       | 28 +++++++++
+ arch/arm/boot/dts/at91sam9x35ek.dts      | 16 ++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi        | 97 +++++++++++++++++++++++++++++---
+ arch/arm/boot/dts/at91sam9x5_common.dtsi | 54 ------------------
+ arch/arm/boot/dts/at91sam9x5ek.dtsi      | 80 ++++++++++++++++++++++++++
+ arch/arm/mach-at91/Makefile.boot         |  2 +
  14 files changed, 351 insertions(+), 136 deletions(-)
  create mode 100644 arch/arm/boot/dts/at91sam9g15.dtsi
  create mode 100644 arch/arm/boot/dts/at91sam9g15ek.dts
@@ -691,5 +691,5 @@ index 558ab65..0838d30 100644
  dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9x25ek.dtb
 +dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9x35ek.dtb
 -- 
-1.7.10.4
+1.8.4.rc3
 

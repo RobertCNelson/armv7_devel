@@ -1,13 +1,13 @@
 From aef25862fbc338f92cf4191742f0b23093819759 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:05:33 +0200
-Subject: [PATCH 195/335] pinctrl/at91: fix compatible order
+Subject: [PATCH 195/382] pinctrl/at91: fix compatible order
 
 sam9x5 is newer than rm9200
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/pinctrl/pinctrl-at91.c |    4 ++--
+ drivers/pinctrl/pinctrl-at91.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
@@ -35,5 +35,5 @@ index 73f7245..a26dcb3 100644
  };
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

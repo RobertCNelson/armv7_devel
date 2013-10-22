@@ -1,7 +1,7 @@
 From 3db9861d855460ff96fda993682ed14bedf1ed17 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Thu, 9 May 2013 13:14:59 +0800
-Subject: [PATCH 321/335] Change the internal SRAM memory type
+Subject: [PATCH 321/382] Change the internal SRAM memory type
  MT_MEMORY_NONCACHED
 
 Because MT_DEVICE is not executable in armv7, we change
@@ -16,7 +16,7 @@ we chose the this memory type.
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- arch/arm/mach-at91/setup.c |    2 +-
+ arch/arm/mach-at91/setup.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/mach-at91/setup.c b/arch/arm/mach-at91/setup.c
@@ -33,5 +33,5 @@ index 2c416cf..98d55ef 100644
  	pr_info("AT91: sram at 0x%lx of 0x%x mapped at 0x%lx\n",
  		base, length, desc->virtual);
 -- 
-1.7.10.4
+1.8.4.rc3
 

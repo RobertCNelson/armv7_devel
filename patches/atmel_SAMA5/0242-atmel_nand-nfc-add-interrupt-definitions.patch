@@ -1,10 +1,10 @@
 From 20e47ad6313a4e5219bf2b97c30f0c5f2554390d Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 14 Nov 2012 17:57:51 +0800
-Subject: [PATCH 242/335] atmel_nand: nfc:  add interrupt definitions.
+Subject: [PATCH 242/382] atmel_nand: nfc:  add interrupt definitions.
 
 ---
- drivers/mtd/nand/atmel_nand_nfc.h |    3 +++
+ drivers/mtd/nand/atmel_nand_nfc.h | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/mtd/nand/atmel_nand_nfc.h b/drivers/mtd/nand/atmel_nand_nfc.h
@@ -22,5 +22,5 @@ index 46eb111..fc745af 100644
  #define		ATMEL_HSMC_NFC_ADDR_CYCLE0	(0xff)
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

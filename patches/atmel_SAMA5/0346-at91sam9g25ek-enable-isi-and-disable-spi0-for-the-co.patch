@@ -1,0 +1,62 @@
+From 566532edb9eab2647bd1487adaeb6163fe576c78 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 5 Sep 2013 15:57:37 +0800
+Subject: [PATCH 346/382] at91sam9g25ek: enable isi and disable spi0 for the
+ confliction
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9g25ek.dts |  4 ++--
+ arch/arm/mach-at91/board-dt.c       | 11 +++++++++++
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/at91sam9g25ek.dts b/arch/arm/boot/dts/at91sam9g25ek.dts
+index 5ae11a3..951f025 100644
+--- a/arch/arm/boot/dts/at91sam9g25ek.dts
++++ b/arch/arm/boot/dts/at91sam9g25ek.dts
+@@ -16,11 +16,11 @@
+ 
+ 	ahb {
+ 		apb {
+-			spi0: spi@f0000000 {
++			i2c0: i2c@f8010000 {
+ 				status = "okay";
+ 			};
+ 
+-			i2c0: i2c@f8010000 {
++			isi: isi@f8048000 {
+ 				status = "okay";
+ 			};
+ 
+diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
+index 82035af..efdd727 100644
+--- a/arch/arm/mach-at91/board-dt.c
++++ b/arch/arm/mach-at91/board-dt.c
+@@ -236,6 +236,7 @@ struct of_dev_auxdata at91_auxdata_lookup[] __initdata = {
+ 	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf0030140, "atmel_hlcdfb_ovl1", &ek_lcdc_data),
+ 	OF_DEV_AUXDATA("atmel,at91sam9x5-lcd", 0xf0030240, "atmel_hlcdfb_ovl2", &ek_lcdc_data),
+ 	OF_DEV_AUXDATA("atmel,at91sam9g45-isi", 0xf0034000, "atmel_isi", &isi_data),
++	OF_DEV_AUXDATA("atmel,at91sam9g45-isi", 0xf8048000, "atmel_isi", &isi_data),
+ 	{ /* sentinel */ }
+ };
+ 
+@@ -346,6 +347,16 @@ static void __init at91_dt_device_init(void)
+ 				ek_lcdc_data.default_monspecs->modedb->vsync_len = 11;
+ 			}
+ 		}
++	} else if (of_machine_is_compatible("atmel,at91sam9x5ek")) {
++		struct device_node *np;
++
++		np = of_find_compatible_node(NULL, NULL, "atmel,at91sam9g45-isi");
++		if (np) {
++			if (of_device_is_available(np)) {
++				camera_set_gpio_pins(AT91_PIN_PA7, AT91_PIN_PA13);
++				at91_config_isi(true, "pck0");
++			}
++		}
+ 	}
+ 
+ 	of_platform_populate(NULL, of_default_bus_match_table, at91_auxdata_lookup, NULL);
+-- 
+1.8.4.rc3
+

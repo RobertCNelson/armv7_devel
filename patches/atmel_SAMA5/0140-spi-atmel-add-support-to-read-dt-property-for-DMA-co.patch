@@ -1,12 +1,12 @@
 From 2f33d5da1a975218af55214bb66f252c7cd0386d Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Tue, 25 Sep 2012 16:31:01 +0800
-Subject: [PATCH 140/335] spi: atmel: add support to read dt property for DMA
+Subject: [PATCH 140/382] spi: atmel: add support to read dt property for DMA
  configuration
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- drivers/spi/spi-atmel.c |   56 ++++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/spi/spi-atmel.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++++-
  1 file changed, 55 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
@@ -91,5 +91,5 @@ index 05472fd..251fa0b 100644
  	} else
  		as->use_pdc = true;
 -- 
-1.7.10.4
+1.8.4.rc3
 

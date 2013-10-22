@@ -1,7 +1,7 @@
 From 293094bb28e992e094127f9732351fd8dae26d24 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 27 Nov 2012 17:04:23 +0800
-Subject: [PATCH 121/335] ASoC: atmel-pcm: split into two file
+Subject: [PATCH 121/382] ASoC: atmel-pcm: split into two file
 
 This patch is split original atmel-pcm.c into new atmel-pcm.c and
 atmel-pcm-pdc.c two files. The new atmel-pcm.c is the share routine
@@ -11,12 +11,12 @@ Using SND_ATMEL_SOC_PDC to select using PDC for audio transfer
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- sound/soc/atmel/Kconfig         |    5 +
- sound/soc/atmel/Makefile        |    2 +
- sound/soc/atmel/atmel-pcm-pdc.c |  401 +++++++++++++++++++++++++++++++++++++++
- sound/soc/atmel/atmel-pcm.c     |  390 ++-----------------------------------
- sound/soc/atmel/atmel-pcm.h     |   21 +-
- sound/soc/atmel/atmel_ssc_dai.c |    4 +-
+ sound/soc/atmel/Kconfig         |   5 +
+ sound/soc/atmel/Makefile        |   2 +
+ sound/soc/atmel/atmel-pcm-pdc.c | 401 ++++++++++++++++++++++++++++++++++++++++
+ sound/soc/atmel/atmel-pcm.c     | 390 ++------------------------------------
+ sound/soc/atmel/atmel-pcm.h     |  21 ++-
+ sound/soc/atmel/atmel_ssc_dai.c |   4 +-
  6 files changed, 441 insertions(+), 382 deletions(-)
  create mode 100644 sound/soc/atmel/atmel-pcm-pdc.c
 
@@ -986,5 +986,5 @@ index 5c9c587..b33e382 100644
  }
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

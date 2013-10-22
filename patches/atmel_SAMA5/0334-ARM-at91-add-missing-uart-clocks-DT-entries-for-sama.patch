@@ -1,15 +1,15 @@
 From 2adc4aa5326381ecf5f9846312bcadf0b9bbf4b5 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Wed, 14 Aug 2013 13:01:25 +0800
-Subject: [PATCH 334/335] ARM: at91: add missing uart clocks DT entries for
+Subject: [PATCH 334/382] ARM: at91: add missing uart clocks DT entries for
  sama5d3
 
 Add clocks to clock lookup table for uart DT entries.
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- arch/arm/mach-at91/include/mach/sama5d3.h |    2 ++
- arch/arm/mach-at91/sama5d3.c              |   16 ++++++++++++++++
+ arch/arm/mach-at91/include/mach/sama5d3.h |  2 ++
+ arch/arm/mach-at91/sama5d3.c              | 16 ++++++++++++++++
  2 files changed, 18 insertions(+)
 
 diff --git a/arch/arm/mach-at91/include/mach/sama5d3.h b/arch/arm/mach-at91/include/mach/sama5d3.h
@@ -67,5 +67,5 @@ index fb62a55..c499446 100644
  	CLKDEV_CON_DEV_ID(NULL, "f0018000.i2c", &twi1_clk),
  	CLKDEV_CON_DEV_ID(NULL, "f801c000.i2c", &twi2_clk),
 -- 
-1.7.10.4
+1.8.4.rc3
 

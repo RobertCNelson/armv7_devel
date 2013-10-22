@@ -1,0 +1,23 @@
+From 51d179bdf2763a2277cf4f9550fad1e8e6fef6ab Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 25 Sep 2013 14:47:28 +0800
+Subject: [PATCH 365/382] at91-dt: enable ov5642/ov5640 support in defconfig
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/at91_dt_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+index f53e1e6..8291e5a 100644
+--- a/arch/arm/configs/at91_dt_defconfig
++++ b/arch/arm/configs/at91_dt_defconfig
+@@ -217,4 +217,5 @@ CONFIG_MEDIA_CAMERA_SUPPORT=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_SOC_CAMERA=y
+ CONFIG_SOC_CAMERA_OV2640=y
++CONFIG_SOC_CAMERA_OV5642=y
+ CONFIG_VIDEO_ATMEL_ISI=y
+-- 
+1.8.4.rc3
+

@@ -1,12 +1,12 @@
 From 5cbb62b6034f900117f58cc52d96808cbd10aee2 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Sat, 24 Nov 2012 10:49:19 +0800
-Subject: [PATCH 244/335] atmel_nand: nfc: use interrupt instead of pooling
- the status register.
+Subject: [PATCH 244/382] atmel_nand: nfc: use interrupt instead of pooling the
+ status register.
 
 ---
- drivers/mtd/nand/atmel_nand.c     |   23 +++++++++++++++++--
- drivers/mtd/nand/atmel_nand_nfc.c |   45 +++++++++++++------------------------
+ drivers/mtd/nand/atmel_nand.c     | 23 ++++++++++++++++++--
+ drivers/mtd/nand/atmel_nand_nfc.c | 45 +++++++++++++--------------------------
  2 files changed, 36 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
@@ -146,5 +146,5 @@ index 15df9cf..531a081 100644
  }
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

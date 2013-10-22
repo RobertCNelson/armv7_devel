@@ -65,8 +65,8 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -336 | grep 3.6.9 ; rm -rf *.patch
-	#git format-patch -335 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
+	#git format-patch -383 | grep 3.6.9 ; rm -rf *.patch
+	#git format-patch -382 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
 	#git checkout master -f ; git branch -D tmp
 
 	echo "dir: atmel_SAMA5"
@@ -405,6 +405,53 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0333-ARM-at91-dts-add-all-serial-dma-configurations-for-s.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0334-ARM-at91-add-missing-uart-clocks-DT-entries-for-sama.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0335-mtd-atmel_nand-pmecc-fix-bug-fail-to-correct-bit-err.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0336-sama5d3-add-sama5d36-chip-id-and-name.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0337-sama5d36-reigster-perriperal-clock-for-sama5d36-cpu.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0338-sama5d36-add-d36-dts-which-is-D35-lcd.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0339-sama5d36-add-sound-in-dts.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0340-ARM-at91-pm_slowclock-MOR-register-KEY-was-missing.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0341-micrel-ksz9021-add-generic-phy-suspend-resume-functi.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0342-ARM-at91-sama5d3x-improvement-suspend-to-RAM.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0343-micrel-KSZ8051-add-generic-phy-suspend-resume-functi.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0344-at91sam9x5-dt-add-isi-pinctrl-and-dt-property.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0345-board-dt-add-a-function-to-set-camera-reset-power-pi.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0346-at91sam9g25ek-enable-isi-and-disable-spi0-for-the-co.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0347-at91sam9-dt-add-Atmel-isi-and-ov2640-support-in-defc.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0348-at91sam9g45-support-ubi-file-system-in-defconfig.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0349-at91sam9g45-support-isi-ov2640-in-defconfig.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0350-at91sam9g20-update-defconfig-to-support-UBI-filesys-.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0351-ov5640-add-ov5640-platform-device.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0352-ov5640-use-ov5642-as-ov5640-in-defconfig.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0353-ov5640-add-a-flag-to-choose-ov5640-or-ov5642-sensor-.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0354-ov5640-support-ov5642-and-ov5640-both-with-different.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0355-ov5640-can-work-with-vga-mode-now.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0356-ov5640-now-we-support-multiple-resolutions.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0357-ov5640-add-1280x960-register-setting-and-works.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0358-ov5640-add-vflip-and-mirror-make-it-same-as-ov2640.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0359-ov2643-add-ov2643-support.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0360-ov2643-get-correct-ov2643-s-format-in-try_fmt.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0361-leds-gpio-of-led-should-not-be-created-if-its-status.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0362-sama5d3-dts-move-the-isi-support-dt-params-in-a-dtsi.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0363-sama5d3x-dt-Add-missing-MICBIAS-widget.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0364-watchdog-at91-get-rid-of-building-warning.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0365-at91-dt-enable-ov5642-ov5640-support-in-defconfig.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0366-defconfig-generate-the-mtd_tests-modules-for-nand-be.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0367-ASoC-sam9g20-using-platform-device-for-audio-part.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0368-ARM-at91-atmel-ssc-add-platform-device-id-table.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0369-ASoC-atmel_ssc_dai-temp-solution-for-sam9g20-audio.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0370-at91sam9g20-enable-audio-support-in-defconfig.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0371-at91sam9g45-enable-root-nfs-option.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0372-ARM-at91-sam9x5-add-ssc0-alias.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0373-ARM-at91-sam9x5-add-ssc-clock.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0374-ASoC-codecs-remove-__dev-attributes.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0375-ASoC-wm8731-add-rates-constraints.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0376-ASoC-atmel-machine-driver-for-at91sam9x5-wm8731-boar.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0377-ARM-AT91-DTS-sam9x5ek-add-WM8731-codec.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0378-ARM-AT91-DTS-sam9x5ek-enable-SSC.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0379-ARM-AT91-DTS-sam9x5ek-add-sound-configuration.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0380-at91sam9x5ek-update-defconfig-to-enable-audio-suppor.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0381-ov5640-fix-bug-when-fail-to-detect-ov5640-the-i2c-bu.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0382-ARM-at91-remove-partial-parameter-in-bootargs-for-at.patch"
 }
 
 arm

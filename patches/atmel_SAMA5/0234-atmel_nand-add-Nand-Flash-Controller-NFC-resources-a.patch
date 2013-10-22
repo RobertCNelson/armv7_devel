@@ -1,12 +1,12 @@
 From 4c1d1ce7129a9074312e580f3416e01aa80ac30f Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 13 Nov 2012 15:36:39 +0800
-Subject: [PATCH 234/335] atmel_nand: add Nand Flash Controller(NFC) resources
+Subject: [PATCH 234/382] atmel_nand: add Nand Flash Controller(NFC) resources
  and initialization
 
 ---
- drivers/mtd/nand/atmel_nand.c     |   20 ++++++++++++++++++
- drivers/mtd/nand/atmel_nand_nfc.c |   42 +++++++++++++++++++++++++++++++++++++
+ drivers/mtd/nand/atmel_nand.c     | 20 +++++++++++++++++++
+ drivers/mtd/nand/atmel_nand_nfc.c | 42 +++++++++++++++++++++++++++++++++++++++
  2 files changed, 62 insertions(+)
  create mode 100644 drivers/mtd/nand/atmel_nand_nfc.c
 
@@ -118,5 +118,5 @@ index 0000000..122567f
 +}
 +
 -- 
-1.7.10.4
+1.8.4.rc3
 

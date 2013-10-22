@@ -1,0 +1,28 @@
+From 288c7992dae7c95b12a94a91a57d38d944d3b89a Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 26 Sep 2013 14:14:35 +0800
+Subject: [PATCH 370/382] at91sam9g20: enable audio support in defconfig
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/at91sam9g20_defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm/configs/at91sam9g20_defconfig b/arch/arm/configs/at91sam9g20_defconfig
+index d2e6bc1..d825c1e 100644
+--- a/arch/arm/configs/at91sam9g20_defconfig
++++ b/arch/arm/configs/at91sam9g20_defconfig
+@@ -91,6 +91,10 @@ CONFIG_SND_MIXER_OSS=y
+ CONFIG_SND_PCM_OSS=y
+ CONFIG_SND_SEQUENCER_OSS=y
+ # CONFIG_SND_VERBOSE_PROCFS is not set
++CONFIG_SND_SOC=y
++CONFIG_SND_ATMEL_SOC=y
++CONFIG_SND_AT91_SOC_SAM9G20_WM8731=y
++CONFIG_ATMEL_SSC=y
+ CONFIG_USB=y
+ CONFIG_USB_DEVICEFS=y
+ # CONFIG_USB_DEVICE_CLASS is not set
+-- 
+1.8.4.rc3
+

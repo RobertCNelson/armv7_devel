@@ -1,7 +1,7 @@
 From 228af4663741bca7cd297854f6440de88d634eb6 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:35:41 +0100
-Subject: [PATCH 284/335] net/macb: RX_USED bit is managed in gem_rx_refill
+Subject: [PATCH 284/382] net/macb: RX_USED bit is managed in gem_rx_refill
  function
 
 Simply give back RX descriptor to hardware when it has actually
@@ -9,7 +9,7 @@ been refilled properly.
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.c |    7 ++++---
+ drivers/net/ethernet/cadence/macb.c | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -45,5 +45,5 @@ index f2b3cc1..7111f52 100644
  		count++;
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

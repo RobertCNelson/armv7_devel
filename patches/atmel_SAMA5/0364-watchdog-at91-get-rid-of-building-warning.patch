@@ -1,0 +1,38 @@
+From ebdec0d6277c338307dd27705d7c76969577de22 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 25 Sep 2013 11:32:52 +0800
+Subject: [PATCH 364/382] watchdog: at91: get rid of building warning
+
+get rid of the following warning
+  WARNING: modpost: Found 2 section mismatch(es)
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ drivers/watchdog/at91sam9_wdt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/watchdog/at91sam9_wdt.c b/drivers/watchdog/at91sam9_wdt.c
+index 2cf9045..1569ce4 100644
+--- a/drivers/watchdog/at91sam9_wdt.c
++++ b/drivers/watchdog/at91sam9_wdt.c
+@@ -203,7 +203,7 @@ static struct watchdog_device at91wdt_wdd = {
+ 	.ops = &at91wdt_ops,
+ };
+ 
+-static int __init at91wdt_probe(struct platform_device *pdev)
++static int at91wdt_probe(struct platform_device *pdev)
+ {
+ 	struct at91wdt_drvdata *driver_data;
+ 	struct resource	*r;
+@@ -263,7 +263,7 @@ static int __exit at91wdt_remove(struct platform_device *pdev)
+ }
+ 
+ #if defined(CONFIG_OF)
+-static const struct of_device_id at91_wdt_dt_ids[] __initconst = {
++static const struct of_device_id at91_wdt_dt_ids[] = {
+ 	{ .compatible = "atmel,at91sam9260-wdt" },
+ 	{ /* sentinel */ }
+ };
+-- 
+1.8.4.rc3
+

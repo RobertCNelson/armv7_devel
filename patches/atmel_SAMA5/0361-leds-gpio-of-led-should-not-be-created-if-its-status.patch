@@ -1,0 +1,56 @@
+From 9eaf25172a1a041bacce62d4efbeb1d71bec65b7 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Mon, 23 Sep 2013 16:07:05 +0800
+Subject: [PATCH 361/382] leds-gpio: of: led should not be created if its
+ status is disabled
+
+now the leds-gpio driver will create every child led node without
+checking the status is disabled or not.
+
+for example, if we have a led node like d3, and its status is disabled:
+	leds {
+		d3 {
+			label = "d3";
+			gpios = <&pioE 24 0>;
+			status = "disabled";
+		};
+	};
+
+we except the d3 should not be created. And the gpios should not be
+request as well.
+
+But current driver will create d3 and request its gpio.
+
+This patch fix this by using for_each_available_child_of_node() to
+enumerate all child nodes. So the disabled node will be inavilable.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/leds/leds-gpio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+index c032b21..15e8e7c 100644
+--- a/drivers/leds/leds-gpio.c
++++ b/drivers/leds/leds-gpio.c
+@@ -173,7 +173,7 @@ static struct gpio_leds_priv * __devinit gpio_leds_create_of(struct platform_dev
+ 	int count = 0, ret;
+ 
+ 	/* count LEDs in this device, so we know how much to allocate */
+-	for_each_child_of_node(np, child)
++	for_each_available_child_of_node(np, child)
+ 		count++;
+ 	if (!count)
+ 		return NULL;
+@@ -183,7 +183,7 @@ static struct gpio_leds_priv * __devinit gpio_leds_create_of(struct platform_dev
+ 	if (!priv)
+ 		return NULL;
+ 
+-	for_each_child_of_node(np, child) {
++	for_each_available_child_of_node(np, child) {
+ 		struct gpio_led led = {};
+ 		enum of_gpio_flags flags;
+ 		const char *state;
+-- 
+1.8.4.rc3
+

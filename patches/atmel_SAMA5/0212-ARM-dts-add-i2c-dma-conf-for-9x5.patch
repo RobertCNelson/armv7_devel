@@ -1,11 +1,11 @@
 From 9a76fe7010307a78fe3b676756544bc318cd3f1a Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 16 Nov 2012 16:53:54 +0100
-Subject: [PATCH 212/335] ARM: dts: add i2c dma conf for 9x5
+Subject: [PATCH 212/382] ARM: dts: add i2c dma conf for 9x5
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- arch/arm/boot/dts/at91sam9x5.dtsi |    3 +++
+ arch/arm/boot/dts/at91sam9x5.dtsi | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
@@ -37,5 +37,5 @@ index 019b5be..34fd3cc 100644
  				#size-cells = <0>;
  				status = "disabled";
 -- 
-1.7.10.4
+1.8.4.rc3
 

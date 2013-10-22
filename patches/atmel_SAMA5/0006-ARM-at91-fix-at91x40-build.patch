@@ -1,7 +1,7 @@
 From f9b75b0a6baefe25e66fe895ceccce4443cc7919 Mon Sep 17 00:00:00 2001
 From: Arnd Bergmann <arnd@arndb.de>
 Date: Fri, 26 Oct 2012 22:49:09 +0200
-Subject: [PATCH 006/335] ARM: at91: fix at91x40 build
+Subject: [PATCH 006/382] ARM: at91: fix at91x40 build
 
 patch 738a0fd7 "ARM: at91: fix external interrupts in non-DT case"
 fixed a run-time error on some at91 platforms but did not apply
@@ -13,7 +13,7 @@ were changed.
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 Acked-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- arch/arm/mach-at91/at91x40.c |    2 +-
+ arch/arm/mach-at91/at91x40.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/mach-at91/at91x40.c b/arch/arm/mach-at91/at91x40.c
@@ -29,5 +29,5 @@ index 46090e6..efbb93f 100644
  }
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,25 +1,25 @@
 From a87c6a00ed63e40d1df956192bacf3e17286eee1 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 18 Oct 2012 17:49:23 +0200
-Subject: [PATCH 193/335] arm: at91: dt: at91sam9 add pinctrl support
+Subject: [PATCH 193/382] arm: at91: dt: at91sam9 add pinctrl support
 
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
- .../bindings/pinctrl/atmel,at91-pinctrl.txt        |   68 +++++++++++++++++---
- arch/arm/boot/dts/at91sam9260.dtsi                 |    9 +++
- arch/arm/boot/dts/at91sam9263.dtsi                 |   12 ++++
- arch/arm/boot/dts/at91sam9g45.dtsi                 |   11 ++++
- arch/arm/boot/dts/at91sam9n12.dtsi                 |   12 +++-
- arch/arm/boot/dts/at91sam9x5.dtsi                  |   12 +++-
- arch/arm/configs/at91_dt_defconfig                 |    1 +
- arch/arm/mach-at91/at91sam9260.c                   |    3 +
- arch/arm/mach-at91/at91sam9263.c                   |    5 ++
- arch/arm/mach-at91/at91sam9g45.c                   |    6 ++
- arch/arm/mach-at91/at91sam9n12.c                   |   11 ++--
- arch/arm/mach-at91/at91sam9x5.c                    |   15 ++---
- arch/arm/mach-at91/setup.c                         |    3 +-
- drivers/pinctrl/pinctrl-at91.c                     |    2 +-
+ .../bindings/pinctrl/atmel,at91-pinctrl.txt        | 68 +++++++++++++++++++---
+ arch/arm/boot/dts/at91sam9260.dtsi                 |  9 +++
+ arch/arm/boot/dts/at91sam9263.dtsi                 | 12 ++++
+ arch/arm/boot/dts/at91sam9g45.dtsi                 | 11 ++++
+ arch/arm/boot/dts/at91sam9n12.dtsi                 | 12 +++-
+ arch/arm/boot/dts/at91sam9x5.dtsi                  | 12 +++-
+ arch/arm/configs/at91_dt_defconfig                 |  1 +
+ arch/arm/mach-at91/at91sam9260.c                   |  3 +
+ arch/arm/mach-at91/at91sam9263.c                   |  5 ++
+ arch/arm/mach-at91/at91sam9g45.c                   |  6 ++
+ arch/arm/mach-at91/at91sam9n12.c                   | 11 ++--
+ arch/arm/mach-at91/at91sam9x5.c                    | 15 ++---
+ arch/arm/mach-at91/setup.c                         |  3 +-
+ drivers/pinctrl/pinctrl-at91.c                     |  2 +-
  14 files changed, 140 insertions(+), 30 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/pinctrl/atmel,at91-pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/atmel,at91-pinctrl.txt
@@ -388,5 +388,5 @@ index e4712d1..9c0fe11 100644
  	 */
  	list = of_get_property(np, "atmel,pins", &size);
 -- 
-1.7.10.4
+1.8.4.rc3
 

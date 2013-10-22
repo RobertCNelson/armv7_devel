@@ -1,11 +1,11 @@
 From 5fe012d4aee98ef82df66e6763882c735902ed0f Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Thu, 9 May 2013 13:14:59 +0800
-Subject: [PATCH 320/335] Change internal SRAM memory type to "MT_MEMORY_SO"
+Subject: [PATCH 320/382] Change internal SRAM memory type to "MT_MEMORY_SO"
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- arch/arm/mach-at91/setup.c |    2 +-
+ arch/arm/mach-at91/setup.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/mach-at91/setup.c b/arch/arm/mach-at91/setup.c
@@ -22,5 +22,5 @@ index a33d4b5..2c416cf 100644
  	pr_info("AT91: sram at 0x%lx of 0x%x mapped at 0x%lx\n",
  		base, length, desc->virtual);
 -- 
-1.7.10.4
+1.8.4.rc3
 

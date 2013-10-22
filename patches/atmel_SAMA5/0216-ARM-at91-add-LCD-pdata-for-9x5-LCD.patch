@@ -1,13 +1,13 @@
 From f84e0b961fb2fa5bd575f280d01cdde2f7c917a7 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 19:05:25 +0200
-Subject: [PATCH 216/335] ARM: at91: add LCD pdata for 9x5 LCD
+Subject: [PATCH 216/382] ARM: at91: add LCD pdata for 9x5 LCD
 
 Temporary in board-dt
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- arch/arm/mach-at91/board-dt.c |   60 ++++++++++++++++++++++++++++++++++++++++-
+ arch/arm/mach-at91/board-dt.c | 60 ++++++++++++++++++++++++++++++++++++++++++-
  1 file changed, 59 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/mach-at91/board-dt.c b/arch/arm/mach-at91/board-dt.c
@@ -89,5 +89,5 @@ index 3b6a948..31ddf37 100644
  
  static const char *at91_dt_board_compat[] __initdata = {
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,0 +1,33 @@
+From 066a6ce699b714848226e02d24dd09a1f60a0079 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Thu, 26 Sep 2013 14:03:03 +0800
+Subject: [PATCH 371/382] at91sam9g45: enable root nfs option
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/at91sam9g45_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/configs/at91sam9g45_defconfig b/arch/arm/configs/at91sam9g45_defconfig
+index aef29f6..e627f06 100644
+--- a/arch/arm/configs/at91sam9g45_defconfig
++++ b/arch/arm/configs/at91sam9g45_defconfig
+@@ -36,6 +36,7 @@ CONFIG_PACKET=y
+ CONFIG_UNIX=y
+ CONFIG_INET=y
+ CONFIG_IP_MULTICAST=y
++CONFIG_IP_PNP=y
+ # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
+ # CONFIG_INET_XFRM_MODE_TUNNEL is not set
+ # CONFIG_INET_XFRM_MODE_BEET is not set
+@@ -198,6 +199,7 @@ CONFIG_SQUASHFS=m
+ CONFIG_SQUASHFS_EMBEDDED=y
+ CONFIG_NFS_FS=y
+ CONFIG_NFS_V3=y
++CONFIG_ROOT_NFS=y
+ CONFIG_NLS_CODEPAGE_437=y
+ CONFIG_NLS_CODEPAGE_850=y
+ CONFIG_NLS_ISO8859_1=y
+-- 
+1.8.4.rc3
+

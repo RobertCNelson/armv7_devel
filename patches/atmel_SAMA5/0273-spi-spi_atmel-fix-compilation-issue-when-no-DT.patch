@@ -1,11 +1,11 @@
 From c38f156e5be7070adb4cb6ee924435c777a1bdef Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Tue, 22 Jan 2013 19:15:55 +0800
-Subject: [PATCH 273/335] spi/spi_atmel: fix compilation issue when no DT
+Subject: [PATCH 273/382] spi/spi_atmel: fix compilation issue when no DT
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- drivers/spi/spi-atmel.c |   12 +++++++++---
+ drivers/spi/spi-atmel.c | 12 +++++++++---
  1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
@@ -46,5 +46,5 @@ index 2f65401..7fb4e94 100644
  	} else
  		as->use_pdc = true;
 -- 
-1.7.10.4
+1.8.4.rc3
 

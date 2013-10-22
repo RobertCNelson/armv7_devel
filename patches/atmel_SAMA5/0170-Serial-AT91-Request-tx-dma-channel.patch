@@ -1,13 +1,13 @@
 From 563f20d5aa6f8f2fd94e5d5b3e0224ad314a6817 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 11:00:01 +0800
-Subject: [PATCH 170/335] Serial: AT91: Request tx dma channel
+Subject: [PATCH 170/382] Serial: AT91: Request tx dma channel
 
 Request a slave dma channel for tx dma use
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- drivers/tty/serial/atmel_serial.c |  125 +++++++++++++++++++++++++++++++++++++
+ drivers/tty/serial/atmel_serial.c | 125 ++++++++++++++++++++++++++++++++++++++
  1 file changed, 125 insertions(+)
 
 diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
@@ -168,5 +168,5 @@ index b3bdea5..1b48513 100644
  	 * Disable all interrupts, port and break condition.
  	 */
 -- 
-1.7.10.4
+1.8.4.rc3
 

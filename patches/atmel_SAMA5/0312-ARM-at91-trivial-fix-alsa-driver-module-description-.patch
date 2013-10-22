@@ -1,11 +1,11 @@
 From 2043ebe5ac403238f5a5b4a4dcb60e953debbbb2 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 19 Feb 2013 18:06:51 +0800
-Subject: [PATCH 312/335] ARM: at91/trivial: fix alsa driver module
- description with correct sama5d3 name
+Subject: [PATCH 312/382] ARM: at91/trivial: fix alsa driver module description
+ with correct sama5d3 name
 
 ---
- sound/soc/atmel/sama5d3_wm8904.c |    2 +-
+ sound/soc/atmel/sama5d3_wm8904.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sound/soc/atmel/sama5d3_wm8904.c b/sound/soc/atmel/sama5d3_wm8904.c
@@ -20,5 +20,5 @@ index a52b611..d0675d9 100644
 +MODULE_DESCRIPTION("ALSA SoC machine driver for SAMA5D3 - WM8904");
  MODULE_LICENSE("GPL");
 -- 
-1.7.10.4
+1.8.4.rc3
 

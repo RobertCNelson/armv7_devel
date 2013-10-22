@@ -1,14 +1,14 @@
 From 66b7ed9cbbee1135aee466169cb40396ce3cddaf Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 17 Nov 2010 12:28:13 +0100
-Subject: [PATCH 025/335] input: atmel_tsadcc: add support for ARCH_AT91SAM9X5
+Subject: [PATCH 025/382] input: atmel_tsadcc: add support for ARCH_AT91SAM9X5
 
 XXX: split header creation in a new patch (or don't do it)
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
- drivers/input/touchscreen/atmel_tsadcc.c |  150 +++++++++++----------------
- drivers/input/touchscreen/atmel_tsadcc.h |  162 ++++++++++++++++++++++++++++++
+ drivers/input/touchscreen/atmel_tsadcc.c | 150 ++++++++++++----------------
+ drivers/input/touchscreen/atmel_tsadcc.h | 162 +++++++++++++++++++++++++++++++
  2 files changed, 222 insertions(+), 90 deletions(-)
  create mode 100644 drivers/input/touchscreen/atmel_tsadcc.h
 
@@ -388,5 +388,5 @@ index 0000000..5918c20
 +
 +#endif /* __ATMEL_TSADCC_H__ */
 -- 
-1.7.10.4
+1.8.4.rc3
 

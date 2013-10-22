@@ -1,0 +1,28 @@
+From 2058d3a6980261cdb8a705ef235b2e74f57ddbea Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Tue, 17 Sep 2013 17:01:39 +0800
+Subject: [PATCH 358/382] ov5640: add vflip and mirror make it same as ov2640
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/media/video/ov5642.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/video/ov5642.c b/drivers/media/video/ov5642.c
+index 23f37c0..9c7e73c 100644
+--- a/drivers/media/video/ov5642.c
++++ b/drivers/media/video/ov5642.c
+@@ -873,8 +873,8 @@ static struct regval_list ov5640_default_regs_init[] = {
+ static struct regval_list ov5640_default_regs_finalise[] = {
+ 	{0x3503, 0x00},
+ 	{0x3c07, 0x08},
+-	{0x3820, 0x41},
+-	{0x3821, 0x07},
++	{0x3820, 0x46},		/* vflip */
++	{0x3821, 0x00},		/* mirror */
+ 	{0x3814, 0x31},
+ 	{0x3815, 0x31},
+ 
+-- 
+1.8.4.rc3
+

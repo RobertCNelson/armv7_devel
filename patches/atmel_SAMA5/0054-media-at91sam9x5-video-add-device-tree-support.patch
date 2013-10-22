@@ -1,11 +1,11 @@
 From e35c8519f9651e6f4073de40d16d332c1897eea6 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 18:46:07 +0200
-Subject: [PATCH 054/335] media/at91sam9x5-video: add device tree support
+Subject: [PATCH 054/382] media/at91sam9x5-video: add device tree support
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/media/video/at91sam9x5-video.c |   55 +++++++++++---------------------
+ drivers/media/video/at91sam9x5-video.c | 55 +++++++++++-----------------------
  1 file changed, 18 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/media/video/at91sam9x5-video.c b/drivers/media/video/at91sam9x5-video.c
@@ -98,5 +98,5 @@ index 1e5a0a7..548aebc 100644
  }
  module_exit(at91sam9x5_video_exit);
 -- 
-1.7.10.4
+1.8.4.rc3
 

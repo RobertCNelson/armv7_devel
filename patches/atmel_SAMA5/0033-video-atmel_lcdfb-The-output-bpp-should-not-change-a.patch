@@ -1,7 +1,7 @@
 From a10b86c46e4cfc82e8b01b52e3f99d6a22e4ca8f Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 9 Mar 2011 11:21:51 +0800
-Subject: [PATCH 033/335] video/atmel_lcdfb: The output bpp should not change
+Subject: [PATCH 033/382] video/atmel_lcdfb: The output bpp should not change
  according to memory bpp
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -15,7 +15,7 @@ XXX: these are two different changes?
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/atmel_lcdfb.c |   25 +++----------------------
+ drivers/video/atmel_lcdfb.c | 25 +++----------------------
  1 file changed, 3 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/video/atmel_lcdfb.c b/drivers/video/atmel_lcdfb.c
@@ -62,5 +62,5 @@ index 27eca1b..2f1e1ec 100644
  	lcdc_writel(sinfo, ATMEL_LCDC_LCDCFG5, value);
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

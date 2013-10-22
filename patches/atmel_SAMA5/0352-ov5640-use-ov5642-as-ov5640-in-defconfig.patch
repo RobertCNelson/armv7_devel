@@ -1,0 +1,22 @@
+From 23028f0db4ae5bbd09c97b46fdf7696f97984024 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 19 Jun 2013 11:17:00 +0800
+Subject: [PATCH 352/382] ov5640: use ov5642 as ov5640 in defconfig
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/sama5d3_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/configs/sama5d3_defconfig b/arch/arm/configs/sama5d3_defconfig
+index 0b5afca..5e75826 100644
+--- a/arch/arm/configs/sama5d3_defconfig
++++ b/arch/arm/configs/sama5d3_defconfig
+@@ -211,3 +211,4 @@ CONFIG_CRYPTO_DEV_ATMEL_TDES=y
+ CONFIG_CRYPTO_DEV_ATMEL_SHA=y
+ CONFIG_CRC_CCITT=m
+ CONFIG_CRC_ITU_T=m
++CONFIG_SOC_CAMERA_OV5642=y
+-- 
+1.8.4.rc3
+

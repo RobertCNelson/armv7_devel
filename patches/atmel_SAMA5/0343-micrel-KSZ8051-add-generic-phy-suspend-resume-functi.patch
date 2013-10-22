@@ -1,0 +1,27 @@
+From 7b325715fad483e7999a2b0bccfb6ec8068eed53 Mon Sep 17 00:00:00 2001
+From: Wenyou Yang <wenyou.yang@atmel.com>
+Date: Thu, 5 Sep 2013 14:36:35 +0800
+Subject: [PATCH 343/382] micrel KSZ8051: add generic phy suspend/resume
+ functions
+
+Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
+---
+ drivers/net/phy/micrel.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
+index 0cfd973..e9ab724 100644
+--- a/drivers/net/phy/micrel.c
++++ b/drivers/net/phy/micrel.c
+@@ -178,6 +178,8 @@ static struct phy_driver ksphy_driver[] = {
+ 	.read_status	= genphy_read_status,
+ 	.ack_interrupt	= kszphy_ack_interrupt,
+ 	.config_intr	= kszphy_config_intr,
++	.suspend	= genphy_suspend,
++	.resume		= genphy_resume,
+ 	.driver		= { .owner = THIS_MODULE,},
+ }, {
+ 	.phy_id		= PHY_ID_KSZ8001,
+-- 
+1.8.4.rc3
+

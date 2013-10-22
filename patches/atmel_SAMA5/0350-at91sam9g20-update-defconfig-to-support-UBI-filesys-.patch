@@ -1,0 +1,43 @@
+From 577e68207b284ec9f772642553326f6e1283213c Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Fri, 13 Sep 2013 15:53:04 +0800
+Subject: [PATCH 350/382] at91sam9g20: update defconfig to support UBI filesys
+ and DEVTMPFS
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/configs/at91sam9g20_defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm/configs/at91sam9g20_defconfig b/arch/arm/configs/at91sam9g20_defconfig
+index 994d331..9a9b338 100644
+--- a/arch/arm/configs/at91sam9g20_defconfig
++++ b/arch/arm/configs/at91sam9g20_defconfig
+@@ -46,6 +46,8 @@ CONFIG_IP_PNP_BOOTP=y
+ # CONFIG_INET_LRO is not set
+ # CONFIG_IPV6 is not set
+ CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
++CONFIG_DEVTMPFS=y
++CONFIG_DEVTMPFS_MOUNT=y
+ CONFIG_MTD=y
+ CONFIG_MTD_CMDLINE_PARTS=y
+ CONFIG_MTD_CHAR=y
+@@ -53,6 +55,7 @@ CONFIG_MTD_BLOCK=y
+ CONFIG_MTD_DATAFLASH=y
+ CONFIG_MTD_NAND=y
+ CONFIG_MTD_NAND_ATMEL=y
++CONFIG_MTD_UBI=y
+ CONFIG_BLK_DEV_LOOP=y
+ CONFIG_BLK_DEV_RAM=y
+ CONFIG_BLK_DEV_RAM_SIZE=8192
+@@ -115,6 +118,7 @@ CONFIG_VFAT_FS=y
+ CONFIG_TMPFS=y
+ CONFIG_JFFS2_FS=y
+ CONFIG_JFFS2_SUMMARY=y
++CONFIG_UBIFS_FS=y
+ CONFIG_CRAMFS=y
+ CONFIG_NFS_FS=y
+ CONFIG_NFS_V3=y
+-- 
+1.8.4.rc3
+

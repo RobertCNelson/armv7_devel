@@ -1,7 +1,7 @@
 From 5fe7ea954e768fbadefe41a49fcb007411b59a6a Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 13:17:30 +0800
-Subject: [PATCH 157/335] watchdog/at91sam9_wdt: Add to use the watchdog
+Subject: [PATCH 157/382] watchdog/at91sam9_wdt: Add to use the watchdog
  framework
 
 Since the at91sam watchdog inherent characteristics,
@@ -10,7 +10,7 @@ as watchdog_ops operation members.
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
- drivers/watchdog/at91sam9_wdt.c |  124 +++++++++++++++++++++++----------------
+ drivers/watchdog/at91sam9_wdt.c | 124 +++++++++++++++++++++++-----------------
  1 file changed, 72 insertions(+), 52 deletions(-)
 
 diff --git a/drivers/watchdog/at91sam9_wdt.c b/drivers/watchdog/at91sam9_wdt.c
@@ -237,5 +237,5 @@ index 6f21ca8..93ae4e4 100644
  
  #if defined(CONFIG_OF)
 -- 
-1.7.10.4
+1.8.4.rc3
 

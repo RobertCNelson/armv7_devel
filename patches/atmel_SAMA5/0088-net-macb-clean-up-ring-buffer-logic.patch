@@ -1,7 +1,7 @@
 From cdcd2aec33152bd41f31bd70f8defd6d42ac85b3 Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:55 +0000
-Subject: [PATCH 088/335] net/macb: clean up ring buffer logic
+Subject: [PATCH 088/382] net/macb: clean up ring buffer logic
 
 Instead of masking head and tail every time we increment them, just let them
 wrap through UINT_MAX and mask them when subscripting. Add simple accessor
@@ -20,9 +20,9 @@ Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Tested-by: Joachim Eastwood <manabian@gmail.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |    6 +-
- drivers/net/ethernet/cadence/macb.c       |  172 ++++++++++++++++++-----------
- drivers/net/ethernet/cadence/macb.h       |   22 ++--
+ drivers/net/ethernet/cadence/at91_ether.c |   6 +-
+ drivers/net/ethernet/cadence/macb.c       | 172 +++++++++++++++++++-----------
+ drivers/net/ethernet/cadence/macb.h       |  22 ++--
  3 files changed, 127 insertions(+), 73 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/at91_ether.c b/drivers/net/ethernet/cadence/at91_ether.c
@@ -444,5 +444,5 @@ index 33a050f..024a270 100644
  	struct phy_device	*phy_dev;
  	unsigned int 		link;
 -- 
-1.7.10.4
+1.8.4.rc3
 

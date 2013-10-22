@@ -1,14 +1,13 @@
 From 39dca1fe510f57fa18c478e7d0bdf7692ef9b8cd Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 16:12:20 +0100
-Subject: [PATCH 294/335] video: atmel_hlcdfb: don't read a write only
- register
+Subject: [PATCH 294/382] video: atmel_hlcdfb: don't read a write only register
 
 Reading a write only register and using its value is useless.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/video/atmel_hlcdfb.c |   12 ++++--------
+ drivers/video/atmel_hlcdfb.c | 12 ++++--------
  1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/video/atmel_hlcdfb.c b/drivers/video/atmel_hlcdfb.c
@@ -41,5 +40,5 @@ index 1ae48da..e648ffc 100644
  		msleep(1);
  }
 -- 
-1.7.10.4
+1.8.4.rc3
 

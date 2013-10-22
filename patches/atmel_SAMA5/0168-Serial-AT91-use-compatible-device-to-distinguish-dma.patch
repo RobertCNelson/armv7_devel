@@ -1,7 +1,7 @@
 From a822470ee91c516a730ba0f227dd750266b7e85e Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 10:30:30 +0800
-Subject: [PATCH 168/335] Serial: AT91: use compatible device to distinguish
+Subject: [PATCH 168/382] Serial: AT91: use compatible device to distinguish
  dma from pdc
 
 atmel,at91sam9260-usart is for soc with pdc use
@@ -10,8 +10,8 @@ reserve atmel,at91rm9200-usart
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
 ---
- arch/arm/mach-at91/include/mach/board.h |    8 ++++
- drivers/tty/serial/atmel_serial.c       |   80 +++++++++++++++++++++++++------
+ arch/arm/mach-at91/include/mach/board.h |  8 ++++
+ drivers/tty/serial/atmel_serial.c       | 80 +++++++++++++++++++++++++++------
  2 files changed, 74 insertions(+), 14 deletions(-)
 
 diff --git a/arch/arm/mach-at91/include/mach/board.h b/arch/arm/mach-at91/include/mach/board.h
@@ -172,5 +172,5 @@ index 8dc3229..31ad95f 100644
  	}
  
 -- 
-1.7.10.4
+1.8.4.rc3
 

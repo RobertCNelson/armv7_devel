@@ -1,7 +1,7 @@
 From 1192cca6eb395719dc1102b01d930874e63bb67a Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 19 Sep 2012 15:14:34 +0200
-Subject: [PATCH 108/335] net/macb: GEM DMA configuration register update
+Subject: [PATCH 108/382] net/macb: GEM DMA configuration register update
 
 Add information to the DMA Configuration Register to
 maximize system performance:
@@ -10,8 +10,8 @@ maximize system performance:
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- drivers/net/ethernet/cadence/macb.c |   10 ++++++++--
- drivers/net/ethernet/cadence/macb.h |   11 +++++++++++
+ drivers/net/ethernet/cadence/macb.c | 10 ++++++++--
+ drivers/net/ethernet/cadence/macb.h | 11 +++++++++++
  2 files changed, 19 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/ethernet/cadence/macb.c b/drivers/net/ethernet/cadence/macb.c
@@ -67,5 +67,5 @@ index 4414421..570908b 100644
  /* Bitfields in NSR */
  #define MACB_NSR_LINK_OFFSET			0
 -- 
-1.7.10.4
+1.8.4.rc3
 

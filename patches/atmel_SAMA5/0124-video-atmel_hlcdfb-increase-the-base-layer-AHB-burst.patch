@@ -1,14 +1,14 @@
 From 086d9cef7351c2a3c9322a904ae8b38be94eee34 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 29 Oct 2012 15:32:54 +0100
-Subject: [PATCH 124/335] video: atmel_hlcdfb: increase the base layer AHB
+Subject: [PATCH 124/382] video: atmel_hlcdfb: increase the base layer AHB
  burst length
 
 Increase the base layer AHB burst length from 4 to 16.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
- drivers/video/atmel_hlcdfb.c |    4 ++--
+ drivers/video/atmel_hlcdfb.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/atmel_hlcdfb.c b/drivers/video/atmel_hlcdfb.c
@@ -34,5 +34,5 @@ index 7c87f88..1ae48da 100644
  			atmel_hlcdfb_get_rgbmode(info));
  	lcdc_writel(sinfo, ATMEL_LCDC_OVRCFG2, xpos |
 -- 
-1.7.10.4
+1.8.4.rc3
 

@@ -1,7 +1,7 @@
 From 25be209acda25e99fbdcac36a6f30318894fb74e Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:14 +0000
-Subject: [PATCH 073/335] net/at91_ether: use ethtool and mdio from macb
+Subject: [PATCH 073/382] net/at91_ether: use ethtool and mdio from macb
 
 This rips out the at91_ether phy handling and ethtool stuff
 and replace it with equivalent stuff from macb.
@@ -11,9 +11,9 @@ but this can be added to macb and then benefit all users.
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
- drivers/net/ethernet/cadence/at91_ether.c |  636 ++---------------------------
- drivers/net/ethernet/cadence/at91_ether.h |   61 ---
- drivers/net/ethernet/cadence/macb.h       |    7 -
+ drivers/net/ethernet/cadence/at91_ether.c | 636 ++----------------------------
+ drivers/net/ethernet/cadence/at91_ether.h |  61 ---
+ drivers/net/ethernet/cadence/macb.h       |   7 -
  3 files changed, 31 insertions(+), 673 deletions(-)
  delete mode 100644 drivers/net/ethernet/cadence/at91_ether.h
 
@@ -898,5 +898,5 @@ index 335d111..fd2961a 100644
  	struct sk_buff *skb;			/* holds skb until xmit interrupt completes */
  	dma_addr_t skb_physaddr;		/* phys addr from pci_map_single */
 -- 
-1.7.10.4
+1.8.4.rc3
 
