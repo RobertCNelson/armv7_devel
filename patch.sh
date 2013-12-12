@@ -64,13 +64,13 @@ atmel_fixes () {
 }
 
 atmel_SAMA5D3 () {
-#	echo "pulling linux-3.10-at91"
-#	git pull ${GIT_OPTS} ${git_patchset} linux-3.10-at91
+	echo "pulling linux-3.10-at91"
+	git pull ${GIT_OPTS} ${git_patchset} linux-3.10-at91
 
 	#git checkout v3.10 -b tmp
 	#git pull --no-edit git://github.com/RobertCNelson/linux.git linux-3.10-at91
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.10-at91
-	#git rebase e2042957414ea30f23d806121c620b0bc8062494
+	#git rebase 399bfeeb75f5417754b4008a95292b590772d572
 
 	#git format-patch -1 | grep 'ARM-at91-add-LUT-entry-to-at91sam9g45-resources.patch' ; rm -rf *.patch
 	#0001-ARM-at91-add-LUT-entry-to-at91sam9g45-resources.patch
