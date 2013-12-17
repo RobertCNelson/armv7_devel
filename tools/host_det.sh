@@ -37,6 +37,7 @@ check_rpm () {
 }
 
 redhat_reqs () {
+	#https://fedoraproject.org/wiki/Releases
 	unset rpm_pkgs
 	pkg="redhat-lsb-core"
 	check_rpm
@@ -62,8 +63,14 @@ redhat_reqs () {
 		echo "RPM distro version: [${rpm_distro}]"
 
 		case "${rpm_distro}" in
-		6.4)
-			echo "Warning: RHEL/CentOS [${rpm_distro}] has no [uboot-tools] pkg"
+		6.4|6.5)
+			echo "-----------------------------"
+			echo "Warning: RHEL/CentOS [${rpm_distro}] has no [uboot-tools] pkg by default"
+			echo "add: [EPEL] repo: https://fedoraproject.org/wiki/EPEL"
+			echo "http://download.fedoraproject.org/pub/epel/6/i386/repoview/epel-release.html"
+			echo "-----------------------------"
+			pkg="uboot-tools"
+			check_rpm
 			;;
 		17|18|19|20)
 			pkg="uboot-tools"
@@ -214,6 +221,7 @@ debian_regs () {
 
 		#Linux Mint: Compatibility Matrix
 		#http://www.linuxmint.com/oldreleases.php
+		#http://packages.linuxmint.com/index.php
 		case "${deb_distro}" in
 		debian)
 			deb_distro="jessie"
@@ -239,6 +247,9 @@ debian_regs () {
 		olivia)
 			deb_distro="raring"
 			;;
+		petra)
+			deb_distro="saucy"
+			;;
 		esac
 
 		case "${deb_distro}" in
@@ -247,7 +258,7 @@ debian_regs () {
 			unset error_unknown_deb_distro
 			unset warn_eol_distro
 			;;
-		lucid|precise|quantal|raring|saucy)
+		lucid|precise|quantal|raring|saucy|trusty)
 			#Supported Ubuntu:
 			unset error_unknown_deb_distro
 			unset warn_eol_distro
@@ -298,7 +309,7 @@ debian_regs () {
 
 		#Libs; starting with jessie/sid/saucy, lib<pkg_name>-dev:<arch>
 		case "${deb_distro}" in
-		jessie|sid|saucy)
+		jessie|sid|saucy|trusty)
 			pkg="libncurses5-dev:${deb_arch}"
 			check_dpkg
 			;;
@@ -316,7 +327,7 @@ debian_regs () {
 				pkg="ia32-libs"
 				check_dpkg
 				;;
-			wheezy|jessie|sid|quantal|raring|saucy)
+			wheezy|jessie|sid|quantal|raring|saucy|trusty)
 				pkg="libc6:i386"
 				check_dpkg
 				pkg="libncurses5:i386"
