@@ -1,0 +1,154 @@
+From 8c19e83d04e3b9e5640bb5f9cea485b582642646 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 18 Dec 2013 15:26:03 +0800
+Subject: [PATCH 06/10] ARM: at91: add PWM device node
+
+Add PWM device node for AT91 series SoC.
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9263.dtsi | 9 +++++++++
+ arch/arm/boot/dts/at91sam9g45.dtsi | 9 +++++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi | 9 +++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  | 9 +++++++++
+ arch/arm/boot/dts/sama5d3.dtsi     | 9 +++++++++
+ 5 files changed, 45 insertions(+)
+
+diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
+index d5bd65f..94de2f8 100644
+--- a/arch/arm/boot/dts/at91sam9263.dtsi
++++ b/arch/arm/boot/dts/at91sam9263.dtsi
+@@ -30,6 +30,7 @@
+ 		i2c0 = &i2c0;
+ 		ssc0 = &ssc0;
+ 		ssc1 = &ssc1;
++		pwm0 = &pwm0;
+ 	};
+ 	cpus {
+ 		#address-cells = <0>;
+@@ -547,6 +548,14 @@
+ 				pinctrl-0 = <&pinctrl_spi1>;
+ 				status = "disabled";
+ 			};
++
++			pwm0: pwm@fffb8000 {
++				compatible = "atmel,at91sam9rl-pwm";
++				reg = <0xfffb8000 0x300>;
++				interrupts = <20 IRQ_TYPE_LEVEL_HIGH 4>;
++				#pwm-cells = <3>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index b6a6e91..f3087f3 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -37,6 +37,7 @@
+ 		i2c1 = &i2c1;
+ 		ssc0 = &ssc0;
+ 		ssc1 = &ssc1;
++		pwm0 = &pwm0;
+ 	};
+ 	cpus {
+ 		#address-cells = <0>;
+@@ -720,6 +721,14 @@
+ 					atmel,can-isoc;
+ 				};
+ 			};
++
++			pwm0: pwm@fffb8000 {
++				compatible = "atmel,at91sam9rl-pwm";
++				reg = <0xfffb8000 0x300>;
++				interrupts = <19 IRQ_TYPE_LEVEL_HIGH 4>;
++				#pwm-cells = <3>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9n12.dtsi b/arch/arm/boot/dts/at91sam9n12.dtsi
+index e743f9f..108c15a 100644
+--- a/arch/arm/boot/dts/at91sam9n12.dtsi
++++ b/arch/arm/boot/dts/at91sam9n12.dtsi
+@@ -33,6 +33,7 @@
+ 		i2c0 = &i2c0;
+ 		i2c1 = &i2c1;
+ 		ssc0 = &ssc0;
++		pwm0 = &pwm0;
+ 	};
+ 	cpus {
+ 		#address-cells = <0>;
+@@ -519,6 +520,14 @@
+ 				reg = <0xfffffe40 0x10>;
+ 				status = "disabled";
+ 			};
++
++			pwm0: pwm@f8034000 {
++				compatible = "atmel,at91sam9rl-pwm";
++				reg = <0xf8034000 0x300>;
++				interrupts = <18 IRQ_TYPE_LEVEL_HIGH 4>;
++				#pwm-cells = <3>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 1c6e2f8..b01f988 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -35,6 +35,7 @@
+ 		i2c1 = &i2c1;
+ 		i2c2 = &i2c2;
+ 		ssc0 = &ssc0;
++		pwm0 = &pwm0;
+ 	};
+ 	cpus {
+ 		#address-cells = <0>;
+@@ -822,6 +823,14 @@
+ 				interrupts = <1 IRQ_TYPE_LEVEL_HIGH 7>;
+ 				status = "disabled";
+ 			};
++
++			pwm0: pwm@f8034000 {
++				compatible = "atmel,at91sam9rl-pwm";
++				reg = <0xf8034000 0x300>;
++				interrupts = <18 IRQ_TYPE_LEVEL_HIGH 4>;
++				#pwm-cells = <3>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+diff --git a/arch/arm/boot/dts/sama5d3.dtsi b/arch/arm/boot/dts/sama5d3.dtsi
+index 9e4bd2d..473b4ca 100644
+--- a/arch/arm/boot/dts/sama5d3.dtsi
++++ b/arch/arm/boot/dts/sama5d3.dtsi
+@@ -38,6 +38,7 @@
+ 		i2c2 = &i2c2;
+ 		ssc0 = &ssc0;
+ 		ssc1 = &ssc1;
++		pwm0 = &pwm0;
+ 	};
+ 	cpus {
+ 		#address-cells = <1>;
+@@ -1064,6 +1065,14 @@
+ 				atmel,fifo-size = <1024>;
+ 				atmel,nb-banks = <2>;
+ 			};
++
++			pwm0: pwm@f002c000 {
++				compatible = "atmel,sama5d3-pwm";
++				reg = <0xf002c000 0x300>;
++				interrupts = <28 IRQ_TYPE_LEVEL_HIGH 4>;
++				#pwm-cells = <3>;
++				status = "disabled";
++			};
+ 		};
+ 
+ 		usb1: ohci@00600000 {
+-- 
+1.8.5.1
+

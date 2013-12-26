@@ -1,0 +1,26 @@
+From c7fae24137d2b60555ee8f2caac4729309d2c034 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 4 Jul 2013 15:16:40 +0800
+Subject: [PATCH 02/10] ARM: at91: include sama5d3.h into hardware.h
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/mach-at91/include/mach/hardware.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/mach-at91/include/mach/hardware.h b/arch/arm/mach-at91/include/mach/hardware.h
+index a832e07..f17aa31 100644
+--- a/arch/arm/mach-at91/include/mach/hardware.h
++++ b/arch/arm/mach-at91/include/mach/hardware.h
+@@ -33,6 +33,7 @@
+ #include <mach/at91sam9g45.h>
+ #include <mach/at91sam9x5.h>
+ #include <mach/at91sam9n12.h>
++#include <mach/sama5d3.h>
+ 
+ /*
+  * On all at91 except rm9200 and x40 have the System Controller starts
+-- 
+1.8.5.1
+

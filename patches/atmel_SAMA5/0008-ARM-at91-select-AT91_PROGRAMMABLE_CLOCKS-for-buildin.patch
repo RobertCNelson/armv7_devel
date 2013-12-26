@@ -1,0 +1,26 @@
+From 23e735f68d054a5977e3d1d89dcc10a10062d915 Mon Sep 17 00:00:00 2001
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Wed, 18 Dec 2013 11:14:15 +0100
+Subject: [PATCH 08/10] ARM: at91: select AT91_PROGRAMMABLE_CLOCKS for building
+ board-dt-sama5
+
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ arch/arm/mach-at91/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 44eacdd..8d0898e 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -163,6 +163,7 @@ config MACH_SAMA5_DT
+ 	bool "Atmel SAMA5 Evaluation Kits with device-tree support"
+ 	depends on SOC_SAMA5
+ 	select USE_OF
++	select AT91_PROGRAMMABLE_CLOCKS
+ 	select PHYLIB if NETDEVICES
+ 	help
+ 	  Select this if you want to experiment device-tree with
+-- 
+1.8.5.1
+

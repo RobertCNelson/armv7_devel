@@ -1,0 +1,74 @@
+From 4fbd7479b41bb67621ab1fa22cd07361f5675b89 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 14 Jun 2013 16:34:58 +0800
+Subject: [PATCH 07/10] arm: at91: at91sam9m10g45ek: switch to PWM leds
+
+The d6 and d7 is connected to PWM, we can use PWM to control it,
+so switch to PWM leds.
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9m10g45ek.dts | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/at91sam9m10g45ek.dts b/arch/arm/boot/dts/at91sam9m10g45ek.dts
+index a4b00e5..96059e6 100644
+--- a/arch/arm/boot/dts/at91sam9m10g45ek.dts
++++ b/arch/arm/boot/dts/at91sam9m10g45ek.dts
+@@ -105,6 +105,14 @@
+ 							 AT91_PIOD 29 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;	/* PD29 gpio WP pin pull up */
+ 					};
+ 				};
++
++				pwm0 {
++					pinctrl_pwm_leds: pwm-led {
++						atmel,pins =
++							<AT91_PIOD 0  AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* PD0 periph B */
++							 AT91_PIOD 31 AT91_PERIPH_B AT91_PINCTRL_PULL_UP>;	/* PD31 periph B */
++					};
++				};
+ 			};
+ 
+ 			spi0: spi@fffa4000{
+@@ -121,6 +129,13 @@
+ 				atmel,vbus-gpio = <&pioB 19 GPIO_ACTIVE_HIGH>;
+ 				status = "okay";
+ 			};
++
++			pwm0: pwm@fffb8000 {
++				status = "okay";
++
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_pwm_leds>;
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+@@ -165,16 +180,22 @@
+ 			gpios = <&pioD 30 GPIO_ACTIVE_HIGH>;
+ 			linux,default-trigger = "heartbeat";
+ 		};
++	};
++
++	pwmleds {
++		compatible = "pwm-leds";
+ 
+ 		d6 {
+ 			label = "d6";
+-			gpios = <&pioD 0 GPIO_ACTIVE_LOW>;
++			pwms = <&pwm0 3 5000 0>;
++			max-brightness = <255>;
+ 			linux,default-trigger = "nand-disk";
+ 		};
+ 
+ 		d7 {
+ 			label = "d7";
+-			gpios = <&pioD 31 GPIO_ACTIVE_LOW>;
++			pwms = <&pwm0 1 5000 0>;
++			max-brightness = <255>;
+ 			linux,default-trigger = "mmc0";
+ 		};
+ 	};
+-- 
+1.8.5.1
+

@@ -72,12 +72,22 @@ atmel_SAMA5D3 () {
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.10-at91
 	#git rebase 399bfeeb75f5417754b4008a95292b590772d572
 
-	#git format-patch -1 | grep 'ARM-at91-add-LUT-entry-to-at91sam9g45-resources.patch' ; rm -rf *.patch
-	#0001-ARM-at91-add-LUT-entry-to-at91sam9g45-resources.patch
-	#git format-patch -0 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
+	#git format-patch -11 | grep 'ARM-at91-sam9n12-enable-kernel-uncompress-info-outpu.patch' ; rm -rf *.patch
+	#0001-ARM-at91-sam9n12-enable-kernel-uncompress-info-outpu.patch
+	#git format-patch -10 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
 	#git checkout master -f ; git branch -D tmp
 
 	echo "dir: atmel_SAMA5D3"
+	${git} "${DIR}/patches/atmel_SAMA5/0001-ARM-at91-sama5d3-add-definition-for-usart-base-addre.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0002-ARM-at91-include-sama5d3.h-into-hardware.h.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0003-pwm-atmel-pwm-Add-Atmel-PWM-controller-driver.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0004-of-Add-Atmel-PWM-controller-device-tree-binding.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0005-ARM-at91-add-PWM-clock.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0006-ARM-at91-add-PWM-device-node.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0007-arm-at91-at91sam9m10g45ek-switch-to-PWM-leds.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0008-ARM-at91-select-AT91_PROGRAMMABLE_CLOCKS-for-buildin.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0009-crypto-authenc-Find-proper-IV-address-in-ablkcipher-.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0010-mmc-atmel-mci-fix-timeout-errors-in-SDIO-mode-when-u.patch"
 }
 
 arm
