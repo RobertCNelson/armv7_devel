@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.12.6 Kernel Configuration
+# Linux/arm 3.12.7 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -1986,7 +1986,6 @@ CONFIG_DMA_OF=y
 #
 # DMA Clients
 #
-# CONFIG_NET_DMA is not set
 # CONFIG_ASYNC_TX_DMA is not set
 # CONFIG_DMATEST is not set
 # CONFIG_AUXDISPLAY is not set
@@ -2351,7 +2350,7 @@ CONFIG_GENERIC_ACL=y
 # DOS/FAT/NT Filesystems
 #
 CONFIG_FAT_FS=y
-# CONFIG_MSDOS_FS is not set
+CONFIG_MSDOS_FS=y
 CONFIG_VFAT_FS=y
 CONFIG_FAT_DEFAULT_CODEPAGE=437
 CONFIG_FAT_DEFAULT_IOCHARSET="iso8859-1"
