@@ -1,0 +1,26 @@
+From a1f269912e885e39eed17d428a16b6baad98b516 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Tue, 19 Nov 2013 15:30:38 +0800
+Subject: [PATCH 383/397] mtd: atmel_nand: add PMECC support for the 8k-page
+ nand flash
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/mtd/nand/atmel_nand.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/mtd/nand/atmel_nand.c b/drivers/mtd/nand/atmel_nand.c
+index 2c9b825..8f93e46 100644
+--- a/drivers/mtd/nand/atmel_nand.c
++++ b/drivers/mtd/nand/atmel_nand.c
+@@ -1093,6 +1093,7 @@ static int __init atmel_pmecc_nand_init_params(struct platform_device *pdev,
+ 	switch (mtd->writesize) {
+ 	case 2048:
+ 	case 4096:
++	case 8192:
+ 		host->pmecc_degree = (sector_size == 512) ?
+ 			PMECC_GF_DIMENSION_13 : PMECC_GF_DIMENSION_14;
+ 		host->pmecc_cw_len = (1 << host->pmecc_degree) - 1;
+-- 
+1.8.5.3
+

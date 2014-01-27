@@ -1,7 +1,7 @@
-From eafce7411457b3301a2b87f6583b4131118cbb91 Mon Sep 17 00:00:00 2001
+From e6bf59fa49bf605a8fd551821126f601485208f6 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 18 Jul 2013 11:53:09 +0800
-Subject: [PATCH 330/382] sama5d33ek: enable led D3
+Subject: [PATCH 330/397] sama5d33ek: enable led D3
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -27,5 +27,5 @@ index 106454b..672b236 100644
  		status = "okay";
  	};
 -- 
-1.8.4.rc3
+1.8.5.3
 

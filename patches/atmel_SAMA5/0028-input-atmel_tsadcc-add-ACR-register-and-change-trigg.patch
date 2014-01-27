@@ -1,7 +1,7 @@
-From ca7ec75942b287bfc62c21a15c0d08b98c3201c4 Mon Sep 17 00:00:00 2001
+From 638629250de9d0bed52be1c55a3dba54062a080d Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 6 May 2011 17:54:45 +0200
-Subject: [PATCH 028/382] input: atmel_tsadcc: add ACR register and change
+Subject: [PATCH 028/397] input: atmel_tsadcc: add ACR register and change
  trigger period value
 
 Add ACR register which allows to configure internal ADC resistor, that should
@@ -89,5 +89,5 @@ index 572770a..fe74506 100644
  #define	  ATMEL_TSADCC_TSMODE		(3 <<  0)	/* Touch Screen Mode */
  #define	    ATMEL_TSADCC_TSMODE_NO		(0 << 0)	/* No Touch Screen */
 -- 
-1.8.4.rc3
+1.8.5.3
 

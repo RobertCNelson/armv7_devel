@@ -1,7 +1,7 @@
-From f984a5b5d12c50c900385c44922f1a20593a7cc2 Mon Sep 17 00:00:00 2001
+From 0739a044396d89798016b6869ab01c946d3ffab8 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 27 Jun 2013 17:05:42 +0200
-Subject: [PATCH 327/382] ARM: at91: add LUT entry to at91sam9g45 resources
+Subject: [PATCH 327/397] ARM: at91: add LUT entry to at91sam9g45 resources
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
@@ -30,5 +30,5 @@ index 4a77c4b..ea10fa8 100644
  		.end	= NR_IRQS_LEGACY + AT91SAM9G45_ID_LCDC,
  		.flags	= IORESOURCE_IRQ,
 -- 
-1.8.4.rc3
+1.8.5.3
 

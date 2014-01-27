@@ -1,7 +1,7 @@
-From 78669984383371fd1962bda6e6690fe8bcf60f67 Mon Sep 17 00:00:00 2001
+From ed135993f31082d43965595c5af13c66f3c4bc6b Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 12 Sep 2013 11:36:02 +0800
-Subject: [PATCH 345/382] board-dt: add a function to set camera reset, power
+Subject: [PATCH 345/397] board-dt: add a function to set camera reset, power
  pin
 
 We can remove the i2c_camera_power_revB() as we only need set the pin
@@ -170,5 +170,5 @@ index f500a53..82035af 100644
  					break;
  				}
 -- 
-1.8.4.rc3
+1.8.5.3
 

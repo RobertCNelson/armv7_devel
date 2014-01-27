@@ -1,7 +1,7 @@
-From d4cac194ce6214a9cd12def76747d9ea38b13272 Mon Sep 17 00:00:00 2001
+From e4dd333d87de2336f9d850ccdaca79261f5c2f56 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 31 Jul 2013 13:28:12 +0800
-Subject: [PATCH 333/382] ARM: at91: dts: add all serial dma configurations for
+Subject: [PATCH 333/397] ARM: at91: dts: add all serial dma configurations for
  sama5d3x
 
 Signed-off-by: Elen Song <elen.song@atmel.com>
@@ -98,5 +98,5 @@ index 68ae6f5..4efc983 100644
  				pinctrl-0 = <&pinctrl_dbgu>;
  				status = "disabled";
 -- 
-1.8.4.rc3
+1.8.5.3
 

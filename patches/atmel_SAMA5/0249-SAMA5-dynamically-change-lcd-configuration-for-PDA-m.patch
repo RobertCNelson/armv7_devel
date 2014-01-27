@@ -1,7 +1,7 @@
-From 43432b711ef345d9e6b1e26dc30c7767c9cae767 Mon Sep 17 00:00:00 2001
+From 44c718b426f2fda791c2e886508e6ceaf0940ce0 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 7 Dec 2012 10:15:53 +0100
-Subject: [PATCH 249/382] SAMA5: dynamically change lcd configuration for PDA
+Subject: [PATCH 249/397] SAMA5: dynamically change lcd configuration for PDA
  module
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
@@ -50,5 +50,5 @@ index 06f4f0b..5427f86 100644
  
  	of_platform_populate(NULL, of_default_bus_match_table, at91_auxdata_lookup, NULL);
 -- 
-1.8.4.rc3
+1.8.5.3
 

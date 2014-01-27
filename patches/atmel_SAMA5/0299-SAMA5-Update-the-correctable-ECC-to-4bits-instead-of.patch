@@ -1,7 +1,7 @@
-From 087f4573349686273d5fdf9984c9fd6223a2e562 Mon Sep 17 00:00:00 2001
+From e14e124bab416b459a739fe29c9122ad6545eedb Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 25 Jan 2013 13:57:05 +0800
-Subject: [PATCH 299/382] SAMA5: Update the correctable ECC to 4bits instead of
+Subject: [PATCH 299/397] SAMA5: Update the correctable ECC to 4bits instead of
  use 2bits. Since the ecc minimum requirement of NAND flash in sama5 board is
  4bits.
 
@@ -23,5 +23,5 @@ index 4c7ea24..700f92b 100644
  			atmel,has-nfc;
  			atmel,use-nfc-sram;
 -- 
-1.8.4.rc3
+1.8.5.3
 

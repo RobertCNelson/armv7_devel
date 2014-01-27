@@ -1,7 +1,7 @@
-From 5bd41f919279b2313251cf985785b3570e9fbb28 Mon Sep 17 00:00:00 2001
+From e5d9e7626a4e98bd6366bc274d7e972d4c6420dc Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Mon, 23 May 2011 15:36:52 +0200
-Subject: [PATCH 043/382] video: atmel_hlcdfb: add new driver
+Subject: [PATCH 043/397] video: atmel_hlcdfb: add new driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -602,5 +602,5 @@ index 060d41f..cd57361 100644
  }
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

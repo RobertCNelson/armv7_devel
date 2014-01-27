@@ -1,7 +1,7 @@
-From 8ebc8657ba9c8ce1d844d8b70fa4d6e7fbe05827 Mon Sep 17 00:00:00 2001
+From 5057f7b1cb083b4a7fb8569b96541b546ed54920 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 18 Sep 2013 16:59:18 +0800
-Subject: [PATCH 359/382] ov2643: add ov2643 support
+Subject: [PATCH 359/397] ov2643: add ov2643 support
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -786,5 +786,5 @@ index 58f914a..f4cd41f 100644
  	/* module saa7146: reserved range 300-309 */
  	V4L2_IDENT_SAA7146 = 300,
 -- 
-1.8.4.rc3
+1.8.5.3
 

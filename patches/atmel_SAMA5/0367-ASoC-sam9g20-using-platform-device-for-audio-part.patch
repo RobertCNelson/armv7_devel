@@ -1,7 +1,7 @@
-From b35b65ea9568c635c41d5f1259ac5f81fa5b0783 Mon Sep 17 00:00:00 2001
+From 206bdb755f5c42b84a3349dbc300f31d65611753 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Thu, 11 Oct 2012 10:38:16 +0800
-Subject: [PATCH 367/382] ASoC: sam9g20: using platform device for audio part
+Subject: [PATCH 367/397] ASoC: sam9g20: using platform device for audio part
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -72,5 +72,5 @@ index 4ea4ee0..0c82638 100644
  
  MACHINE_START(AT91SAM9G20EK, "Atmel AT91SAM9G20-EK")
 -- 
-1.8.4.rc3
+1.8.5.3
 

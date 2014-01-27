@@ -1,7 +1,7 @@
-From d2e77ba768c7fb2c72e7d3e78d1118bf523ddfa2 Mon Sep 17 00:00:00 2001
+From 2de32853fee569c904d58e1e1a8e76c7936f5799 Mon Sep 17 00:00:00 2001
 From: Patrice Vilchez <patrice.vilchez@atmel.com>
 Date: Wed, 16 Jan 2013 17:06:34 +0100
-Subject: [PATCH 298/382] drivers/video/atmel_hlcdfb.c: Remove bad default
+Subject: [PATCH 298/397] drivers/video/atmel_hlcdfb.c: Remove bad default
  configuration
 
 By default the LCD controller is configured to "launch" pixel data and control signals on the
@@ -34,5 +34,5 @@ index dd9dcee..c2ef5d7 100644
  		lcdc_writel(sinfo, ATMEL_LCDC_LCDCFG0, value);
  	}
 -- 
-1.8.4.rc3
+1.8.5.3
 

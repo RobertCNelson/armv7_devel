@@ -1,7 +1,7 @@
-From ad10ec4d4061131a4e8082a43b1be67a687ca327 Mon Sep 17 00:00:00 2001
+From 5816621b1667e1d5b3c5cc011a6c27af0a049ebf Mon Sep 17 00:00:00 2001
 From: Richard Genoud <richard.genoud@gmail.com>
 Date: Fri, 24 Aug 2012 16:01:47 +0200
-Subject: [PATCH 138/382] spi/atmel_spi: correct 16 bits transfers using PIO
+Subject: [PATCH 138/397] spi/atmel_spi: correct 16 bits transfers using PIO
 
 Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
 Cc: grant.likely@secretlab.ca
@@ -95,5 +95,5 @@ index 14066c8..269af2e 100644
  		/* FIXME implement these protocol options!! */
  		if (xfer->speed_hz) {
 -- 
-1.8.4.rc3
+1.8.5.3
 

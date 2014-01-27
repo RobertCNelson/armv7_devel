@@ -1,7 +1,7 @@
-From 5d154f68d429834721f76b0c730878d1461791f6 Mon Sep 17 00:00:00 2001
+From 5da9407f812e05d5340e2c0fc8e78d0d4dc2e5d7 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 5 Apr 2011 17:30:03 +0200
-Subject: [PATCH 027/382] input: atmel_tsadcc: enable touchscreen averaging and
+Subject: [PATCH 027/397] input: atmel_tsadcc: enable touchscreen averaging and
  add fast wake up
 
 Enable the touchscreen average to improve the resulting events. For this
@@ -73,5 +73,5 @@ index 231497e..572770a 100644
  #define	  ATMEL_TSADCC_PRESCAL	(0x3f <<  8)	/* Prescalar Rate Selection */
  #define	  ATMEL_TSADCC_EPRESCAL	(0xff <<  8)	/* Prescalar Rate Selection (Extended) */
 -- 
-1.8.4.rc3
+1.8.5.3
 

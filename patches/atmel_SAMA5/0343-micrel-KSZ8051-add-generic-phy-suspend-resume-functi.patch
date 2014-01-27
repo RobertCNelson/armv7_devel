@@ -1,7 +1,7 @@
-From 7b325715fad483e7999a2b0bccfb6ec8068eed53 Mon Sep 17 00:00:00 2001
+From f7f9eba6bb1c9f741a986b8696fd12643e875bbe Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Thu, 5 Sep 2013 14:36:35 +0800
-Subject: [PATCH 343/382] micrel KSZ8051: add generic phy suspend/resume
+Subject: [PATCH 343/397] micrel KSZ8051: add generic phy suspend/resume
  functions
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
@@ -23,5 +23,5 @@ index 0cfd973..e9ab724 100644
  }, {
  	.phy_id		= PHY_ID_KSZ8001,
 -- 
-1.8.4.rc3
+1.8.5.3
 

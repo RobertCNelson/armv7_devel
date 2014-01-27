@@ -1,7 +1,7 @@
-From 8fc29444b1334da3758685abfe72e1581b9bc0eb Mon Sep 17 00:00:00 2001
+From f5c8c387aa95271b173391682ec383d386fe1bff Mon Sep 17 00:00:00 2001
 From: Fabio Porcedda <fabio.porcedda@gmail.com>
 Date: Thu, 22 Nov 2012 12:51:54 +0000
-Subject: [PATCH 153/382] watchdog: at91sam9_wdt: add timeout-sec property
+Subject: [PATCH 153/397] watchdog: at91sam9_wdt: add timeout-sec property
  binding
 
 Tested on at91sam9260 board (evk-pro3).
@@ -100,5 +100,5 @@ index dc42e44..d864dc4 100644
  	return 0;
  }
 -- 
-1.8.4.rc3
+1.8.5.3
 

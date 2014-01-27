@@ -1,7 +1,7 @@
-From 5c1f6198e58c4721525047ec296491e7489be77e Mon Sep 17 00:00:00 2001
+From 0771a10f5540845b7220eb168f6f4a7a91441492 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 12 Sep 2013 18:07:14 +0800
-Subject: [PATCH 349/382] at91sam9g45: support isi & ov2640 in defconfig
+Subject: [PATCH 349/397] at91sam9g45: support isi & ov2640 in defconfig
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -23,5 +23,5 @@ index f8ef6ba..d19c1b9 100644
 +CONFIG_SOC_CAMERA_OV2640=y
 +CONFIG_VIDEO_ATMEL_ISI=y
 -- 
-1.8.4.rc3
+1.8.5.3
 

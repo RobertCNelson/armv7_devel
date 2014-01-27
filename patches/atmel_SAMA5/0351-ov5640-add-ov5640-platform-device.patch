@@ -1,7 +1,7 @@
-From 6eb3b205d1cf83e7ea679d9ac9c6363305dca4d5 Mon Sep 17 00:00:00 2001
+From 31763a143eda296951b757f8e52559e4b7e1bfa7 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 14 Jun 2013 11:42:43 +0800
-Subject: [PATCH 351/382] ov5640: add ov5640 platform device
+Subject: [PATCH 351/397] ov5640: add ov5640 platform device
 
 note: need to enable ov2640 selection in menuconfig since board-dt.c only register
 the i2c device when ov2640 is selected.
@@ -60,5 +60,5 @@ index efdd727..136f888 100644
  #endif
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

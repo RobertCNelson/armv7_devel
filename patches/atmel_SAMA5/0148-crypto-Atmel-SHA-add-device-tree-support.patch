@@ -1,7 +1,7 @@
-From 55d8311d680f7c6104b4d1b02dea8e274cde5111 Mon Sep 17 00:00:00 2001
+From f369ae54614e69f0cacea56e9275ea7b85cc63a4 Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:17 +0200
-Subject: [PATCH 148/382] crypto: Atmel SHA; add device tree support
+Subject: [PATCH 148/397] crypto: Atmel SHA; add device tree support
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -1119,5 +1119,5 @@ index f938b9d..f66f1c8 100644
  MODULE_DESCRIPTION("Atmel SHA1/SHA256 hw acceleration support.");
  MODULE_LICENSE("GPL v2");
 -- 
-1.8.4.rc3
+1.8.5.3
 

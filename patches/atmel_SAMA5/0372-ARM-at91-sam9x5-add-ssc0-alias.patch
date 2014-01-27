@@ -1,7 +1,7 @@
-From a78cfffbda6a73eb64f592ff3feb37458d78864a Mon Sep 17 00:00:00 2001
+From 3600117d15ff05542c49b88a627136ea42087c79 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Wed, 25 Sep 2013 14:50:41 +0800
-Subject: [PATCH 372/382] ARM: at91: sam9x5: add ssc0 alias
+Subject: [PATCH 372/397] ARM: at91: sam9x5: add ssc0 alias
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -21,5 +21,5 @@ index c421d4a..6e500bf 100644
  	cpus {
  		cpu@0 {
 -- 
-1.8.4.rc3
+1.8.5.3
 

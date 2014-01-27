@@ -1,7 +1,7 @@
-From 70510e0c344cc697aa56d80d12b58007450af11b Mon Sep 17 00:00:00 2001
+From e9291b4c584d7ef3b4c928199a59f1153baabd26 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:52 +0000
-Subject: [PATCH 098/382] net/macb: export macb_set_hwaddr and macb_get_hwaddr
+Subject: [PATCH 098/397] net/macb: export macb_set_hwaddr and macb_get_hwaddr
 
 for usage in at91_ether driver.
 
@@ -67,5 +67,5 @@ index 4235ab8..d723494 100644
  static inline bool macb_is_gem(struct macb *bp)
  {
 -- 
-1.8.4.rc3
+1.8.5.3
 

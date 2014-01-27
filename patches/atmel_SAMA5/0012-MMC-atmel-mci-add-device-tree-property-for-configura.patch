@@ -1,7 +1,7 @@
-From bd38e8165a92437cbe38b6a4f5f98b7f284ac561 Mon Sep 17 00:00:00 2001
+From ef6e56087a2f81dc8d139975c6407e8f56966d32 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 20 Jun 2012 18:05:56 +0200
-Subject: [PATCH 012/382] MMC: atmel-mci: add device tree property for
+Subject: [PATCH 012/397] MMC: atmel-mci: add device tree property for
  configuration
 
 Configuration option is now handled by the "dma" device tree property
@@ -137,5 +137,5 @@ index a53602d..a3f6482 100644
  		host->submit_data = &atmci_submit_data_dma;
  		host->stop_transfer = &atmci_stop_transfer_dma;
 -- 
-1.8.4.rc3
+1.8.5.3
 

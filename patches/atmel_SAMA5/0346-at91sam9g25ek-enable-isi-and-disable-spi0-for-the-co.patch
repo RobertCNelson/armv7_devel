@@ -1,7 +1,7 @@
-From 566532edb9eab2647bd1487adaeb6163fe576c78 Mon Sep 17 00:00:00 2001
+From 9baa537e1a144ba3c1ef9586b55f156391456a29 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 5 Sep 2013 15:57:37 +0800
-Subject: [PATCH 346/382] at91sam9g25ek: enable isi and disable spi0 for the
+Subject: [PATCH 346/397] at91sam9g25ek: enable isi and disable spi0 for the
  confliction
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
@@ -58,5 +58,5 @@ index 82035af..efdd727 100644
  
  	of_platform_populate(NULL, of_default_bus_match_table, at91_auxdata_lookup, NULL);
 -- 
-1.8.4.rc3
+1.8.5.3
 

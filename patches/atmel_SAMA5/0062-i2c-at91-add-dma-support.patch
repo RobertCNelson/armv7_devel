@@ -1,7 +1,7 @@
-From efe659aff468ff2f9a3c51ff349612339af37cfe Mon Sep 17 00:00:00 2001
+From 351b81f657ef19afd355bee630010d2a955be45f Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 14 Nov 2012 11:19:00 +0100
-Subject: [PATCH 062/382] i2c: at91: add dma support
+Subject: [PATCH 062/397] i2c: at91: add dma support
 
 Add dma support for Atmel TWI which is available on sam9x5 and later.
 
@@ -483,5 +483,5 @@ index cf8268f..dd8a08d 100644
  	at91_init_twi_bus(dev);
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

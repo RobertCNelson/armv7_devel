@@ -1,7 +1,7 @@
-From fca049ed54ee508ca5dc300faa9314c778ce2045 Mon Sep 17 00:00:00 2001
+From 98b6adb30cf63deb57c4e9573098df3f258b0ffe Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 29 Oct 2012 11:16:40 +0100
-Subject: [PATCH 224/382] ARM: at91: update due to second lcd overlay support
+Subject: [PATCH 224/397] ARM: at91: update due to second lcd overlay support
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
@@ -22,5 +22,5 @@ index 31ddf37..fde293c 100644
  };
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

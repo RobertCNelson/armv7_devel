@@ -1,7 +1,7 @@
-From 6861be4e08db03bf082bb9cbfa90413ce87308fc Mon Sep 17 00:00:00 2001
+From b59b670e7042b99c677b1254fbd4ec89f8faf85e Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Tue, 29 Jan 2013 22:10:06 +0100
-Subject: [PATCH 307/382] ARM: at91: clock: add sama5 debugfs support
+Subject: [PATCH 307/397] ARM: at91: clock: add sama5 debugfs support
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
@@ -85,5 +85,5 @@ index a00e1c2..3beaa2b 100644
 +#define	AT91_PMC_PCSR1		0x108			/* Peripheral Clock Status Register 1 */
  #endif
 -- 
-1.8.4.rc3
+1.8.5.3
 

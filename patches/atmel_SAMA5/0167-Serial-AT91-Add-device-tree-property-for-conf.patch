@@ -1,7 +1,7 @@
-From 164960f693cf347be888ad1180be3e64e9a2d6b2 Mon Sep 17 00:00:00 2001
+From 219ff7c0fc23d5da43108be00dc54b5451003b45 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Thu, 22 Nov 2012 10:28:01 +0800
-Subject: [PATCH 167/382] Serial: AT91: Add device tree property for conf
+Subject: [PATCH 167/397] Serial: AT91: Add device tree property for conf
 
 Configuration option is now handled by the dma device tree property
 that links to the corresponding DMA controller.
@@ -251,5 +251,5 @@ index f853882..8dc3229 100644
  	atmel_init_port(port, pdev);
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

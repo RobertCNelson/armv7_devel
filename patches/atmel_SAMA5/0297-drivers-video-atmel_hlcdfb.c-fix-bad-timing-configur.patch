@@ -1,7 +1,7 @@
-From f63c475d8b1de34d132bd5695b3ecf665be9868b Mon Sep 17 00:00:00 2001
+From f61dfc243d95fe7b56fc28fa3a419c27d0e0d48e Mon Sep 17 00:00:00 2001
 From: Patrice Vilchez <patrice.vilchez@atmel.com>
 Date: Wed, 16 Jan 2013 17:01:52 +0100
-Subject: [PATCH 297/382] drivers/video/atmel_hlcdfb.c: fix bad timing
+Subject: [PATCH 297/397] drivers/video/atmel_hlcdfb.c: fix bad timing
  configuration
 
 The right correspondance between LCD margins and LCD timings is:
@@ -38,5 +38,5 @@ index d1136a5..dd9dcee 100644
  	lcdc_writel(sinfo, ATMEL_LCDC_LCDCFG3, value);
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

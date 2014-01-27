@@ -1,7 +1,7 @@
-From 066a6ce699b714848226e02d24dd09a1f60a0079 Mon Sep 17 00:00:00 2001
+From 44790b5165d2d15cbb6865b3074e06cd9e104231 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 26 Sep 2013 14:03:03 +0800
-Subject: [PATCH 371/382] at91sam9g45: enable root nfs option
+Subject: [PATCH 371/397] at91sam9g45: enable root nfs option
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -29,5 +29,5 @@ index aef29f6..e627f06 100644
  CONFIG_NLS_CODEPAGE_850=y
  CONFIG_NLS_ISO8859_1=y
 -- 
-1.8.4.rc3
+1.8.5.3
 

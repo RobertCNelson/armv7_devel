@@ -1,7 +1,7 @@
-From 23028f0db4ae5bbd09c97b46fdf7696f97984024 Mon Sep 17 00:00:00 2001
+From a4741e1caecb3b424bb614a42b71be85e31b8498 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 19 Jun 2013 11:17:00 +0800
-Subject: [PATCH 352/382] ov5640: use ov5642 as ov5640 in defconfig
+Subject: [PATCH 352/397] ov5640: use ov5642 as ov5640 in defconfig
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -18,5 +18,5 @@ index 0b5afca..5e75826 100644
  CONFIG_CRC_ITU_T=m
 +CONFIG_SOC_CAMERA_OV5642=y
 -- 
-1.8.4.rc3
+1.8.5.3
 

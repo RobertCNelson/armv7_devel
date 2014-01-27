@@ -1,7 +1,7 @@
-From f4c2e67c725e41d2d1dbd47238bce576cc4ecae2 Mon Sep 17 00:00:00 2001
+From 22b0dd3e6f7d5e22db70ffee60c6e9426086c6f7 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Fri, 16 Nov 2012 04:47:15 +0000
-Subject: [PATCH 107/382] net/ethernet: remove useless is_valid_ether_addr from
+Subject: [PATCH 107/397] net/ethernet: remove useless is_valid_ether_addr from
  drivers ndo_open
 
 If ndo_validate_addr is set to the generic eth_validate_addr
@@ -245,5 +245,5 @@ index bdd8891..cf8f0a6 100644
  	napi_enable(&priv->napi);
  	netif_start_queue(ndev);
 -- 
-1.8.4.rc3
+1.8.5.3
 

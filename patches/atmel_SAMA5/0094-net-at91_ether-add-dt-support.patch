@@ -1,7 +1,7 @@
-From fb43d2cd919f097a7d9fb4b12bca2756a81abc53 Mon Sep 17 00:00:00 2001
+From 6bc224b9b459749ba2c748673bc0bbec81c4c528 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Sun, 4 Nov 2012 21:34:51 +0000
-Subject: [PATCH 094/382] net: at91_ether: add dt support
+Subject: [PATCH 094/397] net: at91_ether: add dt support
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Tested-by: Joachim Eastwood <manabian@gmail.com>
@@ -162,5 +162,5 @@ index 0d6392d..039e7ef 100644
  };
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

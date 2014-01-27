@@ -1,7 +1,7 @@
-From 59134b04621dd73254d54cb67d9ffbf4f626dbc5 Mon Sep 17 00:00:00 2001
+From b4a0dac6b1fe0f312d8f33be3d62c588e2731ff6 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Fri, 10 May 2013 08:55:54 +0800
-Subject: [PATCH 324/382] pm: disable UPLL when excuting PM
+Subject: [PATCH 324/397] pm: disable UPLL when excuting PM
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
@@ -68,5 +68,5 @@ index 5569ac3..49d6dd9 100644
  	ldr	tmp1, .saved_pllar
  	str	tmp1, [pmc, #AT91_CKGR_PLLAR]
 -- 
-1.8.4.rc3
+1.8.5.3
 

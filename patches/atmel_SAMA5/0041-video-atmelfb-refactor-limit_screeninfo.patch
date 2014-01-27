@@ -1,7 +1,7 @@
-From d6c13075a90dd485650e510955d4a544cfe1d316 Mon Sep 17 00:00:00 2001
+From dabfab859a0fc4bfedaf1e90d5281f8234ee86e0 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Fri, 20 May 2011 15:04:10 +0200
-Subject: [PATCH 041/382] video: atmelfb: refactor limit_screeninfo
+Subject: [PATCH 041/397] video: atmelfb: refactor limit_screeninfo
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -88,5 +88,5 @@ index 6c470c4..6031b5a 100644
  	int fbinfo_flags;
  	u32 lut_base;
 -- 
-1.8.4.rc3
+1.8.5.3
 

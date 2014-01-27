@@ -1,7 +1,7 @@
-From d238bbf84f5bb4e4cb5b3e375e5f7e2a0418e0ab Mon Sep 17 00:00:00 2001
+From c5e56d2cc7c220185e849bb7ed3dbf7bb87ffaf3 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Mon, 26 Nov 2012 16:38:12 +0800
-Subject: [PATCH 246/382] ASoC: sama5d3-wm8904: add audio support
+Subject: [PATCH 246/397] ASoC: sama5d3-wm8904: add audio support
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -329,5 +329,5 @@ index 0000000..bd4ab4e
 +MODULE_DESCRIPTION("ALSA SoC machine driver for AT91SAMA5D3 - WM8904");
 +MODULE_LICENSE("GPL");
 -- 
-1.8.4.rc3
+1.8.5.3
 

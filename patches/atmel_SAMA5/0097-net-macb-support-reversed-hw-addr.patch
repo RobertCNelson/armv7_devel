@@ -1,7 +1,7 @@
-From b95397425fbd6174d30ff9b8a68ea50123f7d67d Mon Sep 17 00:00:00 2001
+From 333530cdd07bc270686e20fc113b12787e9efa6b Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:51 +0000
-Subject: [PATCH 097/382] net/macb: support reversed hw addr
+Subject: [PATCH 097/397] net/macb: support reversed hw addr
 
 This is used on one AT91RM9200 board where a bootloader stores
 the Ethernet address in the wrong order.
@@ -61,5 +61,5 @@ index 3b609be..a9e5a50 100644
  		if (is_valid_ether_addr(addr)) {
  			memcpy(bp->dev->dev_addr, addr, sizeof(addr));
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 9eaf25172a1a041bacce62d4efbeb1d71bec65b7 Mon Sep 17 00:00:00 2001
+From c32a5fbe3e5f319930d2588a45094b2360a1b6d6 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Mon, 23 Sep 2013 16:07:05 +0800
-Subject: [PATCH 361/382] leds-gpio: of: led should not be created if its
+Subject: [PATCH 361/397] leds-gpio: of: led should not be created if its
  status is disabled
 
 now the leds-gpio driver will create every child led node without
@@ -52,5 +52,5 @@ index c032b21..15e8e7c 100644
  		enum of_gpio_flags flags;
  		const char *state;
 -- 
-1.8.4.rc3
+1.8.5.3
 

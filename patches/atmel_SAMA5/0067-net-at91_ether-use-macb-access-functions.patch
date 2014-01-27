@@ -1,7 +1,7 @@
-From 4ffb02bc695ba1218d38d02e07d1bb659ce88a75 Mon Sep 17 00:00:00 2001
+From 360a03ea6a854cb8437c01e5414411ce0b513120 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:08 +0000
-Subject: [PATCH 067/382] net/at91_ether: use macb access functions
+Subject: [PATCH 067/397] net/at91_ether: use macb access functions
 
 Use macb read/write funtions and remove the old at91_ether ones.
 
@@ -397,5 +397,5 @@ index 0ef6328..63e7e06 100644
  
  	/* PHY */
 -- 
-1.8.4.rc3
+1.8.5.3
 

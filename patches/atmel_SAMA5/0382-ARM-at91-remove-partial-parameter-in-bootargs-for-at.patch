@@ -1,7 +1,7 @@
-From 68f7195ddf1b5c12ff78975b29dc0b1b81e9abe8 Mon Sep 17 00:00:00 2001
+From 68c17cdd946feb2bf783a1ec5b955a799d1ebd66 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 22 Mar 2013 12:32:09 +0100
-Subject: [PATCH 382/382] ARM: at91: remove partial parameter in bootargs for
+Subject: [PATCH 382/397] ARM: at91: remove partial parameter in bootargs for
  at91sam9x5ek.dtsi
 
 Remove the malformed "mem=" bootargs parameter in at91sam9x5ek.dtsi
@@ -27,5 +27,5 @@ index abcd6d2..6f6c7b3c 100644
  
  	ahb {
 -- 
-1.8.4.rc3
+1.8.5.3
 

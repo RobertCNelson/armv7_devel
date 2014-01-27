@@ -1,7 +1,7 @@
-From 3c94c53691881c6072db384d56569b9a536d7cdf Mon Sep 17 00:00:00 2001
+From 6a90faaa9cc46c3191a980f319d7480926b5ab14 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 19:04:39 +0200
-Subject: [PATCH 207/382] ARM: at91: add new at91sam9g35ek.dts
+Subject: [PATCH 207/397] ARM: at91: add new at91sam9g35ek.dts
 
 With LCD DT definition
 
@@ -96,5 +96,5 @@ index 2df4e91..558ab65 100644
 +dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9g35ek.dtb
  dtb-$(CONFIG_MACH_AT91SAM_DT) += at91sam9x25ek.dtb
 -- 
-1.8.4.rc3
+1.8.5.3
 

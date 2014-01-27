@@ -1,7 +1,7 @@
-From 6e4acde2b1cac1b91222f25065d76c0b57c35047 Mon Sep 17 00:00:00 2001
+From 01f6cb2a4827436e6364c6ffa42c8c69f7e26c49 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Mon, 3 Dec 2012 12:39:12 +0800
-Subject: [PATCH 156/382] watchdog/at91sam9_wdt: Remove the global variable
+Subject: [PATCH 156/397] watchdog/at91sam9_wdt: Remove the global variable
  at91wdt_private
 
 Remove the global variable at91wdt_private
@@ -130,5 +130,5 @@ index 8197a67..6f21ca8 100644
  	pr_info("enabled (heartbeat=%d sec, nowayout=%d)\n",
  		at91wdt_wdd.timeout, nowayout);
 -- 
-1.8.4.rc3
+1.8.5.3
 

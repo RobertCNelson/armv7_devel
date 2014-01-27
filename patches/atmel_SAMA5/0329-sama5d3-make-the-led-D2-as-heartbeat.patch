@@ -1,7 +1,7 @@
-From e5afdc6c01226379166d54cc1cd6a17a0bf2d9d3 Mon Sep 17 00:00:00 2001
+From 3092864919d2f92cbc58ac878d5b47ebdb0bebac Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 9 Jul 2013 11:33:34 +0800
-Subject: [PATCH 329/382] sama5d3: make the led D2 as heartbeat.
+Subject: [PATCH 329/397] sama5d3: make the led D2 as heartbeat.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -21,5 +21,5 @@ index 700f92b..9ed3a77 100644
  	};
  };
 -- 
-1.8.4.rc3
+1.8.5.3
 

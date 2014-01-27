@@ -1,7 +1,7 @@
-From 78255e9a871f662932089b58e44a2c0b414f19ac Mon Sep 17 00:00:00 2001
+From 5a5d1bec065f0473838488ea249edb471b1c6988 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Fri, 17 Feb 2012 13:12:21 +0100
-Subject: [PATCH 046/382] video: atmel_lcdfb: HLCD modifications
+Subject: [PATCH 046/397] video: atmel_lcdfb: HLCD modifications
 
 HAS TO BE REWORKED: break compatibility with previous LCD IP due to register
 map changes
@@ -234,5 +234,5 @@ index cf28276..de0a3d6 100644
  	  This provides a backlight control internal to the Atmel LCDC
  	  driver.  If the LCD "contrast control" on your board is wired
 -- 
-1.8.4.rc3
+1.8.5.3
 

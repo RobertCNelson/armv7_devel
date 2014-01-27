@@ -1,7 +1,7 @@
-From c37d08f23a39cf08cec75c30e9839a64330be0a9 Mon Sep 17 00:00:00 2001
+From a040449f13a6a91186c5ab618c56c715ae35d876 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 11 Dec 2012 15:31:52 +0800
-Subject: [PATCH 185/382] usb: gadget: atmel_usba: add pinctrl consumer for
+Subject: [PATCH 185/397] usb: gadget: atmel_usba: add pinctrl consumer for
  vbus
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
@@ -43,5 +43,5 @@ index 75704da..22eaba6 100644
  	pp = NULL;
  	while ((pp = of_get_next_child(np, pp)))
 -- 
-1.8.4.rc3
+1.8.5.3
 

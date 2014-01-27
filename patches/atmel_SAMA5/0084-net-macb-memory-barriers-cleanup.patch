@@ -1,7 +1,7 @@
-From c935874805241f84109661503cd6d5a11cac142b Mon Sep 17 00:00:00 2001
+From c47bcfd0fae7b1eee4db846279f3c5944992fe79 Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:51 +0000
-Subject: [PATCH 084/382] net/macb: memory barriers cleanup
+Subject: [PATCH 084/397] net/macb: memory barriers cleanup
 
 Remove a couple of unneeded barriers and document the remaining ones.
 
@@ -94,5 +94,5 @@ index 0931cb7..e7f554d 100644
  	 * Disable RX and TX (XXX: Should we halt the transmission
  	 * more gracefully?)
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 53f3b9421deea74489086777e9ae8f97af4a4ba1 Mon Sep 17 00:00:00 2001
+From 9ea1848f18182e4f3e18e15c282d62735516481c Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Thu, 24 Jan 2013 18:12:54 +0100
-Subject: [PATCH 281/382] ARM: sama5: update the dts for audio
+Subject: [PATCH 281/397] ARM: sama5: update the dts for audio
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -27,5 +27,5 @@ index 35d34f2..a48af44 100644
  		atmel,ssc-controller = <&ssc0>;
  		atmel,audio-codec = <&wm8904>;
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 288c7992dae7c95b12a94a91a57d38d944d3b89a Mon Sep 17 00:00:00 2001
+From 3f2471365d1f1ea1137511d5793690018a29c30d Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 26 Sep 2013 14:14:35 +0800
-Subject: [PATCH 370/382] at91sam9g20: enable audio support in defconfig
+Subject: [PATCH 370/397] at91sam9g20: enable audio support in defconfig
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -24,5 +24,5 @@ index d2e6bc1..d825c1e 100644
  CONFIG_USB_DEVICEFS=y
  # CONFIG_USB_DEVICE_CLASS is not set
 -- 
-1.8.4.rc3
+1.8.5.3
 

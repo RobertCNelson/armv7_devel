@@ -1,7 +1,7 @@
-From a6afe1ec0a39562b721c0316dce317317bc93342 Mon Sep 17 00:00:00 2001
+From 40acd4f55203314ee3bcdd44c211dccc5d8f7ce0 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:08:54 +0200
-Subject: [PATCH 057/382] video: atmel_lcdfb: add pinctrl
+Subject: [PATCH 057/397] video: atmel_lcdfb: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
@@ -43,5 +43,5 @@ index 133d4ad..b71a80c 100644
  	sinfo->irq_base = platform_get_irq(pdev, 0);
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

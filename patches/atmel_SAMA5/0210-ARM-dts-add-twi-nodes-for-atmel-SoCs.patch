@@ -1,7 +1,7 @@
-From 1b1cac3916f851a65e5fcd149a09b1940d3e6787 Mon Sep 17 00:00:00 2001
+From aacb5550622dc44b6478a9a6d5ea7f492282ac24 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 12 Sep 2012 08:42:16 +0200
-Subject: [PATCH 210/382] ARM: dts: add twi nodes for atmel SoCs
+Subject: [PATCH 210/397] ARM: dts: add twi nodes for atmel SoCs
 
 Add TWI nodes for atmel SoCs but keep i2c-gpio ones in order to let the
 choice to the user in dts files.
@@ -214,5 +214,5 @@ index fadd73b..019b5be 100644
  				compatible = "atmel,at91sam9260-adc";
  				reg = <0xf804c000 0x100>;
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From c04bee088f9446d3e06db0928ce410748bc3a25c Mon Sep 17 00:00:00 2001
+From cff2cf3684ae6b0c529d8eddd48276bc58725c7e Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 3 Jul 2013 12:51:36 +0200
-Subject: [PATCH 328/382] ARM: at91/DT: at91sam9x5ek: fix USB host property to
+Subject: [PATCH 328/397] ARM: at91/DT: at91sam9x5ek: fix USB host property to
  enable port C
 
 Device Tree "num-ports" property of USB host node has to be
@@ -40,5 +40,5 @@ index 620ec3e..5791a0c 100644
  					  >;
  		};
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From e955b7e01d98cdf0f12fa2528f5cad82da26cafe Mon Sep 17 00:00:00 2001
+From f6e2e67fe41f2836000d094e885bfdf2b76c8dfb Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 18 Oct 2012 17:48:34 +0200
-Subject: [PATCH 192/382] ARM: at91: add pinctrl support
+Subject: [PATCH 192/397] ARM: at91: add pinctrl support
 
 This is also include the gpio controller as the IP share both.
 Each soc will have to describe the SoC limitation and pin configuration via
@@ -1865,5 +1865,5 @@ index 0000000..e4712d1
 +MODULE_DESCRIPTION("Atmel AT91 pinctrl driver");
 +MODULE_LICENSE("GPL v2");
 -- 
-1.8.4.rc3
+1.8.5.3
 

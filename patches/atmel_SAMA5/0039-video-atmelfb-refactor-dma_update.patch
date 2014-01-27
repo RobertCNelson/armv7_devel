@@ -1,7 +1,7 @@
-From 3913ffbd9e37fb38aa4434a18e139c0a6414eb38 Mon Sep 17 00:00:00 2001
+From 4a5fd341d11f5c37198aabb0c8927e1a1dacd9d2 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Fri, 20 May 2011 14:31:29 +0200
-Subject: [PATCH 039/382] video: atmelfb: refactor dma_update
+Subject: [PATCH 039/397] video: atmelfb: refactor dma_update
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -207,5 +207,5 @@ index e7c0a3f..866ab47 100644
  
   /* LCD Controller info data structure, stored in device platform_data */
 -- 
-1.8.4.rc3
+1.8.5.3
 

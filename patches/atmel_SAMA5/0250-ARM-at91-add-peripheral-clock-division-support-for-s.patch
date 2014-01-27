@@ -1,7 +1,7 @@
-From 21b65c978b07ce7bbf2af0166195aee9728a120f Mon Sep 17 00:00:00 2001
+From e2a54fe2c4719ce27937ea71f43d4d3b3d4059ba Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 11 Oct 2012 14:00:31 +0200
-Subject: [PATCH 250/382] ARM: at91: add peripheral clock division support for
+Subject: [PATCH 250/397] ARM: at91: add peripheral clock division support for
  sama5
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
@@ -172,5 +172,5 @@ index fa675e4..f726c38 100644
  static struct clk aes_clk = {
  	.name		= "aes_clk",
 -- 
-1.8.4.rc3
+1.8.5.3
 

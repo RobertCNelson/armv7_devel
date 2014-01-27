@@ -1,7 +1,7 @@
-From b365b98d583a20422bce31761ab2a27715030069 Mon Sep 17 00:00:00 2001
+From aeb9c0b34add7602cf5e8e332ad0856cde906ded Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Mon, 30 May 2011 17:04:35 +0200
-Subject: [PATCH 044/382] WIP: add clut resource
+Subject: [PATCH 044/397] WIP: add clut resource
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -163,5 +163,5 @@ index 3a0dfc7..a9563b8 100644
  	struct atmel_lcdfb_devdata *dev_data;
  	struct work_struct	task;
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 32036b9e9ba25fd760f31b5ec2e80b33b8bb88dd Mon Sep 17 00:00:00 2001
+From c826fcf405b7e0ec060860143e1d813d5ee56063 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:08:12 +0200
-Subject: [PATCH 058/382] mmc: at91: add pinctrl
+Subject: [PATCH 058/397] mmc: at91: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
@@ -87,5 +87,5 @@ index a3f6482..bdb8e9b 100644
  	if (irq < 0)
  		return irq;
 -- 
-1.8.4.rc3
+1.8.5.3
 

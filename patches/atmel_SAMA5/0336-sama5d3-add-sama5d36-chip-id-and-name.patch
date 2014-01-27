@@ -1,7 +1,7 @@
-From de7b74654c75c77cbc8c3d1b69544011f61605b7 Mon Sep 17 00:00:00 2001
+From bca1fb493412cf14200516f3d9597cb48586b405 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 29 May 2013 15:38:41 +0800
-Subject: [PATCH 336/382] sama5d3: add sama5d36 chip id and name.
+Subject: [PATCH 336/397] sama5d3: add sama5d36 chip id and name.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -53,5 +53,5 @@ index 98d55ef..cdce477 100644
  };
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

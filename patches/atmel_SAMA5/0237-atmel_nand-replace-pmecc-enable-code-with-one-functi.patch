@@ -1,7 +1,7 @@
-From 427e143c6ffc937b93e9cec522edd831802b5729 Mon Sep 17 00:00:00 2001
+From bbd6378f8ca1b7f29f730f727b61123711ee5797 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 14 Nov 2012 15:02:18 +0800
-Subject: [PATCH 237/382] atmel_nand: replace pmecc enable code with one
+Subject: [PATCH 237/397] atmel_nand: replace pmecc enable code with one
  function.
 
 ---
@@ -128,5 +128,5 @@ index 41793f8..fb3e880 100644
  
  		cmd2 = NAND_CMD_READSTART << 10;
 -- 
-1.8.4.rc3
+1.8.5.3
 

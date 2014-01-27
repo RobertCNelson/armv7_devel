@@ -1,7 +1,7 @@
-From ac929fef974f56fd998f15dbb7e4f97ae3795baf Mon Sep 17 00:00:00 2001
+From a3e5e3d59aad83e4a44152140198fc9b5dff8c28 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 19 Feb 2013 18:06:51 +0800
-Subject: [PATCH 313/382] ARM: at91/trivial: fix typo in NFC driver comments
+Subject: [PATCH 313/397] ARM: at91/trivial: fix typo in NFC driver comments
 
 ---
  drivers/mtd/nand/atmel_nand_nfc.c | 4 ++--
@@ -35,5 +35,5 @@ index fc745af..263d0ed 100644
   * Copyright (C) 2012 Atmel Corporation.
   *
 -- 
-1.8.4.rc3
+1.8.5.3
 

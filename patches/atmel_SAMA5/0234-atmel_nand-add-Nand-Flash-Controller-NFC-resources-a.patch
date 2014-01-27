@@ -1,7 +1,7 @@
-From 4c1d1ce7129a9074312e580f3416e01aa80ac30f Mon Sep 17 00:00:00 2001
+From 075c9b5798f87ff0168db51fc9395574bff4588c Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 13 Nov 2012 15:36:39 +0800
-Subject: [PATCH 234/382] atmel_nand: add Nand Flash Controller(NFC) resources
+Subject: [PATCH 234/397] atmel_nand: add Nand Flash Controller(NFC) resources
  and initialization
 
 ---
@@ -118,5 +118,5 @@ index 0000000..122567f
 +}
 +
 -- 
-1.8.4.rc3
+1.8.5.3
 

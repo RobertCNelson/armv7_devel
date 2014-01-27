@@ -1,7 +1,7 @@
-From 3ae943529b03e24e9bb2ef088c6bac8c2d68f5f3 Mon Sep 17 00:00:00 2001
+From ca79a03758a9e6881c2c544052c499eeb80304d9 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:56 +0000
-Subject: [PATCH 102/382] net/at91_ether: clean up print outs
+Subject: [PATCH 102/397] net/at91_ether: clean up print outs
 
 Convert all printk's to netdev_ counterparts and fix up some
 printed texts.
@@ -71,5 +71,5 @@ index 67b66c4..cf0cf06 100644
  	return 0;
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

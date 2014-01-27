@@ -1,7 +1,7 @@
-From b68723404b1a72e02a1b0f94fb95e48b802566e2 Mon Sep 17 00:00:00 2001
+From f52b3babf0ce2cb91cb7f1e7d0bc847f9078cc01 Mon Sep 17 00:00:00 2001
 From: Richard Genoud <richard.genoud@gmail.com>
 Date: Mon, 12 Aug 2013 14:31:00 +0200
-Subject: [PATCH 377/382] ARM: AT91: DTS: sam9x5ek: add WM8731 codec
+Subject: [PATCH 377/397] ARM: AT91: DTS: sam9x5ek: add WM8731 codec
 
 The WM8731 codec on sam9x5ek board is on i2c, address 1A
 
@@ -29,5 +29,5 @@ index d7b677b..d089b6b 100644
  		};
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

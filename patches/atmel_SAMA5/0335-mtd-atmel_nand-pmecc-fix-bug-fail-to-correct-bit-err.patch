@@ -1,7 +1,7 @@
-From e5fb8621b409acf95c64d543102e2c89aa006b42 Mon Sep 17 00:00:00 2001
+From e6982104d03a781dac3da877e3a65f6e72f090d7 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Mon, 19 Aug 2013 14:46:42 +0800
-Subject: [PATCH 335/382] mtd: atmel_nand: pmecc: fix bug fail to correct bit
+Subject: [PATCH 335/397] mtd: atmel_nand: pmecc: fix bug fail to correct bit
  error in 1024-bytes sector
 
 The PMECC use BCH algorithm to correct error. In BCH algorithm, the primitive
@@ -36,5 +36,5 @@ index 5e38a52..2c9b825 100644
  		host->pmecc_sector_number = mtd->writesize / sector_size;
  		host->pmecc_bytes_per_sector = pmecc_get_ecc_bytes(
 -- 
-1.8.4.rc3
+1.8.5.3
 

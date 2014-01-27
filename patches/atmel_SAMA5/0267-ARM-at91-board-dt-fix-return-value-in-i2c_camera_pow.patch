@@ -1,7 +1,7 @@
-From fcfa5ff42c0aa47e524ec96466d1cae7e4bfe089 Mon Sep 17 00:00:00 2001
+From f46bd63fc60595f344add3d6c2cb65e5069819f8 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 21 Dec 2012 14:14:45 +0800
-Subject: [PATCH 267/382] ARM: at91/board-dt: fix return value in
+Subject: [PATCH 267/397] ARM: at91/board-dt: fix return value in
  i2c_camera_power() and fix typos.
 
 ---
@@ -40,5 +40,5 @@ index 6bf585a..609af34 100644
  
  static struct i2c_board_info i2c_camera = {
 -- 
-1.8.4.rc3
+1.8.5.3
 

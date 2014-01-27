@@ -1,7 +1,7 @@
-From e282e400c5345c7280724b00d53a70c8c72089ab Mon Sep 17 00:00:00 2001
+From 73e7b450aa1143418e1abc32b289f8eae44aae2c Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Mon, 25 Jun 2012 15:15:54 +0800
-Subject: [PATCH 016/382] MTD: nand: add return value for
+Subject: [PATCH 016/397] MTD: nand: add return value for
  write_page()/write_page_raw() functions in structure of nand_ecc_ctrl.
 
 There is an implemention of hardware ECC write page function which may return an
@@ -157,5 +157,5 @@ index e5cf2c8..36821e0 100644
  	int (*write_oob_raw)(struct mtd_info *mtd, struct nand_chip *chip,
  			int page);
 -- 
-1.8.4.rc3
+1.8.5.3
 

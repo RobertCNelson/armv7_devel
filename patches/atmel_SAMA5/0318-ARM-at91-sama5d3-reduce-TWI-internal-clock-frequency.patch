@@ -1,7 +1,7 @@
-From 422a3867193254ea5d52257845edf4f7742af600 Mon Sep 17 00:00:00 2001
+From 27647b04ae42dbe97351fe6dff89d1c63b054782 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 22 Apr 2013 14:43:34 +0200
-Subject: [PATCH 318/382] ARM: at91: sama5d3: reduce TWI internal clock
+Subject: [PATCH 318/397] ARM: at91: sama5d3: reduce TWI internal clock
  frequency
 
 There are still I2C unexpected behaviors which are solved by reducing TWI
@@ -40,5 +40,5 @@ index 9e8a949..fb62a55 100644
  static struct clk mmc0_clk = {
  	.name		= "mci0_clk",
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From f4ae043e031e6a2f0415e725883d079ed0a9b4ee Mon Sep 17 00:00:00 2001
+From 06c760f073ea23dfd55e8f7fe4d18eaba9512117 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 12 Jul 2012 23:36:52 +0800
-Subject: [PATCH 213/382] arm: at91: dt: at91sam9 add nand pinctrl support
+Subject: [PATCH 213/397] arm: at91: dt: at91sam9 add nand pinctrl support
 
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
@@ -154,5 +154,5 @@ index 34fd3cc..b73513e 100644
  				 &pioD 4 0
  				 0
 -- 
-1.8.4.rc3
+1.8.5.3
 

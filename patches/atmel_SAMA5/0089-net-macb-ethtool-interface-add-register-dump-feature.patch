@@ -1,7 +1,7 @@
-From bd65abc8292644a4d0fc1633f3f6fb8ab9ced9d2 Mon Sep 17 00:00:00 2001
+From 2fcfaacc706328ee92d98e867717baba38c5f0ec Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 31 Oct 2012 06:04:56 +0000
-Subject: [PATCH 089/382] net/macb: ethtool interface: add register dump
+Subject: [PATCH 089/397] net/macb: ethtool interface: add register dump
  feature
 
 Add macb_get_regs() ethtool function and its helper function:
@@ -87,5 +87,5 @@ index 024a270..232dca6 100644
  #define MACB_NCR				0x0000
  #define MACB_NCFGR				0x0004
 -- 
-1.8.4.rc3
+1.8.5.3
 

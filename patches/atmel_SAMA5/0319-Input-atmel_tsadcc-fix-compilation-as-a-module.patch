@@ -1,7 +1,7 @@
-From e468857d8b27e37de7c2dfa868f8c05239c6f7ee Mon Sep 17 00:00:00 2001
+From 309cc9b12d20d69b77fd4a8e009275358628e606 Mon Sep 17 00:00:00 2001
 From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 Date: Mon, 29 Apr 2013 18:14:08 +0200
-Subject: [PATCH 319/382] Input: atmel_tsadcc: fix compilation as a module
+Subject: [PATCH 319/397] Input: atmel_tsadcc: fix compilation as a module
 
 Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
@@ -23,5 +23,5 @@ index 2c64c0b..9435d08 100644
  MODULE_DEVICE_TABLE(of, atmel_tsaddcc_dt_ids);
  #endif
 -- 
-1.8.4.rc3
+1.8.5.3
 

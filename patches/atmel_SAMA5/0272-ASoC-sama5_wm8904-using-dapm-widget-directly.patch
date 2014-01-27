@@ -1,7 +1,7 @@
-From 4a5a68614b491f64d3420e778677c4cc195857ee Mon Sep 17 00:00:00 2001
+From 3a0f33593c37cf15868424ccefe0b5564f4f1b99 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Fri, 18 Jan 2013 15:51:53 +0800
-Subject: [PATCH 272/382] ASoC: sama5_wm8904: using dapm widget directly
+Subject: [PATCH 272/397] ASoC: sama5_wm8904: using dapm widget directly
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -80,5 +80,5 @@ index 20c8f54..ba8cd30 100644
  
  static int sama5d3ek_wm8904_dt_init(struct platform_device *pdev)
 -- 
-1.8.4.rc3
+1.8.5.3
 

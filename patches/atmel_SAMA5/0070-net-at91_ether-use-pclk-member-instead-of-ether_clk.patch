@@ -1,7 +1,7 @@
-From ad9cc4e1aa19dc445afa815bc7fc6d395501bd42 Mon Sep 17 00:00:00 2001
+From c0311386a38946da0c5b17e006d40bb5aea02c5c Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:11 +0000
-Subject: [PATCH 070/382] net/at91_ether: use pclk member instead of ether_clk
+Subject: [PATCH 070/397] net/at91_ether: use pclk member instead of ether_clk
 
 Remove old at91_priv member and use pclk member from macb.
 
@@ -110,5 +110,5 @@ index 5661094..138311f 100644
  	/* PHY */
  	unsigned long phy_type;			/* type of PHY (PHY_ID) */
 -- 
-1.8.4.rc3
+1.8.5.3
 

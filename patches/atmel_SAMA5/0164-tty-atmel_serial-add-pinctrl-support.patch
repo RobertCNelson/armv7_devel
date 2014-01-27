@@ -1,7 +1,7 @@
-From c458b1d845cc8aea7c85782094225b65f6f7aa40 Mon Sep 17 00:00:00 2001
+From e52eb307480d4947ef3ca24e4668ed24ade37e11 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 6 Jul 2012 00:41:57 +0800
-Subject: [PATCH 164/382] tty: atmel_serial: add pinctrl support
+Subject: [PATCH 164/397] tty: atmel_serial: add pinctrl support
 
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -45,5 +45,5 @@ index 3d7e1ee..65f891b 100644
  		ret = -ENOMEM;
  		data = kmalloc(sizeof(struct atmel_uart_char)
 -- 
-1.8.4.rc3
+1.8.5.3
 

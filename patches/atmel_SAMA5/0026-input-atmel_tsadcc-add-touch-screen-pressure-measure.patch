@@ -1,7 +1,7 @@
-From fe2597df03740da09074337ee3ac95763cd5ba33 Mon Sep 17 00:00:00 2001
+From e2b727a9bab9eca2e6971d07acba24eedd04c76f Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 17 Nov 2010 13:12:11 +0100
-Subject: [PATCH 026/382] input: atmel_tsadcc: add touch screen pressure
+Subject: [PATCH 026/397] input: atmel_tsadcc: add touch screen pressure
  measurement
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
@@ -101,5 +101,5 @@ index 5918c20..231497e 100644
  #ifdef CONFIG_ARCH_AT91SAM9X5
  #undef	 ATMEL_TSADCC_TRGR
 -- 
-1.8.4.rc3
+1.8.5.3
 

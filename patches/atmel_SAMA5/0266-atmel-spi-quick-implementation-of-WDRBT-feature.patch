@@ -1,7 +1,7 @@
-From bd08b2e131c959794bc7eda4be47acdde0c933bd Mon Sep 17 00:00:00 2001
+From 8ebc1ce46bc4d60f8e7611295fd5d78370dd34f4 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 20 Dec 2012 15:47:00 +0100
-Subject: [PATCH 266/382] atmel: spi: quick implementation of WDRBT feature
+Subject: [PATCH 266/397] atmel: spi: quick implementation of WDRBT feature
 
 Wait Data Read Before Transfer (WDRBT) prevents overrun error in reception.
 Implemention is a draft, this feature appears before 9x5, so this path has to
@@ -68,5 +68,5 @@ index aa8cdbe..2f65401 100644
  		gpio_set_value(asd->npcs_pin, active);
  	} else {
 -- 
-1.8.4.rc3
+1.8.5.3
 

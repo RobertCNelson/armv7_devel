@@ -1,7 +1,7 @@
-From 0fc593f0550dab58764e25d5a6635f81999011f0 Mon Sep 17 00:00:00 2001
+From dba60499efee2763ba8e0ab649abeb89faf60630 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 22 Mar 2013 11:42:04 +0800
-Subject: [PATCH 317/382] sama5d3: reduce the lookup table size for PMECC.
+Subject: [PATCH 317/397] sama5d3: reduce the lookup table size for PMECC.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -31,5 +31,5 @@ index f175cf2..68ae6f5 100644
  		};
  	};
 -- 
-1.8.4.rc3
+1.8.5.3
 

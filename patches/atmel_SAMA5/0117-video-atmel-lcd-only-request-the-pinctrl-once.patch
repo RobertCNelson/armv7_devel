@@ -1,7 +1,7 @@
-From e64646348f0db31f53f09fcdd9711cb59737b2d1 Mon Sep 17 00:00:00 2001
+From 66778dced907c52fbbd19b22f1cc52527af7e4a3 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Mon, 26 Nov 2012 15:07:27 +0100
-Subject: [PATCH 117/382] video: atmel lcd only request the pinctrl once
+Subject: [PATCH 117/397] video: atmel lcd only request the pinctrl once
 
 Introduce simple bus to represent the LCDC itself so we can attached the
 pinctrl to it
@@ -90,5 +90,5 @@ index b71a80c..4d272ee 100644
 +module_init(atmel_lcdfb_bus_init);
 +module_exit(atmel_lcdfb_bus_exit);
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 1f5f14d4f975bca88f65ba0e0dbd0a5f7ecdf1cf Mon Sep 17 00:00:00 2001
+From 90050eaad0990f512be70138eead75e7b3ade617 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Mon, 11 Feb 2013 17:53:11 +0100
-Subject: [PATCH 309/382] ARM: at91: enhance linux-at91 at91sam9x5 support
+Subject: [PATCH 309/397] ARM: at91: enhance linux-at91 at91sam9x5 support
 
 This patch enhances the linux-at91 at91sam9x5 support mainly by updating
 device tree files to use latest drivers and to enable dma.
@@ -1429,5 +1429,5 @@ index 2edfe34..498926e 100644
  	  This is a driver for the SoC CAN controller in Atmel's AT91SAM9263,
  	  AT91SAM9X5 and SAMA5D3 processors.
 -- 
-1.8.4.rc3
+1.8.5.3
 

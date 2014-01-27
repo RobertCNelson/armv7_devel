@@ -1,7 +1,7 @@
-From 91ece27736953d2fe6d4b83b198bba1e4852376b Mon Sep 17 00:00:00 2001
+From 4471227b54b4bdebec35b98af376454c146fe9c1 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 24 Jun 2011 13:03:29 +0200
-Subject: [PATCH 047/382] atmel_lcdfb: change pixel clock ratio calculation
+Subject: [PATCH 047/397] atmel_lcdfb: change pixel clock ratio calculation
 
 DIV_ROUND_UP() was used to calculate the pixel clock divider
 in atmel_hlcdfb_setup_core_base().
@@ -27,5 +27,5 @@ index c4c4559..a629dda 100644
  	if (value < 1) {
  		dev_notice(info->device, "using system clock as pixel clock\n");
 -- 
-1.8.4.rc3
+1.8.5.3
 

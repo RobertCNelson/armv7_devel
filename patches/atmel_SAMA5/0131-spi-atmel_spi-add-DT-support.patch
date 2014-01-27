@@ -1,7 +1,7 @@
-From 5dcedb3eee7e62d998ad0549ac17e99c054e5d71 Mon Sep 17 00:00:00 2001
+From de0fbe081d0a2b3888c6d3d7f4c0bc14cf1c7113 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Mon, 30 Jan 2012 12:45:22 +0800
-Subject: [PATCH 131/382] spi/atmel_spi: add DT support
+Subject: [PATCH 131/397] spi/atmel_spi: add DT support
 
 The atmel_spi use only gpio for chip select.
 
@@ -284,5 +284,5 @@ index 37f54c3..e032e3d 100644
  	.resume		= atmel_spi_resume,
  	.probe		= atmel_spi_probe,
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 9d2964c914253b949f9f78359dfb844617657dab Mon Sep 17 00:00:00 2001
+From 8aa2e133832b9da2ee6c20d13c4943e8660921e1 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Mon, 1 Nov 2010 16:38:41 +0800
-Subject: [PATCH 032/382] video/atmel_lcdfb: add support for AT91SAM9x5
+Subject: [PATCH 032/397] video/atmel_lcdfb: add support for AT91SAM9x5
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -1806,5 +1806,5 @@ index 28447f1..5183ab7 100644
  
  #endif /* __ATMEL_LCDC_H__ */
 -- 
-1.8.4.rc3
+1.8.5.3
 

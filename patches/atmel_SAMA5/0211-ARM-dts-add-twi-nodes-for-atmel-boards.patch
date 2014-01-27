@@ -1,7 +1,7 @@
-From a06630f6976dea11f9d9eb0fa99da8e0be484db9 Mon Sep 17 00:00:00 2001
+From 894dfd9966a728f8865887501e3953afefbc67be Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 12 Sep 2012 08:42:17 +0200
-Subject: [PATCH 211/382] ARM: dts: add twi nodes for atmel boards
+Subject: [PATCH 211/397] ARM: dts: add twi nodes for atmel boards
 
 Still use i2c-gpio on boards which have a SoC with a TWI IP which
 doesn't have clock stretching in transmission mode.
@@ -77,5 +77,5 @@ index 44b42d9..ccc94de 100644
  
  		nand0: nand@40000000 {
 -- 
-1.8.4.rc3
+1.8.5.3
 

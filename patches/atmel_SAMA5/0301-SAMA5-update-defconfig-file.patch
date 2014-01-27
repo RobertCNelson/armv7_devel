@@ -1,7 +1,7 @@
-From 29dba0a1d146e6a6da6ff35ec982671a724c52dc Mon Sep 17 00:00:00 2001
+From 3857f720ec23dca01e7b8c3819e9572051f70e1b Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 25 Jan 2013 10:25:11 +0100
-Subject: [PATCH 301/382] SAMA5: update defconfig file
+Subject: [PATCH 301/397] SAMA5: update defconfig file
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
@@ -56,5 +56,5 @@ index aeff4e8..0b5afca 100644
  # CONFIG_NET_VENDOR_SEEQ is not set
  # CONFIG_NET_VENDOR_SMSC is not set
 -- 
-1.8.4.rc3
+1.8.5.3
 

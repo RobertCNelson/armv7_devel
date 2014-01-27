@@ -1,7 +1,7 @@
-From 370e866c94ff1a44d468e883e8731621dd947a7c Mon Sep 17 00:00:00 2001
+From a945453d410166b49daebd099c1bc56069d2dc57 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 15:37:12 +0200
-Subject: [PATCH 037/382] video: atmelfb: refactor isr
+Subject: [PATCH 037/397] video: atmelfb: refactor isr
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -150,5 +150,5 @@ index ea7ce31..14b5664 100644
  
   /* LCD Controller info data structure, stored in device platform_data */
 -- 
-1.8.4.rc3
+1.8.5.3
 

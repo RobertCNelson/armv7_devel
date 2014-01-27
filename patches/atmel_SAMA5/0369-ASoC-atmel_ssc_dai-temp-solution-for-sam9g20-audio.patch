@@ -1,7 +1,7 @@
-From b7e037ed6f9ac5f7dd3285836f045887d5c1ed68 Mon Sep 17 00:00:00 2001
+From d3a79f2666fae7a17eb38c5c8284a048125fe232 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Thu, 26 Sep 2013 10:58:20 +0800
-Subject: [PATCH 369/382] ASoC: atmel_ssc_dai: temp solution for sam9g20 audio
+Subject: [PATCH 369/397] ASoC: atmel_ssc_dai: temp solution for sam9g20 audio
 
 Temporary solution for non-dt Linux kernel audio support on sam9g20ek
 
@@ -39,5 +39,5 @@ index 00881c4..315a3e6 100644
  		tfmr =	  SSC_BF(TFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
  			| SSC_BF(TFMR_FSDEN, 0)
 -- 
-1.8.4.rc3
+1.8.5.3
 

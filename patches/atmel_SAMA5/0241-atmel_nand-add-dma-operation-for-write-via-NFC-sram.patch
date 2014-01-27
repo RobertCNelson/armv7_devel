@@ -1,7 +1,7 @@
-From ae2124a1a4b4237237b390f69549254a61631a69 Mon Sep 17 00:00:00 2001
+From f4d8e95ca7cd2e3f5a67baeb04674eb56184c26e Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 16 Nov 2012 17:57:14 +0800
-Subject: [PATCH 241/382] atmel_nand: add dma operation for write via NFC sram.
+Subject: [PATCH 241/397] atmel_nand: add dma operation for write via NFC sram.
 
 ---
  drivers/mtd/nand/atmel_nand.c     |  6 +++++-
@@ -54,5 +54,5 @@ index 0fe905e..15df9cf 100644
  	if (chip->ecc.mode == NAND_ECC_HW && host->has_pmecc)
  		/*
 -- 
-1.8.4.rc3
+1.8.5.3
 

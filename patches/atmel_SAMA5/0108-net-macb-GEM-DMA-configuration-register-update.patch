@@ -1,7 +1,7 @@
-From 1192cca6eb395719dc1102b01d930874e63bb67a Mon Sep 17 00:00:00 2001
+From 84c228dcdf24c40865f18af98721b677423db5da Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 19 Sep 2012 15:14:34 +0200
-Subject: [PATCH 108/382] net/macb: GEM DMA configuration register update
+Subject: [PATCH 108/397] net/macb: GEM DMA configuration register update
 
 Add information to the DMA Configuration Register to
 maximize system performance:
@@ -67,5 +67,5 @@ index 4414421..570908b 100644
  /* Bitfields in NSR */
  #define MACB_NSR_LINK_OFFSET			0
 -- 
-1.8.4.rc3
+1.8.5.3
 

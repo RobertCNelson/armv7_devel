@@ -1,0 +1,49 @@
+From 12a6016b21ed1afff2244571374147ec895c54c3 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Mon, 30 Dec 2013 14:36:24 +0800
+Subject: [PATCH 395/397] sama5d3xmb: Set default MB as rev.D, which move all
+ the i2c0 slave to i2c1
+
+We still keep the i2c0 slave device in order to be compatiable with
+rev.C MB.
+In this way, U-Boot can update the dtb if it found the rev.C MB.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3mb.dtsi | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/sama5d3mb.dtsi b/arch/arm/boot/dts/sama5d3mb.dtsi
+index 8730531..5b387e1 100644
+--- a/arch/arm/boot/dts/sama5d3mb.dtsi
++++ b/arch/arm/boot/dts/sama5d3mb.dtsi
+@@ -38,11 +38,18 @@
+ 			};
+ 
+ 			/*
+-			 * i2c0 conflicts with ISI:
++			 * i2c0 conflicts with ISI before revD:
+ 			 * disable it to allow the use of ISI
+ 			 * can not enable audio when i2c0 disabled
+ 			 */
+ 			i2c0: i2c@f0014000 {
++				wm8904_before_revD: wm8904@1a {
++					compatible = "wm8904";
++					reg = <0x1a>;
++				};
++			};
++
++			i2c1: i2c@f0018000 {
+ 				wm8904: wm8904@1a {
+ 					compatible = "wm8904";
+ 					reg = <0x1a>;
+@@ -168,5 +175,6 @@
+ 
+ 		atmel,ssc-controller = <&ssc0>;
+ 		atmel,audio-codec = <&wm8904>;
++		atmel,audio-codec-before-revD = <&wm8904_before_revD>;
+ 	};
+ };
+-- 
+1.8.5.3
+

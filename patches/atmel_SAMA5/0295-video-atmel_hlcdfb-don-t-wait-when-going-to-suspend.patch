@@ -1,7 +1,7 @@
-From 673da5e4f6c9b6c54bb915aa07fc6ea726508327 Mon Sep 17 00:00:00 2001
+From d3b83561a12569ac231e1ff20898a4971fbb5717 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 16:13:39 +0100
-Subject: [PATCH 295/382] video: atmel_hlcdfb: don't wait when going to suspend
+Subject: [PATCH 295/397] video: atmel_hlcdfb: don't wait when going to suspend
 
 For an unknown reason polling the end of dma transfer before going to suspend
 leads to an infinite loop on sama5d3x.
@@ -25,5 +25,5 @@ index e648ffc..3897c9b 100644
  
  	return 0;
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 6709b0f5c1ec0faf2b8bfb6f4aa55913ace9ceb9 Mon Sep 17 00:00:00 2001
+From 6029137bae8cf4c04fc35883120e6d388ac1e133 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 21 Mar 2013 18:30:06 +0800
-Subject: [PATCH 315/382] mtd: atmel_nand: make pmecc-cap, pmecc-sector-size in
+Subject: [PATCH 315/397] mtd: atmel_nand: make pmecc-cap, pmecc-sector-size in
  dts is optional.
 
 If those two are not specified in dts file, driver will find ecc requirement
@@ -109,5 +109,5 @@ index c60b069..d79645a 100644
  	return 0;
  }
 -- 
-1.8.4.rc3
+1.8.5.3
 

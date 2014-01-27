@@ -1,7 +1,7 @@
-From 10fe7175282eea07b0aa65532e0087fc0fc9d731 Mon Sep 17 00:00:00 2001
+From 198040435f6ad830c2846907993cfed3356fec77 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 16 Nov 2012 11:24:16 +0800
-Subject: [PATCH 240/382] atmel_nand: nfc: enable dma for page read with nfc
+Subject: [PATCH 240/397] atmel_nand: nfc: enable dma for page read with nfc
  sram
 
 ---
@@ -93,5 +93,5 @@ index d69e41f..0fe905e 100644
  
  	host->nfc.will_write_sram = false;
 -- 
-1.8.4.rc3
+1.8.5.3
 

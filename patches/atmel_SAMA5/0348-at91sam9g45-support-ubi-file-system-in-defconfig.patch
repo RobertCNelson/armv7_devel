@@ -1,7 +1,7 @@
-From 602d3f4fd8deb2faa4ddf8e3323be5c6b31d1c72 Mon Sep 17 00:00:00 2001
+From 6b9c12a095d8df977d270c70e3053739c246ad2b Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 12 Sep 2013 16:27:57 +0800
-Subject: [PATCH 348/382] at91sam9g45: support ubi file system in defconfig
+Subject: [PATCH 348/397] at91sam9g45: support ubi file system in defconfig
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -21,5 +21,5 @@ index 606d48f..f8ef6ba 100644
  CONFIG_SQUASHFS=m
  CONFIG_SQUASHFS_EMBEDDED=y
 -- 
-1.8.4.rc3
+1.8.5.3
 

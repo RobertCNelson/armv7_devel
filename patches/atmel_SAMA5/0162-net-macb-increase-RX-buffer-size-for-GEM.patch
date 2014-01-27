@@ -1,7 +1,7 @@
-From 1a12cade6532c44a24961eb7843d03ea82f27a12 Mon Sep 17 00:00:00 2001
+From f2e8d9451e539fbd8b15ab4eed5d8a8ccda7df5b Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Fri, 30 Nov 2012 11:18:29 +0100
-Subject: [PATCH 162/382] net/macb: increase RX buffer size for GEM
+Subject: [PATCH 162/397] net/macb: increase RX buffer size for GEM
 
 Macb Ethernet controller requires a RX buffer of 128 bytes. It is
 highly sub-optimal for Gigabit-capable GEM that is able to use
@@ -148,5 +148,5 @@ index 570908b..2681455 100644
  	unsigned int		tx_head, tx_tail;
  	struct macb_dma_desc	*tx_ring;
 -- 
-1.8.4.rc3
+1.8.5.3
 

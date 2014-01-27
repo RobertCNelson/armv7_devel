@@ -1,7 +1,7 @@
-From f107d69878b63e1a9a250b16609d3fd96656ed12 Mon Sep 17 00:00:00 2001
+From 7e4fb7011b34501e2854c4c8f9c9d76b59b3e12e Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 28 Nov 2012 16:17:28 +0800
-Subject: [PATCH 245/382] Revert "[media] soc-camera: Pass the physical device
+Subject: [PATCH 245/397] Revert "[media] soc-camera: Pass the physical device
  to the power operation" to fix isi crash error.
 
 This reverts commit 2744782ef15151469ddd1e28c14e4b2c950be6dd.
@@ -98,5 +98,5 @@ index 1bde255..a930383 100644
  			dev_err(icd->pdev,
  				"Platform failed to power-off the camera.\n");
 -- 
-1.8.4.rc3
+1.8.5.3
 

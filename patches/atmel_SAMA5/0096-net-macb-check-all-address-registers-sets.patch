@@ -1,7 +1,7 @@
-From 5f81968d8a2fb2cce1256b8f0baf3876cf91faa8 Mon Sep 17 00:00:00 2001
+From 6daa8667bf62f2d59891ceb9464cddcebd367910 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Wed, 7 Nov 2012 08:14:50 +0000
-Subject: [PATCH 096/382] net/macb: check all address registers sets
+Subject: [PATCH 096/397] net/macb: check all address registers sets
 
 The macb driver in u-boot uses the first register set while
 the at91_ether driver in u-boot uses the second register set.
@@ -67,5 +67,5 @@ index 13c3c33..3b609be 100644
  
  static int macb_mdio_read(struct mii_bus *bus, int mii_id, int regnum)
 -- 
-1.8.4.rc3
+1.8.5.3
 

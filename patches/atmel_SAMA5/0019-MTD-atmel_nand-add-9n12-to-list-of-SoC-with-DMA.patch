@@ -1,7 +1,7 @@
-From 890921e06cf31f01dfdda43c3c167f7040143bad Mon Sep 17 00:00:00 2001
+From 42e24022d09dfe7c1a0a4bee25a3b7130e72e116 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Mon, 8 Oct 2012 16:55:29 +0200
-Subject: [PATCH 019/382] MTD: atmel_nand: add 9n12 to list of SoC with DMA
+Subject: [PATCH 019/397] MTD: atmel_nand: add 9n12 to list of SoC with DMA
 
 Temporary: may have to be replaced by a device-tree property.
 
@@ -25,5 +25,5 @@ index aca8108..58bb70a 100644
  
  /*
 -- 
-1.8.4.rc3
+1.8.5.3
 

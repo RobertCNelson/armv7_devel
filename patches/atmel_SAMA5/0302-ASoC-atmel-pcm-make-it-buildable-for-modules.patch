@@ -1,7 +1,7 @@
-From add489fd830a7ae4bc39b9cb443965e46da93862 Mon Sep 17 00:00:00 2001
+From 67a5a497bd183f6ac41548beba26770025566a54 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 29 Jan 2013 11:11:19 +0800
-Subject: [PATCH 302/382] ASoC: atmel-pcm: make it buildable for modules
+Subject: [PATCH 302/397] ASoC: atmel-pcm: make it buildable for modules
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -33,5 +33,5 @@ index bb45d20..12ae814 100644
  void atmel_pcm_dma_platform_unregister(struct device *dev);
  #else
 -- 
-1.8.4.rc3
+1.8.5.3
 

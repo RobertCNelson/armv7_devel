@@ -1,7 +1,7 @@
-From aef25862fbc338f92cf4191742f0b23093819759 Mon Sep 17 00:00:00 2001
+From f465e68af68d645f1e12934adc388fcc9909cf40 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:05:33 +0200
-Subject: [PATCH 195/382] pinctrl/at91: fix compatible order
+Subject: [PATCH 195/397] pinctrl/at91: fix compatible order
 
 sam9x5 is newer than rm9200
 
@@ -35,5 +35,5 @@ index 73f7245..a26dcb3 100644
  };
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

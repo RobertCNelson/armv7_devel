@@ -1,7 +1,7 @@
-From 3991d36b1dfbcc891109d7291d2d0c39a3fdf55d Mon Sep 17 00:00:00 2001
+From 328eb8ff56ed958ff111afc1cccd2b0aac91c6f3 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 13:44:54 +0800
-Subject: [PATCH 218/382] at91sam9x5: add lcd pinctrl support
+Subject: [PATCH 218/397] at91sam9x5: add lcd pinctrl support
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 ---
@@ -65,5 +65,5 @@ index 533b06c..f90d7c5 100644
  			};
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

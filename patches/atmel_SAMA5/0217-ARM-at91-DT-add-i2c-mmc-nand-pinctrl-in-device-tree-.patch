@@ -1,7 +1,7 @@
-From 6ee320fcfc9acca5b024268bd9eb5248a4ad7a7b Mon Sep 17 00:00:00 2001
+From f86e8a98bb7bc69eed53716ab0d44207fd463d76 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Fri, 19 Oct 2012 07:14:06 +0800
-Subject: [PATCH 217/382] ARM: at91/DT: add i2c mmc nand pinctrl in device tree
+Subject: [PATCH 217/397] ARM: at91/DT: add i2c mmc nand pinctrl in device tree
  support
 
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
@@ -282,5 +282,5 @@ index 8854794..0406e0d 100644
  
  		usb0: ohci@00600000 {
 -- 
-1.8.4.rc3
+1.8.5.3
 

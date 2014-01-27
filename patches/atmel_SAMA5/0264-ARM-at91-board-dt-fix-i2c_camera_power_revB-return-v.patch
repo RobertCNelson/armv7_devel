@@ -1,7 +1,7 @@
-From 07348c4f052273ed7d4752fc5db9dc7038b348fa Mon Sep 17 00:00:00 2001
+From 45217c345f2320299550988360856867bee9fc8b Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 20 Dec 2012 12:07:58 +0100
-Subject: [PATCH 264/382] ARM: at91/board-dt: fix i2c_camera_power_revB()
+Subject: [PATCH 264/397] ARM: at91/board-dt: fix i2c_camera_power_revB()
  return value
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
@@ -23,5 +23,5 @@ index 0dda409..6bf585a 100644
  
  static int i2c_camera_power(struct device *dev, int on)
 -- 
-1.8.4.rc3
+1.8.5.3
 

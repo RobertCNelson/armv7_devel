@@ -1,7 +1,7 @@
-From 91c484625f26c90545e652a33c2bddf63685c7e3 Mon Sep 17 00:00:00 2001
+From e739bc2118618dea6159b6e7b9e15ebaf723504d Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 12 Sep 2012 08:42:14 +0200
-Subject: [PATCH 009/382] i2c: at91: add dt support to i2c-at91
+Subject: [PATCH 009/397] i2c: at91: add dt support to i2c-at91
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 Acked-by: Nikolaus Voss <n.voss@weinmann.de>
@@ -145,5 +145,5 @@ index 78bcad0..aa59a25 100644
  	},
  };
 -- 
-1.8.4.rc3
+1.8.5.3
 

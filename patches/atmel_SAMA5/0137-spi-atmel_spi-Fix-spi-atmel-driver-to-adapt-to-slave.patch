@@ -1,7 +1,7 @@
-From beaa6322ad8a184cf4c0d59a2d782858b5c8e7ad Mon Sep 17 00:00:00 2001
+From 5e666fbe1c53391ac974315282fd2020adf7de10 Mon Sep 17 00:00:00 2001
 From: Richard Genoud <richard.genoud@gmail.com>
 Date: Wed, 1 Aug 2012 14:08:56 +0200
-Subject: [PATCH 137/382] spi/atmel_spi: Fix spi-atmel driver to adapt to
+Subject: [PATCH 137/397] spi/atmel_spi: Fix spi-atmel driver to adapt to
  slave_config changes
 
 This is the following of the patch e2b35f3dbfc080f15b72834d08f04f0269dbe9be
@@ -136,5 +136,5 @@ index dbba44e..14066c8 100644
  	return -ENOMEM;
  }
 -- 
-1.8.4.rc3
+1.8.5.3
 

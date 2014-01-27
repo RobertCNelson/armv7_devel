@@ -1,7 +1,7 @@
-From 76b9aaf4ab6bf6d806da95f469e20a493699ec36 Mon Sep 17 00:00:00 2001
+From 855b2a7addb938e2766db0c32e20bb0484242214 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Fri, 18 Jan 2013 14:13:29 +0800
-Subject: [PATCH 270/382] ASoC: atmel-ssc: change dev_dbg to dev_err
+Subject: [PATCH 270/397] ASoC: atmel-ssc: change dev_dbg to dev_err
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -83,5 +83,5 @@ index 4b977a2..75f9061 100644
  	}
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 88fb89587df15e3e92d4289e3729b1b5f8e4ea0b Mon Sep 17 00:00:00 2001
+From 32eb02dd8e857cb8839c82c5996c4fcd9575c15d Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 27 Nov 2012 09:34:08 +0800
-Subject: [PATCH 120/382] ASoC: atmel_ssc_dai: change according to SAMA5 RevD
+Subject: [PATCH 120/397] ASoC: atmel_ssc_dai: change according to SAMA5 RevD
  hardware
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
@@ -32,5 +32,5 @@ index 7932c05..5c9c587 100644
  		tfmr =	  SSC_BF(TFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
  			| SSC_BF(TFMR_FSDEN, 0)
 -- 
-1.8.4.rc3
+1.8.5.3
 

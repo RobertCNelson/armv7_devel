@@ -1,7 +1,7 @@
-From 0d25c458c2843e433d36f4db8ed92d6b5c5639e0 Mon Sep 17 00:00:00 2001
+From b157c7824545ec443472ce2108a21634c4bec159 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Tue, 13 Nov 2012 16:54:30 +0800
-Subject: [PATCH 159/382] watchdog/at91sam9_wdt: Use module_platform_driver()
+Subject: [PATCH 159/397] watchdog/at91sam9_wdt: Use module_platform_driver()
 
 Using module_platform_driver() replaces module_init() and module_exit()
 and makes the code simpler.
@@ -44,5 +44,5 @@ index 7ed3264..b79a045 100644
  MODULE_AUTHOR("Renaud CERRATO <r.cerrato@til-technologies.fr>");
  MODULE_DESCRIPTION("Watchdog driver for Atmel AT91SAM9x processors");
 -- 
-1.8.4.rc3
+1.8.5.3
 

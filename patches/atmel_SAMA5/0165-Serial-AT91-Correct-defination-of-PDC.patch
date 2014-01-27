@@ -1,7 +1,7 @@
-From fae56e46f1edb3d586bc2552450131430879968a Mon Sep 17 00:00:00 2001
+From edb3b53fa4631bfdaca0e0ee561a8ea1e50b3c23 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 21 Nov 2012 15:28:06 +0800
-Subject: [PATCH 165/382] Serial: AT91: Correct defination of PDC
+Subject: [PATCH 165/397] Serial: AT91: Correct defination of PDC
 
 use_pdc_xx, atmel_use_pdc_xx is for pdc use
 use_dma_xx, atmel_use_dma_xx is for dma use
@@ -259,5 +259,5 @@ index 65f891b..bc453a3 100644
  		data = kmalloc(sizeof(struct atmel_uart_char)
  				* ATMEL_SERIAL_RINGSIZE, GFP_KERNEL);
 -- 
-1.8.4.rc3
+1.8.5.3
 

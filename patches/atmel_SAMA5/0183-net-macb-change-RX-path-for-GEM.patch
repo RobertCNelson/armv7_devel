@@ -1,7 +1,7 @@
-From 495937277bd0175b75dd7da7defabf33bcffe65e Mon Sep 17 00:00:00 2001
+From 2498b8480ce3d94d354cc2a9eb48c572d2f2a3c5 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 12 Dec 2012 17:34:43 +0100
-Subject: [PATCH 183/382] net/macb: change RX path for GEM
+Subject: [PATCH 183/397] net/macb: change RX path for GEM
 
 GEM is able to adapt its DMA buffer size, so change
 the RX path to take advantage of this possibility and
@@ -468,5 +468,5 @@ index 2681455..cef146f 100644
  	struct phy_device	*phy_dev;
  	unsigned int 		link;
 -- 
-1.8.4.rc3
+1.8.5.3
 

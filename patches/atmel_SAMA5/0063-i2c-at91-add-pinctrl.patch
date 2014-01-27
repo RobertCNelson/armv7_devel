@@ -1,7 +1,7 @@
-From a7762d7deb694661030b4c6b8de373b931127fea Mon Sep 17 00:00:00 2001
+From 06b619539b8613a078dca2d6638109d0ec31825f Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 16 Oct 2012 17:06:37 +0200
-Subject: [PATCH 063/382] i2c: at91: add pinctrl
+Subject: [PATCH 063/397] i2c: at91: add pinctrl
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
@@ -42,5 +42,5 @@ index dd8a08d..bdf07b9 100644
  	if (!dev->pdata)
  		return -ENODEV;
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From ac22120858e5523346d3814a443b0453182689d4 Mon Sep 17 00:00:00 2001
+From c2ead16fdf7359a89b818452ea33dbde90a9eef0 Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Fri, 20 May 2011 14:51:45 +0200
-Subject: [PATCH 040/382] video: atmelfb: refactor LUT
+Subject: [PATCH 040/397] video: atmelfb: refactor LUT
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -76,5 +76,5 @@ index 866ab47..6c470c4 100644
  
  #endif /* __ATMEL_LCDC_H__ */
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,0 +1,53 @@
+From 4c48d0203e760a0b463f6ef1ba005e1ac86e2cb7 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Wed, 18 Dec 2013 15:17:26 +0800
+Subject: [PATCH 393/397] v4l: atmel-isi: fix color component ordering
+
+The ISI_CFG2.YCC_SWAP field controls color component ordering. The
+datasheet lists the following orderings for the memory formats.
+
+YCC_SWAP        Byte 0  Byte 1  Byte 2  Byte 3
+00: Default     Cb(i)   Y(i)    Cr(i)   Y(i+1)
+01: Mode1       Cr(i)   Y(i)    Cb(i)   Y(i+1)
+10: Mode2       Y(i)    Cb(i)   Y(i+1)  Cr(i)
+11: Mode3       Y(i)    Cr(i)   Y(i+1)  Cb(i)
+
+This is based on a sensor format set to CbYCrY (UYVY). The driver
+hardcodes the output memory format to YUYV, configure the ordering
+accordingly.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+[rebase to 3.6.9 kernel]
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ drivers/media/video/atmel-isi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/video/atmel-isi.c b/drivers/media/video/atmel-isi.c
+index b7bd909..232a0c1 100644
+--- a/drivers/media/video/atmel-isi.c
++++ b/drivers/media/video/atmel-isi.c
+@@ -126,16 +126,16 @@ static int configure_geometry(struct atmel_isi *isi, u32 width,
+ 	case V4L2_MBUS_FMT_Y8_1X8:
+ 		cr = ISI_CFG2_GRAYSCALE;
+ 		break;
+-	case V4L2_MBUS_FMT_UYVY8_2X8:
++	case V4L2_MBUS_FMT_VYUY8_2X8:
+ 		cr = ISI_CFG2_YCC_SWAP_MODE_3;
+ 		break;
+-	case V4L2_MBUS_FMT_VYUY8_2X8:
++	case V4L2_MBUS_FMT_UYVY8_2X8:
+ 		cr = ISI_CFG2_YCC_SWAP_MODE_2;
+ 		break;
+-	case V4L2_MBUS_FMT_YUYV8_2X8:
++	case V4L2_MBUS_FMT_YVYU8_2X8:
+ 		cr = ISI_CFG2_YCC_SWAP_MODE_1;
+ 		break;
+-	case V4L2_MBUS_FMT_YVYU8_2X8:
++	case V4L2_MBUS_FMT_YUYV8_2X8:
+ 		cr = ISI_CFG2_YCC_SWAP_DEFAULT;
+ 		break;
+ 	/* RGB, TODO */
+-- 
+1.8.5.3
+

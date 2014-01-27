@@ -1,7 +1,7 @@
-From 8b187168a25f87eda5d985ea8290af2371891717 Mon Sep 17 00:00:00 2001
+From 1090a716274fbfce388c28be4917b3a8c053a090 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 31 Oct 2012 06:04:54 +0000
-Subject: [PATCH 087/382] net/macb: tx status is more than 8 bits now
+Subject: [PATCH 087/397] net/macb: tx status is more than 8 bits now
 
 On some revision of GEM, TSR status register has more information.
 
@@ -26,5 +26,5 @@ index 4db52f3..cd6d431 100644
  	if (status & (MACB_BIT(UND) | MACB_BIT(TSR_RLE))) {
  		int i;
 -- 
-1.8.4.rc3
+1.8.5.3
 

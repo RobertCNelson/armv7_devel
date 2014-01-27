@@ -1,7 +1,7 @@
-From f605b1df8d28ab387f745b48d5e1b2b645136e02 Mon Sep 17 00:00:00 2001
+From 76cfbfe1a13875af63223ef80aeae9726d40205e Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Wed, 14 Nov 2012 15:00:31 +0100
-Subject: [PATCH 060/382] i2c: at91: fix compilation warning
+Subject: [PATCH 060/397] i2c: at91: fix compilation warning
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
@@ -22,5 +22,5 @@ index c02bf20..77ddc74 100644
  	return (struct at91_twi_pdata *) platform_get_device_id(pdev)->driver_data;
  }
 -- 
-1.8.4.rc3
+1.8.5.3
 

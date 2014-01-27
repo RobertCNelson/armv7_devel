@@ -1,7 +1,7 @@
-From cdcd2aec33152bd41f31bd70f8defd6d42ac85b3 Mon Sep 17 00:00:00 2001
+From 8df7f67b85c865f92f4de3daee1b8970f92a97f6 Mon Sep 17 00:00:00 2001
 From: Havard Skinnemoen <havard@skinnemoen.net>
 Date: Wed, 31 Oct 2012 06:04:55 +0000
-Subject: [PATCH 088/382] net/macb: clean up ring buffer logic
+Subject: [PATCH 088/397] net/macb: clean up ring buffer logic
 
 Instead of masking head and tail every time we increment them, just let them
 wrap through UINT_MAX and mask them when subscripting. Add simple accessor
@@ -444,5 +444,5 @@ index 33a050f..024a270 100644
  	struct phy_device	*phy_dev;
  	unsigned int 		link;
 -- 
-1.8.4.rc3
+1.8.5.3
 

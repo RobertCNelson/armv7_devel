@@ -1,7 +1,7 @@
-From 9bf30f0772782b83a0d0453d9d10cee12ce038ff Mon Sep 17 00:00:00 2001
+From 3cd00e3f5f83b912a93860356029c1c8149cb4ed Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:45:18 +0100
-Subject: [PATCH 287/382] net/macb: when freeing tx buffer, make sure to unmap
+Subject: [PATCH 287/397] net/macb: when freeing tx buffer, make sure to unmap
  them
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
@@ -65,5 +65,5 @@ index de26438..8e04fb1 100644
  	if (bp->rx_ring) {
  		dma_free_coherent(&bp->pdev->dev, RX_RING_BYTES,
 -- 
-1.8.4.rc3
+1.8.5.3
 

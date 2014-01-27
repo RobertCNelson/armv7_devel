@@ -1,7 +1,7 @@
-From 5fe012d4aee98ef82df66e6763882c735902ed0f Mon Sep 17 00:00:00 2001
+From 641fd7c219fff7c10976d015963c3cca821f89ad Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Thu, 9 May 2013 13:14:59 +0800
-Subject: [PATCH 320/382] Change internal SRAM memory type to "MT_MEMORY_SO"
+Subject: [PATCH 320/397] Change internal SRAM memory type to "MT_MEMORY_SO"
 
 Signed-off-by: Wenyou Yang <wenyou.yang@atmel.com>
 ---
@@ -22,5 +22,5 @@ index a33d4b5..2c416cf 100644
  	pr_info("AT91: sram at 0x%lx of 0x%x mapped at 0x%lx\n",
  		base, length, desc->virtual);
 -- 
-1.8.4.rc3
+1.8.5.3
 

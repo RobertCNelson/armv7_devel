@@ -1,7 +1,7 @@
-From 11c475cc93cae3f81217ad2824c5710ddeac7fb9 Mon Sep 17 00:00:00 2001
+From 58538d4027e0fe57e450789c729d786ad69fcbf8 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 27 Sep 2013 16:52:25 +0800
-Subject: [PATCH 381/382] ov5640: fix bug when fail to detect ov5640, the i2c
+Subject: [PATCH 381/397] ov5640: fix bug when fail to detect ov5640, the i2c
  bus is not available
 
 That will impact the audio codec detection.
@@ -25,5 +25,5 @@ index 9c7e73c..5f2b8ee 100644
  	return ret;
  }
 -- 
-1.8.4.rc3
+1.8.5.3
 

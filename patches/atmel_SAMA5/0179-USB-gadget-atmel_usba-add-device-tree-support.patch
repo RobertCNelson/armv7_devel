@@ -1,7 +1,7 @@
-From f2e583de699ab0bd666e1732317e62f35aa51e65 Mon Sep 17 00:00:00 2001
+From 9b391cdaf2ca1b433e955bbdc46bef37bef56435 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Mon, 10 Dec 2012 09:45:48 +0800
-Subject: [PATCH 179/382] USB: gadget: atmel_usba: add device tree support
+Subject: [PATCH 179/397] USB: gadget: atmel_usba: add device tree support
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -419,5 +419,5 @@ index 9791259..a7b2d25 100644
  	struct clk *hclk;
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

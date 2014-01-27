@@ -1,7 +1,7 @@
-From 239a662e15cf93dff5af6f51f1f80e2c3ce32ae1 Mon Sep 17 00:00:00 2001
+From 5949bc224fa0e4c1d5e276e3a0f9d06e3b18b3a8 Mon Sep 17 00:00:00 2001
 From: Nicolas Royer <nicolas@eukrea.com>
 Date: Mon, 17 Sep 2012 18:26:15 +0200
-Subject: [PATCH 146/382] crypto: Atmel AES; add device tree support
+Subject: [PATCH 146/397] crypto: Atmel AES; add device tree support
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -1066,5 +1066,5 @@ index 0000000..67f685f
 +
 +#endif /* __LINUX_ATMEL_CRYPTO_H */
 -- 
-1.8.4.rc3
+1.8.5.3
 

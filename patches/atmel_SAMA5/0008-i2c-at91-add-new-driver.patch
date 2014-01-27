@@ -1,7 +1,7 @@
-From f9adebb1f6f2946bccafeb3a17f6162c21b229e4 Mon Sep 17 00:00:00 2001
+From 9409670991846da3c7503cf85ac67bf85917ca23 Mon Sep 17 00:00:00 2001
 From: Nikolaus Voss <n.voss@weinmann.de>
 Date: Tue, 8 Nov 2011 11:49:46 +0100
-Subject: [PATCH 008/382] i2c: at91: add new driver
+Subject: [PATCH 008/397] i2c: at91: add new driver
 
 This driver has the following properties compared to the old driver:
 1. Support for multiple interfaces.
@@ -796,5 +796,5 @@ index 0000000..78bcad0
 +MODULE_LICENSE("GPL");
 +MODULE_ALIAS("platform:at91_i2c");
 -- 
-1.8.4.rc3
+1.8.5.3
 

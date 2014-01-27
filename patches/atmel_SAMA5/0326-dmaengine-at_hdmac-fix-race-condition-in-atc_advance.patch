@@ -1,7 +1,7 @@
-From 73cc0f3cf9bd55bc12e2f748c95a25ae5a041e36 Mon Sep 17 00:00:00 2001
+From 5aca51730a01c383ad44e029836f162d8ad556a9 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 18 Apr 2013 09:52:59 +0200
-Subject: [PATCH 326/382] dmaengine: at_hdmac: fix race condition in
+Subject: [PATCH 326/397] dmaengine: at_hdmac: fix race condition in
  atc_advance_work()
 
 The BUG_ON() directive is triggered probably due to a latency
@@ -55,5 +55,5 @@ index 5eb7d11..f2898d4 100644
  }
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

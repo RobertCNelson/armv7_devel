@@ -1,7 +1,7 @@
-From c7949568ca5694f9105947bd34c55536a65b3c44 Mon Sep 17 00:00:00 2001
+From 7b4c953f374cad997ab3b1027b9c49ed6a5c5c75 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:15 +0000
-Subject: [PATCH 074/382] net/at91_ether: share macb_set_rx_mode with macb
+Subject: [PATCH 074/397] net/at91_ether: share macb_set_rx_mode with macb
 
 Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 ---
@@ -169,5 +169,5 @@ index fd2961a..2710562 100644
  static inline bool macb_is_gem(struct macb *bp)
  {
 -- 
-1.8.4.rc3
+1.8.5.3
 

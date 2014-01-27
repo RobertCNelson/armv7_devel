@@ -1,7 +1,7 @@
-From 40dbdeecd307824c6ff7ee4ad95bcbec28476c0b Mon Sep 17 00:00:00 2001
+From 8cc36837635a623bffc4ce682d00b2eb9ec1120a Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <w.sang@pengutronix.de>
 Date: Thu, 19 May 2011 14:29:36 +0200
-Subject: [PATCH 035/382] video: atmelfb: refactor core setup
+Subject: [PATCH 035/397] video: atmelfb: refactor core setup
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -399,5 +399,5 @@ index 4fa084b..b1a5fad1 100644
  
  	unsigned int		guard_time;
 -- 
-1.8.4.rc3
+1.8.5.3
 

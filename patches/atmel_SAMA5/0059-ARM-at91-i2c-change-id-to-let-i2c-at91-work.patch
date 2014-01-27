@@ -1,7 +1,7 @@
-From 1d23f1a7b73afb2812e52900c547614728722e16 Mon Sep 17 00:00:00 2001
+From 609e97d6ed75113aca7e124ee46a4b7ea1f3a409 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Mon, 15 Oct 2012 17:30:28 +0800
-Subject: [PATCH 059/382] ARM: at91/i2c: change id to let i2c-at91 work
+Subject: [PATCH 059/397] ARM: at91/i2c: change id to let i2c-at91 work
 
 The i2c core driver will turn the platform device ID to busnum
 When using platfrom device ID as -1, it means dynamically assigned
@@ -150,5 +150,5 @@ index 03a814d..1aca794 100644
  	.num_resources	= ARRAY_SIZE(twi_resources),
  };
 -- 
-1.8.4.rc3
+1.8.5.3
 

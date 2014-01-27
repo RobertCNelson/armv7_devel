@@ -1,7 +1,7 @@
-From a2d59dbcb4ce8826ebb77682dfda7a67135bb8da Mon Sep 17 00:00:00 2001
+From add9e8d473bbaa70f0f5fd7b333a41be34cc4b4f Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Thu, 18 Oct 2012 11:01:17 +0000
-Subject: [PATCH 076/382] net/at91_ether: clean up rx buffer handling
+Subject: [PATCH 076/397] net/at91_ether: clean up rx buffer handling
 
 This patch does two things:
 * Use macb struct members and remove at91_ether ones
@@ -265,5 +265,5 @@ index 31a877a..a362751 100644
  
  extern const struct ethtool_ops macb_ethtool_ops;
 -- 
-1.8.4.rc3
+1.8.5.3
 

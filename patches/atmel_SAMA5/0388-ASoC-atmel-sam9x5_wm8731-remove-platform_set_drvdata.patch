@@ -1,0 +1,31 @@
+From 30313d0f8ecc7a6a8f090e33081afc9fae8500e3 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 27 Nov 2013 18:05:10 +0800
+Subject: [PATCH 388/397] ASoC: atmel: sam9x5_wm8731: remove
+ platform_set_drvdata
+
+When call snd_soc_register_card, it will set driver data to this
+device through dev_set_drvdata, then in driver, no need to call
+platform_set_drvdata again, so remove it.
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/atmel/sam9x5_wm8731.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
+index 1b37228..ce9cd29 100644
+--- a/sound/soc/atmel/sam9x5_wm8731.c
++++ b/sound/soc/atmel/sam9x5_wm8731.c
+@@ -155,8 +155,6 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
+ 	of_node_put(codec_np);
+ 	of_node_put(cpu_np);
+ 
+-	platform_set_drvdata(pdev, card);
+-
+ 	ret = snd_soc_register_card(card);
+ 	if (ret) {
+ 		dev_err(&pdev->dev,
+-- 
+1.8.5.3
+

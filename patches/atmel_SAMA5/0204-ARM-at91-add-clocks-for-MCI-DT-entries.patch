@@ -1,7 +1,7 @@
-From f8060e7961d4d17db6a436f92fe46a2c5fc90b40 Mon Sep 17 00:00:00 2001
+From 30f15cc4fb5406d8ccac189a6c3d047f9dc25176 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 20 Nov 2012 13:57:34 +0100
-Subject: [PATCH 204/382] ARM: at91: add clocks for MCI DT entries
+Subject: [PATCH 204/397] ARM: at91: add clocks for MCI DT entries
 
 Add clocks to clock lookup table for DT entries.
 
@@ -79,5 +79,5 @@ index 79b5c52..c964761 100644
  	CLKDEV_CON_DEV_ID(NULL, "fffff600.gpio", &pioAB_clk),
  	CLKDEV_CON_DEV_ID(NULL, "fffff800.gpio", &pioCD_clk),
 -- 
-1.8.4.rc3
+1.8.5.3
 

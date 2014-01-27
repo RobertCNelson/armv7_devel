@@ -1,7 +1,7 @@
-From 6dda84063393db20fe0bed7bfda42e241ddbefed Mon Sep 17 00:00:00 2001
+From e1e4d5719f3d0bf7e62982341c12f0befab4aa88 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 16 Mar 2011 10:51:31 +0800
-Subject: [PATCH 128/382] spi/atmel_spi: call unmapping on transfers buffers
+Subject: [PATCH 128/397] spi/atmel_spi: call unmapping on transfers buffers
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Cc: grant.likely@secretlab.ca
@@ -37,5 +37,5 @@ index 2e040be..fc1222a 100644
  		msg->complete(msg->context);
  	}
 -- 
-1.8.4.rc3
+1.8.5.3
 

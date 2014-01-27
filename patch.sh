@@ -65,8 +65,8 @@ atmel_SAMA5 () {
 	#git checkout v3.6.9 -b tmp
 	#git pull --no-edit git://github.com/linux4sam/linux-at91.git linux-3.6.9-at91
 	#git rebase v3.6.9
-	#git format-patch -383 | grep 3.6.9 ; rm -rf *.patch
-	#git format-patch -382 -o /opt/github/armv7_devel/patches/atmel_SAMA5/
+	#git format-patch -398 | grep 3.6.9 ; rm -rf *.patch
+	#git format-patch -397 -o 	${git} "${DIR}/patches/atmel_SAMA5/
 	#git checkout master -f ; git branch -D tmp
 
 	echo "dir: atmel_SAMA5"
@@ -452,6 +452,21 @@ atmel_SAMA5 () {
 	${git} "${DIR}/patches/atmel_SAMA5/0380-at91sam9x5ek-update-defconfig-to-enable-audio-suppor.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0381-ov5640-fix-bug-when-fail-to-detect-ov5640-the-i2c-bu.patch"
 	${git} "${DIR}/patches/atmel_SAMA5/0382-ARM-at91-remove-partial-parameter-in-bootargs-for-at.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0383-mtd-atmel_nand-add-PMECC-support-for-the-8k-page-nan.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0384-mtd-atmel_nand-don-t-show-the-PMECC-bitflip-correcti.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0385-at91sam9m10g45-enable-OV5640-support.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0386-ASoC-atmel-Add-slave-mode-support-to-SSC-in-DSP-Mode.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0387-ASoC-atmel-sam9x5_wm8731-fix-oops-when-unload-module.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0388-ASoC-atmel-sam9x5_wm8731-remove-platform_set_drvdata.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0389-ASoC-wm8731-fix-dsp-mode-configuration.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0390-ASoC-atmel_ssc_dai-add-dai-trigger-ops.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0391-ASoC-sam9x5_wm8731-change-to-work-in-DSP-A-mode.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0392-crypto-authenc-Find-proper-IV-address-in-ablkcipher-.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0393-v4l-atmel-isi-fix-color-component-ordering.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0394-crypto-atmel-aes-add-proper-initialization-value-acc.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0395-sama5d3xmb-Set-default-MB-as-rev.D-which-move-all-th.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0396-sama5d3xmb-Don-t-disable-sound-when-enable-ISI-as-in.patch"
+	${git} "${DIR}/patches/atmel_SAMA5/0397-sama5d3x-enable-ISI-in-sama5d31-33-34-ek-board.patch"
 }
 
 arm

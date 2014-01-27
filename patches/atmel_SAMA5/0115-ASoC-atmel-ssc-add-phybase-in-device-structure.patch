@@ -1,7 +1,7 @@
-From 2cdfa06078bd8a5ce658966f81bc340d2464620a Mon Sep 17 00:00:00 2001
+From b6343c9173d15655bec2cbb243596d0d90434863 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 20 Nov 2012 16:38:17 +0800
-Subject: [PATCH 115/382] ASoC: atmel-ssc: add phybase in device structure
+Subject: [PATCH 115/397] ASoC: atmel-ssc: add phybase in device structure
 
 Useful for future dmaengine use.
 
@@ -39,5 +39,5 @@ index 1ca0e32..deb0ae5 100644
  	struct platform_device	*pdev;
  	struct atmel_ssc_platform_data *pdata;
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 7c0bdf5cc6668f41c8af7572dbc9abbcb6ff898f Mon Sep 17 00:00:00 2001
+From 67e05b16061e2465265f669be4d23a2bfe0dd7a6 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 7 Jun 2013 11:57:57 +0800
-Subject: [PATCH 338/382] sama5d36: add d36 dts, which is D35 + lcd.
+Subject: [PATCH 338/397] sama5d36: add d36 dts, which is D35 + lcd.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -143,5 +143,5 @@ index d82a3e3..5487148 100644
 +dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d36ek.dtb
 +dtb-$(CONFIG_MACH_AT91SAM_DT) += sama5d36ek_pda.dtb
 -- 
-1.8.4.rc3
+1.8.5.3
 

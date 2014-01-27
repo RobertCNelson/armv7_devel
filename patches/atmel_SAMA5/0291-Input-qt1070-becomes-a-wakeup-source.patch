@@ -1,7 +1,7 @@
-From 8c9ae0506481e3a3693e2e635a2436886bbeab42 Mon Sep 17 00:00:00 2001
+From d668bad432d66329bb05ae0e759dfca68766c049 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Thu, 24 Jan 2013 15:11:12 +0100
-Subject: [PATCH 291/382] Input: qt1070 becomes a wakeup source
+Subject: [PATCH 291/397] Input: qt1070 becomes a wakeup source
 
 Set qt1070 as a wakeup source.
 
@@ -29,5 +29,5 @@ index b266dbf..ab9e8b1 100644
  	err = input_register_device(data->input);
  	if (err) {
 -- 
-1.8.4.rc3
+1.8.5.3
 

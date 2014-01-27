@@ -1,7 +1,7 @@
-From c582112955dd436920ef070a1c461f05aa9ac63d Mon Sep 17 00:00:00 2001
+From 913517724f768caf088f01e952c8eda61bb0d70a Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 31 Oct 2012 06:04:59 +0000
-Subject: [PATCH 092/382] net/macb: add pinctrl consumer support
+Subject: [PATCH 092/397] net/macb: add pinctrl consumer support
 
 If no pinctrl available just report a warning as some architecture may not
 need to do anything.
@@ -52,5 +52,5 @@ index c1f20b0..c374875 100644
  	dev = alloc_etherdev(sizeof(*bp));
  	if (!dev)
 -- 
-1.8.4.rc3
+1.8.5.3
 

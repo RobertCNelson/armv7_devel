@@ -1,7 +1,7 @@
-From d9d4af80207408fbbe8fa3be7cb043044dc06eb7 Mon Sep 17 00:00:00 2001
+From 0c78805f8e686d7bb29349de32fb42572002e25d Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 10 Sep 2013 18:41:20 +0800
-Subject: [PATCH 355/382] ov5640: can work with vga mode now.
+Subject: [PATCH 355/397] ov5640: can work with vga mode now.
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -352,5 +352,5 @@ index dd2dc16..decb2cf 100644
  	}
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

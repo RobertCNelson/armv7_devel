@@ -1,7 +1,7 @@
-From 2adc4aa5326381ecf5f9846312bcadf0b9bbf4b5 Mon Sep 17 00:00:00 2001
+From 8966221722df82b86690ebef5d55016bc6697145 Mon Sep 17 00:00:00 2001
 From: Wenyou Yang <wenyou.yang@atmel.com>
 Date: Wed, 14 Aug 2013 13:01:25 +0800
-Subject: [PATCH 334/382] ARM: at91: add missing uart clocks DT entries for
+Subject: [PATCH 334/397] ARM: at91: add missing uart clocks DT entries for
  sama5d3
 
 Add clocks to clock lookup table for uart DT entries.
@@ -67,5 +67,5 @@ index fb62a55..c499446 100644
  	CLKDEV_CON_DEV_ID(NULL, "f0018000.i2c", &twi1_clk),
  	CLKDEV_CON_DEV_ID(NULL, "f801c000.i2c", &twi2_clk),
 -- 
-1.8.4.rc3
+1.8.5.3
 

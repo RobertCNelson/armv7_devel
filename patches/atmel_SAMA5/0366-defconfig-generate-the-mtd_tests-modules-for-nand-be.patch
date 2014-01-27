@@ -1,7 +1,7 @@
-From 4c427cef3921a2fb8bcccbe057f19796a484b117 Mon Sep 17 00:00:00 2001
+From c4577b00869b033b6402366c300d40ac347b825e Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 26 Sep 2013 11:53:06 +0800
-Subject: [PATCH 366/382] defconfig: generate the mtd_tests modules for nand
+Subject: [PATCH 366/397] defconfig: generate the mtd_tests modules for nand
  benchmark
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
@@ -61,5 +61,5 @@ index 5e75826..a91d0d7 100644
  CONFIG_PROC_DEVICETREE=y
  CONFIG_BLK_DEV_LOOP=y
 -- 
-1.8.4.rc3
+1.8.5.3
 

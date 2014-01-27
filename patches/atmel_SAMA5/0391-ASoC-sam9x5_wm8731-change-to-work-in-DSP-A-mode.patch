@@ -1,0 +1,30 @@
+From 8d128d2cb728cf2f2ac7c52ecc3e5ab4ac2282f4 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 4 Dec 2013 10:37:04 +0800
+Subject: [PATCH 391/397] ASoC: sam9x5_wm8731: change to work in DSP A mode
+
+Change sam9x5 with wm8731 work in DSP A mode, this will fix the
+left/right channel swap issue.
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Tested-by: Richard Genoud <richard.genoud@gmail.com>
+---
+ sound/soc/atmel/sam9x5_wm8731.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
+index ce9cd29..3188036 100644
+--- a/sound/soc/atmel/sam9x5_wm8731.c
++++ b/sound/soc/atmel/sam9x5_wm8731.c
+@@ -109,7 +109,7 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
+ 	dai->stream_name = "WM8731 PCM";
+ 	dai->codec_dai_name = "wm8731-hifi";
+ 	dai->init = sam9x5_wm8731_init;
+-	dai->dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
++	dai->dai_fmt = SND_SOC_DAIFMT_DSP_A | SND_SOC_DAIFMT_NB_NF
+ 		| SND_SOC_DAIFMT_CBM_CFM;
+ 
+ 	ret = snd_soc_of_parse_card_name(card, "atmel,model");
+-- 
+1.8.5.3
+

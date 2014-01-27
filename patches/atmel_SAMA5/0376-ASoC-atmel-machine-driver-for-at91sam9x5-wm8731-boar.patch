@@ -1,7 +1,7 @@
-From a0cc64c91cf33fb0ca44f24e71c45224683a7161 Mon Sep 17 00:00:00 2001
+From f2a3cda7cd1d609960452386eaf88787539e69e4 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 30 Jul 2013 12:32:03 +0200
-Subject: [PATCH 376/382] ASoC: atmel: machine driver for at91sam9x5-wm8731
+Subject: [PATCH 376/397] ASoC: atmel: machine driver for at91sam9x5-wm8731
  boards
 
 Description of the Asoc machine driver for an at91sam9x5 based board
@@ -335,5 +335,5 @@ index 0000000..992ae38
 +MODULE_LICENSE("GPL");
 +MODULE_ALIAS("platform:" DRV_NAME);
 -- 
-1.8.4.rc3
+1.8.5.3
 

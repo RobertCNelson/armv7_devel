@@ -1,0 +1,35 @@
+From fd9a07df278a1c69163af8752ad5e213090f7667 Mon Sep 17 00:00:00 2001
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 3 Dec 2013 18:04:54 +0800
+Subject: [PATCH 389/397] ASoC: wm8731: fix dsp mode configuration
+
+According to WM8731 "PD, Rev 4.9 October 2012" datasheet, when it
+works in DSP mode A, LRP = 1, while works in DSP mode B, LRP = 0.
+So, fix LRP for DSP mode as the datesheet specification.
+
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Acked-by: Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
+---
+ sound/soc/codecs/wm8731.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/codecs/wm8731.c b/sound/soc/codecs/wm8731.c
+index 456bb8c..bc7472c 100644
+--- a/sound/soc/codecs/wm8731.c
++++ b/sound/soc/codecs/wm8731.c
+@@ -447,10 +447,10 @@ static int wm8731_set_dai_fmt(struct snd_soc_dai *codec_dai,
+ 		iface |= 0x0001;
+ 		break;
+ 	case SND_SOC_DAIFMT_DSP_A:
+-		iface |= 0x0003;
++		iface |= 0x0013;
+ 		break;
+ 	case SND_SOC_DAIFMT_DSP_B:
+-		iface |= 0x0013;
++		iface |= 0x0003;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+-- 
+1.8.5.3
+

@@ -1,7 +1,7 @@
-From a7262c70b3e1f8670eeea560ccde122603bf4b94 Mon Sep 17 00:00:00 2001
+From 0d61528daa5c8d6a70759f82ea5ccea0ef2bea06 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Thu, 18 Jul 2013 15:10:29 +0800
-Subject: [PATCH 339/382] sama5d36: add sound in dts
+Subject: [PATCH 339/397] sama5d36: add sound in dts
 
 Since ISI conflict with I2C0, the sound still cannot work in sama5d36ek.
 But in future new version of MB will connect the sound in I2C1. In that
@@ -82,5 +82,5 @@ index 7e8fa82..dfbbf8c 100644
 +	};
  };
 -- 
-1.8.4.rc3
+1.8.5.3
 

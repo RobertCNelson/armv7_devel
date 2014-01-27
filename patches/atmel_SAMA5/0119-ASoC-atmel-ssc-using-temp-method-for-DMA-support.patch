@@ -1,7 +1,7 @@
-From 5bc2e8734caa7247a0801e9cc0ccc7fb02ede7f1 Mon Sep 17 00:00:00 2001
+From 97fe6cc0066285c1677c94f8407f51118c264759 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Thu, 15 Nov 2012 16:18:31 +0800
-Subject: [PATCH 119/382] ASoC: atmel-ssc: using temp method for DMA support
+Subject: [PATCH 119/397] ASoC: atmel-ssc: using temp method for DMA support
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -115,5 +115,5 @@ index 422f0c4..4b977a2 100644
  	if (!regs) {
  		dev_dbg(&pdev->dev, "no mmio resource defined\n");
 -- 
-1.8.4.rc3
+1.8.5.3
 

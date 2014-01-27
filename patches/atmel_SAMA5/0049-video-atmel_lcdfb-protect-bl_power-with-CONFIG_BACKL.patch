@@ -1,7 +1,7 @@
-From 632c7207f9ab0ba90c1025d4f1c8aa50b44763f7 Mon Sep 17 00:00:00 2001
+From 18fbff69f10cab5e3c3215695330998c39cdd2b1 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 9 Oct 2012 18:23:51 +0200
-Subject: [PATCH 049/382] video: atmel_lcdfb*: protect bl_power with
+Subject: [PATCH 049/397] video: atmel_lcdfb*: protect bl_power with
  CONFIG_BACKLIGHT_ATMEL_LCDC
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
@@ -108,5 +108,5 @@ index 86e3e32..651c88f 100644
  void atmel_lcdfb_start(struct atmel_lcdfb_info *sinfo)
  {
 -- 
-1.8.4.rc3
+1.8.5.3
 

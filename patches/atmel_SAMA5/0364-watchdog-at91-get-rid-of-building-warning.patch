@@ -1,7 +1,7 @@
-From ebdec0d6277c338307dd27705d7c76969577de22 Mon Sep 17 00:00:00 2001
+From 21eedc7253e139ae99a493d0fc6c4247a4f7ca29 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Wed, 25 Sep 2013 11:32:52 +0800
-Subject: [PATCH 364/382] watchdog: at91: get rid of building warning
+Subject: [PATCH 364/397] watchdog: at91: get rid of building warning
 
 get rid of the following warning
   WARNING: modpost: Found 2 section mismatch(es)
@@ -34,5 +34,5 @@ index 2cf9045..1569ce4 100644
  	{ /* sentinel */ }
  };
 -- 
-1.8.4.rc3
+1.8.5.3
 

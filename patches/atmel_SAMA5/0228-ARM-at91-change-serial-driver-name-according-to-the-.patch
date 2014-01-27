@@ -1,7 +1,7 @@
-From 81bb2bc15e9a3fcad6c3b0d162b827e5f531b0cc Mon Sep 17 00:00:00 2001
+From c72597ea7fcbd461751a960d8c7e4af668dd25f2 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 13 Dec 2012 15:38:40 +0100
-Subject: [PATCH 228/382] ARM: at91: change serial driver name according to the
+Subject: [PATCH 228/397] ARM: at91: change serial driver name according to the
  move to id_table
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
@@ -175,5 +175,5 @@ index 40b59d9..4a77c4b 100644
  	.dev		= {
  				.dma_mask		= &uart3_dmamask,
 -- 
-1.8.4.rc3
+1.8.5.3
 

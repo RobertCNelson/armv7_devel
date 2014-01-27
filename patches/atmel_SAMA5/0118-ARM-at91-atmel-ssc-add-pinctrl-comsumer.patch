@@ -1,7 +1,7 @@
-From 4d1a2822f51ad686463627246046f59cbc838875 Mon Sep 17 00:00:00 2001
+From 28fbcc3e8afe18dba1915b7b4deaebb8764e84a7 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Mon, 12 Nov 2012 14:52:21 +0800
-Subject: [PATCH 118/382] ARM: at91: atmel-ssc: add pinctrl comsumer
+Subject: [PATCH 118/397] ARM: at91: atmel-ssc: add pinctrl comsumer
 
 Add pinctrl support for atmel ssc peripheral
 
@@ -37,5 +37,5 @@ index d07a9ed..422f0c4 100644
  	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
  	if (!ssc) {
 -- 
-1.8.4.rc3
+1.8.5.3
 

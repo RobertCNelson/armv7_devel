@@ -1,7 +1,7 @@
-From ae7f951500abd906359734ac8c4739ee9fb3f732 Mon Sep 17 00:00:00 2001
+From 1eb3ea127d6d2f7f2f4ec20981a0baae77a14dc9 Mon Sep 17 00:00:00 2001
 From: Fabio Porcedda <fabio.porcedda@gmail.com>
 Date: Mon, 12 Nov 2012 08:37:26 +0000
-Subject: [PATCH 225/382] ARM: at91/dts: add at91sam9_wdt driver to
+Subject: [PATCH 225/397] ARM: at91/dts: add at91sam9_wdt driver to
  at91sam926x, at91sam9g45
 
 Tested on an at91sam9260 board (evk-pro3).
@@ -65,5 +65,5 @@ index 99014f6..b59cbc1 100644
  
  		nand0: nand@40000000 {
 -- 
-1.8.4.rc3
+1.8.5.3
 

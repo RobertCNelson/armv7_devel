@@ -1,7 +1,7 @@
-From 0179aed4d41ec1b71b741eafb4fc179fe6302178 Mon Sep 17 00:00:00 2001
+From 6846e3ec136d45fc6aa749c40b07af2d683b9942 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 13 Aug 2013 14:51:05 +0800
-Subject: [PATCH 354/382] ov5640: support ov5642 and ov5640 both with different
+Subject: [PATCH 354/397] ov5640: support ov5642 and ov5640 both with different
  connect type(MIPI or PARALLEL)
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
@@ -38,5 +38,5 @@ index e6bfd4b..dd2dc16 100644
  }
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

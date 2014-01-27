@@ -1,0 +1,27 @@
+From e91ca1d6e9a28f0a7b7932c9cd3059b934ef2996 Mon Sep 17 00:00:00 2001
+From: Patrice Vilchez <patrice.vilchez@atmel.com>
+Date: Wed, 15 Jan 2014 17:40:29 +0100
+Subject: [PATCH 394/397] crypto: atmel-aes - add proper initialization value
+ according to datasheet
+
+Signed-off-by: Patrice Vilchez <patrice.vilchez@atmel.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/crypto/atmel-aes.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/crypto/atmel-aes.c b/drivers/crypto/atmel-aes.c
+index 035b87a..0f6a57f 100644
+--- a/drivers/crypto/atmel-aes.c
++++ b/drivers/crypto/atmel-aes.c
+@@ -270,6 +270,7 @@ static int atmel_aes_hw_init(struct atmel_aes_dev *dd)
+ 
+ 	if (!(dd->flags & AES_FLAGS_INIT)) {
+ 		atmel_aes_write(dd, AES_CR, AES_CR_SWRST);
++		atmel_aes_write(dd, AES_MR, 0xE << AES_MR_CKEY_OFFSET);
+ 		dd->flags |= AES_FLAGS_INIT;
+ 		dd->err = 0;
+ 	}
+-- 
+1.8.5.3
+

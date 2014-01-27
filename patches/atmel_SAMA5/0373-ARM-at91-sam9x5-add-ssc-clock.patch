@@ -1,7 +1,7 @@
-From f4034e5e3b52132bea7ae0d07a60bc7450710896 Mon Sep 17 00:00:00 2001
+From 21a0932de1c48ec1c3492dd48a3fbe0bdf9a8fe3 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Fri, 27 Sep 2013 11:00:49 +0800
-Subject: [PATCH 373/382] ARM: at91: sam9x5: add ssc clock
+Subject: [PATCH 373/397] ARM: at91: sam9x5: add ssc clock
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
@@ -21,5 +21,5 @@ index fc4b02b..b96e282 100644
  	CLKDEV_CON_DEV_ID("can_clk", "f8004000.can", &can1_clk),
  	CLKDEV_CON_DEV_ID("t0_clk", "f8008000.timer", &tcb0_clk),
 -- 
-1.8.4.rc3
+1.8.5.3
 

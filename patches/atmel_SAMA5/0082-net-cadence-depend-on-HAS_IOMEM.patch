@@ -1,7 +1,7 @@
-From 8dd09efd8f813f7775330ef79d54a65481a6501a Mon Sep 17 00:00:00 2001
+From be0165d00c2e8f025cc373695a3463c1b25ed36b Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Sat, 27 Oct 2012 02:10:23 +0000
-Subject: [PATCH 082/382] net/cadence: depend on HAS_IOMEM
+Subject: [PATCH 082/397] net/cadence: depend on HAS_IOMEM
 
 Fixes the following build failure on S390:
   In file included from drivers/net/ethernet/cadence/at91_ether.c:35:0:
@@ -32,5 +32,5 @@ index 40172d1..ceb0de0 100644
  	---help---
  	  If you have a network (Ethernet) card belonging to this class, say Y.
 -- 
-1.8.4.rc3
+1.8.5.3
 

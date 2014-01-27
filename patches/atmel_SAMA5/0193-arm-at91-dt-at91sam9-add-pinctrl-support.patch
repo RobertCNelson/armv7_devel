@@ -1,7 +1,7 @@
-From a87c6a00ed63e40d1df956192bacf3e17286eee1 Mon Sep 17 00:00:00 2001
+From 2a886a60aa65ef04e31c37fdfd82b697656952a0 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Thu, 18 Oct 2012 17:49:23 +0200
-Subject: [PATCH 193/382] arm: at91: dt: at91sam9 add pinctrl support
+Subject: [PATCH 193/397] arm: at91: dt: at91sam9 add pinctrl support
 
 Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
@@ -388,5 +388,5 @@ index e4712d1..9c0fe11 100644
  	 */
  	list = of_get_property(np, "atmel,pins", &size);
 -- 
-1.8.4.rc3
+1.8.5.3
 

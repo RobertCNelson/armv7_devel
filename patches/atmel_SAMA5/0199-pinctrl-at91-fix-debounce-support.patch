@@ -1,7 +1,7 @@
-From d4d7844ad688541747dda9c6e9b3a7ee20c41cd8 Mon Sep 17 00:00:00 2001
+From 1ee3134944741cd7e3333bcf281b0c7f5318cd99 Mon Sep 17 00:00:00 2001
 From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Date: Wed, 24 Oct 2012 01:15:51 +0800
-Subject: [PATCH 199/382] pinctrl: at91: fix debounce support
+Subject: [PATCH 199/397] pinctrl: at91: fix debounce support
 
 add missing mask check
 
@@ -24,5 +24,5 @@ index b836567..f2e4ef5 100644
  	if (info->ops->set_pulldown)
  		info->ops->set_pulldown(pio, mask, config & PULL_DOWN);
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From de2219b6f81b5a27987b2b7fe77c054aabada874 Mon Sep 17 00:00:00 2001
+From 0234b66b46765cf8e43aaee8751ad844537f1288 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Tue, 16 Oct 2012 18:26:10 +0200
-Subject: [PATCH 051/382] media/at91sam9x5-video: cleanup modifications
+Subject: [PATCH 051/397] media/at91sam9x5-video: cleanup modifications
 
 pdata not used: remove them for now: ease transition to DT
 one type, one static, and one debug message modifications
@@ -96,5 +96,5 @@ index 26ce376..c83dad1 100644
  
  static struct platform_device *at91sam9x5_video_device;
 -- 
-1.8.4.rc3
+1.8.5.3
 

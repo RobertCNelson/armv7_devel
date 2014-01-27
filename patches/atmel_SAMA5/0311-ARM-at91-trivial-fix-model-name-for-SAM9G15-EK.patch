@@ -1,7 +1,7 @@
-From 9f51f538cda2d649fe32f8818bb2afc2ee68d805 Mon Sep 17 00:00:00 2001
+From 41ca8c6201386b1859c1ffdf4f01d83d3ca8fc8c Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 20 Feb 2013 17:32:20 +0100
-Subject: [PATCH 311/382] ARM: at91/trivial: fix model name for SAM9G15-EK
+Subject: [PATCH 311/397] ARM: at91/trivial: fix model name for SAM9G15-EK
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
@@ -22,5 +22,5 @@ index 756c931..5b617d2 100644
  
  	ahb {
 -- 
-1.8.4.rc3
+1.8.5.3
 

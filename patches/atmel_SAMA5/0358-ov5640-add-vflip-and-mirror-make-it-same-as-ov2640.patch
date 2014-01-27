@@ -1,7 +1,7 @@
-From 2058d3a6980261cdb8a705ef235b2e74f57ddbea Mon Sep 17 00:00:00 2001
+From 19ef1b2cd9d2df90e0d071417f985009f1187862 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 17 Sep 2013 17:01:39 +0800
-Subject: [PATCH 358/382] ov5640: add vflip and mirror make it same as ov2640
+Subject: [PATCH 358/397] ov5640: add vflip and mirror make it same as ov2640
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -24,5 +24,5 @@ index 23f37c0..9c7e73c 100644
  	{0x3815, 0x31},
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

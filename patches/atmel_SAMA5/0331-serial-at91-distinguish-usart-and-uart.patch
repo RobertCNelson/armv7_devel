@@ -1,7 +1,7 @@
-From 24e0333e54faaf2b252920a4754a46464a0fdb4e Mon Sep 17 00:00:00 2001
+From 506042073f2dbaecbdb0756a1f902f2609fd8b82 Mon Sep 17 00:00:00 2001
 From: Elen Song <elen.song@atmel.com>
 Date: Wed, 31 Jul 2013 11:41:00 +0800
-Subject: [PATCH 331/382] serial: at91: distinguish usart and uart
+Subject: [PATCH 331/397] serial: at91: distinguish usart and uart
 
 Distinguish usart and uart by read ip name register,
 The usart read name is USAR,
@@ -94,5 +94,5 @@ index fd68337..be201ca 100644
 +
  #endif
 -- 
-1.8.4.rc3
+1.8.5.3
 

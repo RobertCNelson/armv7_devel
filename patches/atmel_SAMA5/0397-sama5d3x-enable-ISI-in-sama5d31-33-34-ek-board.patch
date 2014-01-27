@@ -1,0 +1,53 @@
+From f0431a603e7b9fd1178c051b83ddd8d2f5687a20 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Tue, 31 Dec 2013 16:11:28 +0800
+Subject: [PATCH 397/397] sama5d3x: enable ISI in sama5d31/33/34-ek board
+
+Since in rev.D MB, sound is moved from TWI0 to TWI1, no conflict with
+ISI.
+
+In rev.C or before, sound is conflict with ISI. So you can use U-Boot
+fdt command to update the dtb, which enable sound and disable ISI.
+  setenv enable_sound_in_revC 'fdt set /ahb/apb/i2c@f0014000 status "okay";fdt set /ahb/apb/isi@f0034000 status'
+  run enable_sound_in_revC # before run this should load a dtb binary and run fdt addr <dtb addr>
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d31ek.dts | 2 +-
+ arch/arm/boot/dts/sama5d33ek.dts | 2 +-
+ arch/arm/boot/dts/sama5d34ek.dts | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sama5d31ek.dts b/arch/arm/boot/dts/sama5d31ek.dts
+index 568c634..22506e5 100644
+--- a/arch/arm/boot/dts/sama5d31ek.dts
++++ b/arch/arm/boot/dts/sama5d31ek.dts
+@@ -55,4 +55,4 @@
+ };
+ 
+ /* Uncomment following line will enable ISI support */
+-/* /include/ "sama5d3mb_isi.dtsi" */
++/include/ "sama5d3mb_isi.dtsi"
+diff --git a/arch/arm/boot/dts/sama5d33ek.dts b/arch/arm/boot/dts/sama5d33ek.dts
+index a71b886..b13ae40 100644
+--- a/arch/arm/boot/dts/sama5d33ek.dts
++++ b/arch/arm/boot/dts/sama5d33ek.dts
+@@ -55,4 +55,4 @@
+ };
+ 
+ /* Uncomment following line will enable ISI support */
+-/* /include/ "sama5d3mb_isi.dtsi" */
++/include/ "sama5d3mb_isi.dtsi"
+diff --git a/arch/arm/boot/dts/sama5d34ek.dts b/arch/arm/boot/dts/sama5d34ek.dts
+index 9bedb1b..fce015c 100644
+--- a/arch/arm/boot/dts/sama5d34ek.dts
++++ b/arch/arm/boot/dts/sama5d34ek.dts
+@@ -65,4 +65,4 @@
+ };
+ 
+ /* Uncomment following line will enable ISI support */
+-/* /include/ "sama5d3mb_isi.dtsi" */
++/include/ "sama5d3mb_isi.dtsi"
+-- 
+1.8.5.3
+

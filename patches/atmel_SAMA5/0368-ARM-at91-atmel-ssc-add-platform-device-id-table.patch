@@ -1,7 +1,7 @@
-From 37b39f3199fd5478f6c26ba4217f9379e8dc96b1 Mon Sep 17 00:00:00 2001
+From c91bdf1d846d2a37aa5c2b550db1546aa5532f15 Mon Sep 17 00:00:00 2001
 From: Bo Shen <voice.shen@atmel.com>
 Date: Tue, 6 Nov 2012 13:57:51 +0800
-Subject: [PATCH 368/382] ARM: at91: atmel-ssc: add platform device id table
+Subject: [PATCH 368/397] ARM: at91: atmel-ssc: add platform device id table
 
 Add platform device id to check whether the SSC controller support
 pdc or dam for data transfer
@@ -277,5 +277,5 @@ index c883514..42a1a47 100644
  	.ops = &at91sam9g20ek_ops,
  };
 -- 
-1.8.4.rc3
+1.8.5.3
 

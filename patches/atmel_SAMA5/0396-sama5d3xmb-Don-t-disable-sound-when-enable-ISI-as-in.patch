@@ -1,0 +1,37 @@
+From 52b32422d7940ca383f7124d3b499d1e85270319 Mon Sep 17 00:00:00 2001
+From: Josh Wu <josh.wu@atmel.com>
+Date: Mon, 30 Dec 2013 14:36:24 +0800
+Subject: [PATCH 396/397] sama5d3xmb: Don't disable sound when enable ISI as in
+ rev.D MB both works
+
+For rev.C MB,
+ 1. if sama5d3mb_isi.dtsi is included, then ISI can work and sound
+    can't work as i2c0 is disabled.
+    In this case, kernel will report some error message about sound.
+ 2. if sama5d3mb_isi.dtsi is not included, then sound works and ISI
+    is disabled.
+
+Signed-off-by: Josh Wu <josh.wu@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3mb_isi.dtsi | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sama5d3mb_isi.dtsi b/arch/arm/boot/dts/sama5d3mb_isi.dtsi
+index ec08065..1e66ede 100644
+--- a/arch/arm/boot/dts/sama5d3mb_isi.dtsi
++++ b/arch/arm/boot/dts/sama5d3mb_isi.dtsi
+@@ -19,11 +19,6 @@
+ 		};
+ 	};
+ 
+-	/* As sound depends on i2c0, we disable sound as well */
+-	sound {
+-		status = "disabled";
+-	};
+-
+ 	leds {
+ 		d3 {
+ 			/* Conflict with ISI module's reset pin */
+-- 
+1.8.5.3
+

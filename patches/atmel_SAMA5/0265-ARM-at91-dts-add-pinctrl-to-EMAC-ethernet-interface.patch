@@ -1,7 +1,7 @@
-From b258c77f09a21ca7596c763f23b8473d23c8c622 Mon Sep 17 00:00:00 2001
+From f939bd1a24747a98812a25d3736e63e7ca4b2179 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 20 Dec 2012 14:07:42 +0100
-Subject: [PATCH 265/382] ARM: at91/dts: add pinctrl to EMAC ethernet interface
+Subject: [PATCH 265/397] ARM: at91/dts: add pinctrl to EMAC ethernet interface
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
@@ -45,5 +45,5 @@ index 644efb0..5dd1900 100644
  					pinctrl_mmc0_clk_cmd_dat0: mmc0_clk_cmd_dat0 {
  						atmel,pins =
 -- 
-1.8.4.rc3
+1.8.5.3
 

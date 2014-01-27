@@ -1,7 +1,7 @@
-From 6ffe08ba837d35d4ab5c9c5228160a41725af46c Mon Sep 17 00:00:00 2001
+From 23141ece260385b7282ea6adb148e344183ab28d Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 28 Nov 2012 18:28:35 +0800
-Subject: [PATCH 135/382] atmel_isi: fix: irq shuold be int instead of unsigned
+Subject: [PATCH 135/397] atmel_isi: fix: irq shuold be int instead of unsigned
  int. otherwise it cannot less than 0. which indicates the irq cannot be
  requested.
 
@@ -32,5 +32,5 @@ index 610bf28..5192c12 100644
  	struct clk *pclk;
  	struct resource *regs;
 -- 
-1.8.4.rc3
+1.8.5.3
 

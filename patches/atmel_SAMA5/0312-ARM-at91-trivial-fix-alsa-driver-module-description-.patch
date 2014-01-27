@@ -1,7 +1,7 @@
-From 2043ebe5ac403238f5a5b4a4dcb60e953debbbb2 Mon Sep 17 00:00:00 2001
+From 19e6c99a34dd6995c41c8fb7db10d3be88c060f4 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 19 Feb 2013 18:06:51 +0800
-Subject: [PATCH 312/382] ARM: at91/trivial: fix alsa driver module description
+Subject: [PATCH 312/397] ARM: at91/trivial: fix alsa driver module description
  with correct sama5d3 name
 
 ---
@@ -20,5 +20,5 @@ index a52b611..d0675d9 100644
 +MODULE_DESCRIPTION("ALSA SoC machine driver for SAMA5D3 - WM8904");
  MODULE_LICENSE("GPL");
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 054e4b08ed4c3dd459a66ca6988e87eb0007f3bc Mon Sep 17 00:00:00 2001
+From 9f1de2ec26fa5e555f77340ea061931e00842cb0 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Tue, 17 Sep 2013 16:56:01 +0800
-Subject: [PATCH 357/382] ov5640: add 1280x960 register setting, and works
+Subject: [PATCH 357/397] ov5640: add 1280x960 register setting, and works
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -100,5 +100,5 @@ index c7eedd2..23f37c0 100644
  	/* ov5640 */
  	if (priv->is_ov5640) {
 -- 
-1.8.4.rc3
+1.8.5.3
 

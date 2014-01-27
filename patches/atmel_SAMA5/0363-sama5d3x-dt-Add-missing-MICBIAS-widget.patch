@@ -1,7 +1,7 @@
-From e937859f98b31d37e98d41407b612520cb748bce Mon Sep 17 00:00:00 2001
+From b50318823325716cbfd4c2b3e84e00bbf8d79d5e Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 25 Sep 2013 10:36:01 +0800
-Subject: [PATCH 363/382] sama5d3x: dt: Add missing MICBIAS widget
+Subject: [PATCH 363/397] sama5d3x: dt: Add missing MICBIAS widget
 
 Reported-by: Bo Shen <voice.shen@atmel.com>
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
@@ -22,5 +22,5 @@ index a48af44..8730531 100644
  
  		atmel,ssc-controller = <&ssc0>;
 -- 
-1.8.4.rc3
+1.8.5.3
 

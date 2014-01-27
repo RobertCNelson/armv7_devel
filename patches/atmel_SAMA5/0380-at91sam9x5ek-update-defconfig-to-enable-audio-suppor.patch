@@ -1,7 +1,7 @@
-From 1c71611345f2cbfe48cbb8c3f63bcc9008048aba Mon Sep 17 00:00:00 2001
+From 3b33048db9caaf8b0f1b08aca31acbe216261212 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 25 Sep 2013 14:22:41 +0800
-Subject: [PATCH 380/382] at91sam9x5ek: update defconfig to enable audio
+Subject: [PATCH 380/397] at91sam9x5ek: update defconfig to enable audio
  support
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
@@ -23,5 +23,5 @@ index 0d3d21a..f9de54f 100644
  CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
  CONFIG_USB_EHCI_HCD=y
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 531c4a0a7287a256849605ad2a8b7dd6c533ff95 Mon Sep 17 00:00:00 2001
+From 9158049782f6eff1c0ff97602acca4281da133a7 Mon Sep 17 00:00:00 2001
 From: Joachim Eastwood <manabian@gmail.com>
 Date: Mon, 22 Oct 2012 08:45:32 +0000
-Subject: [PATCH 079/382] net/cadence: get rid of HAVE_NET_MACB
+Subject: [PATCH 079/397] net/cadence: get rid of HAVE_NET_MACB
 
 macb is a platform driver and there is nothing that prevents
 this driver from being built on non-ARM/AVR32 platforms.
@@ -89,5 +89,5 @@ index 57f78abe..5d1ea30 100644
  	---help---
  	  The Cadence MACB ethernet interface is found on many Atmel AT32 and
 -- 
-1.8.4.rc3
+1.8.5.3
 

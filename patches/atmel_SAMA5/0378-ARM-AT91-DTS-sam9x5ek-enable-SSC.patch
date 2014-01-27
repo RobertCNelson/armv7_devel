@@ -1,7 +1,7 @@
-From 6a9338a71bccca595d9e283cf9fb8199bacd9920 Mon Sep 17 00:00:00 2001
+From ab6713304b770d58152633195167465be2649c41 Mon Sep 17 00:00:00 2001
 From: Richard Genoud <richard.genoud@gmail.com>
 Date: Mon, 12 Aug 2013 14:31:01 +0200
-Subject: [PATCH 378/382] ARM: AT91: DTS: sam9x5ek: enable SSC
+Subject: [PATCH 378/397] ARM: AT91: DTS: sam9x5ek: enable SSC
 
 Enable the SSC needed for the WM8731 codec
 
@@ -28,5 +28,5 @@ index d089b6b..c55bfef 100644
  				phy-mode = "rmii";
  			};
 -- 
-1.8.4.rc3
+1.8.5.3
 

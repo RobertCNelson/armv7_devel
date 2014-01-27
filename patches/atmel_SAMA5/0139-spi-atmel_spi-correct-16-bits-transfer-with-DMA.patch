@@ -1,7 +1,7 @@
-From 7a1927f85be75adf4f767e00cb68fc8a17b69632 Mon Sep 17 00:00:00 2001
+From 2d0b61a9c6101014ba337b2f23840f11a1886937 Mon Sep 17 00:00:00 2001
 From: Richard Genoud <richard.genoud@gmail.com>
 Date: Fri, 24 Aug 2012 17:08:30 +0200
-Subject: [PATCH 139/382] spi/atmel_spi: correct 16 bits transfer with DMA
+Subject: [PATCH 139/397] spi/atmel_spi: correct 16 bits transfer with DMA
 
 Signed-off-by: Richard Genoud <richard.genoud@gmail.com>
 Cc: grant.likely@secretlab.ca
@@ -58,5 +58,5 @@ index 269af2e..05472fd 100644
  	rxdesc = rxchan->device->device_prep_slave_sg(rxchan,
  					&as->dma.sgrx,
 -- 
-1.8.4.rc3
+1.8.5.3
 

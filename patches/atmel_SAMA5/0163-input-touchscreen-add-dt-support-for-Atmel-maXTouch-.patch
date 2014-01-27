@@ -1,7 +1,7 @@
-From 5ecea659c292dca63d6f3ad0486f0712417ab9d2 Mon Sep 17 00:00:00 2001
+From f0efbc649cb12a8fa8ed79323bab156ae9daa7bf Mon Sep 17 00:00:00 2001
 From: Matt Wood <mattwood2000@gmail.com>
 Date: Mon, 12 Nov 2012 17:38:49 -0500
-Subject: [PATCH 163/382] input: touchscreen: add dt support for Atmel maXTouch
+Subject: [PATCH 163/397] input: touchscreen: add dt support for Atmel maXTouch
  driver
 
 ---
@@ -149,5 +149,5 @@ index 4623cc6..cae862d 100644
  	data = kzalloc(sizeof(struct mxt_data), GFP_KERNEL);
  	input_dev = input_allocate_device();
 -- 
-1.8.4.rc3
+1.8.5.3
 

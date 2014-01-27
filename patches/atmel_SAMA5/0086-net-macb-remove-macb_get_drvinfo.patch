@@ -1,7 +1,7 @@
-From e6ae4c2cddfe7d997f1923ce5daaf54261245d2e Mon Sep 17 00:00:00 2001
+From 335d03b3bbca7e203e85e939abb10860475b202c Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Wed, 31 Oct 2012 06:04:53 +0000
-Subject: [PATCH 086/382] net/macb: remove macb_get_drvinfo()
+Subject: [PATCH 086/397] net/macb: remove macb_get_drvinfo()
 
 This function has little meaning so remove it altogether and
 let ethtool core fill in the fields automatically.
@@ -40,5 +40,5 @@ index b161d73..4db52f3 100644
  	.get_ts_info		= ethtool_op_get_ts_info,
  };
 -- 
-1.8.4.rc3
+1.8.5.3
 

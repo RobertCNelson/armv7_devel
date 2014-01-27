@@ -1,7 +1,7 @@
-From 66d644c361bf707920cc4cbfa0d30aefb3b491ca Mon Sep 17 00:00:00 2001
+From 9c89923ca9660c8667c0b01c62b1aef98f982990 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Wed, 29 Aug 2012 17:38:05 +0800
-Subject: [PATCH 230/382] [media] atmel_isi: allocate memory to store the isi
+Subject: [PATCH 230/397] [media] atmel_isi: allocate memory to store the isi
  platform data.
 
 If the isi platform data is passed as __initdata. Then we need store it in driver allocated memory. otherwise when we use it out of the probe() function, then the isi platform data is invalid.
@@ -48,5 +48,5 @@ index 5192c12..b7bd909 100644
  err_alloc_isi:
  	clk_unprepare(pclk);
 -- 
-1.8.4.rc3
+1.8.5.3
 

@@ -1,7 +1,7 @@
-From 88ba9e4eb99746c0824b745cbf3e1d2ea8e193d4 Mon Sep 17 00:00:00 2001
+From d07d9c6ae30cf219d14047de172804296fcaac37 Mon Sep 17 00:00:00 2001
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
 Date: Thu, 24 Jan 2013 12:51:16 +0100
-Subject: [PATCH 288/382] net/macb: trivial: remove unneeded asignment in poll
+Subject: [PATCH 288/397] net/macb: trivial: remove unneeded asignment in poll
  function
 
 Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
@@ -23,5 +23,5 @@ index 8e04fb1..775375b 100644
  		   (unsigned long)status, budget);
  
 -- 
-1.8.4.rc3
+1.8.5.3
 

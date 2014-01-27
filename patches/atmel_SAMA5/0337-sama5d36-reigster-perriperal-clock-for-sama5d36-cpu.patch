@@ -1,7 +1,7 @@
-From 0fcf43366721efa817d5deca23f76c0038de25f2 Mon Sep 17 00:00:00 2001
+From 64f80cab2b2cc666a1c76611d057ac3bbb7c6b87 Mon Sep 17 00:00:00 2001
 From: Josh Wu <josh.wu@atmel.com>
 Date: Fri, 7 Jun 2013 11:57:57 +0800
-Subject: [PATCH 337/382] sama5d36: reigster perriperal clock for sama5d36 cpu
+Subject: [PATCH 337/397] sama5d36: reigster perriperal clock for sama5d36 cpu
 
 Signed-off-by: Josh Wu <josh.wu@atmel.com>
 ---
@@ -74,5 +74,5 @@ index c499446..1903dfa 100644
  
  	if (!cpu_is_sama5d35())
 -- 
-1.8.4.rc3
+1.8.5.3
 

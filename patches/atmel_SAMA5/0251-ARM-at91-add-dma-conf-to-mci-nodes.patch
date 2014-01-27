@@ -1,7 +1,7 @@
-From 7abd929a3572de50aecd2b77f7890bbdbdb9e28e Mon Sep 17 00:00:00 2001
+From ec380db3c7be7089edf5d78d3b59e06901407b54 Mon Sep 17 00:00:00 2001
 From: Ludovic Desroches <ludovic.desroches@atmel.com>
 Date: Tue, 20 Nov 2012 09:57:30 +0100
-Subject: [PATCH 251/382] ARM: at91: add dma conf to mci nodes
+Subject: [PATCH 251/397] ARM: at91: add dma conf to mci nodes
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@atmel.com>
 ---
@@ -46,5 +46,5 @@ index 458023d..9228901 100644
  
  			spi1: spi@f8008000 {
 -- 
-1.8.4.rc3
+1.8.5.3
 
