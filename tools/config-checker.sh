@@ -86,8 +86,6 @@ config="CONFIG_KERNEL_LZO"
 check_if_set_then_set
 config="CONFIG_KERNEL_LZ4"
 check_if_set_then_disable
-config="CONFIG_LBDAF"
-check_if_set_then_set
 
 if_config="CONFIG_ARCH_MULTI_V7"
 config="CONFIG_KERNEL_GZIP"
@@ -100,6 +98,39 @@ config="CONFIG_KERNEL_LZO"
 check_if_set_then_disable
 config="CONFIG_KERNEL_LZ4"
 check_if_set_then_disable
+
+if_config="CONFIG_SOC_SAMA5"
+config="CONFIG_KERNEL_GZIP"
+check_if_set_then_disable
+config="CONFIG_KERNEL_LZMA"
+check_if_set_then_disable
+config="CONFIG_KERNEL_XZ"
+check_if_set_then_set
+config="CONFIG_KERNEL_LZO"
+check_if_set_then_disable
+config="CONFIG_KERNEL_LZ4"
+check_if_set_then_disable
+config="CONFIG_THUMB2_KERNEL"
+check_if_set_then_set
+config="CONFIG_ARM_APPENDED_DTB"
+check_if_set_then_disable
+config="CONFIG_ATMEL_PWM"
+check_if_set_then_set
+config="CONFIG_FB_ATMEL"
+check_if_set_then_set
+config="CONFIG_HID_PID"
+check_if_set_then_set
+config="CONFIG_USB_HIDDEV"
+check_if_set_then_set
+config="CONFIG_F2FS_FS"
+check_if_set_then_set
+config="CONFIG_UNUSED_SYMBOLS"
+check_if_set_then_set
+config="CONFIG_PRINTK_TIME"
+check_if_set_then_set
+
+config="CONFIG_LBDAF"
+check_if_set_then_set
 
 config="CONFIG_SWAP"
 check_config_builtin
@@ -253,16 +284,10 @@ check_config_builtin
 #check_config_disabled
 
 #zram
-config="CONFIG_STAGING"
-check_config_builtin
 config="CONFIG_ZSMALLOC"
 check_config_builtin
 config="CONFIG_ZRAM"
 check_config_module
-
-#ancient...
-config="CONFIG_OABI_COMPAT"
-check_config_disabled
 
 #Useful
 config="CONFIG_I2C_CHARDEV"

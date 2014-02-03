@@ -74,7 +74,7 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-arm
+#arm
 atmel_fixes
 atmel_SAMA5D3
 
