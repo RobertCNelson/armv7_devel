@@ -98,6 +98,8 @@ config="CONFIG_KERNEL_LZO"
 check_if_set_then_set
 config="CONFIG_KERNEL_LZ4"
 check_if_set_then_disable
+config="CONFIG_LBDAF"
+check_if_set_then_set
 
 if_config="CONFIG_ARCH_MULTI_V7"
 config="CONFIG_KERNEL_GZIP"
@@ -186,6 +188,18 @@ config="CONFIG_ARCH_HIGHBANK"
 check_if_set_then_disable
 config="CONFIG_ARCH_MVEBU"
 check_if_set_then_disable
+config="CONFIG_ARCH_OMAP3"
+check_if_set_then_disable
+config="CONFIG_ARCH_OMAP4"
+check_if_set_then_disable
+config="CONFIG_SOC_OMAP5"
+check_if_set_then_disable
+config="CONFIG_SOC_AM33XX"
+check_if_set_then_disable
+config="CONFIG_SOC_AM43XX"
+check_if_set_then_disable
+config="CONFIG_SOC_DRA7XX"
+check_if_set_then_disable
 config="CONFIG_ARCH_ROCKCHIP"
 check_if_set_then_disable
 config="CONFIG_ARCH_SOCFPGA"
@@ -212,13 +226,6 @@ config="CONFIG_PLAT_SPEAR"
 check_if_set_then_disable
 config="CONFIG_ARCH_U8500"
 check_if_set_then_disable
-
-#omap3 beagles need this... (thumb2 bugs)
-if_config="CONFIG_ARCH_OMAP3"
-config="CONFIG_ARM_ERRATA_430973"
-check_if_set_then_set
-config="CONFIG_PINCTRL_SINGLE"
-check_if_set_then_set
 
 if_config="CONFIG_ARCH_MULTI_V7"
 config="CONFIG_SMP"

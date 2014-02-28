@@ -17,8 +17,7 @@ if [ "${GIT_NOEDIT}" ] ; then
 	GIT_OPTS="${GIT_OPTS} --no-edit"
 fi
 
-#config="at91_dt_defconfig"
-config="sama5_defconfig"
+config="multi_v7_defconfig"
 
 #toolchain="arm9_gcc_4_7"
 #toolchain="gcc_arm_embedded_4_8"
@@ -30,13 +29,13 @@ toolchain="gcc_linaro_gnueabihf_4_8"
 #Kernel/Build
 KERNEL_REL=3.14
 KERNEL_TAG=${KERNEL_REL}-rc4
-BUILD=sama5-armv7-r2
+BUILD=vybrid-armv7-r0
 
 #v3.X-rcX + upto SHA
 KERNEL_SHA=""
 
 #git branch
-BRANCH="v3.14.x-sama5-armv7"
+BRANCH="v3.14.x-vybrid-armv7"
 
 BUILDREV=1.0
 DISTRO=cross

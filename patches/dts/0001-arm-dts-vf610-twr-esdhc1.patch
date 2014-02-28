@@ -1,0 +1,50 @@
+From 16d952e1e6ac6f7fa2e256c648f85aae4da2621f Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Fri, 28 Feb 2014 11:22:28 -0600
+Subject: [PATCH] arm: dts: vf610-twr: esdhc1
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ arch/arm/boot/dts/vf610-twr.dts |  7 +++++++
+ arch/arm/boot/dts/vf610.dtsi    | 10 ++++++++++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/arch/arm/boot/dts/vf610-twr.dts b/arch/arm/boot/dts/vf610-twr.dts
+index c8047ca..cdbd52b 100644
+--- a/arch/arm/boot/dts/vf610-twr.dts
++++ b/arch/arm/boot/dts/vf610-twr.dts
+@@ -79,3 +79,10 @@
+ 	pinctrl-0 = <&pinctrl_uart1_1>;
+ 	status = "okay";
+ };
++
++&esdhc1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_esdhc1_1>;
++	bus-width = <4>;
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/vf610.dtsi b/arch/arm/boot/dts/vf610.dtsi
+index d31ce1b..4f3d297 100644
+--- a/arch/arm/boot/dts/vf610.dtsi
++++ b/arch/arm/boot/dts/vf610.dtsi
+@@ -450,6 +450,16 @@
+ 				status = "disabled";
+ 			};
+ 
++			esdhc1: esdhc@400b2000 {
++				   compatible = "fsl,imx53-esdhc";
++				   reg = <0x400b2000 0x4000>;
++				   interrupts = <0 28 0x04>;
++				   clocks = <&clks VF610_CLK_IPG_BUS>, <&clks VF610_CLK_PLATFORM_BUS>, <&clks VF610_CLK_ESDHC1>;
++				   clock-names = "ipg", "ahb", "per";
++				   bus-width = <4>;
++				   status = "disabled";
++			};
++
+ 			fec0: ethernet@400d0000 {
+ 				compatible = "fsl,mvf600-fec";
+ 				reg = <0x400d0000 0x1000>;
+-- 
+1.8.5.3
+

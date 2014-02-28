@@ -54,30 +54,11 @@ cleanup () {
 	exit
 }
 
-arm () {
-	echo "dir: arm"
-	${git} "${DIR}/patches/arm/0001-deb-pkg-Simplify-architecture-matching-for-cross-bui.patch"
+dts () {
+	echo "dir: dts"
+	${git} "${DIR}/patches/dts/0001-arm-dts-vf610-twr-esdhc1.patch"
 }
 
-atmel_fixes () {
-	echo "dir: atmel_fixes"
-}
-
-atmel_SAMA5D3 () {
-	echo "dir: atmel_SAMA5D3"
-}
-
-enable_spidev () {
-	#debian@arm:~$ ls /dev/spi*
-	#/dev/spidev32766.0
-	echo "dir: examples"
-	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
-}
-
-#arm
-atmel_fixes
-atmel_SAMA5D3
-
-#enable_spidev
+dts
 
 echo "patch.sh ran successful"
