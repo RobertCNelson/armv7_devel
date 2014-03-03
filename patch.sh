@@ -54,11 +54,6 @@ cleanup () {
 	exit
 }
 
-arm () {
-	echo "dir: arm"
-	${git} "${DIR}/patches/arm/0001-deb-pkg-Simplify-architecture-matching-for-cross-bui.patch"
-}
-
 atmel_fixes () {
 	echo "dir: atmel_fixes"
 }
@@ -74,7 +69,6 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-#arm
 atmel_fixes
 atmel_SAMA5D3
 
