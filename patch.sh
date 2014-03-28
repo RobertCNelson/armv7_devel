@@ -54,8 +54,9 @@ cleanup () {
 	exit
 }
 
-atmel_fixes () {
-	echo "dir: atmel_fixes"
+fixes () {
+	echo "dir: fixes"
+	${git} "${DIR}/patches/fixes/0001-Revert-ARM-at91-fix-network-interface-ordering-for-s.patch"
 }
 
 atmel_SAMA5D3 () {
@@ -69,7 +70,7 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-atmel_fixes
+fixes
 atmel_SAMA5D3
 
 #enable_spidev
