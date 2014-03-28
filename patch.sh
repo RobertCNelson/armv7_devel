@@ -56,7 +56,7 @@ cleanup () {
 
 fixes () {
 	echo "dir: fixes"
-	${git} "${DIR}/patches/fixes/0001-Revert-ARM-at91-fix-network-interface-ordering-for-s.patch"
+#	${git} "${DIR}/patches/fixes/0001-Revert-ARM-at91-fix-network-interface-ordering-for-s.patch"
 }
 
 atmel_SAMA5D3 () {
