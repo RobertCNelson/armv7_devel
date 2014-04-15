@@ -30,15 +30,8 @@ cp -v ${DIR}/patches/bisect_defconfig ${DIR}/patches/defconfig
 
 cd ${DIR}/KERNEL/
 git bisect start
-git bisect good v3.14-rc6
-git bisect bad v3.14-rc8
-git bisect good 708f04d2abf4e90abee61d9ffb1f165038017ecf
-git bisect good c27f0872a3448c46e561e226b5b97f77187b06d2
-git bisect bad 774868c7094d35b4518be3d0e654de000a5d11fc
-git bisect good 55ae26b7953f0de851559b155800cd3b6f433164
-git bisect bad 084c6c5013af3c62f1c344435214496f5ac999f2
-git bisect good 08edb33c4e1b810011f21d7705811b7b9a0535f0
-git bisect bad f656d46bbb2d3ecdb71c998ccf657dccea8d19a9
+#git bisect good v3.4
+#git bisect bad v3.5-rc1
 
 
 git describe
