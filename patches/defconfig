@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.13.0-rc8 Kernel Configuration
+# Linux/arm 3.13.6 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -292,7 +292,7 @@ CONFIG_MACH_SAMA5_DT=y
 # AT91 Feature Selections
 #
 CONFIG_AT91_PROGRAMMABLE_CLOCKS=y
-CONFIG_AT91_SLOW_CLOCK=y
+# CONFIG_AT91_SLOW_CLOCK is not set
 CONFIG_AT91_TIMER_HZ=100
 # CONFIG_GPIO_PCA953X is not set
 # CONFIG_KEYBOARD_GPIO_POLLED is not set
