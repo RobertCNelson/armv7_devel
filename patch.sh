@@ -80,7 +80,7 @@ atmel_SAMA5D3 () {
 	echo "dir: atmel_SAMA5D3"
 }
 
-arm
+#arm
 atmel_fixes
 atmel_SAMA5D3
 
