@@ -63,6 +63,15 @@ atmel_SAMA5D3 () {
 	echo "dir: atmel_SAMA5D3"
 }
 
+drm () {
+	echo "dir: drm"
+	${git} "${DIR}/patches/drm/0001-atmel-drm-added-drm-driver-for-the-atmel-hlcd-contro.patch"
+	${git} "${DIR}/patches/drm/0002-atmel-drm-dt-Added-DT-entry-for-the-atmel-hlcdc-foun.patch"
+	${git} "${DIR}/patches/drm/0003-atmel-dt-Add-supports-for-the-lcdc-support-on-the-sa.patch"
+	${git} "${DIR}/patches/drm/0004-atmel-drm-crtc-fb-crtc-primary-fb.patch"
+	${git} "${DIR}/patches/drm/0005-atmel-dt-Add-supports-for-the-lcdc-support-on-the-sa.patch"
+}
+
 enable_spidev () {
 	#debian@arm:~$ ls /dev/spi*
 	#/dev/spidev32766.0
@@ -72,6 +81,7 @@ enable_spidev () {
 
 fixes
 atmel_SAMA5D3
+drm
 
 #enable_spidev
 
