@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.15.0-rc2 Kernel Configuration
+# Linux/arm 3.15.0-rc4 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_ARM_HAS_SG_CHAIN=y
@@ -38,8 +38,8 @@ CONFIG_HAVE_KERNEL_LZO=y
 CONFIG_HAVE_KERNEL_LZ4=y
 # CONFIG_KERNEL_GZIP is not set
 # CONFIG_KERNEL_LZMA is not set
-CONFIG_KERNEL_XZ=y
-# CONFIG_KERNEL_LZO is not set
+# CONFIG_KERNEL_XZ is not set
+CONFIG_KERNEL_LZO=y
 # CONFIG_KERNEL_LZ4 is not set
 CONFIG_DEFAULT_HOSTNAME="(none)"
 CONFIG_SWAP=y
@@ -3381,7 +3381,6 @@ CONFIG_RESET_CONTROLLER=y
 # PHY Subsystem
 #
 CONFIG_GENERIC_PHY=y
-# CONFIG_OMAP_CONTROL_PHY is not set
 # CONFIG_BCM_KONA_USB2_PHY is not set
 # CONFIG_PHY_SAMSUNG_USB2 is not set
 # CONFIG_POWERCAP is not set
