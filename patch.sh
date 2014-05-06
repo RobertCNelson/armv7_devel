@@ -70,6 +70,7 @@ drm () {
 	${git} "${DIR}/patches/drm/0003-atmel-dt-Add-supports-for-the-lcdc-support-on-the-sa.patch"
 	${git} "${DIR}/patches/drm/0004-atmel-drm-crtc-fb-crtc-primary-fb.patch"
 	${git} "${DIR}/patches/drm/0005-atmel-dt-Add-supports-for-the-lcdc-support-on-the-sa.patch"
+	${git} "${DIR}/patches/drm/0006-atmel-dts-add-at91-sama5d3_xplained_pda4.patch"
 }
 
 enable_spidev () {
