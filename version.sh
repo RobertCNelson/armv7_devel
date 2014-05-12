@@ -27,8 +27,8 @@ toolchain="gcc_linaro_gnueabihf_4_8"
 
 #Kernel/Build
 KERNEL_REL=3.14
-KERNEL_TAG=${KERNEL_REL}.1
-BUILD=vybrid-armv7-r5
+KERNEL_TAG=${KERNEL_REL}.3
+BUILD=vybrid-armv7-r6
 
 #v3.X-rcX + upto SHA
 KERNEL_SHA=""
