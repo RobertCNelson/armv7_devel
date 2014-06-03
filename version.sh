@@ -20,9 +20,11 @@ fi
 config="sama5_defconfig"
 
 #toolchain="gcc_linaro_eabi_4_8"
+#toolchain="gcc_linaro_eabi_4_9"
 #toolchain="gcc_linaro_gnueabi_4_6"
 #toolchain="gcc_linaro_gnueabihf_4_7"
 toolchain="gcc_linaro_gnueabihf_4_8"
+#toolchain="gcc_linaro_gnueabihf_4_9"
 
 #Kernel/Build
 KERNEL_REL=3.10
@@ -30,7 +32,7 @@ KERNEL_TAG=${KERNEL_REL}.40
 BUILD=sama5-armv7-r30
 
 #v3.X-rcX + upto SHA
-KERNEL_SHA=""
+#KERNEL_SHA=""
 
 #git branch
 BRANCH="v3.10.x-sama5-armv7"
