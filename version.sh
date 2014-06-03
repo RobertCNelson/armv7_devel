@@ -20,9 +20,11 @@ fi
 config="multi_v7_defconfig"
 
 #toolchain="gcc_linaro_eabi_4_8"
+#toolchain="gcc_linaro_eabi_4_9"
 #toolchain="gcc_linaro_gnueabi_4_6"
 #toolchain="gcc_linaro_gnueabihf_4_7"
 toolchain="gcc_linaro_gnueabihf_4_8"
+#toolchain="gcc_linaro_gnueabihf_4_9"
 
 #Kernel/Build
 KERNEL_REL=3.15
@@ -30,7 +32,7 @@ KERNEL_TAG=${KERNEL_REL}-rc7
 BUILD=vybrid-armv7-r4
 
 #v3.X-rcX + upto SHA
-KERNEL_SHA=""
+#KERNEL_SHA=""
 
 #git branch
 BRANCH="v3.15.x-vybrid-armv7"
