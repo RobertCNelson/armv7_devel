@@ -56,7 +56,7 @@ cleanup () {
 
 dts () {
 	echo "dir: dts"
-	${git} "${DIR}/patches/dts/0001-arm-dts-vf610-twr-esdhc1.patch"
+#	${git} "${DIR}/patches/dts/0001-arm-dts-vf610-twr-esdhc1.patch"
 }
 
 dts

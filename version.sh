@@ -17,25 +17,25 @@ if [ "${GIT_NOEDIT}" ] ; then
 	GIT_OPTS="${GIT_OPTS} --no-edit"
 fi
 
-config="multi_v7_defconfig"
+config="imx_v6_v7_defconfig"
 
 #toolchain="gcc_linaro_eabi_4_8"
 #toolchain="gcc_linaro_eabi_4_9"
 #toolchain="gcc_linaro_gnueabi_4_6"
 #toolchain="gcc_linaro_gnueabihf_4_7"
-toolchain="gcc_linaro_gnueabihf_4_8"
-#toolchain="gcc_linaro_gnueabihf_4_9"
+#toolchain="gcc_linaro_gnueabihf_4_8"
+toolchain="gcc_linaro_gnueabihf_4_9"
 
 #Kernel/Build
-KERNEL_REL=3.15
-KERNEL_TAG=${KERNEL_REL}-rc8
-BUILD=vybrid-armv7-r5
+KERNEL_REL=3.16
+KERNEL_TAG=${KERNEL_REL}-rc1
+BUILD=vybrid-armv7-r0
 
 #v3.X-rcX + upto SHA
 #KERNEL_SHA=""
 
 #git branch
-BRANCH="v3.15.x-vybrid-armv7"
+BRANCH="v3.16.x-vybrid-armv7"
 
 BUILDREV=1.0
 DISTRO=cross
