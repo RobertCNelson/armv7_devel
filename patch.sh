@@ -82,7 +82,7 @@ enable_spidev () {
 
 fixes
 atmel_SAMA5D3
-drm
+#drm
 
 #enable_spidev
 
