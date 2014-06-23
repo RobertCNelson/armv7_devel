@@ -63,14 +63,16 @@ atmel_SAMA5D3 () {
 	echo "dir: atmel_SAMA5D3"
 }
 
-drm () {
-	echo "dir: drm"
-	${git} "${DIR}/patches/drm/0001-atmel-drm-added-drm-driver-for-the-atmel-hlcd-contro.patch"
-	${git} "${DIR}/patches/drm/0002-atmel-drm-dt-Added-DT-entry-for-the-atmel-hlcdc-foun.patch"
-	${git} "${DIR}/patches/drm/0003-atmel-dt-Add-supports-for-the-lcdc-support-on-the-sa.patch"
-	${git} "${DIR}/patches/drm/0004-atmel-drm-crtc-fb-crtc-primary-fb.patch"
-	${git} "${DIR}/patches/drm/0005-atmel-dt-Add-supports-for-the-lcdc-support-on-the-sa.patch"
-	${git} "${DIR}/patches/drm/0006-atmel-dts-add-at91-sama5d3_xplained_pda4.patch"
+hlcdc () {
+	echo "dir: hlcdc"
+	${git} "${DIR}/patches/hlcdc/0001-mfd-add-atmel-hlcdc-driver.patch"
+	${git} "${DIR}/patches/hlcdc/0002-pwm-add-support-for-atmel-hlcdc-pwm-device.patch"
+	${git} "${DIR}/patches/hlcdc/0003-drm-add-Atmel-HLCDC-Display-Controller-support.patch"
+	${git} "${DIR}/patches/hlcdc/0004-ARM-at91-dt-split-sama5d3-lcd-pin-definitions-to-mat.patch"
+	${git} "${DIR}/patches/hlcdc/0005-ARM-at91-dt-define-the-HLCDC-node-available-on-sama5.patch"
+	${git} "${DIR}/patches/hlcdc/0006-ARM-at91-dt-add-LCD-panel-description-to-sama5d3xdm..patch"
+	${git} "${DIR}/patches/hlcdc/0007-ARM-at91-dt-enable-the-LCD-panel-on-sama5d3xek-board.patch"
+	${git} "${DIR}/patches/hlcdc/0008-atmel-hlcdc-build-fix.patch"
 }
 
 enable_spidev () {
@@ -82,7 +84,7 @@ enable_spidev () {
 
 fixes
 atmel_SAMA5D3
-#drm
+hlcdc
 
 #enable_spidev
 
