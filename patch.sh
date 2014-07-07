@@ -67,13 +67,6 @@ local_patch () {
 #external_git
 #local_patch
 
-dts () {
-	echo "dir: dts"
-#	${git} "${DIR}/patches/dts/0001-arm-dts-vf610-twr-esdhc1.patch"
-}
-
-dts
-
 packaging_setup () {
 	cp -v "${DIR}/3rdparty/packaging/builddeb" "${DIR}/KERNEL/scripts/package"
 	git commit -a -m 'packaging: sync with mainline' -s
