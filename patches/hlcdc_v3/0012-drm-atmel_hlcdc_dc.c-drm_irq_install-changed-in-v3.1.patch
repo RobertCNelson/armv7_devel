@@ -1,0 +1,27 @@
+From b3036320b291127bf691762955812613495a6d52 Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Tue, 8 Jul 2014 12:06:49 -0500
+Subject: [PATCH 12/12] drm: atmel_hlcdc_dc.c: drm_irq_install changed in
+ v3.16-rc
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+index bfecd0d..d052a2f 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -293,7 +293,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev, unsigned long flags)
+ 	}
+ 
+ 	pm_runtime_get_sync(dev->dev);
+-	ret = drm_irq_install(dev);
++	ret = drm_irq_install(dev, platform_get_irq(dev->platformdev, 0));
+ 	pm_runtime_put_sync(dev->dev);
+ 	if (ret < 0) {
+ 		dev_err(dev->dev, "failed to install IRQ handler\n");
+-- 
+2.0.0
+

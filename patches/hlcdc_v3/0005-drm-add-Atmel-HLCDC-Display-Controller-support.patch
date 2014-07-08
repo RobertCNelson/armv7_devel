@@ -1,0 +1,3501 @@
+From 2f93be3b4bf3998900f0955b078a0443f206d58f Mon Sep 17 00:00:00 2001
+From: Boris BREZILLON <boris.brezillon@free-electrons.com>
+Date: Mon, 7 Jul 2014 18:42:58 +0200
+Subject: [PATCH 05/11] drm: add Atmel HLCDC Display Controller support
+
+The Atmel HLCDC (HLCD Controller) IP available on some Atmel SoCs (i.e.
+at91sam9n12, at91sam9x5 family or sama5d3 family) provides a display
+controller device.
+
+This display controller supports at least one primary plane and might
+provide several overlays and an hardware cursor depending on the IP
+version.
+
+At the moment, this driver only implements an RGB connector to interface
+with LCD panels, but support for other kind of external devices (like DRM
+bridges) might be added later.
+
+Signed-off-by: Boris BREZILLON <boris.brezillon@free-electrons.com>
+---
+ drivers/gpu/drm/Kconfig                         |   2 +
+ drivers/gpu/drm/Makefile                        |   1 +
+ drivers/gpu/drm/atmel-hlcdc/Kconfig             |  11 +
+ drivers/gpu/drm/atmel-hlcdc/Makefile            |   7 +
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c  | 468 +++++++++++++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c    | 474 +++++++++++++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h    | 210 +++++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.c | 706 +++++++++++++++++++++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.h | 422 ++++++++++++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_panel.c | 351 ++++++++++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 729 ++++++++++++++++++++++++
+ 11 files changed, 3381 insertions(+)
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/Kconfig
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/Makefile
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.c
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.h
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_panel.c
+ create mode 100644 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index f512004..9183a78 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -184,6 +184,8 @@ source "drivers/gpu/drm/cirrus/Kconfig"
+ 
+ source "drivers/gpu/drm/armada/Kconfig"
+ 
++source "drivers/gpu/drm/atmel-hlcdc/Kconfig"
++
+ source "drivers/gpu/drm/rcar-du/Kconfig"
+ 
+ source "drivers/gpu/drm/shmobile/Kconfig"
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index dd2ba42..6aaa004 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -55,6 +55,7 @@ obj-$(CONFIG_DRM_GMA500) += gma500/
+ obj-$(CONFIG_DRM_UDL) += udl/
+ obj-$(CONFIG_DRM_AST) += ast/
+ obj-$(CONFIG_DRM_ARMADA) += armada/
++obj-$(CONFIG_DRM_ATMEL_HLCDC)	+= atmel-hlcdc/
+ obj-$(CONFIG_DRM_RCAR_DU) += rcar-du/
+ obj-$(CONFIG_DRM_SHMOBILE) +=shmobile/
+ obj-$(CONFIG_DRM_OMAP)	+= omapdrm/
+diff --git a/drivers/gpu/drm/atmel-hlcdc/Kconfig b/drivers/gpu/drm/atmel-hlcdc/Kconfig
+new file mode 100644
+index 0000000..bc07315
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/Kconfig
+@@ -0,0 +1,11 @@
++config DRM_ATMEL_HLCDC
++	tristate "DRM Support for ATMEL HLCDC Display Controller"
++	depends on DRM && OF && MFD_ATMEL_HLCDC && COMMON_CLK
++	select DRM_GEM_CMA_HELPER
++	select DRM_KMS_HELPER
++	select DRM_KMS_FB_HELPER
++	select DRM_KMS_CMA_HELPER
++	select DRM_PANEL
++	help
++	  Choose this option if you have an ATMEL SoC with an HLCDC display
++	  controller (i.e. at91sam9n12, at91sam9x5 family or sama5d3 family).
+diff --git a/drivers/gpu/drm/atmel-hlcdc/Makefile b/drivers/gpu/drm/atmel-hlcdc/Makefile
+new file mode 100644
+index 0000000..bf9fe0b
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/Makefile
+@@ -0,0 +1,7 @@
++atmel-hlcdc-dc-y := atmel_hlcdc_crtc.o \
++		atmel_hlcdc_dc.o \
++		atmel_hlcdc_layer.o \
++		atmel_hlcdc_panel.o \
++		atmel_hlcdc_plane.o
++
++obj-$(CONFIG_DRM_ATMEL_HLCDC)	+= atmel-hlcdc-dc.o
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+new file mode 100644
+index 0000000..86e5729
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+@@ -0,0 +1,468 @@
++/*
++ * Copyright (C) 2014 Traphandler
++ * Copyright (C) 2014 Free Electrons
++ *
++ * Author: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
++ * Author: Boris BREZILLON <boris.brezillon@free-electrons.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 as published by
++ * the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <linux/clk.h>
++#include <linux/pm.h>
++#include <linux/pm_runtime.h>
++
++#include <drm/drm_crtc.h>
++#include <drm/drm_crtc_helper.h>
++#include <drm/drmP.h>
++
++#include <video/videomode.h>
++
++#include "atmel_hlcdc_dc.h"
++
++/**
++ * Structure storing HW cursor status.
++ *
++ * @status: the current cursor status
++ * @req: the requested cursor changes
++ * @plane: the hardware cursor plane
++ * @lock: cursor lock held when modifying cursor req or status
++ */
++struct atmel_hlcdc_crtc_cursor {
++	struct atmel_hlcdc_plane *plane;
++	struct drm_gem_cma_object *gem;
++	u32 height;
++	u32 width;
++	int x;
++	int y;
++	struct mutex lock;
++};
++
++/**
++ * Atmel HLCDC CRTC structure
++ *
++ * @base: base DRM CRTC structure
++ * @hlcdc: pointer to the atmel_hlcdc structure provided by the MFD device
++ * @event: pointer to the current page flip event
++ * @id: CRTC id (returned by drm_crtc_index)
++ * @dpms: DPMS mode
++ * @cursor: hardware cursor status
++ */
++struct atmel_hlcdc_crtc {
++	struct drm_crtc base;
++	struct atmel_hlcdc *hlcdc;
++	struct drm_pending_vblank_event *event;
++	int id;
++	int dpms;
++	struct atmel_hlcdc_crtc_cursor cursor;
++};
++
++static inline struct atmel_hlcdc_crtc *
++drm_crtc_to_atmel_hlcdc_crtc(struct drm_crtc *crtc)
++{
++	return container_of(crtc, struct atmel_hlcdc_crtc, base);
++}
++
++
++static void atmel_hlcdc_crtc_dpms(struct drm_crtc *c, int mode)
++{
++	struct drm_device *dev = c->dev;
++
++	if (mode != DRM_MODE_DPMS_ON)
++		mode = DRM_MODE_DPMS_OFF;
++
++	pm_runtime_get_sync(dev->dev);
++
++	if (mode == DRM_MODE_DPMS_ON)
++		pm_runtime_forbid(dev->dev);
++	else
++		pm_runtime_allow(dev->dev);
++
++	pm_runtime_put_sync(dev->dev);
++}
++
++static int atmel_hlcdc_crtc_mode_set(struct drm_crtc *c,
++				     struct drm_display_mode *mode,
++				     struct drm_display_mode *adjusted,
++				     int x, int y,
++				     struct drm_framebuffer *old_fb)
++{
++	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
++	struct regmap *regmap = crtc->hlcdc->regmap;
++	struct drm_plane *plane = c->primary;
++	struct drm_framebuffer *fb;
++	struct videomode vm;
++
++	vm.vfront_porch = mode->vsync_start - mode->vdisplay;
++	vm.vback_porch = mode->vtotal - mode->vsync_end;
++	vm.vsync_len = mode->vsync_end - mode->vsync_start;
++	vm.hfront_porch = mode->hsync_start - mode->hdisplay;
++	vm.hback_porch = mode->htotal - mode->hsync_end;
++	vm.hsync_len = mode->hsync_end - mode->hsync_start;
++
++	if (vm.hsync_len > 0x40 || vm.hsync_len < 1 ||
++	    vm.vsync_len > 0x40 || vm.vsync_len < 1 ||
++	    vm.vfront_porch > 0x40 || vm.vfront_porch < 1 ||
++	    vm.vback_porch > 0x40 || vm.vback_porch < 0 ||
++	    vm.hfront_porch > 0x200 || vm.hfront_porch < 1 ||
++	    vm.hback_porch > 0x200 || vm.hback_porch < 1 ||
++	    mode->hdisplay > 2048 || mode->hdisplay < 1 ||
++	    mode->vdisplay > 2048 || mode->vdisplay < 1)
++		return -EINVAL;
++
++	regmap_write(regmap, ATMEL_HLCDC_CFG(1),
++		     (vm.hsync_len - 1) | ((vm.vsync_len - 1) << 16));
++
++	regmap_write(regmap, ATMEL_HLCDC_CFG(2),
++		     (vm.vfront_porch - 1) | (vm.vback_porch << 16));
++
++	regmap_write(regmap, ATMEL_HLCDC_CFG(3),
++		     (vm.hfront_porch - 1) | ((vm.hback_porch - 1) << 16));
++
++	regmap_write(regmap, ATMEL_HLCDC_CFG(4),
++		     (mode->hdisplay - 1) | ((mode->vdisplay - 1) << 16));
++
++	fb = plane->fb;
++	plane->fb = old_fb;
++
++	return plane->funcs->update_plane(plane, c, fb,
++					  0, 0,
++					  mode->hdisplay, mode->vdisplay,
++					  c->x << 16, c->y << 16,
++					  mode->hdisplay << 16,
++					  mode->vdisplay << 16);
++}
++
++static void atmel_hlcdc_crtc_prepare(struct drm_crtc *crtc)
++{
++	atmel_hlcdc_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
++}
++
++static void atmel_hlcdc_crtc_commit(struct drm_crtc *crtc)
++{
++	atmel_hlcdc_crtc_dpms(crtc, DRM_MODE_DPMS_ON);
++}
++
++static bool atmel_hlcdc_crtc_mode_fixup(struct drm_crtc *crtc,
++					const struct drm_display_mode *mode,
++					struct drm_display_mode *adjusted_mode)
++{
++	return true;
++}
++
++
++static const struct drm_crtc_helper_funcs lcdc_crtc_helper_funcs = {
++
++	.mode_fixup = atmel_hlcdc_crtc_mode_fixup,
++	.dpms = atmel_hlcdc_crtc_dpms,
++	.mode_set = atmel_hlcdc_crtc_mode_set,
++	.prepare = atmel_hlcdc_crtc_prepare,
++	.commit = atmel_hlcdc_crtc_commit,
++};
++
++static void atmel_hlcdc_crtc_destroy(struct drm_crtc *c)
++{
++	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
++
++	drm_crtc_cleanup(c);
++	kfree(crtc);
++}
++
++void atmel_hlcdc_crtc_cancel_page_flip(struct drm_crtc *c,
++				       struct drm_file *file)
++{
++	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
++	struct drm_pending_vblank_event *event;
++	struct drm_device *dev = c->dev;
++	unsigned long flags;
++
++	spin_lock_irqsave(&dev->event_lock, flags);
++	event = crtc->event;
++	if (event && event->base.file_priv == file) {
++		event->base.destroy(&event->base);
++		drm_vblank_put(dev, crtc->id);
++		crtc->event = NULL;
++	}
++	spin_unlock_irqrestore(&dev->event_lock, flags);
++}
++
++static void atmel_hlcdc_crtc_finish_page_flip(void *data)
++{
++	struct atmel_hlcdc_crtc *crtc = data;
++	struct drm_device *dev = crtc->base.dev;
++	unsigned long flags;
++
++	spin_lock_irqsave(&dev->event_lock, flags);
++	if (crtc->event) {
++		drm_send_vblank_event(dev, crtc->id, crtc->event);
++		drm_vblank_put(dev, crtc->id);
++		crtc->event = NULL;
++	}
++	spin_unlock_irqrestore(&dev->event_lock, flags);
++}
++
++static int atmel_hlcdc_crtc_page_flip(struct drm_crtc *c,
++				      struct drm_framebuffer *fb,
++				      struct drm_pending_vblank_event *event,
++				      uint32_t page_flip_flags)
++{
++	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
++	struct atmel_hlcdc_plane_update_req req;
++	struct drm_plane *plane = c->primary;
++	int ret;
++	int i;
++
++	if (crtc->event)
++		return -EBUSY;
++
++	memset(&req, 0, sizeof(req));
++	req.crtc_x = 0;
++	req.crtc_y = 0;
++	req.crtc_h = c->mode.crtc_vdisplay;
++	req.crtc_w = c->mode.crtc_hdisplay;
++	req.src_x = c->x << 16;
++	req.src_y = c->y << 16;
++	req.src_w = req.crtc_w << 16;
++	req.src_h = req.crtc_h << 16;
++	req.pixel_format = fb->pixel_format;
++
++	for (i = 0; i < ATMEL_HLCDC_MAX_PLANES; i++) {
++		req.offsets[i] = fb->offsets[i];
++		req.pitches[i] = fb->pitches[i];
++		req.gems[i] = drm_fb_cma_get_gem_obj(fb, i);
++	}
++
++	req.crtc = c;
++	req.finished = atmel_hlcdc_crtc_finish_page_flip;
++	req.finished_data = crtc;
++
++	ret = atmel_hlcdc_plane_prepare_update_req(plane, &req);
++	if (ret)
++		return ret;
++
++	if (event) {
++		crtc->event = event;
++		drm_vblank_get(c->dev, crtc->id);
++	}
++
++	ret = atmel_hlcdc_plane_apply_update_req(plane, &req);
++
++	if (ret) {
++		crtc->event = NULL;
++		drm_vblank_put(c->dev, crtc->id);
++	} else {
++		drm_framebuffer_reference(fb);
++		if (plane->fb)
++			drm_framebuffer_unreference(plane->fb);
++		plane->fb = fb;
++	}
++
++	return ret;
++}
++
++static int atmel_hlcdc_crtc_cursor_set(struct drm_crtc *c,
++				       struct drm_file *file_priv,
++				       uint32_t handle,
++				       uint32_t width, uint32_t height)
++{
++	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
++	struct atmel_hlcdc_plane *plane = crtc->cursor.plane;
++	struct drm_gem_cma_object *cma_gem = NULL;
++	struct atmel_hlcdc_plane_update_req req;
++	int ret;
++
++	if (unlikely(!plane))
++		return -ENOTSUPP;
++
++	mutex_lock(&crtc->cursor.lock);
++
++	if (handle) {
++		struct drm_gem_object *gem;
++
++		gem = drm_gem_object_lookup(c->dev, file_priv, handle);
++		if (unlikely(!gem)) {
++			ret = -ENOENT;
++			goto out;
++		}
++
++		cma_gem = to_drm_gem_cma_obj(gem);
++	}
++
++	memset(&req, 0, sizeof(req));
++	req.crtc_x = crtc->cursor.x;
++	req.crtc_y = crtc->cursor.y;
++	req.crtc_h = height;
++	req.crtc_w = width;
++	req.src_x = 0;
++	req.src_y = 0;
++	req.src_w = req.crtc_w << 16;
++	req.src_h = req.crtc_h << 16;
++	req.pixel_format = DRM_FORMAT_ARGB8888;
++	req.gems[0] = cma_gem;
++	req.offsets[0] = 0;
++	req.pitches[0] = drm_format_plane_cpp(DRM_FORMAT_ARGB8888, 0) * width;
++	req.crtc = c;
++
++	if (!req.gems[0] || !req.src_h || !req.src_w) {
++		cma_gem = crtc->cursor.gem;
++		ret = plane->base.funcs->disable_plane(&plane->base);
++		if (!ret && cma_gem) {
++			drm_gem_object_unreference_unlocked(&cma_gem->base);
++			crtc->cursor.gem = NULL;
++		}
++
++		goto out;
++	}
++
++	ret = atmel_hlcdc_plane_prepare_update_req(&plane->base, &req);
++	if (ret)
++		goto err_release_gem;
++
++	ret = atmel_hlcdc_plane_apply_update_req(&plane->base, &req);
++	if (ret)
++		goto err_release_gem;
++
++	crtc->cursor.height = width;
++	crtc->cursor.width = width;
++	if (crtc->cursor.gem)
++		drm_gem_object_unreference_unlocked(&crtc->cursor.gem->base);
++	crtc->cursor.gem = cma_gem;
++
++	goto out;
++
++err_release_gem:
++	if (cma_gem)
++		drm_gem_object_unreference_unlocked(&cma_gem->base);
++
++out:
++	mutex_unlock(&crtc->cursor.lock);
++	return ret;
++}
++
++static int atmel_hlcdc_crtc_cursor_move(struct drm_crtc *c, int x, int y)
++{
++	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
++	struct atmel_hlcdc_plane *plane = crtc->cursor.plane;
++	struct atmel_hlcdc_plane_update_req req;
++	int ret;
++
++	if (unlikely(!plane))
++		return -ENOTSUPP;
++
++	mutex_lock(&crtc->cursor.lock);
++
++	memset(&req, 0, sizeof(req));
++	req.crtc_x = x;
++	req.crtc_y = y;
++	req.crtc_h = crtc->cursor.height;
++	req.crtc_w = crtc->cursor.width;
++	req.src_x = 0;
++	req.src_y = 0;
++	req.src_w = req.crtc_w << 16;
++	req.src_h = req.crtc_h << 16;
++	req.pixel_format = DRM_FORMAT_ARGB8888;
++	req.gems[0] = crtc->cursor.gem;
++	req.offsets[0] = 0;
++	req.pitches[0] = drm_format_plane_cpp(DRM_FORMAT_ARGB8888, 0) *
++			 crtc->cursor.width;
++	req.crtc = c;
++
++	if (!req.gems[0] || !req.src_h || !req.src_w) {
++		struct drm_gem_cma_object *cma_gem = crtc->cursor.gem;
++
++		ret = plane->base.funcs->disable_plane(&plane->base);
++		if (!ret && cma_gem) {
++			drm_gem_object_unreference_unlocked(&cma_gem->base);
++			crtc->cursor.gem = NULL;
++		}
++
++		goto out;
++	}
++
++	ret = atmel_hlcdc_plane_prepare_update_req(&plane->base, &req);
++	if (ret)
++		goto out;
++
++	ret = atmel_hlcdc_plane_apply_update_req(&plane->base, &req);
++	if (ret)
++		goto out;
++
++	crtc->cursor.x = x;
++	crtc->cursor.y = y;
++
++out:
++	mutex_unlock(&crtc->cursor.lock);
++	return ret;
++}
++
++static const struct drm_crtc_funcs atmel_hlcdc_crtc_funcs = {
++	.page_flip = atmel_hlcdc_crtc_page_flip,
++	.set_config = drm_crtc_helper_set_config,
++	.destroy = atmel_hlcdc_crtc_destroy,
++};
++
++static const struct drm_crtc_funcs atmel_hlcdc_crtc_with_cursor_funcs = {
++	.page_flip = atmel_hlcdc_crtc_page_flip,
++	.set_config = drm_crtc_helper_set_config,
++	.destroy = atmel_hlcdc_crtc_destroy,
++	.cursor_set = atmel_hlcdc_crtc_cursor_set,
++	.cursor_move = atmel_hlcdc_crtc_cursor_move,
++};
++
++int atmel_hlcdc_crtc_create(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	struct atmel_hlcdc_planes *planes = dc->planes;
++	const struct drm_crtc_funcs *funcs;
++	struct atmel_hlcdc_crtc *crtc;
++	int ret;
++	int i;
++
++	crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
++	if (!crtc) {
++		dev_err(dev->dev, "allocation failed\n");
++		return -ENOMEM;
++	}
++
++	mutex_init(&crtc->cursor.lock);
++	crtc->hlcdc = dc->hlcdc;
++	crtc->cursor.plane = planes->cursor;
++
++	if (planes->cursor)
++		funcs = &atmel_hlcdc_crtc_with_cursor_funcs;
++	else
++		funcs = &atmel_hlcdc_crtc_funcs;
++
++	ret = drm_crtc_init_with_planes(dev, &crtc->base,
++				&planes->primary->base,
++				planes->cursor ? &planes->cursor->base : NULL,
++				funcs);
++	if (ret < 0)
++		goto fail;
++
++	crtc->id = drm_crtc_index(&crtc->base);
++
++	if (planes->cursor)
++		planes->cursor->base.possible_crtcs = 1 << crtc->id;
++
++	for (i = 0; i < planes->noverlays; i++)
++		planes->overlays[i]->base.possible_crtcs = 1 << crtc->id;
++
++	drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
++
++	return 0;
++
++fail:
++	atmel_hlcdc_crtc_destroy(&crtc->base);
++	return ret;
++}
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+new file mode 100644
+index 0000000..bfecd0d
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -0,0 +1,474 @@
++/*
++ * Copyright (C) 2014 Traphandler
++ * Copyright (C) 2014 Free Electrons
++ * Copyright (C) 2014 Atmel
++ *
++ * Author: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
++ * Author: Boris BREZILLON <boris.brezillon@free-electrons.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 as published by
++ * the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <linux/clk.h>
++#include <linux/irq.h>
++#include <linux/irqchip.h>
++#include <linux/module.h>
++#include <linux/pm_runtime.h>
++
++#include "atmel_hlcdc_dc.h"
++
++#define ATMEL_HLCDC_LAYER_IRQS_OFFSET		8
++
++static const struct atmel_hlcdc_layer_desc atmel_hlcdc_sama5d3_layers[] = {
++	{
++		.name = "base",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x40,
++		.id = 0,
++		.type = ATMEL_HLCDC_BASE_LAYER,
++		.nconfigs = 7,
++		.layout = {
++			.xstride = { 2 },
++			.default_color = 3,
++			.general_config = 4,
++			.disc_pos = 5,
++			.disc_size = 6,
++		},
++	},
++	{
++		.name = "overlay1",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x140,
++		.id = 1,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.nconfigs = 10,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++	},
++	{
++		.name = "overlay2",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x240,
++		.id = 2,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.nconfigs = 10,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++	},
++	{
++		.name = "high-end-overlay",
++		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
++		.regs_offset = 0x340,
++		.id = 3,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.nconfigs = 42,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.memsize = 4,
++			.xstride = { 5, 7 },
++			.pstride = { 6, 8 },
++			.default_color = 9,
++			.chroma_key = 10,
++			.chroma_key_mask = 11,
++			.general_config = 12,
++			.csc = 14,
++		},
++	},
++	{
++		.name = "cursor",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x440,
++		.id = 4,
++		.type = ATMEL_HLCDC_CURSOR_LAYER,
++		.nconfigs = 10,
++		.max_width = 128,
++		.max_height = 128,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++	},
++};
++
++static const struct atmel_hlcdc_dc_desc atmel_hlcdc_dc_sama5d3 = {
++	.min_width = 0,
++	.min_height = 0,
++	.max_width = 2048,
++	.max_height = 2048,
++	.nlayers = ARRAY_SIZE(atmel_hlcdc_sama5d3_layers),
++	.layers = atmel_hlcdc_sama5d3_layers,
++};
++
++static const struct of_device_id atmel_hlcdc_of_match[] = {
++	{
++		.compatible = "atmel,sama5d3-hlcdc",
++		.data = &atmel_hlcdc_dc_sama5d3,
++	},
++	{ /* sentinel */ },
++};
++
++static irqreturn_t atmel_hlcdc_dc_irq_handler(int irq, void *data)
++{
++	struct drm_device *dev = data;
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	unsigned long status;
++	unsigned int imr, isr;
++	int bit;
++
++	regmap_read(dc->hlcdc->regmap, ATMEL_HLCDC_IMR, &imr);
++	regmap_read(dc->hlcdc->regmap, ATMEL_HLCDC_ISR, &isr);
++	status = imr & isr;
++	if (!status)
++		return IRQ_NONE;
++
++	bit = ATMEL_HLCDC_LAYER_IRQS_OFFSET;
++	for_each_set_bit_from(bit, &status, ATMEL_HLCDC_LAYER_IRQS_OFFSET +
++					    ATMEL_HLCDC_MAX_LAYERS) {
++		int layerid = bit - ATMEL_HLCDC_LAYER_IRQS_OFFSET;
++		struct atmel_hlcdc_layer *layer = dc->layers[layerid];
++
++		if (layer)
++			atmel_hlcdc_layer_irq(layer);
++	}
++
++	return IRQ_HANDLED;
++}
++
++static struct drm_framebuffer *atmel_hlcdc_fb_create(struct drm_device *dev,
++		struct drm_file *file_priv, struct drm_mode_fb_cmd2 *mode_cmd)
++{
++	return drm_fb_cma_create(dev, file_priv, mode_cmd);
++}
++
++static void atmel_hlcdc_fb_output_poll_changed(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++
++	if (dc->fbdev) {
++		drm_fbdev_cma_hotplug_event(dc->fbdev);
++	} else {
++		dc->fbdev = drm_fbdev_cma_init(dev, 24,
++				dev->mode_config.num_crtc,
++				dev->mode_config.num_connector);
++		if (IS_ERR(dc->fbdev))
++			dc->fbdev = NULL;
++	}
++}
++
++static const struct drm_mode_config_funcs mode_config_funcs = {
++	.fb_create = atmel_hlcdc_fb_create,
++	.output_poll_changed = atmel_hlcdc_fb_output_poll_changed,
++};
++
++static int atmel_hlcdc_dc_modeset_init(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	struct atmel_hlcdc_planes *planes;
++	int ret;
++	int i;
++
++	drm_mode_config_init(dev);
++
++	ret = atmel_hlcdc_panel_create(dev);
++	if (ret) {
++		dev_err(dev->dev, "failed to create panel: %d\n", ret);
++		return ret;
++	}
++
++	planes = atmel_hlcdc_create_planes(dev);
++	if (IS_ERR(planes)) {
++		dev_err(dev->dev, "failed to create planes\n");
++		return PTR_ERR(planes);
++	}
++
++	dc->planes = planes;
++
++	dc->layers[planes->primary->layer.desc->id] =
++						&planes->primary->layer;
++
++	if (planes->cursor)
++		dc->layers[planes->cursor->layer.desc->id] =
++							&planes->cursor->layer;
++
++	for (i = 0; i < planes->noverlays; i++)
++		dc->layers[planes->overlays[i]->layer.desc->id] =
++						&planes->overlays[i]->layer;
++
++	ret = atmel_hlcdc_crtc_create(dev);
++	if (ret) {
++		dev_err(dev->dev, "failed to create crtc\n");
++		return ret;
++	}
++
++	dev->mode_config.min_width = dc->desc->min_width;
++	dev->mode_config.min_height = dc->desc->min_height;
++	dev->mode_config.max_width = dc->desc->max_width;
++	dev->mode_config.max_height = dc->desc->max_height;
++	dev->mode_config.funcs = &mode_config_funcs;
++
++	return 0;
++}
++
++static int atmel_hlcdc_dc_load(struct drm_device *dev, unsigned long flags)
++{
++	struct platform_device *pdev = dev->platformdev;
++	const struct of_device_id *match;
++	struct atmel_hlcdc_dc *dc;
++	int ret;
++
++	match = of_match_node(atmel_hlcdc_of_match, dev->dev->parent->of_node);
++	if (!match) {
++		dev_err(&pdev->dev, "invalid compatible string\n");
++		return -ENODEV;
++	}
++
++	if (!match->data) {
++		dev_err(&pdev->dev, "invalid hlcdc description\n");
++		return -EINVAL;
++	}
++
++	dc = devm_kzalloc(dev->dev, sizeof(*dc), GFP_KERNEL);
++	if (!dc) {
++		dev_err(dev->dev, "failed to allocate private data\n");
++		return -ENOMEM;
++	}
++
++	dc->desc = match->data;
++	dc->hlcdc = dev_get_drvdata(dev->dev->parent);
++	dev->dev_private = dc;
++
++	ret = clk_prepare_enable(dc->hlcdc->periph_clk);
++	if (ret) {
++		dev_err(dev->dev, "failed to enable periph_clk\n");
++		return ret;
++	}
++
++	pm_runtime_enable(dev->dev);
++
++	pm_runtime_put_sync(dev->dev);
++
++	ret = atmel_hlcdc_dc_modeset_init(dev);
++	if (ret < 0) {
++		dev_err(dev->dev, "failed to initialize mode setting\n");
++		goto err_periph_clk_disable;
++	}
++
++	ret = drm_vblank_init(dev, 1);
++	if (ret < 0) {
++		dev_err(dev->dev, "failed to initialize vblank\n");
++		goto err_periph_clk_disable;
++	}
++
++	pm_runtime_get_sync(dev->dev);
++	ret = drm_irq_install(dev);
++	pm_runtime_put_sync(dev->dev);
++	if (ret < 0) {
++		dev_err(dev->dev, "failed to install IRQ handler\n");
++		goto err_periph_clk_disable;
++	}
++
++	platform_set_drvdata(pdev, dev);
++
++	drm_kms_helper_poll_init(dev);
++
++	/* force connectors detection */
++	drm_helper_hpd_irq_event(dev);
++
++	return 0;
++
++err_periph_clk_disable:
++	clk_disable_unprepare(dc->hlcdc->periph_clk);
++
++	return ret;
++}
++
++static int atmel_hlcdc_dc_unload(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++
++	drm_kms_helper_poll_fini(dev);
++	drm_mode_config_cleanup(dev);
++	drm_vblank_cleanup(dev);
++
++	pm_runtime_get_sync(dev->dev);
++	drm_irq_uninstall(dev);
++	pm_runtime_put_sync(dev->dev);
++
++	dev->dev_private = NULL;
++
++	pm_runtime_disable(dev->dev);
++	clk_disable_unprepare(dc->hlcdc->periph_clk);
++
++	return 0;
++}
++
++static void atmel_hlcdc_dc_preclose(struct drm_device *dev,
++				    struct drm_file *file)
++{
++	struct drm_crtc *crtc;
++
++	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head)
++		atmel_hlcdc_crtc_cancel_page_flip(crtc, file);
++}
++
++static void atmel_hlcdc_dc_lastclose(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++
++	drm_fbdev_cma_restore_mode(dc->fbdev);
++}
++
++static void atmel_hlcdc_dc_irq_preinstall(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	unsigned int isr;
++
++	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IDR, 0xffffffff);
++	regmap_read(dc->hlcdc->regmap, ATMEL_HLCDC_ISR, &isr);
++}
++
++static int atmel_hlcdc_dc_irq_postinstall(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	int i;
++
++	/* Enable interrupts on activated layers */
++	for (i = 0; i < ATMEL_HLCDC_MAX_LAYERS; i++) {
++		if (dc->layers[i])
++			regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER,
++				     BIT(i + 8));
++	}
++
++	return 0;
++}
++
++static void atmel_hlcdc_dc_irq_uninstall(struct drm_device *dev)
++{
++
++}
++
++static int atmel_hlcdc_dc_enable_vblank(struct drm_device *dev, int crtc)
++{
++	return 0;
++}
++
++static void atmel_hlcdc_dc_disable_vblank(struct drm_device *dev, int crtc)
++{
++}
++
++static const struct file_operations fops = {
++	.owner              = THIS_MODULE,
++	.open               = drm_open,
++	.release            = drm_release,
++	.unlocked_ioctl     = drm_ioctl,
++#ifdef CONFIG_COMPAT
++	.compat_ioctl       = drm_compat_ioctl,
++#endif
++	.poll               = drm_poll,
++	.read               = drm_read,
++	.llseek             = no_llseek,
++	.mmap               = drm_gem_cma_mmap,
++};
++
++static struct drm_driver atmel_hlcdc_dc_driver = {
++	.driver_features = DRIVER_HAVE_IRQ | DRIVER_GEM | DRIVER_MODESET,
++	.load = atmel_hlcdc_dc_load,
++	.unload = atmel_hlcdc_dc_unload,
++	.preclose = atmel_hlcdc_dc_preclose,
++	.lastclose = atmel_hlcdc_dc_lastclose,
++	.irq_handler = atmel_hlcdc_dc_irq_handler,
++	.irq_preinstall = atmel_hlcdc_dc_irq_preinstall,
++	.irq_postinstall = atmel_hlcdc_dc_irq_postinstall,
++	.irq_uninstall = atmel_hlcdc_dc_irq_uninstall,
++	.get_vblank_counter = drm_vblank_count,
++	.enable_vblank = atmel_hlcdc_dc_enable_vblank,
++	.disable_vblank = atmel_hlcdc_dc_disable_vblank,
++	.gem_free_object = drm_gem_cma_free_object,
++	.gem_vm_ops = &drm_gem_cma_vm_ops,
++	.dumb_create = drm_gem_cma_dumb_create,
++	.dumb_map_offset = drm_gem_cma_dumb_map_offset,
++	.dumb_destroy = drm_gem_dumb_destroy,
++	.fops = &fops,
++	.name = "atmel-hlcdc",
++	.desc = "Atmel HLCD Controller DRM",
++	.date = "20141504",
++	.major = 1,
++	.minor = 0,
++};
++
++static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
++{
++	int ret;
++
++	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
++	if (ret)
++		return ret;
++
++	ret = drm_platform_init(&atmel_hlcdc_dc_driver, pdev);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int atmel_hlcdc_dc_drm_remove(struct platform_device *pdev)
++{
++	drm_put_dev(platform_get_drvdata(pdev));
++
++	return 0;
++}
++
++static const struct of_device_id atmel_hlcdc_dc_of_match[] = {
++	{ .compatible = "atmel,hlcdc-dc" },
++	{ },
++};
++
++static struct platform_driver atmel_hlcdc_dc_platform_driver = {
++	.probe	= atmel_hlcdc_dc_drm_probe,
++	.remove	= atmel_hlcdc_dc_drm_remove,
++	.driver	= {
++		.name	= "atmel-hlcdc-dc",
++		.owner	= THIS_MODULE,
++		.of_match_table = atmel_hlcdc_dc_of_match,
++	},
++};
++module_platform_driver(atmel_hlcdc_dc_platform_driver);
++
++MODULE_AUTHOR("Jean-Jacques Hiblot <jjhiblot@traphandler.com>");
++MODULE_AUTHOR("Boris BREZILLON <boris.brezillon@free-electrons.com>");
++MODULE_DESCRIPTION("Atmel HLCDC Display Controller DRM Driver");
++MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:atmel-hlcdc-dc");
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
+new file mode 100644
+index 0000000..1386998
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
+@@ -0,0 +1,210 @@
++/*
++ * Copyright (C) 2014 Traphandler
++ * Copyright (C) 2014 Free Electrons
++ * Copyright (C) 2014 Atmel
++ *
++ * Author: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
++ * Author: Boris BREZILLON <boris.brezillon@free-electrons.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 as published by
++ * the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef DRM_ATMEL_HLCDC_H
++#define DRM_ATMEL_HLCDC_H
++
++#include <linux/clk.h>
++#include <linux/irqdomain.h>
++#include <linux/pwm.h>
++
++#include <drm/drm_crtc.h>
++#include <drm/drm_crtc_helper.h>
++#include <drm/drm_fb_cma_helper.h>
++#include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_panel.h>
++#include <drm/drmP.h>
++
++#include "atmel_hlcdc_layer.h"
++
++#define ATMEL_HLCDC_MAX_LAYERS		5
++
++/**
++ * Atmel HLCDC Display Controller description structure.
++ *
++ * This structure describe the HLCDC IP capabilities and depends on the
++ * HLCDC IP version (or Atmel SoC family).
++ *
++ * @min_width: minimum width supported by the Display Controller
++ * @min_height: minimum height supported by the Display Controller
++ * @max_width: maximum width supported by the Display Controller
++ * @max_height: maximum height supported by the Display Controller
++ * @layer: a layer description table describing available layers
++ * @nlayers: layer description table size
++ */
++struct atmel_hlcdc_dc_desc {
++	int min_width;
++	int min_height;
++	int max_width;
++	int max_height;
++	const struct atmel_hlcdc_layer_desc *layers;
++	int nlayers;
++};
++
++/**
++ * Atmel HLCDC Plane properties.
++ *
++ * This structure stores plane property definitions.
++ *
++ * @alpha: alpha blending (or transparency) property
++ * @csc: YUV to RGB conversion factors property
++ */
++struct atmel_hlcdc_plane_properties {
++	struct drm_property *alpha;
++	struct drm_property *csc;
++};
++
++/**
++ * Atmel HLCDC Plane.
++ *
++ * @base: base DRM plane structure
++ * @layer: HLCDC layer structure
++ * @properties: pointer to the property definitions structure
++ * @alpha: current alpha blending (or transparency) status
++ */
++struct atmel_hlcdc_plane {
++	struct drm_plane base;
++	struct atmel_hlcdc_layer layer;
++	struct atmel_hlcdc_plane_properties *properties;
++};
++
++static inline struct atmel_hlcdc_plane *
++drm_plane_to_atmel_hlcdc_plane(struct drm_plane *p)
++{
++	return container_of(p, struct atmel_hlcdc_plane, base);
++}
++
++static inline struct atmel_hlcdc_plane *
++atmel_hlcdc_layer_to_plane(struct atmel_hlcdc_layer *l)
++{
++	return container_of(l, struct atmel_hlcdc_plane, layer);
++}
++
++/**
++ * Atmel HLCDC Plane update request structure.
++ *
++ * @crtc_x: x position of the plane relative to the CRTC
++ * @crtc_y: y position of the plane relative to the CRTC
++ * @crtc_w: visible width of the plane
++ * @crtc_h: visible height of the plane
++ * @src_x: x buffer position
++ * @src_y: y buffer position
++ * @src_w: buffer width
++ * @src_h: buffer height
++ * @pixel_format: pixel format
++ * @gems: GEM object object containing image buffers
++ * @offsets: offsets to apply to the GEM buffers
++ * @pitches: line size in bytes
++ * @crtc: crtc to display on
++ * @finished: finished callback
++ * @finished_data: data passed to the finished callback
++ * @bpp: bytes per pixel deduced from pixel_format
++ * @xstride: value to add to the pixel pointer between each line
++ * @pstride: value to add to the pixel pointer between each pixel
++ * @nplanes: number of planes (deduced from pixel_format)
++ */
++struct atmel_hlcdc_plane_update_req {
++	int crtc_x;
++	int crtc_y;
++	unsigned int crtc_w;
++	unsigned int crtc_h;
++	uint32_t src_x;
++	uint32_t src_y;
++	uint32_t src_w;
++	uint32_t src_h;
++	uint32_t pixel_format;
++	struct drm_gem_cma_object *gems[ATMEL_HLCDC_MAX_PLANES];
++	unsigned int offsets[ATMEL_HLCDC_MAX_PLANES];
++	unsigned int pitches[ATMEL_HLCDC_MAX_PLANES];
++	struct drm_crtc *crtc;
++	void (*finished)(void *data);
++	void *finished_data;
++
++	/* These fields are private and should not be touched */
++	int bpp[ATMEL_HLCDC_MAX_PLANES];
++	int xstride[ATMEL_HLCDC_MAX_PLANES];
++	int pstride[ATMEL_HLCDC_MAX_PLANES];
++	int nplanes;
++};
++
++/**
++ * Atmel HLCDC Planes.
++ *
++ * This structure stores the instantiated HLCDC Planes and can be accessed by
++ * the HLCDC Display Controller or the HLCDC CRTC.
++ *
++ * @primary: primary plane
++ * @cursor: hardware cursor plane
++ * @overlays: overlay plane table
++ * @noverlays: number of overlay planes
++ */
++struct atmel_hlcdc_planes {
++	struct atmel_hlcdc_plane *primary;
++	struct atmel_hlcdc_plane *cursor;
++	struct atmel_hlcdc_plane **overlays;
++	int noverlays;
++};
++
++/**
++ * Atmel HLCDC Display Controller.
++ *
++ * @desc: HLCDC Display Controller description
++ * @hlcdc: pointer to the atmel_hlcdc structure provided by the MFD device
++ * @fbdev: framebuffer device attached to the Display Controller
++ * @planes: instantiated planes
++ * @layers: active HLCDC layer
++ */
++struct atmel_hlcdc_dc {
++	const struct atmel_hlcdc_dc_desc *desc;
++	struct atmel_hlcdc *hlcdc;
++	struct drm_fbdev_cma *fbdev;
++	struct atmel_hlcdc_planes *planes;
++	struct atmel_hlcdc_layer *layers[ATMEL_HLCDC_MAX_LAYERS];
++};
++
++extern struct atmel_hlcdc_formats atmel_hlcdc_plane_rgb_formats;
++extern struct atmel_hlcdc_formats atmel_hlcdc_plane_rgb_and_yuv_formats;
++
++struct atmel_hlcdc_planes *
++atmel_hlcdc_create_planes(struct drm_device *dev);
++
++int atmel_hlcdc_plane_prepare_update_req(struct drm_plane *p,
++				struct atmel_hlcdc_plane_update_req *req);
++
++int atmel_hlcdc_plane_apply_update_req(struct drm_plane *p,
++				struct atmel_hlcdc_plane_update_req *req);
++
++void atmel_hlcdc_crtc_cancel_page_flip(struct drm_crtc *crtc,
++				       struct drm_file *file);
++
++int atmel_hlcdc_crtc_create(struct drm_device *dev);
++
++int atmel_hlcdc_panel_create(struct drm_device *dev);
++
++struct atmel_hlcdc_pwm_chip *atmel_hlcdc_pwm_create(struct drm_device *dev,
++						    struct clk *slow_clk,
++						    struct clk *sys_clk,
++						    void __iomem *regs);
++
++int atmel_hlcdc_pwm_destroy(struct drm_device *dev,
++			    struct atmel_hlcdc_pwm_chip *chip);
++
++#endif /* DRM_ATMEL_HLCDC_H */
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.c
+new file mode 100644
+index 0000000..57c50ec
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.c
+@@ -0,0 +1,706 @@
++/*
++ * Copyright (C) 2014 Free Electrons
++ * Copyright (C) 2014 Atmel
++ *
++ * Author: Boris BREZILLON <boris.brezillon@free-electrons.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 as published by
++ * the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <linux/dma-mapping.h>
++#include <linux/interrupt.h>
++
++#include "atmel_hlcdc_dc.h"
++
++static void
++atmel_hlcdc_layer_gem_flip_release(struct atmel_hlcdc_layer *layer,
++				   struct atmel_hlcdc_layer_gem_flip *flip)
++{
++	int i;
++
++	for (i = 0; i < layer->max_planes; i++) {
++		if (!flip->gems[i])
++			break;
++
++		drm_gem_object_unreference_unlocked(flip->gems[i]);
++	}
++
++	kfree(flip);
++}
++
++static void atmel_hlcdc_layer_gc_work(struct work_struct *work)
++{
++	struct atmel_hlcdc_layer_gem_flip_gc *gc =
++			container_of(work,
++				     struct atmel_hlcdc_layer_gem_flip_gc,
++				     work);
++	struct atmel_hlcdc_layer *layer =
++			container_of(gc , struct atmel_hlcdc_layer, gc);
++
++	while (true) {
++		struct atmel_hlcdc_layer_gem_flip *flip;
++		unsigned long flags;
++
++		spin_lock_irqsave(&gc->list_lock, flags);
++		flip = list_first_entry_or_null(&gc->list,
++					struct atmel_hlcdc_layer_gem_flip,
++					node);
++		if (flip)
++			list_del(&flip->node);
++		spin_unlock_irqrestore(&gc->list_lock, flags);
++
++		if (!flip)
++			break;
++
++		atmel_hlcdc_layer_gem_flip_release(layer, flip);
++	}
++}
++
++static void
++atmel_hlcdc_layer_gem_flip_put(struct atmel_hlcdc_layer *layer,
++			       struct atmel_hlcdc_layer_gem_flip *flip)
++{
++	struct atmel_hlcdc_layer_gem_flip_gc *gc = &layer->gc;
++	unsigned long flags;
++
++	if (--flip->remaining_gems <= 0) {
++		spin_lock_irqsave(&gc->list_lock, flags);
++		list_add_tail(&flip->node,
++			      &gc->list);
++		spin_unlock_irqrestore(&gc->list_lock, flags);
++		schedule_work(&gc->work);
++	}
++}
++
++static void atmel_hlcdc_layer_start_queue(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	const struct atmel_hlcdc_layer_desc *desc = layer->desc;
++	struct regmap *regmap = layer->hlcdc->regmap;
++	int i;
++
++	for (i = 0; i < layer->max_planes; i++) {
++		dma->cur[i] = dma->queue[i];
++		if (!dma->queue[i])
++			continue;
++		dma->queue[i] = NULL;
++
++		regmap_write(regmap,
++			     desc->regs_offset +
++			     ATMEL_HLCDC_LAYER_PLANE_ADDR(i),
++			     dma->cur[i]->addr);
++		regmap_write(regmap,
++			     desc->regs_offset +
++			     ATMEL_HLCDC_LAYER_PLANE_CTRL(i),
++			     dma->cur[i]->ctrl);
++		regmap_write(regmap,
++			     desc->regs_offset +
++			     ATMEL_HLCDC_LAYER_PLANE_NEXT(i),
++			     dma->cur[i]->next);
++	}
++}
++
++static void atmel_hlcdc_layer_update_apply(struct atmel_hlcdc_layer *layer)
++{
++	const struct atmel_hlcdc_layer_desc *desc = layer->desc;
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	struct regmap *regmap = layer->hlcdc->regmap;
++	struct atmel_hlcdc_layer_update_slot *slot;
++	unsigned int cfg;
++	u32 action = 0;
++	int i;
++
++	if (upd->pending < 0 || upd->pending > 1)
++		return;
++
++	slot = &upd->slots[upd->pending];
++
++	for_each_set_bit(cfg, slot->updated_configs, layer->desc->nconfigs) {
++		regmap_write(regmap,
++			     desc->regs_offset +
++			     ATMEL_HLCDC_LAYER_CFG(layer, cfg),
++			     slot->configs[cfg]);
++		action |= ATMEL_HLCDC_LAYER_UPDATE;
++	}
++
++	if (slot->gem_flip && slot->gem_flip->remaining_gems) {
++		struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++
++		for (i = 0; i < layer->max_planes; i++) {
++			struct atmel_hlcdc_dma_channel_dscr *dscr;
++
++			if (!slot->gem_flip->gems[i])
++				break;
++
++			dscr =  slot->dscrs[i];
++			slot->dscrs[i] = NULL;
++
++			if (!dma->enabled) {
++				action |= ATMEL_HLCDC_LAYER_DMA_CHAN;
++				regmap_write(regmap,
++					     desc->regs_offset +
++					     ATMEL_HLCDC_LAYER_PLANE_ADDR(i),
++					     dscr->addr);
++				regmap_write(regmap,
++					     desc->regs_offset +
++					     ATMEL_HLCDC_LAYER_PLANE_CTRL(i),
++					     dscr->ctrl);
++				regmap_write(regmap,
++					     desc->regs_offset +
++					     ATMEL_HLCDC_LAYER_PLANE_NEXT(i),
++					     dscr->next);
++				dma->cur[i] = dscr;
++			} else {
++				action |= ATMEL_HLCDC_LAYER_A2Q;
++				regmap_write(regmap,
++					     desc->regs_offset +
++					     ATMEL_HLCDC_LAYER_PLANE_HEAD(i),
++					     dscr->next);
++				dma->queue[i] = dscr;
++			}
++		}
++
++		dma->enabled = true;
++		slot->gem_flip = NULL;
++	}
++
++	if (action)
++		regmap_write(regmap,
++			     desc->regs_offset + ATMEL_HLCDC_LAYER_CHER,
++			     action);
++
++	for (i = 0; i < layer->max_planes; i++) {
++		if (!slot->dscrs[i])
++			continue;
++
++		slot->dscrs[i]->gem_flip = NULL;
++		slot->dscrs[i] = NULL;
++	}
++
++	if (slot->gem_flip) {
++		atmel_hlcdc_layer_gem_flip_put(layer, slot->gem_flip);
++		slot->gem_flip = NULL;
++	}
++
++	bitmap_clear(slot->updated_configs, 0, layer->desc->nconfigs);
++	memset(slot->configs, 0,
++	       sizeof(*slot->configs) * layer->desc->nconfigs);
++
++	upd->pending = -1;
++}
++
++static bool
++atmel_hlcdc_layer_dma_channel_active(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	int i;
++
++	for (i = 0; i < layer->max_planes; i++) {
++		if (dma->cur[i])
++			return true;
++	}
++
++	return false;
++}
++
++void atmel_hlcdc_layer_irq(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_gem_flip *flip_gc[ATMEL_HLCDC_MAX_PLANES];
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	const struct atmel_hlcdc_layer_desc *desc = layer->desc;
++	struct atmel_hlcdc_layer_gem_flip *flip = NULL;
++	struct regmap *regmap = layer->hlcdc->regmap;
++	struct atmel_hlcdc_dma_channel_dscr *dscr;
++	unsigned long flags;
++	unsigned int isr, imr;
++	unsigned int status;
++
++	int i;
++
++	regmap_read(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_IMR, &imr);
++	regmap_read(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_ISR, &isr);
++	status = imr & isr;
++	if (!status)
++		return;
++
++	memset(flip_gc, 0, sizeof(flip_gc));
++
++	spin_lock_irqsave(&dma->lock, flags);
++	for (i = 0; i < layer->max_planes; i++) {
++		if ((status & ATMEL_HLCDC_LAYER_DONE_IRQ(i)) ||
++		    (status & ATMEL_HLCDC_LAYER_ADD_IRQ(i))) {
++			dscr = dma->cur[i];
++			dma->cur[i] = NULL;
++			flip_gc[i] = dscr->gem_flip;
++			dscr->gem_flip = NULL;
++		}
++
++		if (status & ATMEL_HLCDC_LAYER_ADD_IRQ(i)) {
++			dma->cur[i] = dma->queue[i];
++			flip = dma->queue[i]->gem_flip;
++			dma->queue[i] = NULL;
++		}
++	}
++
++	if (flip && flip->finished &&
++	    !atmel_hlcdc_layer_dma_channel_busy(layer))
++		flip->finished(flip->finished_data);
++
++	/*
++	 * The DMA channel might have been disabled before we were able to
++	 * add the new frame to the DMA transfer queue.
++	 * Try to re-enable the channel in this case.
++	 */
++	if (!atmel_hlcdc_layer_dma_channel_active(layer)) {
++		if (atmel_hlcdc_layer_dma_channel_busy(layer)) {
++			atmel_hlcdc_layer_start_queue(layer);
++
++			regmap_write(regmap,
++				     desc->regs_offset +
++				     ATMEL_HLCDC_LAYER_CHDR,
++				     ATMEL_HLCDC_LAYER_A2Q);
++			regmap_write(regmap,
++				     desc->regs_offset +
++				     ATMEL_HLCDC_LAYER_CHER,
++				     ATMEL_HLCDC_LAYER_DMA_CHAN);
++		} else {
++			dma->enabled = false;
++		}
++	}
++
++	if (!atmel_hlcdc_layer_dma_channel_busy(layer)) {
++		struct atmel_hlcdc_layer_update *upd = &layer->update;
++
++		spin_lock(&upd->pending_lock);
++		atmel_hlcdc_layer_update_apply(layer);
++		spin_unlock(&upd->pending_lock);
++	}
++	spin_unlock_irqrestore(&dma->lock, flags);
++
++	for (i = 0; i < layer->max_planes; i++) {
++		if (!flip_gc[i])
++			break;
++
++		atmel_hlcdc_layer_gem_flip_put(layer, flip_gc[i]);
++	}
++}
++
++int atmel_hlcdc_layer_disable(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	unsigned long flags;
++	int i;
++
++	spin_lock_irqsave(&dma->lock, flags);
++	for (i = 0; i < layer->max_planes; i++) {
++		if (!dma->cur[i])
++			break;
++
++		dma->cur[i]->ctrl = 0;
++	}
++	spin_unlock_irqrestore(&dma->lock, flags);
++
++	return 0;
++}
++
++static void atmel_hlcdc_layer_update_reset(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	struct atmel_hlcdc_layer_update_slot *slot;
++	unsigned long flags;
++	int i;
++
++	if (upd->next < 0 || upd->next > 1)
++		return;
++
++	slot = &upd->slots[upd->next];
++	bitmap_clear(slot->updated_configs, 0, layer->desc->nconfigs);
++	memset(slot->configs, 0,
++	       sizeof(*slot->configs) * layer->desc->nconfigs);
++
++	spin_lock_irqsave(&dma->lock, flags);
++	for (i = 0; i < layer->max_planes; i++) {
++		if (!slot->dscrs[i])
++			break;
++		slot->dscrs[i]->gem_flip = NULL;
++		slot->dscrs[i] = NULL;
++	}
++	spin_unlock_irqrestore(&layer->dma.lock, flags);
++
++	if (slot->gem_flip) {
++		atmel_hlcdc_layer_gem_flip_release(layer, slot->gem_flip);
++		slot->gem_flip = NULL;
++	}
++
++	upd->next = -1;
++}
++
++int atmel_hlcdc_layer_update_start(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	struct regmap *regmap = layer->hlcdc->regmap;
++	struct atmel_hlcdc_layer_gem_flip *gem_flip;
++	struct atmel_hlcdc_layer_update_slot *slot;
++	unsigned long flags;
++	int i, j = 0;
++	int pending;
++
++	gem_flip = kzalloc(sizeof(*gem_flip), GFP_KERNEL);
++	if (!gem_flip)
++		return -ENOMEM;
++
++	mutex_lock(&upd->lock);
++
++	spin_lock_irqsave(&upd->pending_lock, flags);
++	pending = upd->pending;
++	spin_unlock_irqrestore(&upd->pending_lock, flags);
++
++	upd->next = pending ? 0 : 1;
++
++	slot = &upd->slots[upd->next];
++
++	spin_lock_irqsave(&dma->lock, flags);
++	for (i = 0; i < layer->max_planes * 4; i++) {
++		if (!dma->dscrs[i].gem_flip) {
++			slot->dscrs[j++] = &dma->dscrs[i];
++			dma->dscrs[i].gem_flip = gem_flip;
++			if (j == layer->max_planes)
++				break;
++		}
++	}
++
++	if (j < layer->max_planes) {
++		for (i = 0; i < j; i++)
++			slot->dscrs[i]->gem_flip = NULL;
++	}
++	spin_unlock_irqrestore(&layer->dma.lock, flags);
++
++	if (j < layer->max_planes) {
++		mutex_unlock(&upd->lock);
++		kfree(gem_flip);
++		return -EBUSY;
++	}
++
++	slot->gem_flip = gem_flip;
++
++	spin_lock_irqsave(&upd->pending_lock, flags);
++	pending = upd->pending;
++	if (pending >= 0) {
++		memcpy(upd->slots[upd->next].configs,
++		       upd->slots[upd->pending].configs,
++		       layer->desc->nconfigs * sizeof(u32));
++		memcpy(upd->slots[upd->next].updated_configs,
++		       upd->slots[upd->pending].updated_configs,
++		       DIV_ROUND_UP(layer->desc->nconfigs,
++				    BITS_PER_BYTE * sizeof(unsigned long)) *
++		       sizeof(unsigned long));
++	}
++	spin_unlock_irqrestore(&upd->pending_lock, flags);
++
++	if (pending < 0) {
++		regmap_bulk_read(regmap,
++				 layer->desc->regs_offset +
++				 ATMEL_HLCDC_LAYER_CFG(layer, 0),
++				 upd->slots[upd->next].configs,
++				 layer->desc->nconfigs);
++	}
++
++	return 0;
++}
++
++void atmel_hlcdc_layer_update_rollback(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++
++	atmel_hlcdc_layer_update_reset(layer);
++	mutex_unlock(&upd->lock);
++}
++
++void atmel_hlcdc_layer_update_set_gem(struct atmel_hlcdc_layer *layer,
++				      int plane_id,
++				      struct drm_gem_cma_object *gem,
++				      unsigned int offset)
++{
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	struct atmel_hlcdc_layer_gem_flip *gem_flip;
++	struct atmel_hlcdc_layer_update_slot *slot;
++	struct atmel_hlcdc_dma_channel_dscr *dscr;
++	struct drm_gem_object *old_gem;
++
++	if (upd->next < 0 || upd->next > 1)
++		return;
++
++	if (plane_id >= layer->max_planes || plane_id < 0)
++		return;
++
++	slot = &upd->slots[upd->next];
++	dscr = slot->dscrs[plane_id];
++	dscr->addr = gem->paddr + offset;
++	dscr->ctrl = ATMEL_HLCDC_LAYER_DFETCH;
++	gem_flip = dscr->gem_flip;
++
++	old_gem = gem_flip->gems[plane_id];
++
++	if (gem) {
++		drm_gem_object_reference(&gem->base);
++		gem_flip->gems[plane_id] = &gem->base;
++		gem_flip->remaining_gems++;
++	} else {
++		gem_flip->gems[plane_id] = NULL;
++	}
++
++	if (old_gem) {
++		drm_gem_object_unreference_unlocked(old_gem);
++		gem_flip->remaining_gems--;
++	}
++}
++
++void atmel_hlcdc_layer_update_set_finished(struct atmel_hlcdc_layer *layer,
++					   void (*finished)(void *data),
++					   void *finished_data)
++{
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	struct atmel_hlcdc_layer_update_slot *slot;
++
++	if (upd->next < 0 || upd->next > 1)
++		return;
++
++	slot = &upd->slots[upd->next];
++
++	slot->gem_flip->finished = finished;
++	slot->gem_flip->finished_data = finished_data;
++}
++
++void atmel_hlcdc_layer_update_cfg(struct atmel_hlcdc_layer *layer, int cfg,
++				  u32 mask, u32 val)
++{
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	struct atmel_hlcdc_layer_update_slot *slot;
++
++	if (upd->next < 0 || upd->next > 1)
++		return;
++
++	if (cfg >= layer->desc->nconfigs)
++		return;
++
++	slot = &upd->slots[upd->next];
++	slot->configs[cfg] &= ~mask;
++	slot->configs[cfg] |= (val & mask);
++	set_bit(cfg, slot->updated_configs);
++}
++
++void atmel_hlcdc_layer_update_commit(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	struct atmel_hlcdc_layer_update_slot *slot;
++	unsigned long flags;
++	int pending;
++
++	if (upd->next < 0  || upd->next > 1)
++		return;
++
++	slot = &upd->slots[upd->next];
++
++	spin_lock_irqsave(&upd->pending_lock, flags);
++	pending = upd->pending;
++	upd->pending = upd->next;
++	upd->next = pending;
++	if (pending >= 0 && !slot->gem_flip->remaining_gems) {
++		struct atmel_hlcdc_layer_gem_flip *gem_flip = slot->gem_flip;
++		struct atmel_hlcdc_dma_channel_dscr *dscrs[ATMEL_HLCDC_MAX_PLANES];
++
++		memcpy(dscrs, slot->dscrs, sizeof(dscrs));
++		slot->gem_flip = upd->slots[pending].gem_flip;
++		memcpy(slot->dscrs, upd->slots[pending].dscrs,
++		       sizeof(slot->dscrs));
++		upd->slots[pending].gem_flip = gem_flip;
++		memcpy(upd->slots[pending].dscrs, dscrs, sizeof(dscrs));
++	}
++	spin_unlock_irqrestore(&upd->pending_lock, flags);
++
++	if (pending >= 0) {
++		atmel_hlcdc_layer_update_reset(layer);
++		mutex_unlock(&upd->lock);
++		return;
++	}
++
++	spin_lock_irqsave(&dma->lock, flags);
++	if (!atmel_hlcdc_layer_dma_channel_busy(layer)) {
++		spin_lock(&upd->pending_lock);
++		atmel_hlcdc_layer_update_apply(layer);
++		spin_unlock(&upd->pending_lock);
++	}
++	spin_unlock_irqrestore(&dma->lock, flags);
++
++	atmel_hlcdc_layer_update_reset(layer);
++	mutex_unlock(&upd->lock);
++}
++
++static int atmel_hlcdc_layer_dma_init(struct drm_device *dev,
++				      struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	dma_addr_t dma_addr;
++	int i;
++
++	dma->dscrs = dma_alloc_coherent(dev->dev,
++					layer->max_planes * 4 *
++					sizeof(*dma->dscrs),
++					&dma_addr, GFP_KERNEL);
++	if (!dma->dscrs)
++		return -ENOMEM;
++
++	for (i = 0; i < layer->max_planes * 4; i++) {
++		struct atmel_hlcdc_dma_channel_dscr *dscr = &dma->dscrs[i];
++
++		dscr->next = dma_addr + (i * sizeof(*dscr));
++	}
++
++	spin_lock_init(&dma->lock);
++
++	return 0;
++}
++
++static void atmel_hlcdc_layer_dma_cleanup(struct drm_device *dev,
++					  struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	int i;
++
++	for (i = 0; i < layer->max_planes * 4; i++) {
++		struct atmel_hlcdc_dma_channel_dscr *dscr = &dma->dscrs[i];
++
++		if (!dscr->gem_flip)
++			continue;
++
++		atmel_hlcdc_layer_gem_flip_put(layer, dscr->gem_flip);
++	}
++
++	dma_free_coherent(dev->dev, layer->max_planes * 4 *
++			  sizeof(*dma->dscrs), dma->dscrs,
++			  dma->dscrs[0].next);
++}
++
++static void atmel_hlcdc_layer_gc_init(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_gem_flip_gc *gc = &layer->gc;
++
++	INIT_LIST_HEAD(&gc->list);
++	spin_lock_init(&gc->list_lock);
++	INIT_WORK(&gc->work, atmel_hlcdc_layer_gc_work);
++}
++
++static void atmel_hlcdc_layer_gc_cleanup(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_gem_flip_gc *gc = &layer->gc;
++
++	flush_work(&gc->work);
++}
++
++static int atmel_hlcdc_layer_update_init(struct drm_device *dev,
++				struct atmel_hlcdc_layer *layer,
++				const struct atmel_hlcdc_layer_desc *desc)
++{
++	struct atmel_hlcdc_layer_update *upd = &layer->update;
++	int updated_size;
++	void *buffer;
++	int i;
++
++	updated_size = DIV_ROUND_UP(desc->nconfigs,
++				    BITS_PER_BYTE *
++				    sizeof(unsigned long));
++
++	buffer = devm_kzalloc(dev->dev,
++			      ((desc->nconfigs * sizeof(u32)) +
++				(updated_size * sizeof(unsigned long))) * 2,
++			      GFP_KERNEL);
++	if (!buffer)
++		return -ENOMEM;
++
++	for (i = 0; i < 2; i++) {
++		upd->slots[i].updated_configs = buffer;
++		buffer += updated_size * sizeof(unsigned long);
++		upd->slots[i].configs = buffer;
++		buffer += desc->nconfigs * sizeof(u32);
++	}
++
++	upd->pending = -1;
++	upd->next = -1;
++	spin_lock_init(&upd->pending_lock);
++	mutex_init(&upd->lock);
++
++	return 0;
++}
++
++int atmel_hlcdc_layer_init(struct drm_device *dev,
++			   struct atmel_hlcdc_layer *layer,
++			   const struct atmel_hlcdc_layer_desc *desc)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	struct regmap *regmap = dc->hlcdc->regmap;
++	unsigned int tmp;
++	int ret;
++	int i;
++
++	layer->hlcdc = dc->hlcdc;
++	layer->desc = desc;
++
++	regmap_write(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_CHDR,
++		     ATMEL_HLCDC_LAYER_RST);
++	for (i = 0; i < desc->formats->nformats; i++) {
++		int nplanes = drm_format_num_planes(desc->formats->formats[i]);
++
++		if (nplanes > layer->max_planes)
++			layer->max_planes = nplanes;
++	}
++
++	atmel_hlcdc_layer_gc_init(layer);
++	ret = atmel_hlcdc_layer_dma_init(dev, layer);
++	if (ret)
++		return ret;
++
++	ret = atmel_hlcdc_layer_update_init(dev, layer, desc);
++	if (ret)
++		return ret;
++
++	/* Flush Status Register */
++	regmap_write(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_IDR,
++		     0xffffffff);
++	regmap_read(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_ISR,
++		    &tmp);
++
++	for (i = 0; i < layer->max_planes; i++)
++		regmap_write(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_IER,
++			     ATMEL_HLCDC_LAYER_ADD_IRQ(i) |
++			     ATMEL_HLCDC_LAYER_DONE_IRQ(i));
++
++	return 0;
++}
++
++void atmel_hlcdc_layer_cleanup(struct drm_device *dev,
++			       struct atmel_hlcdc_layer *layer)
++{
++	const struct atmel_hlcdc_layer_desc *desc = layer->desc;
++	struct regmap *regmap = layer->hlcdc->regmap;
++
++	regmap_write(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_IDR,
++		     0xffffffff);
++	regmap_write(regmap, desc->regs_offset + ATMEL_HLCDC_LAYER_CHDR,
++		     ATMEL_HLCDC_LAYER_RST);
++
++	atmel_hlcdc_layer_dma_cleanup(dev, layer);
++	atmel_hlcdc_layer_gc_cleanup(layer);
++}
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.h
+new file mode 100644
+index 0000000..006d479
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_layer.h
+@@ -0,0 +1,422 @@
++/*
++ * Copyright (C) 2014 Free Electrons
++ * Copyright (C) 2014 Atmel
++ *
++ * Author: Boris BREZILLON <boris.brezillon@free-electrons.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 as published by
++ * the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef DRM_ATMEL_HLCDC_LAYER_H
++#define DRM_ATMEL_HLCDC_LAYER_H
++
++#include <linux/mfd/atmel-hlcdc.h>
++
++#include <drm/drm_crtc.h>
++#include <drm/drmP.h>
++
++#define ATMEL_HLCDC_LAYER_CHER			0x0
++#define ATMEL_HLCDC_LAYER_CHDR			0x4
++#define ATMEL_HLCDC_LAYER_CHSR			0x8
++#define ATMEL_HLCDC_LAYER_DMA_CHAN		BIT(0)
++#define ATMEL_HLCDC_LAYER_UPDATE		BIT(1)
++#define ATMEL_HLCDC_LAYER_A2Q			BIT(2)
++#define ATMEL_HLCDC_LAYER_RST			BIT(8)
++
++#define ATMEL_HLCDC_LAYER_IER			0xc
++#define ATMEL_HLCDC_LAYER_IDR			0x10
++#define ATMEL_HLCDC_LAYER_IMR			0x14
++#define ATMEL_HLCDC_LAYER_ISR			0x18
++#define ATMEL_HLCDC_LAYER_DFETCH		BIT(0)
++#define ATMEL_HLCDC_LAYER_LFETCH		BIT(1)
++#define ATMEL_HLCDC_LAYER_DMA_IRQ(n)		BIT(2 + ((n) * 8))
++#define ATMEL_HLCDC_LAYER_DSCR_IRQ(n)		BIT(3 + ((n) * 8))
++#define ATMEL_HLCDC_LAYER_ADD_IRQ(n)		BIT(4 + ((n) * 8))
++#define ATMEL_HLCDC_LAYER_DONE_IRQ(n)		BIT(5 + ((n) * 8))
++#define ATMEL_HLCDC_LAYER_OVR_IRQ(n)		BIT(6 + ((n) * 8))
++
++#define ATMEL_HLCDC_LAYER_PLANE_HEAD(n)		(((n) * 0x10) + 0x1c)
++#define ATMEL_HLCDC_LAYER_PLANE_ADDR(n)		(((n) * 0x10) + 0x20)
++#define ATMEL_HLCDC_LAYER_PLANE_CTRL(n)		(((n) * 0x10) + 0x24)
++#define ATMEL_HLCDC_LAYER_PLANE_NEXT(n)		(((n) * 0x10) + 0x28)
++#define ATMEL_HLCDC_LAYER_CFG(p, c)		(((c) * 4) + ((p)->max_planes * 0x10) + 0x1c)
++
++#define ATMEL_HLCDC_LAYER_DMA_CFG_ID		0
++#define ATMEL_HLCDC_LAYER_DMA_CFG(p)		ATMEL_HLCDC_LAYER_CFG(p, ATMEL_HLCDC_LAYER_DMA_CFG_ID)
++
++#define ATMEL_HLCDC_LAYER_FORMAT_CFG_ID		1
++#define ATMEL_HLCDC_LAYER_FORMAT_CFG(p)		ATMEL_HLCDC_LAYER_CFG(p, ATMEL_HLCDC_LAYER_FORMAT_CFG_ID)
++#define ATMEL_HLCDC_LAYER_RGB			(0 << 0)
++#define ATMEL_HLCDC_LAYER_CLUT			(1 << 0)
++#define ATMEL_HLCDC_LAYER_YUV			(2 << 0)
++#define ATMEL_HLCDC_RGB_MODE(m)			(((m) & 0xf) << 4)
++#define ATMEL_HLCDC_CLUT_MODE(m)		(((m) & 0x3) << 8)
++#define ATMEL_HLCDC_YUV_MODE(m)			(((m) & 0xf) << 12)
++#define ATMEL_HLCDC_YUV422ROT			(1 << 16)
++#define ATMEL_HLCDC_YUV422SWP			(1 << 17)
++#define ATMEL_HLCDC_DSCALEOPT			(1 << 20)
++
++#define ATMEL_HLCDC_XRGB4444_MODE		(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(0))
++#define ATMEL_HLCDC_ARGB4444_MODE		(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(1))
++#define ATMEL_HLCDC_RGBA4444_MODE		(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(2))
++#define ATMEL_HLCDC_RGB565_MODE			(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(3))
++#define ATMEL_HLCDC_ARGB1555_MODE		(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(4))
++#define ATMEL_HLCDC_XRGB8888_MODE		(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(9))
++#define ATMEL_HLCDC_RGB888_MODE			(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(10))
++#define ATMEL_HLCDC_ARGB8888_MODE		(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(12))
++#define ATMEL_HLCDC_RGBA8888_MODE		(ATMEL_HLCDC_LAYER_RGB | ATMEL_HLCDC_RGB_MODE(13))
++
++#define ATMEL_HLCDC_AYUV_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(0))
++#define ATMEL_HLCDC_YUYV_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(1))
++#define ATMEL_HLCDC_UYVY_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(2))
++#define ATMEL_HLCDC_YVYU_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(3))
++#define ATMEL_HLCDC_VYUY_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(4))
++#define ATMEL_HLCDC_NV61_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(5))
++#define ATMEL_HLCDC_YUV422_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(6))
++#define ATMEL_HLCDC_NV21_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(7))
++#define ATMEL_HLCDC_YUV420_MODE			(ATMEL_HLCDC_LAYER_YUV | ATMEL_HLCDC_YUV_MODE(8))
++
++#define ATMEL_HLCDC_LAYER_POS_CFG(p)		ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.pos)
++#define ATMEL_HLCDC_LAYER_SIZE_CFG(p)		ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.size)
++#define ATMEL_HLCDC_LAYER_MEMSIZE_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.memsize)
++#define ATMEL_HLCDC_LAYER_XSTRIDE_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.xstride)
++#define ATMEL_HLCDC_LAYER_PSTRIDE_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.pstride)
++#define ATMEL_HLCDC_LAYER_DFLTCOLOR_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.default_color)
++#define ATMEL_HLCDC_LAYER_CRKEY_CFG(p)		ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.chroma_key)
++#define ATMEL_HLCDC_LAYER_CRKEY_MASK_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.chroma_key_mask)
++
++#define ATMEL_HLCDC_LAYER_GENERAL_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.general_config)
++#define ATMEL_HLCDC_LAYER_CRKEY			BIT(0)
++#define ATMEL_HLCDC_LAYER_INV			BIT(1)
++#define ATMEL_HLCDC_LAYER_ITER2BL		BIT(2)
++#define ATMEL_HLCDC_LAYER_ITER			BIT(3)
++#define ATMEL_HLCDC_LAYER_REVALPHA		BIT(4)
++#define ATMEL_HLCDC_LAYER_GAEN			BIT(5)
++#define ATMEL_HLCDC_LAYER_LAEN			BIT(6)
++#define ATMEL_HLCDC_LAYER_OVR			BIT(7)
++#define ATMEL_HLCDC_LAYER_DMA			BIT(8)
++#define ATMEL_HLCDC_LAYER_REP			BIT(9)
++#define ATMEL_HLCDC_LAYER_DSTKEY		BIT(10)
++#define ATMEL_HLCDC_LAYER_GA_MASK		GENMASK(23, 16)
++#define ATMEL_HLCDC_LAYER_GA_SHIFT		16
++
++#define ATMEL_HLCDC_LAYER_CSC_CFG(p, o)		ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.csc + o)
++
++#define ATMEL_HLCDC_LAYER_DISC_POS_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.disc_pos)
++
++#define ATMEL_HLCDC_LAYER_DISC_SIZE_CFG(p)	ATMEL_HLCDC_LAYER_CFG(p, (p)->desc->layout.disc_size)
++
++#define ATMEL_HLCDC_MAX_PLANES			3
++
++/**
++ * Atmel HLCDC Layer registers layout structure
++ *
++ * Each HLCDC layer has its own register organization and a given register
++ * by be placed differently on 2 different layers depending on its
++ * capabilities.
++ * This structure stores common registers layout for a given layer and is
++ * used by HLCDC layer code to chose the appropriate register to write to
++ * or to read from.
++ *
++ * For all fields, a value of zero means "unsupported".
++ *
++ * See Atmel's datasheet for a detailled description of these registers.
++ *
++ * @xstride: xstride registers
++ * @pstride: pstride registers
++ * @pos: position register
++ * @size: displayed size register
++ * @memsize: memory size register
++ * @default_color: default color register
++ * @chroma_key: chroma key register
++ * @chroma_key_mask: chroma key mask register
++ * @general_config: general layer config register
++ * @disc_pos: discard area position register
++ * @disc_size: discard area size register
++ * @csc: color space conversion register
++ */
++struct atmel_hlcdc_layer_cfg_layout {
++	int xstride[ATMEL_HLCDC_MAX_PLANES];
++	int pstride[ATMEL_HLCDC_MAX_PLANES];
++	int pos;
++	int size;
++	int memsize;
++	int default_color;
++	int chroma_key;
++	int chroma_key_mask;
++	int general_config;
++	int disc_pos;
++	int disc_size;
++	int csc;
++};
++
++/**
++ * Atmel HLCDC GEM flip structure
++ *
++ * This structure is allocated when someone asked for a layer update (most
++ * likely a DRM plane update, either primary, overlay or cursor plane) and
++ * released when the layer do not need the reference GEM objects anymore
++ * (i.e. the layer was disabled or updated).
++ *
++ * @node: list element structure. Used to attach the GEM flip structure to
++ *	  the garbage collector when the layer no longer need the referenced
++ *	  GEM objects.
++ * @gems: the referenced GEM objects. The number of GEM object referenced
++ *	  depends on the chosen format.
++ * @remaining_gems: the number of GEM object still referenced by the layer.
++ *		    When no more objects are referenced the GEM flip structure
++ *		    is added to the garbage collector.
++ */
++struct atmel_hlcdc_layer_gem_flip {
++	struct list_head node;
++	struct drm_gem_object *gems[ATMEL_HLCDC_MAX_PLANES];
++	int remaining_gems;
++	void (*finished)(void *data);
++	void *finished_data;
++};
++
++/**
++ * Atmel HLCDC DMA descriptor structure
++ *
++ * This structure is used by the HLCDC DMA engine to schedule a DMA transfer.
++ *
++ * The structure fields must remain in this specific order, because they're
++ * used by the HLCDC DMA engine, which expect them in this order.
++ *
++ * @addr: buffer DMA address
++ * @ctrl: DMA transfer options
++ * @next: next DMA descriptor to fetch
++ * @gem_flip: the attached gem_flip operation
++ */
++struct atmel_hlcdc_dma_channel_dscr {
++	dma_addr_t addr;
++	u32 ctrl;
++	dma_addr_t next;
++	struct atmel_hlcdc_layer_gem_flip *gem_flip;
++} __aligned(sizeof(u64));
++
++/**
++ * Atmel HLCDC layer types
++ */
++enum atmel_hlcdc_layer_type {
++	ATMEL_HLCDC_BASE_LAYER,
++	ATMEL_HLCDC_OVERLAY_LAYER,
++	ATMEL_HLCDC_CURSOR_LAYER,
++	ATMEL_HLCDC_PP_LAYER,
++};
++
++/**
++ * Atmel HLCDC Supported formats structure
++ *
++ * This structure list all the formats supported by a given layer.
++ *
++ * @nformats: number of supported formats
++ * @formats: supported formats
++ */
++struct atmel_hlcdc_formats {
++	int nformats;
++	uint32_t *formats;
++};
++
++/**
++ * Atmel HLCDC Layer description structure
++ *
++ * This structure describe the capabilities provided by a given layer.
++ *
++ * @name: layer name
++ * @type: layer type
++ * @id: layer id
++ * @regs_offset: offset of the layer registers from the HLCDC registers base
++ * @nconfigs: number of config registers provided by this layer
++ * @layout: config registers layout
++ * @max_width: maximum width supported by this layer (0 means unlimited)
++ * @max_height: maximum height supported by this layer (0 means unlimited)
++ */
++struct atmel_hlcdc_layer_desc {
++	const char *name;
++	enum atmel_hlcdc_layer_type type;
++	int id;
++	int regs_offset;
++	int nconfigs;
++	struct atmel_hlcdc_formats *formats;
++	struct atmel_hlcdc_layer_cfg_layout layout;
++	int max_width;
++	int max_height;
++};
++
++/**
++ * Atmel HLCDC Layer Update Slot structure
++ *
++ * This structure stores layer update requests to be applied on next frame.
++ * This is the base structure behind the atomic layer update infrastructure.
++ *
++ * Atomic layer update provides a way to update all layer's parameters
++ * simultaneously. This is needed to avoid incompatible sequential updates
++ * like this one:
++ * 1) update layer format from RGB888 (1 plane/buffer) to YUV422
++ *    (2 planes/buffers)
++ * 2) the format update is applied but the DMA channel for the second
++ *    plane/buffer is not enabled
++ * 3) enable the DMA channel for the second plane
++ *
++ *@dscrs: DMA channel descriptors
++ *@gem_flip: gem_flip object
++ *@updated_configs: bitmask used to record modified configs
++ *@configs: new config values
++ */
++struct atmel_hlcdc_layer_update_slot {
++	struct atmel_hlcdc_dma_channel_dscr *dscrs[ATMEL_HLCDC_MAX_PLANES];
++	struct atmel_hlcdc_layer_gem_flip *gem_flip;
++	unsigned long *updated_configs;
++	u32 *configs;
++};
++
++/**
++ * Atmel HLCDC Layer Update structure
++ *
++ * This structure provides a way to queue layer update requests.
++ *
++ * At a given time there is at most:
++ *  - one pending update request, which means the update request has been
++ *    commited (or validated) and is waiting for the DMA channel(s) to be
++ *    available
++ *  - one request being prepared, which means someone started a layer update
++ *    but has not commited it yet. There cannot be more than one started
++ *    request, because the update lock is taken when starting a layer update
++ *    and release when commiting or rolling back the request.
++ *
++ *@slots: update slots. One is used for pending request and the other one
++ *	  for started update request
++ *@pending: the pending slot index or -1 if no request is pending
++ *@next: the started update slot index or -1 no update has been started
++ *@pending_lock: lock to access the pending field
++ *@lock: layer update lock
++ */
++struct atmel_hlcdc_layer_update {
++	struct atmel_hlcdc_layer_update_slot slots[2];
++	int pending;
++	int next;
++	spinlock_t pending_lock;
++	struct mutex lock;
++};
++
++/**
++ * Atmel HLCDC Layer GEM flip garbage collector structure
++ *
++ * This structure is used to schedule GEM object release when we are in
++ * interrupt context (within atmel_hlcdc_layer_irq function).
++ *
++ *@list: GEM flip objects to release
++ *@list_lock: lock to access the GEM flip list
++ *@work: work queue scheduled when there are GEM flip to collect
++ *@finished: action to execute the GEM flip and all attached objects have been
++ *	     released
++ *@finished_data: data passed to the finished callback
++ *@finished_lock: lock to access finished related fields
++ */
++struct atmel_hlcdc_layer_gem_flip_gc {
++	struct list_head list;
++	spinlock_t list_lock;
++	struct work_struct work;
++};
++
++/**
++ * Atmel HLCDC Layer DMA channel structure
++ *
++ * This structure stores informations on the DMA channel associated to a
++ * given layer.
++ *
++ *@enabled: DMA channel status
++ *@lock: lock to access the DMA channel fields
++ *@cur: current DMA transfers (one for each plane/buffer)
++ *@queue: next DMA transfers, to be launch on next frame update
++ *@dscrs: allocated DMA descriptors
++ */
++struct atmel_hlcdc_layer_dma_channel {
++	bool enabled;
++	spinlock_t lock;
++	struct atmel_hlcdc_dma_channel_dscr *cur[ATMEL_HLCDC_MAX_PLANES];
++	struct atmel_hlcdc_dma_channel_dscr *queue[ATMEL_HLCDC_MAX_PLANES];
++	struct atmel_hlcdc_dma_channel_dscr *dscrs;
++};
++
++/**
++ * Atmel HLCDC Layer structure
++ *
++ * This structure stores information on the layer instance.
++ *
++ *@desc: layer description
++ *@max_planes: maximum planes/buffers that can be associated with this layer.
++ *	       This depends on the supported formats.
++ *@hlcdc: pointer to the atmel_hlcdc structure provided by the MFD device
++ *@dma: dma channel
++ *@gc: GEM flip garbage collector
++ *@update: update handler
++ */
++struct atmel_hlcdc_layer {
++	const struct atmel_hlcdc_layer_desc *desc;
++	int max_planes;
++	struct atmel_hlcdc *hlcdc;
++	struct atmel_hlcdc_layer_dma_channel dma;
++	struct atmel_hlcdc_layer_gem_flip_gc gc;
++	struct atmel_hlcdc_layer_update update;
++};
++
++void atmel_hlcdc_layer_irq(struct atmel_hlcdc_layer *layer);
++
++int atmel_hlcdc_layer_init(struct drm_device *dev,
++			   struct atmel_hlcdc_layer *layer,
++			   const struct atmel_hlcdc_layer_desc *desc);
++
++void atmel_hlcdc_layer_cleanup(struct drm_device *dev,
++			       struct atmel_hlcdc_layer *layer);
++
++int atmel_hlcdc_layer_disable(struct atmel_hlcdc_layer *layer);
++
++void atmel_hlcdc_layer_set_finished(struct atmel_hlcdc_layer *layer,
++				    void (*finished)(void *data),
++				    void *data);
++
++int atmel_hlcdc_layer_update_start(struct atmel_hlcdc_layer *layer);
++
++void atmel_hlcdc_layer_update_cfg(struct atmel_hlcdc_layer *layer, int cfg,
++				  u32 mask, u32 val);
++
++void atmel_hlcdc_layer_update_set_gem(struct atmel_hlcdc_layer *layer,
++				      int plane_id,
++				      struct drm_gem_cma_object *gem,
++				      unsigned int offset);
++
++void atmel_hlcdc_layer_update_set_finished(struct atmel_hlcdc_layer *layer,
++					   void (*finished)(void *data),
++					   void *finished_data);
++
++void atmel_hlcdc_layer_update_rollback(struct atmel_hlcdc_layer *layer);
++
++void atmel_hlcdc_layer_update_commit(struct atmel_hlcdc_layer *layer);
++
++static inline bool
++atmel_hlcdc_layer_dma_channel_busy(struct atmel_hlcdc_layer *layer)
++{
++	struct atmel_hlcdc_layer_dma_channel *dma = &layer->dma;
++	int i;
++
++	for (i = 0; i < layer->max_planes; i++) {
++		if (dma->queue[i])
++			return true;
++	}
++
++	return false;
++}
++
++#endif /* DRM_ATMEL_HLCDC_LAYER_H */
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_panel.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_panel.c
+new file mode 100644
+index 0000000..3295021
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_panel.c
+@@ -0,0 +1,351 @@
++/*
++ * Copyright (C) 2014 Traphandler
++ * Copyright (C) 2014 Free Electrons
++ * Copyright (C) 2014 Atmel
++ *
++ * Author: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
++ * Author: Boris BREZILLON <boris.brezillon@free-electrons.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 as published by
++ * the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <drm/drmP.h>
++#include <drm/drm_panel.h>
++
++#include "atmel_hlcdc_dc.h"
++
++/**
++ * Atmel HLCDC RGB output mode
++ */
++enum atmel_hlcdc_connector_rgb_mode {
++	ATMEL_HLCDC_CONNECTOR_RGB444,
++	ATMEL_HLCDC_CONNECTOR_RGB565,
++	ATMEL_HLCDC_CONNECTOR_RGB666,
++	ATMEL_HLCDC_CONNECTOR_RGB888,
++};
++
++/**
++ * Atmel HLCDC Panel structure
++ *
++ * This structure stores informations about an DRM panel connected through
++ * the RGB connector.
++ *
++ * @mode: RGB output mode
++ * @connector: DRM connector
++ * @encoder: DRM encoder
++ * @hlcdc: pointer to the atmel_hlcdc structure provided by the MFD device
++ * @panel: pointer to the attached DRM panel
++ * @pinctrl: pinctrl state used by the current RGB output mode
++ * @np: DRM panel DT node
++ * @dpms: current DPMS mode
++ */
++struct atmel_hlcdc_panel {
++	enum atmel_hlcdc_connector_rgb_mode mode;
++	struct drm_connector connector;
++	struct drm_encoder encoder;
++	struct atmel_hlcdc *hlcdc;
++	struct drm_panel *panel;
++	struct pinctrl *pinctrl;
++	struct device_node *np;
++	int dpms;
++};
++
++static const char * const pin_state_names[] = {
++	[ATMEL_HLCDC_CONNECTOR_RGB444] = "rgb-444",
++	[ATMEL_HLCDC_CONNECTOR_RGB565] = "rgb-565",
++	[ATMEL_HLCDC_CONNECTOR_RGB666] = "rgb-666",
++	[ATMEL_HLCDC_CONNECTOR_RGB888] = "rgb-888",
++};
++
++static inline struct atmel_hlcdc_panel *
++drm_connector_to_atmel_hlcdc_panel(struct drm_connector *connector)
++{
++	return container_of(connector, struct atmel_hlcdc_panel, connector);
++}
++
++static inline struct atmel_hlcdc_panel *
++drm_encoder_to_atmel_hlcdc_panel(struct drm_encoder *encoder)
++{
++	return container_of(encoder, struct atmel_hlcdc_panel, encoder);
++}
++
++static void atmel_hlcdc_panel_encoder_dpms(struct drm_encoder *encoder,
++					   int mode)
++{
++	struct atmel_hlcdc_panel *panel =
++			drm_encoder_to_atmel_hlcdc_panel(encoder);
++	struct regmap *regmap = panel->hlcdc->regmap;
++	unsigned int status;
++
++	if (mode != DRM_MODE_DPMS_ON)
++		mode = DRM_MODE_DPMS_OFF;
++
++	if (mode == panel->dpms)
++		return;
++
++	if (mode != DRM_MODE_DPMS_ON) {
++		regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_DISP);
++		while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
++		       (status & ATMEL_HLCDC_DISP))
++			cpu_relax();
++
++		regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_SYNC);
++		while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
++		       (status & ATMEL_HLCDC_SYNC))
++			cpu_relax();
++
++		regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_PIXEL_CLK);
++		while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
++		       (status & ATMEL_HLCDC_PIXEL_CLK))
++			cpu_relax();
++
++		clk_disable_unprepare(panel->hlcdc->sys_clk);
++		if (panel->panel)
++			drm_panel_disable(panel->panel);
++	} else {
++		if (panel->panel)
++			drm_panel_enable(panel->panel);
++		clk_prepare_enable(panel->hlcdc->sys_clk);
++
++		regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_PIXEL_CLK);
++		while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
++		       !(status & ATMEL_HLCDC_PIXEL_CLK))
++			cpu_relax();
++
++
++		regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_SYNC);
++		while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
++		       !(status & ATMEL_HLCDC_SYNC))
++			cpu_relax();
++
++		regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_DISP);
++		while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
++		       !(status & ATMEL_HLCDC_DISP))
++			cpu_relax();
++	}
++
++	panel->dpms = mode;
++}
++
++static bool
++atmel_hlcdc_panel_encoder_mode_fixup(struct drm_encoder *encoder,
++				     const struct drm_display_mode *mode,
++				     struct drm_display_mode *adjusted)
++{
++	return true;
++}
++
++static void atmel_hlcdc_panel_encoder_prepare(struct drm_encoder *encoder)
++{
++	atmel_hlcdc_panel_encoder_dpms(encoder, DRM_MODE_DPMS_OFF);
++}
++
++static void atmel_hlcdc_panel_encoder_commit(struct drm_encoder *encoder)
++{
++	atmel_hlcdc_panel_encoder_dpms(encoder, DRM_MODE_DPMS_ON);
++}
++
++static void
++atmel_hlcdc_panel_encoder_mode_set(struct drm_encoder *encoder,
++				   struct drm_display_mode *mode,
++				   struct drm_display_mode *adjusted)
++{
++	struct atmel_hlcdc_panel *panel =
++			drm_encoder_to_atmel_hlcdc_panel(encoder);
++	unsigned long prate = clk_get_rate(panel->hlcdc->sys_clk);
++	unsigned long mode_rate = mode->clock * 1000;
++	int div;
++	u32 cfg0 = 0;
++
++	if ((prate / 2) < mode_rate) {
++		prate *= 2;
++		cfg0 |= ATMEL_HLCDC_CLKSEL;
++	}
++
++	div = DIV_ROUND_UP(prate, mode_rate);
++	if (div < 2)
++		div = 2;
++
++	cfg0 |= ATMEL_HLCDC_CLKDIV(div);
++
++	regmap_update_bits(panel->hlcdc->regmap, ATMEL_HLCDC_CFG(0),
++			   ATMEL_HLCDC_CLKSEL | ATMEL_HLCDC_CLKDIV_MASK, cfg0);
++}
++
++static struct drm_encoder_helper_funcs encoder_helper_funcs = {
++	.dpms = atmel_hlcdc_panel_encoder_dpms,
++	.mode_fixup = atmel_hlcdc_panel_encoder_mode_fixup,
++	.prepare = atmel_hlcdc_panel_encoder_prepare,
++	.commit = atmel_hlcdc_panel_encoder_commit,
++	.mode_set = atmel_hlcdc_panel_encoder_mode_set,
++};
++
++static void atmel_hlcdc_panel_encoder_destroy(struct drm_encoder *encoder)
++{
++	drm_encoder_cleanup(encoder);
++	memset(encoder, 0, sizeof(*encoder));
++}
++
++static const struct drm_encoder_funcs encoder_funcs = {
++	.destroy = atmel_hlcdc_panel_encoder_destroy,
++};
++
++static int atmel_hlcdc_panel_get_modes(struct drm_connector *connector)
++{
++	struct atmel_hlcdc_panel *panel =
++			drm_connector_to_atmel_hlcdc_panel(connector);
++	int ret;
++
++	if (!panel->panel)
++		return -ENOENT;
++
++	ret = panel->panel->funcs->get_modes(panel->panel);
++	return ret;
++}
++
++static int atmel_hlcdc_panel_mode_valid(struct drm_connector *connector,
++					struct drm_display_mode *mode)
++{
++	return MODE_OK;
++}
++
++static struct drm_encoder *
++atmel_hlcdc_panel_best_encoder(struct drm_connector *connector)
++{
++	struct atmel_hlcdc_panel *panel =
++			drm_connector_to_atmel_hlcdc_panel(connector);
++
++	return &panel->encoder;
++}
++
++static struct drm_connector_helper_funcs connector_helper_funcs = {
++	.get_modes = atmel_hlcdc_panel_get_modes,
++	.mode_valid = atmel_hlcdc_panel_mode_valid,
++	.best_encoder = atmel_hlcdc_panel_best_encoder,
++};
++
++static enum drm_connector_status
++atmel_hlcdc_panel_connector_detect(struct drm_connector *connector, bool force)
++{
++	struct atmel_hlcdc_panel *panel =
++			drm_connector_to_atmel_hlcdc_panel(connector);
++
++	if (!panel->panel) {
++		panel->panel = of_drm_find_panel(panel->np);
++		if (panel->panel)
++			drm_panel_attach(panel->panel, &panel->connector);
++	}
++
++	if (panel->panel)
++		return connector_status_connected;
++
++	return connector_status_disconnected;
++}
++
++static void
++atmel_hlcdc_panel_connector_destroy(struct drm_connector *connector)
++{
++	struct atmel_hlcdc_panel *panel =
++			drm_connector_to_atmel_hlcdc_panel(connector);
++
++	if (panel->panel)
++		drm_panel_detach(panel->panel);
++
++	drm_sysfs_connector_remove(connector);
++	drm_connector_cleanup(connector);
++
++	pinctrl_put(panel->pinctrl);
++}
++
++static const struct drm_connector_funcs connector_funcs = {
++	.dpms = drm_helper_connector_dpms,
++	.detect = atmel_hlcdc_panel_connector_detect,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = atmel_hlcdc_panel_connector_destroy,
++};
++
++int atmel_hlcdc_panel_create(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	struct atmel_hlcdc_panel *panel;
++	struct of_phandle_args out_args;
++	u32 cfg;
++	int ret;
++
++	panel = devm_kzalloc(dev->dev, sizeof(*panel), GFP_KERNEL);
++	if (!panel)
++		return -ENOMEM;
++
++	ret = of_parse_phandle_with_fixed_args(dev->dev->of_node,
++					       "atmel,panel", 2, 0,
++					       &out_args);
++	if (ret) {
++		dev_err(dev->dev, "failed to retrieve panel info from DT\n");
++		return ret;
++	}
++
++	switch (out_args.args[0]) {
++	case ATMEL_HLCDC_CONNECTOR_RGB444:
++	case ATMEL_HLCDC_CONNECTOR_RGB565:
++	case ATMEL_HLCDC_CONNECTOR_RGB666:
++	case ATMEL_HLCDC_CONNECTOR_RGB888:
++		break;
++	default:
++		dev_err(dev->dev, "unknown RGB mode\n");
++		return -EINVAL;
++	}
++
++	panel->np = out_args.np;
++	panel->mode = out_args.args[0];
++	panel->pinctrl = pinctrl_get_select(dev->dev,
++					    pin_state_names[panel->mode]);
++	if (IS_ERR(panel->pinctrl)) {
++		dev_err(dev->dev, "could not request pinctrl state\n");
++		return PTR_ERR(panel->pinctrl);
++	}
++
++	cfg = out_args.args[1] & (ATMEL_HLCDC_HSPOL |
++				  ATMEL_HLCDC_VSPOL |
++				  ATMEL_HLCDC_VSPDLYS |
++				  ATMEL_HLCDC_VSPDLYE |
++				  ATMEL_HLCDC_DISPPOL |
++				  ATMEL_HLCDC_DISPDLY |
++				  ATMEL_HLCDC_VSPSU |
++				  ATMEL_HLCDC_VSPHO);
++	cfg |= panel->mode << 8;
++
++	regmap_write(dc->hlcdc->regmap,
++		     ATMEL_HLCDC_CFG(5),
++		     cfg);
++
++	panel->dpms = DRM_MODE_DPMS_OFF;
++
++	panel->hlcdc = dc->hlcdc;
++
++	drm_connector_init(dev, &panel->connector, &connector_funcs,
++			   DRM_MODE_CONNECTOR_LVDS);
++	drm_connector_helper_add(&panel->connector, &connector_helper_funcs);
++	panel->connector.dpms = DRM_MODE_DPMS_OFF;
++	panel->connector.polled = DRM_CONNECTOR_POLL_CONNECT;
++
++	drm_encoder_init(dev, &panel->encoder, &encoder_funcs,
++			 DRM_MODE_ENCODER_LVDS);
++	drm_encoder_helper_add(&panel->encoder, &encoder_helper_funcs);
++
++	drm_mode_connector_attach_encoder(&panel->connector, &panel->encoder);
++	drm_sysfs_connector_add(&panel->connector);
++
++	panel->encoder.possible_crtcs = 0x1;
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+new file mode 100644
+index 0000000..0c7469b
+--- /dev/null
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -0,0 +1,729 @@
++/*
++ * Copyright (C) 2014 Free Electrons
++ * Copyright (C) 2014 Atmel
++ *
++ * Author: Boris BREZILLON <boris.brezillon@free-electrons.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License version 2 as published by
++ * the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "atmel_hlcdc_dc.h"
++
++#define SUBPIXEL_MASK			0xffff
++
++static uint32_t rgb_formats[] = {
++	DRM_FORMAT_XRGB4444,
++	DRM_FORMAT_ARGB4444,
++	DRM_FORMAT_RGBA4444,
++	DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_RGB888,
++	DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGBA8888,
++};
++
++struct atmel_hlcdc_formats atmel_hlcdc_plane_rgb_formats = {
++	.formats = rgb_formats,
++	.nformats = ARRAY_SIZE(rgb_formats),
++};
++
++static uint32_t rgb_and_yuv_formats[] = {
++	DRM_FORMAT_XRGB4444,
++	DRM_FORMAT_ARGB4444,
++	DRM_FORMAT_RGBA4444,
++	DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_RGB888,
++	DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGBA8888,
++	DRM_FORMAT_AYUV,
++	DRM_FORMAT_YUYV,
++	DRM_FORMAT_UYVY,
++	DRM_FORMAT_YVYU,
++	DRM_FORMAT_VYUY,
++	DRM_FORMAT_NV21,
++	DRM_FORMAT_NV61,
++	DRM_FORMAT_YUV422,
++	DRM_FORMAT_YUV420,
++};
++
++struct atmel_hlcdc_formats atmel_hlcdc_plane_rgb_and_yuv_formats = {
++	.formats = rgb_and_yuv_formats,
++	.nformats = ARRAY_SIZE(rgb_and_yuv_formats),
++};
++
++static int atmel_hlcdc_format_to_plane_mode(u32 format, u32 *mode)
++{
++	switch (format) {
++	case DRM_FORMAT_XRGB4444:
++		*mode = ATMEL_HLCDC_XRGB4444_MODE;
++		break;
++	case DRM_FORMAT_ARGB4444:
++		*mode = ATMEL_HLCDC_ARGB4444_MODE;
++		break;
++	case DRM_FORMAT_RGBA4444:
++		*mode = ATMEL_HLCDC_RGBA4444_MODE;
++		break;
++	case DRM_FORMAT_RGB565:
++		*mode = ATMEL_HLCDC_RGB565_MODE;
++		break;
++	case DRM_FORMAT_RGB888:
++		*mode = ATMEL_HLCDC_RGB888_MODE;
++		break;
++	case DRM_FORMAT_ARGB1555:
++		*mode = ATMEL_HLCDC_ARGB1555_MODE;
++		break;
++	case DRM_FORMAT_XRGB8888:
++		*mode = ATMEL_HLCDC_XRGB8888_MODE;
++		break;
++	case DRM_FORMAT_ARGB8888:
++		*mode = ATMEL_HLCDC_ARGB8888_MODE;
++		break;
++	case DRM_FORMAT_RGBA8888:
++		*mode = ATMEL_HLCDC_RGBA8888_MODE;
++		break;
++	case DRM_FORMAT_AYUV:
++		*mode = ATMEL_HLCDC_AYUV_MODE;
++		break;
++	case DRM_FORMAT_YUYV:
++		*mode = ATMEL_HLCDC_YUYV_MODE;
++		break;
++	case DRM_FORMAT_UYVY:
++		*mode = ATMEL_HLCDC_UYVY_MODE;
++		break;
++	case DRM_FORMAT_YVYU:
++		*mode = ATMEL_HLCDC_YVYU_MODE;
++		break;
++	case DRM_FORMAT_VYUY:
++		*mode = ATMEL_HLCDC_VYUY_MODE;
++		break;
++	case DRM_FORMAT_NV21:
++		*mode = ATMEL_HLCDC_NV21_MODE;
++		break;
++	case DRM_FORMAT_NV61:
++		*mode = ATMEL_HLCDC_NV61_MODE;
++		break;
++	case DRM_FORMAT_YUV420:
++		*mode = ATMEL_HLCDC_YUV420_MODE;
++		break;
++	case DRM_FORMAT_YUV422:
++		*mode = ATMEL_HLCDC_YUV422_MODE;
++		break;
++	default:
++		return -ENOTSUPP;
++	}
++
++	return 0;
++}
++
++static bool atmel_hlcdc_format_embedds_alpha(u32 format)
++{
++	int i;
++
++	for (i = 0; i < sizeof(format); i++) {
++		char tmp = (format >> (8 * i)) & 0xff;
++
++		if (tmp == 'A')
++			return true;
++	}
++
++	return false;
++}
++
++static u32 heo_downscaling_xcoef[] = {
++	0x11343311,
++	0x000000f7,
++	0x1635300c,
++	0x000000f9,
++	0x1b362c08,
++	0x000000fb,
++	0x1f372804,
++	0x000000fe,
++	0x24382400,
++	0x00000000,
++	0x28371ffe,
++	0x00000004,
++	0x2c361bfb,
++	0x00000008,
++	0x303516f9,
++	0x0000000c,
++};
++
++static u32 heo_downscaling_ycoef[] = {
++	0x00123737,
++	0x00173732,
++	0x001b382d,
++	0x001f3928,
++	0x00243824,
++	0x0028391f,
++	0x002d381b,
++	0x00323717,
++};
++
++static u32 heo_upscaling_xcoef[] = {
++	0xf74949f7,
++	0x00000000,
++	0xf55f33fb,
++	0x000000fe,
++	0xf5701efe,
++	0x000000ff,
++	0xf87c0dff,
++	0x00000000,
++	0x00800000,
++	0x00000000,
++	0x0d7cf800,
++	0x000000ff,
++	0x1e70f5ff,
++	0x000000fe,
++	0x335ff5fe,
++	0x000000fb,
++};
++
++static u32 heo_upscaling_ycoef[] = {
++	0x00004040,
++	0x00075920,
++	0x00056f0c,
++	0x00027b03,
++	0x00008000,
++	0x00037b02,
++	0x000c6f05,
++	0x00205907,
++};
++
++static void
++atmel_hlcdc_plane_update_pos_and_size(struct atmel_hlcdc_plane *plane,
++				struct atmel_hlcdc_plane_update_req *req)
++{
++	const struct atmel_hlcdc_layer_cfg_layout *layout =
++						&plane->layer.desc->layout;
++
++	if (layout->size)
++		atmel_hlcdc_layer_update_cfg(&plane->layer,
++					     layout->size,
++					     0xffffffff,
++					     (req->crtc_w - 1) |
++					     ((req->crtc_h - 1) << 16));
++
++	if (layout->memsize)
++		atmel_hlcdc_layer_update_cfg(&plane->layer,
++					     layout->memsize,
++					     0xffffffff,
++					     (req->src_w - 1) |
++					     ((req->src_h - 1) << 16));
++
++	if (layout->pos)
++		atmel_hlcdc_layer_update_cfg(&plane->layer,
++					     layout->pos,
++					     0xffffffff,
++					     req->crtc_x |
++					     (req->crtc_y  << 16));
++
++	/* TODO: rework the rescaling part */
++	if (req->crtc_w != req->src_w || req->crtc_h != req->src_h) {
++		u32 factor_reg = 0;
++
++		if (req->crtc_w != req->src_w) {
++			int i;
++			u32 factor;
++			u32 *coeff_tab = heo_upscaling_xcoef;
++			u32 max_memsize;
++
++			if (req->crtc_w < req->src_w)
++				coeff_tab = heo_downscaling_xcoef;
++			for (i = 0; i < ARRAY_SIZE(heo_upscaling_xcoef); i++)
++				atmel_hlcdc_layer_update_cfg(&plane->layer,
++							     17 + i,
++							     0xffffffff,
++							     coeff_tab[i]);
++			factor = ((8 * 256 * req->src_w) - (256 * 4)) /
++				 req->crtc_w;
++			factor++;
++			max_memsize = ((factor * req->crtc_w) + (256 * 4)) /
++				      2048;
++			if (max_memsize > req->src_w)
++				factor--;
++			factor_reg |= factor | 0x80000000;
++		}
++
++		if (req->crtc_h != req->src_h) {
++			int i;
++			u32 factor;
++			u32 *coeff_tab = heo_upscaling_ycoef;
++			u32 max_memsize;
++
++			if (req->crtc_w < req->src_w)
++				coeff_tab = heo_downscaling_ycoef;
++			for (i = 0; i < ARRAY_SIZE(heo_upscaling_ycoef); i++)
++				atmel_hlcdc_layer_update_cfg(&plane->layer,
++							     33 + i,
++							     0xffffffff,
++							     coeff_tab[i]);
++			factor = ((8 * 256 * req->src_w) - (256 * 4)) /
++				 req->crtc_w;
++			factor++;
++			max_memsize = ((factor * req->crtc_w) + (256 * 4)) /
++				      2048;
++			if (max_memsize > req->src_w)
++				factor--;
++			factor_reg |= (factor << 16) | 0x80000000;
++		}
++
++		atmel_hlcdc_layer_update_cfg(&plane->layer, 13, 0xffffffff,
++					     factor_reg);
++	}
++}
++
++static void
++atmel_hlcdc_plane_update_general_settings(struct atmel_hlcdc_plane *plane,
++				struct atmel_hlcdc_plane_update_req *req)
++{
++	const struct atmel_hlcdc_layer_cfg_layout *layout =
++						&plane->layer.desc->layout;
++	unsigned int cfg = ATMEL_HLCDC_LAYER_DMA;
++
++	if (plane->base.type != DRM_PLANE_TYPE_PRIMARY) {
++		cfg |= ATMEL_HLCDC_LAYER_OVR | ATMEL_HLCDC_LAYER_ITER2BL |
++		       ATMEL_HLCDC_LAYER_ITER;
++
++		if (atmel_hlcdc_format_embedds_alpha(req->pixel_format))
++			cfg |= ATMEL_HLCDC_LAYER_LAEN;
++		else
++			cfg |= ATMEL_HLCDC_LAYER_GAEN;
++	}
++
++	atmel_hlcdc_layer_update_cfg(&plane->layer, layout->general_config,
++				     ATMEL_HLCDC_LAYER_ITER2BL |
++				     ATMEL_HLCDC_LAYER_ITER |
++				     ATMEL_HLCDC_LAYER_GAEN |
++				     ATMEL_HLCDC_LAYER_LAEN |
++				     ATMEL_HLCDC_LAYER_OVR |
++				     ATMEL_HLCDC_LAYER_DMA, cfg);
++}
++
++static void atmel_hlcdc_plane_update_format(struct atmel_hlcdc_plane *plane,
++				struct atmel_hlcdc_plane_update_req *req)
++{
++	u32 mode;
++	int ret;
++
++	ret = atmel_hlcdc_format_to_plane_mode(req->pixel_format, &mode);
++	if (ret)
++		return;
++
++	atmel_hlcdc_layer_update_cfg(&plane->layer,
++				     ATMEL_HLCDC_LAYER_FORMAT_CFG_ID,
++				     0xffffffff,
++				     mode);
++}
++
++static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
++				struct atmel_hlcdc_plane_update_req *req)
++{
++	struct atmel_hlcdc_layer *layer = &plane->layer;
++	const struct atmel_hlcdc_layer_cfg_layout *layout =
++							&layer->desc->layout;
++	int i;
++
++	for (i = 0; i < req->nplanes; i++) {
++		atmel_hlcdc_layer_update_set_gem(&plane->layer, i,
++						 req->gems[i],
++						 req->offsets[i]);
++		if (layout->xstride[i])
++			atmel_hlcdc_layer_update_cfg(&plane->layer,
++						layout->xstride[i],
++						0xffffffff,
++						req->pitches[i] -
++						(req->bpp[i] * req->src_w));
++	}
++}
++
++static int atmel_hlcdc_plane_check_update_req(struct drm_plane *p,
++				struct atmel_hlcdc_plane_update_req *req)
++{
++	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
++	const struct atmel_hlcdc_layer_cfg_layout *layout =
++						&plane->layer.desc->layout;
++
++	if (!layout->size &&
++	    (req->crtc->mode.crtc_hdisplay != req->crtc_w ||
++	     req->crtc->mode.crtc_vdisplay != req->crtc_h))
++		return -EINVAL;
++
++	if (plane->layer.desc->max_height &&
++	    req->crtc_h > plane->layer.desc->max_height)
++		return -EINVAL;
++
++	if (plane->layer.desc->max_width &&
++	    req->crtc_w > plane->layer.desc->max_width)
++		return -EINVAL;
++
++	if ((req->crtc_h != req->src_h || req->crtc_w != req->src_w) &&
++	    (!layout->memsize ||
++	     atmel_hlcdc_format_embedds_alpha(req->pixel_format)))
++		return -EINVAL;
++
++	return 0;
++}
++
++int atmel_hlcdc_plane_prepare_update_req(struct drm_plane *p,
++				struct atmel_hlcdc_plane_update_req *req)
++{
++	unsigned int patched_crtc_w;
++	unsigned int patched_crtc_h;
++	int x_offset = 0;
++	int y_offset = 0;
++	int i;
++
++	if ((req->src_x | req->src_y | req->src_w | req->src_h) &
++	    SUBPIXEL_MASK)
++		return -EINVAL;
++
++	req->src_x >>= 16;
++	req->src_y >>= 16;
++	req->src_w >>= 16;
++	req->src_h >>= 16;
++
++	req->nplanes = drm_format_num_planes(req->pixel_format);
++	if (req->nplanes > ATMEL_HLCDC_MAX_PLANES)
++		return -EINVAL;
++
++	if (req->crtc_x + req->crtc_w > req->crtc->mode.hdisplay)
++		patched_crtc_w = req->crtc->mode.hdisplay - req->crtc_x;
++	else
++		patched_crtc_w = req->crtc_w;
++
++	if (req->crtc_x < 0) {
++		patched_crtc_w += req->crtc_x;
++		x_offset = -req->crtc_x;
++		req->crtc_x = 0;
++	}
++
++	if (req->crtc_y + req->crtc_h > req->crtc->mode.vdisplay)
++		patched_crtc_h = req->crtc->mode.vdisplay - req->crtc_y;
++	else
++		patched_crtc_h = req->crtc_h;
++
++	if (req->crtc_y < 0) {
++		patched_crtc_h += req->crtc_y;
++		y_offset = -req->crtc_y;
++		req->crtc_y = 0;
++	}
++
++	req->src_w = DIV_ROUND_CLOSEST(patched_crtc_w * req->src_w,
++				       req->crtc_w);
++	req->src_h = DIV_ROUND_CLOSEST(patched_crtc_h * req->src_h,
++				       req->crtc_h);
++	req->crtc_w = patched_crtc_w;
++	req->crtc_h = patched_crtc_h;
++
++	for (i = 0; i < req->nplanes; i++) {
++		req->bpp[i] = drm_format_plane_cpp(req->pixel_format, i);
++		if (!req->bpp[i])
++			return -EINVAL;
++
++		req->offsets[i] += (x_offset + (y_offset * patched_crtc_w)) *
++				   req->bpp[i];
++	}
++
++	return atmel_hlcdc_plane_check_update_req(p, req);
++}
++
++int atmel_hlcdc_plane_apply_update_req(struct drm_plane *p,
++				struct atmel_hlcdc_plane_update_req *req)
++{
++	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
++	int ret;
++
++	ret = atmel_hlcdc_layer_update_start(&plane->layer);
++	if (ret)
++		return ret;
++
++	atmel_hlcdc_plane_update_pos_and_size(plane, req);
++	atmel_hlcdc_plane_update_general_settings(plane, req);
++	atmel_hlcdc_plane_update_format(plane, req);
++	atmel_hlcdc_plane_update_buffers(plane, req);
++	atmel_hlcdc_layer_update_set_finished(&plane->layer, req->finished,
++					      req->finished_data);
++
++	atmel_hlcdc_layer_update_commit(&plane->layer);
++
++	return 0;
++}
++
++static int atmel_hlcdc_plane_update(struct drm_plane *p,
++				    struct drm_crtc *crtc,
++				    struct drm_framebuffer *fb,
++				    int crtc_x, int crtc_y,
++				    unsigned int crtc_w, unsigned int crtc_h,
++				    uint32_t src_x, uint32_t src_y,
++				    uint32_t src_w, uint32_t src_h)
++{
++	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
++	struct atmel_hlcdc_plane_update_req req;
++	int ret = 0;
++	int i;
++
++	memset(&req, 0, sizeof(req));
++	req.crtc_x = crtc_x;
++	req.crtc_y = crtc_y;
++	req.crtc_w = crtc_w;
++	req.crtc_h = crtc_h;
++	req.src_x = src_x;
++	req.src_y = src_y;
++	req.src_w = src_w;
++	req.src_h = src_h;
++	req.pixel_format = fb->pixel_format;
++	req.crtc = crtc;
++
++	for (i = 0; i < plane->layer.max_planes; i++) {
++		req.offsets[i] = fb->offsets[i];
++		req.pitches[i] = fb->pitches[i];
++		req.gems[i] = drm_fb_cma_get_gem_obj(fb, i);
++	}
++
++	ret = atmel_hlcdc_plane_prepare_update_req(&plane->base, &req);
++	if (ret)
++		return ret;
++
++	ret = atmel_hlcdc_plane_apply_update_req(&plane->base, &req);
++	if (ret)
++		return ret;
++
++	drm_framebuffer_reference(fb);
++	if (plane->base.fb)
++		drm_framebuffer_unreference(plane->base.fb);
++	plane->base.fb = fb;
++
++	return 0;
++}
++
++static int atmel_hlcdc_plane_disable(struct drm_plane *p)
++{
++	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
++
++	return atmel_hlcdc_layer_disable(&plane->layer);
++}
++
++static void atmel_hlcdc_plane_destroy(struct drm_plane *p)
++{
++	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
++
++	if (plane->base.fb)
++		drm_framebuffer_unreference(plane->base.fb);
++
++	atmel_hlcdc_layer_cleanup(p->dev, &plane->layer);
++
++	drm_plane_cleanup(p);
++	devm_kfree(p->dev->dev, plane);
++}
++
++static int atmel_hlcdc_plane_set_alpha(struct atmel_hlcdc_plane *plane,
++				       u8 alpha)
++{
++	atmel_hlcdc_layer_update_start(&plane->layer);
++	atmel_hlcdc_layer_update_cfg(&plane->layer,
++				     plane->layer.desc->layout.general_config,
++				     ATMEL_HLCDC_LAYER_GA_MASK,
++				     alpha << ATMEL_HLCDC_LAYER_GA_SHIFT);
++	atmel_hlcdc_layer_update_commit(&plane->layer);
++
++	return 0;
++}
++
++static int atmel_hlcdc_plane_set_property(struct drm_plane *p,
++					  struct drm_property *property,
++					  uint64_t value)
++{
++	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
++	struct atmel_hlcdc_plane_properties *props = plane->properties;
++
++	if (property == props->alpha)
++		atmel_hlcdc_plane_set_alpha(plane, value);
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
++static void atmel_hlcdc_plane_init_properties(struct atmel_hlcdc_plane *plane,
++				const struct atmel_hlcdc_layer_desc *desc,
++				struct atmel_hlcdc_plane_properties *props)
++{
++	struct regmap *regmap = plane->layer.hlcdc->regmap;
++
++	if (desc->type == ATMEL_HLCDC_OVERLAY_LAYER ||
++	    desc->type == ATMEL_HLCDC_CURSOR_LAYER) {
++		drm_object_attach_property(&plane->base.base,
++					   props->alpha, 255);
++
++		/* Set default alpha value */
++		regmap_update_bits(regmap,
++				desc->regs_offset +
++				ATMEL_HLCDC_LAYER_GENERAL_CFG(&plane->layer),
++				ATMEL_HLCDC_LAYER_GA_MASK,
++				ATMEL_HLCDC_LAYER_GA_MASK);
++	}
++
++	if (desc->layout.csc) {
++		/*
++		 * TODO: decare a "yuv-to-rgb-conv-factors" property to let
++		 * userspace modify these factors (using a BLOB property ?).
++		 */
++		regmap_write(regmap,
++			     desc->regs_offset +
++			     ATMEL_HLCDC_LAYER_CSC_CFG(&plane->layer, 0),
++			     0x4c900091);
++		regmap_write(regmap,
++			     desc->regs_offset +
++			     ATMEL_HLCDC_LAYER_CSC_CFG(&plane->layer, 1),
++			     0x7a5f5090);
++		regmap_write(regmap,
++			     desc->regs_offset +
++			     ATMEL_HLCDC_LAYER_CSC_CFG(&plane->layer, 2),
++			     0x40040890);
++	}
++}
++
++static struct drm_plane_funcs layer_plane_funcs = {
++	.update_plane = atmel_hlcdc_plane_update,
++	.disable_plane = atmel_hlcdc_plane_disable,
++	.set_property = atmel_hlcdc_plane_set_property,
++	.destroy = atmel_hlcdc_plane_destroy,
++};
++
++static struct atmel_hlcdc_plane *
++atmel_hlcdc_plane_create(struct drm_device *dev,
++			 const struct atmel_hlcdc_layer_desc *desc,
++			 struct atmel_hlcdc_plane_properties *props)
++{
++	struct atmel_hlcdc_plane *plane;
++	enum drm_plane_type type;
++	int ret;
++
++	plane = devm_kzalloc(dev->dev, sizeof(*plane), GFP_KERNEL);
++	if (!plane)
++		return ERR_PTR(-ENOMEM);
++
++	ret = atmel_hlcdc_layer_init(dev, &plane->layer, desc);
++	if (ret)
++		return ERR_PTR(ret);
++
++	if (desc->type == ATMEL_HLCDC_BASE_LAYER)
++		type = DRM_PLANE_TYPE_PRIMARY;
++	else if (desc->type == ATMEL_HLCDC_CURSOR_LAYER)
++		type = DRM_PLANE_TYPE_CURSOR;
++	else
++		type = DRM_PLANE_TYPE_OVERLAY;
++
++	ret = drm_universal_plane_init(dev, &plane->base, 0,
++				       &layer_plane_funcs,
++				       desc->formats->formats,
++				       desc->formats->nformats, type);
++	if (ret)
++		return ERR_PTR(ret);
++
++	/* Set default property values*/
++	atmel_hlcdc_plane_init_properties(plane, desc, props);
++
++	return plane;
++}
++
++static struct atmel_hlcdc_plane_properties *
++atmel_hlcdc_plane_create_properties(struct drm_device *dev)
++{
++	struct atmel_hlcdc_plane_properties *props;
++
++	props = devm_kzalloc(dev->dev, sizeof(*props), GFP_KERNEL);
++	if (!props)
++		return ERR_PTR(-ENOMEM);
++
++	props->alpha = drm_property_create_range(dev, 0, "alpha", 0, 255);
++	if (!props->alpha)
++		return ERR_PTR(-ENOMEM);
++
++	return props;
++}
++
++struct atmel_hlcdc_planes *
++atmel_hlcdc_create_planes(struct drm_device *dev)
++{
++	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	struct atmel_hlcdc_plane_properties *props;
++	struct atmel_hlcdc_planes *planes;
++	const struct atmel_hlcdc_layer_desc *descs = dc->desc->layers;
++	int nlayers = dc->desc->nlayers;
++	int i;
++
++	planes = devm_kzalloc(dev->dev, sizeof(*planes), GFP_KERNEL);
++	if (!planes)
++		return ERR_PTR(-ENOMEM);
++
++	for (i = 0; i < nlayers; i++) {
++		if (descs[i].type == ATMEL_HLCDC_OVERLAY_LAYER)
++			planes->noverlays++;
++	}
++
++	if (planes->noverlays) {
++		planes->overlays = devm_kzalloc(dev->dev,
++						planes->noverlays *
++						sizeof(*planes->overlays),
++						GFP_KERNEL);
++		if (!planes->overlays)
++			return ERR_PTR(-ENOMEM);
++	}
++
++	props = atmel_hlcdc_plane_create_properties(dev);
++	if (IS_ERR(props))
++		return ERR_CAST(props);
++
++	planes->noverlays = 0;
++	for (i = 0; i < nlayers; i++) {
++		struct atmel_hlcdc_plane *plane;
++
++		if (descs[i].type == ATMEL_HLCDC_PP_LAYER)
++			continue;
++
++		plane = atmel_hlcdc_plane_create(dev, &descs[i], props);
++		if (IS_ERR(plane))
++			return ERR_CAST(plane);
++
++		plane->properties = props;
++
++		switch (descs[i].type) {
++		case ATMEL_HLCDC_BASE_LAYER:
++			if (planes->primary)
++				return ERR_PTR(-EINVAL);
++			planes->primary = plane;
++			break;
++
++		case ATMEL_HLCDC_OVERLAY_LAYER:
++			planes->overlays[planes->noverlays++] = plane;
++			break;
++
++		case ATMEL_HLCDC_CURSOR_LAYER:
++			if (planes->cursor)
++				return ERR_PTR(-EINVAL);
++			planes->cursor = plane;
++			break;
++
++		default:
++			break;
++		}
++	}
++
++	return planes;
++}
+-- 
+2.0.0
+

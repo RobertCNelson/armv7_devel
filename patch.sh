@@ -79,6 +79,22 @@ hlcdc () {
 	${git} "${DIR}/patches/hlcdc/0008-atmel-hlcdc-build-fix.patch"
 }
 
+hlcdc_v3 () {
+	echo "dir: hlcdc_v3"
+	${git} "${DIR}/patches/hlcdc_v3/0001-mfd-add-atmel-hlcdc-driver.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0002-mfd-add-documentation-for-atmel-hlcdc-DT-bindings.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0003-pwm-add-support-for-atmel-hlcdc-pwm-device.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0004-pwm-add-DT-bindings-documentation-for-atmel-hlcdc-pw.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0005-drm-add-Atmel-HLCDC-Display-Controller-support.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0006-drm-add-DT-bindings-documentation-for-atmel-hlcdc-dc.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0007-ARM-AT91-dt-split-sama5d3-lcd-pin-definitions-to-mat.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0008-ARM-AT91-dt-add-alternative-pin-muxing-for-sama5d3-l.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0009-ARM-at91-dt-define-the-HLCDC-node-available-on-sama5.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0010-ARM-at91-dt-add-LCD-panel-description-to-sama5d3xdm..patch"
+	${git} "${DIR}/patches/hlcdc_v3/0011-ARM-at91-dt-enable-the-LCD-panel-on-sama5d3xek-board.patch"
+	${git} "${DIR}/patches/hlcdc_v3/0012-drm-atmel_hlcdc_dc.c-drm_irq_install-changed-in-v3.1.patch"
+}
+
 enable_spidev () {
 	#debian@arm:~$ ls /dev/spi*
 	#/dev/spidev32766.0
@@ -86,8 +102,8 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-hlcdc
-
+#hlcdc
+hlcdc_v3
 #enable_spidev
 
 packaging_setup () {
