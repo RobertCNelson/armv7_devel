@@ -92,4 +92,4 @@ packaging () {
 
 #packaging_setup
 #packaging
-echo "patch.sh ran successful"
+echo "patch.sh ran successfully"
