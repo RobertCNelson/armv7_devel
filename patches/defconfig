@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.17.0-rc1 Kernel Configuration
+# Linux/arm 3.17.0-rc5 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -964,7 +964,6 @@ CONFIG_NET_VENDOR_ARC=y
 CONFIG_NET_CADENCE=y
 CONFIG_MACB=y
 # CONFIG_NET_VENDOR_BROADCOM is not set
-# CONFIG_NET_CALXEDA_XGMAC is not set
 # CONFIG_NET_VENDOR_CIRRUS is not set
 # CONFIG_DM9000 is not set
 # CONFIG_DNET is not set
@@ -977,7 +976,6 @@ CONFIG_NET_VENDOR_HISILICON=y
 # CONFIG_NET_VENDOR_MICROCHIP is not set
 # CONFIG_NET_VENDOR_NATSEMI is not set
 # CONFIG_ETHOC is not set
-# CONFIG_SH_ETH is not set
 CONFIG_NET_VENDOR_SAMSUNG=y
 # CONFIG_SXGBE_ETH is not set
 # CONFIG_NET_VENDOR_SEEQ is not set
@@ -1797,6 +1795,7 @@ CONFIG_USB_STORAGE=y
 #
 # CONFIG_USB_MDC800 is not set
 # CONFIG_USB_MICROTEK is not set
+# CONFIG_USBIP_CORE is not set
 # CONFIG_USB_MUSB_HDRC is not set
 # CONFIG_USB_DWC3 is not set
 # CONFIG_USB_DWC2 is not set
@@ -2135,7 +2134,6 @@ CONFIG_DMA_OF=y
 # Microsoft Hyper-V guest support
 #
 CONFIG_STAGING=y
-# CONFIG_USBIP_CORE is not set
 # CONFIG_PRISM2_USB is not set
 # CONFIG_COMEDI is not set
 # CONFIG_RTLLIB is not set
@@ -2717,6 +2715,7 @@ CONFIG_SCHEDSTATS=y
 # CONFIG_DEBUG_ATOMIC_SLEEP is not set
 # CONFIG_DEBUG_LOCKING_API_SELFTESTS is not set
 # CONFIG_LOCK_TORTURE_TEST is not set
+# CONFIG_STACKTRACE is not set
 # CONFIG_DEBUG_KOBJECT is not set
 CONFIG_DEBUG_BUGVERBOSE=y
 # CONFIG_DEBUG_LIST is not set
