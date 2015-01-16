@@ -26,11 +26,11 @@ toolchain="gcc_linaro_gnueabihf_4_9"
 
 #Kernel/Build
 KERNEL_REL=3.19
-KERNEL_TAG=${KERNEL_REL}-rc3
-BUILD=sama5-armv7-r2
+KERNEL_TAG=${KERNEL_REL}-rc4
+BUILD=sama5-armv7-r3
 
 #v3.X-rcX + upto SHA
-#KERNEL_SHA="8139548136d966863751a6e5ce8a19d08c4f374a"
+#KERNEL_SHA=""
 
 #git branch
 BRANCH="v3.19.x-sama5-armv7"
