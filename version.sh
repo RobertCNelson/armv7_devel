@@ -20,16 +20,16 @@ config="imx_v6_v7_defconfig"
 toolchain="gcc_linaro_gnueabihf_4_9"
 
 #Kernel/Build
-KERNEL_REL=3.19
-KERNEL_TAG=${KERNEL_REL}.3
-BUILD=vybrid-armv7-r2
+KERNEL_REL=4.0
+KERNEL_TAG=${KERNEL_REL}-rc6
+BUILD=vybrid-armv7-r1
 
 #v3.X-rcX + upto SHA
 #prev_KERNEL_SHA=""
 #KERNEL_SHA=""
 
 #git branch
-BRANCH="v3.19.x-vybrid-armv7"
+BRANCH="v4.0.x-vybrid-armv7"
 
 DISTRO=cross
 DEBARCH=armhf
