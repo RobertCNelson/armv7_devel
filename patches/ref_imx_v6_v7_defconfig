@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.19.0-rc4 Kernel Configuration
+# Linux/arm 3.19.3 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_ARM_HAS_SG_CHAIN=y
@@ -3419,11 +3419,6 @@ CONFIG_STAGING=y
 # CONFIG_DGAP is not set
 # CONFIG_GS_FPGABOOT is not set
 # CONFIG_COMMON_CLK_XLNX_CLKWZRD is not set
-
-#
-# SOC (System On Chip) specific Drivers
-#
-# CONFIG_SOC_TI is not set
 CONFIG_CLKDEV_LOOKUP=y
 CONFIG_HAVE_CLK_PREPARE=y
 CONFIG_COMMON_CLK=y
@@ -3468,6 +3463,7 @@ CONFIG_CLKSRC_ARM_GLOBAL_TIMER_SCHED_CLOCK=y
 #
 # SOC (System On Chip) specific Drivers
 #
+# CONFIG_SOC_TI is not set
 # CONFIG_PM_DEVFREQ is not set
 # CONFIG_EXTCON is not set
 # CONFIG_MEMORY is not set
