@@ -20,16 +20,16 @@ config="sama5_defconfig"
 toolchain="gcc_linaro_gnueabihf_4_9"
 
 #Kernel/Build
-KERNEL_REL=4.0
-KERNEL_TAG=${KERNEL_REL}-rc7
-BUILD=sama5-armv7-r2
+KERNEL_REL=3.18
+KERNEL_TAG=${KERNEL_REL}
+BUILD=at91-r0
 
 #v3.X-rcX + upto SHA
 #prev_KERNEL_SHA=""
 #KERNEL_SHA=""
 
 #git branch
-BRANCH="v4.0.x-sama5-armv7"
+BRANCH="linux-3.18-at91"
 
 DISTRO=cross
 DEBARCH=armhf

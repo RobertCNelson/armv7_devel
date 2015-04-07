@@ -28,7 +28,7 @@ if [ -f ${DIR}/system.sh ] ; then
 fi
 
 git="git am"
-#git_patchset=""
+git_patchset="https://github.com/linux4sam/linux-at91"
 #git_opts
 
 if [ "${RUN_BISECT}" ] ; then
@@ -54,7 +54,7 @@ cleanup () {
 }
 
 external_git () {
-	git_tag=""
+	git_tag="linux-3.18-at91"
 	echo "pulling: ${git_tag}"
 	git pull ${git_opts} ${git_patchset} ${git_tag}
 }
@@ -64,7 +64,7 @@ local_patch () {
 	${git} "${DIR}/patches/dir/0001-patch.patch"
 }
 
-#external_git
+external_git
 #local_patch
 
 usb_fixes () {
@@ -83,7 +83,7 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-usb_fixes
+#usb_fixes
 #enable_spidev
 
 packaging_setup () {
