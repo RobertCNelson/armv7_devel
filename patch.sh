@@ -90,7 +90,7 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-usb_fixes
+#usb_fixes
 #enable_spidev
 
 packaging_setup () {
