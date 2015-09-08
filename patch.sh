@@ -61,7 +61,7 @@ cleanup () {
 }
 
 external_git () {
-	git_tag="linux-3.18-at91"
+	git_tag="linux-4.1-at91"
 	echo "pulling: ${git_tag}"
 	git pull ${git_opts} ${git_patchset} ${git_tag}
 }
