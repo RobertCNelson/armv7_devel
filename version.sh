@@ -10,13 +10,13 @@ config="sama5_defconfig"
 #toolchain="gcc_linaro_gnueabi_4_6"
 #toolchain="gcc_linaro_gnueabihf_4_7"
 #toolchain="gcc_linaro_gnueabihf_4_8"
-toolchain="gcc_linaro_gnueabihf_4_9"
-#toolchain="gcc_linaro_gnueabihf_5"
+#toolchain="gcc_linaro_gnueabihf_4_9"
+toolchain="gcc_linaro_gnueabihf_5"
 
 #Kernel/Build
-KERNEL_REL=4.2
-KERNEL_TAG=${KERNEL_REL}.3
-BUILD=sama5-armv7-r2
+KERNEL_REL=4.3
+KERNEL_TAG=${KERNEL_REL}-rc4
+BUILD=sama5-armv7-r0
 kernel_rt=".X-rtY"
 
 #v4.X-rcX + upto SHA
@@ -24,7 +24,7 @@ kernel_rt=".X-rtY"
 #KERNEL_SHA=""
 
 #git branch
-BRANCH="v4.2.x-sama5-armv7"
+BRANCH="v4.3.x-sama5-armv7"
 
 DISTRO=cross
 DEBARCH=armhf
