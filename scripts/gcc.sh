@@ -23,24 +23,24 @@
 ARCH=$(uname -m)
 DIR=$PWD
 
-. ${DIR}/system.sh
+. "${DIR}/system.sh"
 
 #For:
 #toolchain
-. ${DIR}/version.sh
+. "${DIR}/version.sh"
 
 dl_gcc_generic () {
 	WGET="wget -c --directory-prefix=${DIR}/dl/"
-	if [ ! -f ${DIR}/dl/${directory}/${datestamp} ] ; then
+	if [ ! -f "${DIR}/dl/${directory}/${datestamp}" ] ; then
 		echo "Installing: ${toolchain_name}"
 		echo "-----------------------------"
-		${WGET} ${site}/${version}/${filename}
-		if [ -d ${DIR}/dl/${directory} ] ; then
-			rm -rf ${DIR}/dl/${directory} || true
+		${WGET} "${site}/${version}/${filename}"
+		if [ -d "${DIR}/dl/${directory}" ] ; then
+			rm -rf "${DIR}/dl/${directory}" || true
 		fi
-		tar -xf ${DIR}/dl/${filename} -C ${DIR}/dl/
-		if [ -f ${DIR}/dl/${directory}/${binary}gcc ] ; then
-			touch ${DIR}/dl/${directory}/${datestamp}
+		tar -xf "${DIR}/dl/${filename}" -C "${DIR}/dl/"
+		if [ -f "${DIR}/dl/${directory}/${binary}gcc" ] ; then
+			touch "${DIR}/dl/${directory}/${datestamp}"
 		fi
 	fi
 
@@ -93,6 +93,25 @@ gcc_toolchain () {
 		target="arm-eabi"
 
 		version="${release}/components/toolchain/binaries/${target}"
+		filename="gcc-linaro-${gcc_version}-20${release}-x86_64_arm-eabi.tar.xz"
+		directory="gcc-linaro-${gcc_version}-20${release}-x86_64_arm-eabi"
+
+		datestamp="${gcc_version}-20${release}-${target}"
+
+		binary="bin/arm-eabi-"
+		;;
+	gcc_linaro_eabi_5)
+		#
+		#https://snapshots.linaro.org/components/toolchain/binaries/5.1-2015.08-rc2/arm-eabi/gcc-linaro-5.1-2015.08-rc2-x86_64_arm-eabi.tar.xz
+		#
+
+		site="https://snapshots.linaro.org"
+
+		gcc_version="5.1"
+		release="15.08-rc2"
+		target="arm-eabi"
+
+		version="components/toolchain/binaries/${gcc_version}-20${release}/${target}"
 		filename="gcc-linaro-${gcc_version}-20${release}-x86_64_arm-eabi.tar.xz"
 		directory="gcc-linaro-${gcc_version}-20${release}-x86_64_arm-eabi"
 
@@ -174,6 +193,25 @@ gcc_toolchain () {
 
 		binary="bin/${target}-"
 		;;
+	gcc_linaro_gnueabihf_5)
+		#
+		#https://snapshots.linaro.org/components/toolchain/binaries/5.1-2015.08-rc2/arm-linux-gnueabihf/gcc-linaro-5.1-2015.08-rc2-x86_64_arm-linux-gnueabihf.tar.xz
+		#
+
+		site="https://snapshots.linaro.org"
+
+		gcc_version="5.1"
+		release="15.08-rc2"
+		target="arm-linux-gnueabihf"
+
+		version="components/toolchain/binaries/${gcc_version}-20${release}/${target}"
+		filename="gcc-linaro-${gcc_version}-20${release}-x86_64_${target}.tar.xz"
+		directory="gcc-linaro-${gcc_version}-20${release}-x86_64_${target}"
+
+		datestamp="${gcc_version}-20${release}-${target}"
+
+		binary="bin/${target}-"
+		;;
 	*)
 		echo "bug: maintainer forgot to set:"
 		echo "toolchain=\"xzy\" in version.sh"
@@ -206,7 +244,7 @@ if [ "x${CC}" = "x" ] && [ "x${ARCH}" != "xarmv7l" ] ; then
 	gcc_toolchain
 fi
 
-GCC_TEST=$(LC_ALL=C ${CC}gcc -v 2>&1 | grep "Target:" | grep arm || true)
+GCC_TEST=$(LC_ALL=C "${CC}gcc" -v 2>&1 | grep "Target:" | grep arm || true)
 
 if [ "x${GCC_TEST}" = "x" ] ; then
 	echo "-----------------------------"
@@ -216,6 +254,6 @@ if [ "x${GCC_TEST}" = "x" ] ; then
 fi
 
 echo "-----------------------------"
-echo "scripts/gcc: Using: `LC_ALL=C ${CC}gcc --version`"
+echo "scripts/gcc: Using: $(LC_ALL=C "${CC}"gcc --version)"
 echo "-----------------------------"
-echo "CC=${CC}" > ${DIR}/.CC
+echo "CC=${CC}" > "${DIR}/.CC"
