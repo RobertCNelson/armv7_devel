@@ -60,6 +60,14 @@ cleanup () {
 	exit 2
 }
 
+pick () {
+	if [ ! -d ../patches/${pick_dir} ] ; then
+		mkdir -p ../patches/${pick_dir}
+	fi
+	git format-patch -1 ${SHA} --start-number ${num} -o ../patches/${pick_dir}
+	num=$(($num+1))
+}
+
 external_git () {
 	git_tag="linux-3.18-at91"
 	echo "pulling: ${git_tag}"
@@ -100,19 +108,9 @@ packaging () {
 		cp -v "${DIR}/3rdparty/packaging/builddeb" "${DIR}/KERNEL/scripts/package"
 		git commit -a -m 'packaging: sync builddeb changes' -s
 		git format-patch -1 -o "${DIR}/patches/packaging"
+		exit 2
 	else
 		${git} "${DIR}/patches/packaging/0001-packaging-sync-builddeb-changes.patch"
-	fi
-
-	if [ "x${regenerate}" = "xenable" ] ; then
-		start_cleanup
-	fi
-
-		#${git} "${DIR}/patches/packaging/0002"
-
-	if [ "x${regenerate}" = "xenable" ] ; then
-		number=1
-		cleanup
 	fi
 }
 
