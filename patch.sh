@@ -107,13 +107,9 @@ local_patch () {
 #rt
 #local_patch
 
-usb_fixes () {
-	echo "dir: usb"
-#	${git} "${DIR}/patches/usb/0001-USB-ehci-atmel-rework-clk-handling.patch"
-	${git} "${DIR}/patches/usb/0002-USB-host-ohci-at91-remove-useless-uclk-clock.patch"
-	${git} "${DIR}/patches/usb/0003-USB-atmel-update-DT-bindings-documentation.patch"
-	${git} "${DIR}/patches/usb/0004-ARM-at91-dt-remove-useless-uhpck-clock-references-fr.patch"
-	${git} "${DIR}/patches/usb/0005-ARM-at91-dt-remove-useless-usb-clock.patch"
+fixes () {
+	echo "dir: fixes"
+	${git} "${DIR}/patches/fixes/0001-sama5d2_xplained-wp-seems-broken.patch"
 }
 
 enable_spidev () {
@@ -123,7 +119,7 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-#usb_fixes
+fixes
 #enable_spidev
 
 packaging () {
