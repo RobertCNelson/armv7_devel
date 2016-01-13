@@ -12,15 +12,15 @@ KERNEL_ARCH=arm
 #toolchain="gcc_linaro_gnueabi_4_6"
 #toolchain="gcc_linaro_gnueabihf_4_7"
 #toolchain="gcc_linaro_gnueabihf_4_8"
-toolchain="gcc_linaro_gnueabihf_4_9"
-#toolchain="gcc_linaro_gnueabihf_5"
+#toolchain="gcc_linaro_gnueabihf_4_9"
+toolchain="gcc_linaro_gnueabihf_5"
 #arm64
 #KERNEL_ARCH=arm64
 #toolchain="gcc_linaro_aarch64_gnu_5"
 
 #Kernel/Build
-KERNEL_REL=4.2
-KERNEL_TAG=${KERNEL_REL}.8
+KERNEL_REL=4.3
+KERNEL_TAG=${KERNEL_REL}.3
 BUILD=vybrid-armv7-r1
 kernel_rt=".X-rtY"
 
@@ -29,7 +29,7 @@ kernel_rt=".X-rtY"
 #KERNEL_SHA=""
 
 #git branch
-BRANCH="v4.2.x-vybrid-armv7"
+BRANCH="v4.3.x-vybrid-armv7"
 
 DISTRO=cross
 DEBARCH=armhf
