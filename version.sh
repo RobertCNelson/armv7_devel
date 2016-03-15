@@ -4,6 +4,10 @@ ARCH=$(uname -m)
 
 config="sama5_defconfig"
 
+build_prefix="sama5-armv7-r"
+branch_prefix="v"
+branch_postfix=".x-sama5-armv7"
+
 #arm
 KERNEL_ARCH=arm
 #toolchain="gcc_linaro_eabi_4_8"
@@ -21,15 +25,15 @@ toolchain="gcc_linaro_gnueabihf_5"
 #Kernel/Build
 KERNEL_REL=4.4
 KERNEL_TAG=${KERNEL_REL}
-BUILD=sama5-armv7-r3
-kernel_rt="-rt2"
+BUILD=${build_prefix}3
+kernel_rt=".X-rtY"
 
 #v4.X-rcX + upto SHA
 #prev_KERNEL_SHA=""
 #KERNEL_SHA=""
 
 #git branch
-BRANCH="v4.4.x-sama5-armv7"
+BRANCH="${branch_prefix}${KERNEL_REL}${branch_postfix}"
 
 DISTRO=cross
 DEBARCH=armhf
