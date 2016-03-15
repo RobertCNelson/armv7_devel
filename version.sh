@@ -4,6 +4,10 @@ ARCH=$(uname -m)
 
 config="imx_v6_v7_defconfig"
 
+build_prefix="vybrid-armv7-r"
+branch_prefix="v"
+branch_postfix=".x-vybrid-armv7"
+
 #arm
 KERNEL_ARCH=arm
 #toolchain="gcc_linaro_eabi_4_8"
@@ -29,7 +33,7 @@ kernel_rt=".X-rtY"
 #KERNEL_SHA=""
 
 #git branch
-BRANCH="v4.1.x-vybrid-armv7"
+BRANCH="${branch_prefix}${KERNEL_REL}${branch_postfix}"
 
 DISTRO=cross
 DEBARCH=armhf
