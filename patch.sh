@@ -190,11 +190,6 @@ local_patch () {
 #rt
 #local_patch
 
-fixes () {
-	echo "dir: fixes"
-	${git} "${DIR}/patches/fixes/0001-sama5d2_xplained-wp-seems-broken.patch"
-}
-
 enable_spidev () {
 	#debian@arm:~$ ls /dev/spi*
 	#/dev/spidev32766.0
@@ -202,7 +197,6 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-fixes
 #enable_spidev
 
 packaging () {
