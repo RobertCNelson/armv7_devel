@@ -4,7 +4,7 @@ ARCH=$(uname -m)
 
 config="sama5_defconfig"
 
-build_prefix="sama5-armv7-r"
+build_prefix="-sama5-armv7-r"
 branch_prefix="v"
 branch_postfix=".x-sama5-armv7"
 
