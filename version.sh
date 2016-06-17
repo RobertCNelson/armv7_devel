@@ -4,7 +4,7 @@ ARCH=$(uname -m)
 
 config="imx_v6_v7_defconfig"
 
-build_prefix="vybrid-armv7-r"
+build_prefix="-vybrid-armv7-r"
 branch_prefix="v"
 branch_postfix=".x-vybrid-armv7"
 
