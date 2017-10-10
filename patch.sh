@@ -215,59 +215,14 @@ local_patch () {
 #rt
 #local_patch
 
-pre_backports () {
-	echo "dir: backports/${subsystem}"
-
-	cd ~/linux-src/
-	${git_bin} pull --no-edit https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git master
-	${git_bin} pull --no-edit https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git master --tags
-	${git_bin} pull --no-edit https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master --tags
-	if [ ! "x${backport_tag}" = "x" ] ; then
-		${git_bin} checkout ${backport_tag} -b tmp
-	fi
-	cd -
+enable_spidev () {
+	#debian@arm:~$ ls /dev/spi*
+	#/dev/spidev32766.0
+	echo "dir: examples"
+	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
-post_backports () {
-	if [ ! "x${backport_tag}" = "x" ] ; then
-		cd ~/linux-src/
-		${git_bin} checkout master -f ; ${git_bin} branch -D tmp
-		cd -
-	fi
-
-	${git_bin} add .
-	${git_bin} commit -a -m "backports: ${subsystem}: from: linux.git" -s
-	if [ ! -d ../patches/backports/${subsystem}/ ] ; then
-		mkdir -p ../patches/backports/${subsystem}/
-	fi
-	${git_bin} format-patch -1 -o ../patches/backports/${subsystem}/
-}
-
-patch_backports (){
-	echo "dir: backports/${subsystem}"
-	${git} "${DIR}/patches/backports/${subsystem}/0001-backports-${subsystem}-from-linux.git.patch"
-}
-
-backports () {
-	backport_tag="v4.x-y"
-
-	subsystem="xyz"
-	#regenerate="enable"
-	if [ "x${regenerate}" = "xenable" ] ; then
-		pre_backports
-
-		mkdir -p ./x/
-		cp -v ~/linux-src/x/* ./x/
-
-		post_backports
-		exit 2
-	else
-		patch_backports
-	fi
-}
-
-###
-#backports
+#enable_spidev
 
 packaging () {
 	echo "dir: packaging"
@@ -284,5 +239,5 @@ packaging () {
 	fi
 }
 
-packaging
+#packaging
 echo "patch.sh ran successfully"
