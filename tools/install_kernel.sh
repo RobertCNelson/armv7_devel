@@ -23,6 +23,8 @@
 unset KERNEL_UTS
 unset MMC
 
+dtb="r8a7791-porter.dtb"
+
 DIR=$PWD
 
 . "${DIR}/version.sh"
@@ -58,7 +60,9 @@ mmc_write_boot_pre () {
 		sudo mv "${location}/vmlinuz-${KERNEL_UTS}" "${location}/vmlinuz-${KERNEL_UTS}_bak"
 	fi
 
-	sudo cp -v "${DIR}/deploy/${KERNEL_UTS}.zImage" "${location}/vmlinuz-${KERNEL_UTS}"
+	cat "${DIR}/deploy/${KERNEL_UTS}.zImage" "${DIR}/KERNEL/arch/arm/boot/dts/${dtb}" > "${DIR}/deploy/${KERNEL_UTS}.zImage.dtb"
+
+	sudo cp -v "${DIR}/deploy/${KERNEL_UTS}.zImage.dtb" "${location}/vmlinuz-${KERNEL_UTS}"
 
 	if [ -f "${location}/initrd.img-${KERNEL_UTS}" ] ; then
 		sudo rm -rf "${location}/initrd.img-${KERNEL_UTS}" || true

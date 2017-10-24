@@ -224,6 +224,8 @@ enable_spidev () {
 
 #enable_spidev
 
+dir 'fixes'
+
 packaging () {
 	echo "dir: packaging"
 	#regenerate="enable"

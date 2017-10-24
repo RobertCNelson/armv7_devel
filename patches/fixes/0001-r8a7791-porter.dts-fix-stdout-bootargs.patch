@@ -1,0 +1,28 @@
+From 447e4fef1ae6c1af6d3ef06095c1d5015069a03f Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Tue, 24 Oct 2017 14:03:15 -0500
+Subject: [PATCH] r8a7791-porter.dts: fix stdout/bootargs
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ arch/arm/boot/dts/r8a7791-porter.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/r8a7791-porter.dts b/arch/arm/boot/dts/r8a7791-porter.dts
+index 95da5cb9d37a..470ab6d35c1d 100644
+--- a/arch/arm/boot/dts/r8a7791-porter.dts
++++ b/arch/arm/boot/dts/r8a7791-porter.dts
+@@ -32,8 +32,8 @@
+ 	};
+ 
+ 	chosen {
+-		bootargs = "ignore_loglevel rw root=/dev/nfs ip=dhcp";
+-		stdout-path = "serial0:115200n8";
++		bootargs = "root=/dev/mmcblk1p1 ro mmcrootfstype=ext4 rootwait";
++		stdout-path = "serial0:38400n8";
+ 	};
+ 
+ 	memory@40000000 {
+-- 
+2.14.2
+
