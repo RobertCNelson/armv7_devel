@@ -296,9 +296,9 @@ local_patch () {
 }
 
 #external_git
-aufs4
+#aufs4
 #rt
-wireguard
+#wireguard
 #local_patch
 
 pre_backports () {
