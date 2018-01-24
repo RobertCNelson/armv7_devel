@@ -2,11 +2,11 @@
 #
 ARCH=$(uname -m)
 
-config="sama5_defconfig"
+config="exynos_defconfig"
 
-build_prefix="-sama5-armv7-r"
+build_prefix="-artik-armv7-r"
 branch_prefix="v"
-branch_postfix=".x-sama5-armv7"
+branch_postfix=".x-artik-armv7"
 
 #arm
 KERNEL_ARCH=arm
@@ -30,10 +30,10 @@ toolchain="gcc_linaro_gnueabihf_6"
 
 #Kernel
 KERNEL_REL=4.9
-KERNEL_TAG=${KERNEL_REL}.54
-kernel_rt=".X-rtY"
+KERNEL_TAG=${KERNEL_REL}.78
+kernel_rt=".76-rt61"
 #Kernel Build
-BUILD=${build_prefix}4
+BUILD=${build_prefix}0
 
 #v4.X-rcX + upto SHA
 #prev_KERNEL_SHA=""
