@@ -1,28 +1,44 @@
-From 4c9a9be0d891b60898dac4cc0cd54c65d2987028 Mon Sep 17 00:00:00 2001
+From d93e606201f3cb015d952ca3789d2f19cc0d2868 Mon Sep 17 00:00:00 2001
 From: Robert Nelson <robertcnelson@gmail.com>
-Date: Thu, 14 Dec 2017 09:37:55 -0600
+Date: Thu, 14 Dec 2017 09:54:09 -0600
 Subject: [PATCH] packaging: sync builddeb changes
 
 Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
 ---
- scripts/package/builddeb | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ scripts/package/builddeb | 34 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index 3c575cd07888..c2920e79c763 100755
+index 0bc87473f68f..8daf8101b186 100755
 --- a/scripts/package/builddeb
 +++ b/scripts/package/builddeb
-@@ -69,7 +69,7 @@ set_debarch() {
- 		echo "" >&2
- 		echo "** ** **  WARNING  ** ** **" >&2
- 		echo "" >&2
--		echo "Your architecture doesn't have it's equivalent" >&2
-+		echo "Your architecture doesn't have its equivalent" >&2
- 		echo "Debian userspace architecture defined!" >&2
- 		echo "Falling back to using your current userspace instead!" >&2
- 		echo "Please add support for $UTS_MACHINE to ${0} ..." >&2
-@@ -151,9 +151,18 @@ else
+@@ -92,10 +92,12 @@ else
  fi
+ sourcename=$KDEB_SOURCENAME
+ tmpdir="$objtree/debian/tmp"
++fwdir="$objtree/debian/fwtmp"
+ kernel_headers_dir="$objtree/debian/hdrtmp"
+ libc_headers_dir="$objtree/debian/headertmp"
+ dbg_dir="$objtree/debian/dbgtmp"
+ packagename=linux-image-$version
++fwpackagename=linux-firmware-image-$version
+ kernel_headers_packagename=linux-headers-$version
+ libc_headers_packagename=linux-libc-dev
+ dbg_packagename=$packagename-dbg
+@@ -124,9 +126,10 @@ esac
+ BUILD_DEBUG="$(grep -s '^CONFIG_DEBUG_INFO=y' $KCONFIG_CONFIG || true)"
+ 
+ # Setup the directory structure
+-rm -rf "$tmpdir" "$kernel_headers_dir" "$libc_headers_dir" "$dbg_dir" $objtree/debian/files
++rm -rf "$tmpdir" "$fwdir" "$kernel_headers_dir" "$libc_headers_dir" "$dbg_dir" $objtree/debian/files
+ mkdir -m 755 -p "$tmpdir/DEBIAN"
+ mkdir -p "$tmpdir/lib" "$tmpdir/boot"
++mkdir -p "$fwdir/lib/firmware/$version/"
+ mkdir -p "$kernel_headers_dir/lib/modules/$version/"
+ 
+ # Build and install the kernel
+@@ -143,9 +146,18 @@ fi
+ cp "$($MAKE -s image_name)" "$tmpdir/$installed_image_path"
  
  if grep -q "^CONFIG_OF=y" $KCONFIG_CONFIG ; then
 +	mkdir -p "$tmpdir/boot/dtbs/$version"
@@ -41,63 +57,39 @@ index 3c575cd07888..c2920e79c763 100755
  	fi
  fi
  
-@@ -262,10 +271,10 @@ EOF
- cat <<EOF > debian/copyright
- This is a packacked upstream version of the Linux kernel.
- 
--The sources may be found at most Linux ftp sites, including:
--ftp://ftp.kernel.org/pub/linux/kernel
-+The sources may be found at most Linux archive sites, including:
-+https://www.kernel.org/pub/linux/kernel
- 
--Copyright: 1991 - 2015 Linus Torvalds and others.
-+Copyright: 1991 - 2017 Linus Torvalds and others.
- 
- The git repository for mainline kernel development is at:
- git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-@@ -288,7 +297,6 @@ Section: kernel
- Priority: optional
- Maintainer: $maintainer
- Build-Depends: $build_depends
--Standards-Version: 3.8.4
- Homepage: http://www.kernel.org/
- EOF
- 
-@@ -296,7 +304,6 @@ if [ "$ARCH" = "um" ]; then
+@@ -303,7 +315,9 @@ else
  	cat <<EOF >> debian/control
  
  Package: $packagename
--Provides: linux-image, linux-image-2.6, linux-modules-$version
- Architecture: any
- Description: User Mode Linux kernel, version $version
-  User-mode Linux is a port of the Linux kernel to its own system call
-@@ -313,9 +320,9 @@ else
- 	cat <<EOF >> debian/control
- 
- Package: $packagename
--Provides: linux-image, linux-image-2.6, linux-modules-$version
- Suggests: $fwpackagename
++Suggests: $fwpackagename
  Architecture: any
 +Depends: initramfs-tools
  Description: Linux kernel, version $version
   This package contains the Linux kernel, modules and corresponding other
   files, version: $version.
-@@ -346,7 +353,6 @@ rm -f "$objtree/debian/hdrsrcfiles" "$objtree/debian/hdrobjfiles"
+@@ -341,6 +355,22 @@ Description: Linux kernel headers for $KERNELRELEASE on \${kernel:debarch}
+  This is useful for people who need to build external modules
+ EOF
+ 
++# Do we have firmware? Move it out of the way and build it into a package.
++if [ -e "$tmpdir/lib/firmware" ]; then
++	mv "$tmpdir/lib/firmware"/* "$fwdir/lib/firmware/$version/"
++	rmdir "$tmpdir/lib/firmware"
++
++	cat <<EOF >> debian/control
++
++Package: $fwpackagename
++Architecture: all
++Description: Linux kernel firmware, version $version
++ This package contains firmware from the Linux kernel, version $version.
++EOF
++
++	create_package "$fwpackagename" "$fwdir"
++fi
++
  cat <<EOF >> debian/control
  
- Package: $kernel_headers_packagename
--Provides: linux-headers, linux-headers-2.6
- Architecture: any
- Description: Linux kernel headers for $KERNELRELEASE on \${kernel:debarch}
-  This package provides kernel header files for $KERNELRELEASE on \${kernel:debarch}
-@@ -404,7 +410,6 @@ if [ -n "$BUILD_DEBUG" ] ; then
- 
- Package: $dbg_packagename
- Section: debug
--Provides: linux-debug, linux-debug-$version
- Architecture: any
- Description: Linux kernel debugging symbols for $version
-  This package will come in handy if you need to debug the kernel. It provides
+ Package: $libc_headers_packagename
 -- 
 2.15.1
 

@@ -1,6 +1,6 @@
-From 57e7d38c96f3674ca5802f03b2579a9f24074169 Mon Sep 17 00:00:00 2001
+From 17abeab0ef795da5de6ba07024937e8c60d28235 Mon Sep 17 00:00:00 2001
 From: Robert Nelson <robertcnelson@gmail.com>
-Date: Wed, 24 Jan 2018 13:56:26 -0600
+Date: Wed, 24 Jan 2018 14:55:00 -0600
 Subject: [PATCH] merge: WireGuard
 
 Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
@@ -158,10 +158,10 @@ Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
  create mode 100644 net/wireguard/version.h
 
 diff --git a/net/Kconfig b/net/Kconfig
-index 7b6cd340b72b..f5cf54575d9a 100644
+index 9dba2715919d..05afe1616292 100644
 --- a/net/Kconfig
 +++ b/net/Kconfig
-@@ -83,6 +83,7 @@ config INET
+@@ -85,6 +85,7 @@ config INET
  	  Short answer: say Y.
  
  if INET
@@ -170,17 +170,17 @@ index 7b6cd340b72b..f5cf54575d9a 100644
  source "net/ipv6/Kconfig"
  source "net/netlabel/Kconfig"
 diff --git a/net/Makefile b/net/Makefile
-index 4cafaa2b4667..9c7a1aa37143 100644
+index 14fede520840..cb3489d9dedd 100644
 --- a/net/Makefile
 +++ b/net/Makefile
-@@ -14,6 +14,7 @@ obj-$(CONFIG_NET)		+= $(tmp-y)
+@@ -15,6 +15,7 @@ obj-$(CONFIG_NET)		+= $(tmp-y)
  obj-$(CONFIG_LLC)		+= llc/
- obj-$(CONFIG_NET)		+= ethernet/ 802/ sched/ netlink/
+ obj-$(CONFIG_NET)		+= ethernet/ 802/ sched/ netlink/ bpf/
  obj-$(CONFIG_NETFILTER)		+= netfilter/
 +obj-$(CONFIG_WIREGUARD)		+= wireguard/
  obj-$(CONFIG_INET)		+= ipv4/
+ obj-$(CONFIG_TLS)		+= tls/
  obj-$(CONFIG_XFRM)		+= xfrm/
- obj-$(CONFIG_UNIX)		+= unix/
 diff --git a/net/wireguard/Kconfig b/net/wireguard/Kconfig
 new file mode 100644
 index 000000000000..4385995d61c5

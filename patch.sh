@@ -191,18 +191,16 @@ rt () {
 	echo "dir: rt"
 	rt_patch="${KERNEL_REL}${kernel_rt}"
 
-	${git_bin} revert --no-edit ca2d736867200b931ca61383af2fd68bb5fd2ecb
-
 	#un-matched kernel
 	#regenerate="enable"
 	if [ "x${regenerate}" = "xenable" ] ; then
 
 		cd ../
 		if [ ! -d ./linux-rt-devel ] ; then
-			${git_bin} clone -b linux-4.9.y-rt-patches https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git --depth=1
+			${git_bin} clone -b linux-4.14.y-rt-patches https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git --depth=1
 		else
 			rm -rf ./linux-rt-devel || true
-			${git_bin} clone -b linux-4.9.y-rt-patches https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git --depth=1
+			${git_bin} clone -b linux-4.14.y-rt-patches https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git --depth=1
 		fi
 
 		cd ./KERNEL/
