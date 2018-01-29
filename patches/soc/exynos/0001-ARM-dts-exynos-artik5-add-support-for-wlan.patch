@@ -1,0 +1,73 @@
+From f6b44da625f3507a56d216496792da52f6167b93 Mon Sep 17 00:00:00 2001
+From: Michael Lyle <mlyle@lyle.org>
+Date: Sun, 28 Jan 2018 18:54:30 -0800
+Subject: [PATCH] ARM: dts: exynos-artik5: add support for wlan
+
+On the Artik520 module, there's a bcm4354 attached to mshc_1.  Enable
+it, and turn on the regulator used for it, so that both wifi & bluetooth
+work.
+
+Verified to work on the Artik 520 evaluation board.
+
+Signed-off-by: Michael Lyle <mlyle@lyle.org>
+---
+ arch/arm/boot/dts/exynos3250-artik5.dtsi | 36 ++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/arch/arm/boot/dts/exynos3250-artik5.dtsi b/arch/arm/boot/dts/exynos3250-artik5.dtsi
+index 0aa577fe9f95..b2d441b1a7e3 100644
+--- a/arch/arm/boot/dts/exynos3250-artik5.dtsi
++++ b/arch/arm/boot/dts/exynos3250-artik5.dtsi
+@@ -245,6 +245,7 @@
+ 				regulator-name = "VLDO23_1.8V";
+ 				regulator-min-microvolt = <1800000>;
+ 				regulator-max-microvolt = <1800000>;
++				regulator-always-on;
+ 			};
+ 
+ 			ldo24_reg: LDO24 {
+@@ -316,6 +317,41 @@
+ 	status = "okay";
+ };
+ 
++&pinctrl_1 {
++	wlanen: wlanen {
++		samsung,pins = "gpx2-3";
++		samsung,pin-function = <EXYNOS_PIN_FUNC_OUTPUT>;
++		samsung,pin-pud = <EXYNOS_PIN_PULL_NONE>;
++		samsung,pin-drv = <EXYNOS4_PIN_DRV_LV3>;
++		samsung,pin-val = <1>;
++	};
++};
++
++&mshc_1 {
++	cap-sd-highspeed;
++	cap-sdio-irq;
++	disable-wp;
++	broken-cd;
++	bypass-smu;
++	keep-power-in-suspend;
++	fifo-depth = <0x40>;
++	vqmmc-supply = <&ldo11_reg>;
++	/* Voltage negotiation is broken for the SDIO periph so we
++	 * can't actually set the voltage here.
++	 * vmmc-supply = <&ldo23_reg>;
++	 */
++	card-detect-delay = <500>;
++	clock-frequency = <100000000>;
++	max-frequency = <100000000>;
++	samsung,dw-mshc-ciu-div = <3>;
++	samsung,dw-mshc-sdr-timing = <0 1>;
++	samsung,dw-mshc-ddr-timing = <1 2>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&sd1_cmd &sd1_clk &sd1_bus1 &sd1_bus4 &wlanen>;
++	bus-width = <4>;
++	status = "okay";
++};
++
+ &rtc {
+ 	clocks = <&cmu CLK_RTC>, <&s2mps14_osc S2MPS11_CLK_AP>;
+ 	clock-names = "rtc", "rtc_src";
+-- 
+2.14.1
+
