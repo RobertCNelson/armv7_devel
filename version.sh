@@ -2,30 +2,46 @@
 #
 ARCH=$(uname -m)
 
-#Dual/Quad Core arms are now more prevalent, so don't just limit to x86:
-CORES=$(cat /proc/cpuinfo | grep processor | wc -l)
-
-unset GIT_OPTS
-unset GIT_NOEDIT
-LC_ALL=C git help pull | grep -m 1 -e "--no-edit" >/dev/null 2>&1 && GIT_NOEDIT=1
-
-if [ "${GIT_NOEDIT}" ] ; then
-	GIT_OPTS="${GIT_OPTS} --no-edit"
-fi
-
 config="at91_dt_defconfig"
 
-#Kernel/Build
+build_prefix="-sama5-armv7-r"
+branch_prefix="v"
+branch_postfix=".x-sama5-armv7"
+
+#arm
+KERNEL_ARCH=arm
+#toolchain="gcc_linaro_eabi_4_8"
+#toolchain="gcc_linaro_eabi_4_9"
+#toolchain="gcc_linaro_eabi_5"
+#toolchain="gcc_linaro_eabi_6"
+#toolchain="gcc_linaro_eabi_7"
+#toolchain="gcc_linaro_gnueabi_4_6"
+#toolchain="gcc_linaro_gnueabihf_4_7"
+toolchain="gcc_linaro_gnueabihf_4_8"
+#toolchain="gcc_linaro_gnueabihf_4_9"
+#toolchain="gcc_linaro_gnueabihf_5"
+#toolchain="gcc_linaro_gnueabihf_6"
+#toolchain="gcc_linaro_gnueabihf_7"
+#arm64
+#KERNEL_ARCH=arm64
+#toolchain="gcc_linaro_aarch64_gnu_5"
+#toolchain="gcc_linaro_aarch64_gnu_6"
+#toolchain="gcc_linaro_aarch64_gnu_7"
+
+#Kernel
 KERNEL_REL=3.9
 KERNEL_TAG=${KERNEL_REL}.2
-BUILD=sama5-armv7-d0.15
+kernel_rt=".X-rtY"
+#Kernel Build
+BUILD=${build_prefix}1
 
-#v3.X-rcX + upto SHA
-#KERNEL_SHA="de55eb1d60d2ed0f1ba5e13226d91b3bfbe1c108"
+#v4.X-rcX + upto SHA
+#prev_KERNEL_SHA=""
+#KERNEL_SHA=""
 
 #git branch
-BRANCH="v3.9.x-sama5-armv7"
+BRANCH="${branch_prefix}${KERNEL_REL}${branch_postfix}"
 
-BUILDREV=1.0
 DISTRO=cross
 DEBARCH=armhf
+#

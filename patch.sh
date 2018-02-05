@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash -e
 #
-# Copyright (c) 2009-2013 Robert Nelson <robertcnelson@gmail.com>
+# Copyright (c) 2009-2018 Robert Nelson <robertcnelson@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,85 @@
 
 # Split out, so build_kernel.sh and build_deb.sh can share..
 
-git="git am"
-#git="git am --whitespace=fix"
+shopt -s nullglob
 
+. ${DIR}/version.sh
 if [ -f ${DIR}/system.sh ] ; then
 	. ${DIR}/system.sh
 fi
+git_bin=$(which git)
+#git hard requirements:
+#git: --no-edit
+
+git="${git_bin} am"
+#git_patchset=""
+#git_opts
 
 if [ "${RUN_BISECT}" ] ; then
-	git="git apply"
+	git="${git_bin} apply"
 fi
 
 echo "Starting patch.sh"
 
 git_add () {
-	git add .
-	git commit -a -m 'testing patchset'
+	${git_bin} add .
+	${git_bin} commit -a -m 'testing patchset'
+}
+
+start_cleanup () {
+	git="${git_bin} am --whitespace=fix"
 }
 
 cleanup () {
-	git format-patch -${number} -o ${DIR}/patches/
-	exit
+	if [ "${number}" ] ; then
+		if [ "x${wdir}" = "x" ] ; then
+			${git_bin} format-patch -${number} -o ${DIR}/patches/
+		else
+			if [ ! -d ${DIR}/patches/${wdir}/ ] ; then
+				mkdir -p ${DIR}/patches/${wdir}/
+			fi
+			${git_bin} format-patch -${number} -o ${DIR}/patches/${wdir}/
+			unset wdir
+		fi
+	fi
+	exit 2
+}
+
+dir () {
+	wdir="$1"
+	if [ -d "${DIR}/patches/$wdir" ]; then
+		echo "dir: $wdir"
+
+		if [ "x${regenerate}" = "xenable" ] ; then
+			start_cleanup
+		fi
+
+		number=
+		for p in "${DIR}/patches/$wdir/"*.patch; do
+			${git} "$p"
+			number=$(( $number + 1 ))
+		done
+
+		if [ "x${regenerate}" = "xenable" ] ; then
+			cleanup
+		fi
+	fi
+	unset wdir
+}
+
+cherrypick () {
+	if [ ! -d ../patches/${cherrypick_dir} ] ; then
+		mkdir -p ../patches/${cherrypick_dir}
+	fi
+	${git_bin} format-patch -1 ${SHA} --start-number ${num} -o ../patches/${cherrypick_dir}
+	num=$(($num+1))
+}
+
+external_git () {
+	git_tag=""
+	echo "pulling: ${git_tag}"
+	${git_bin} pull --no-edit ${git_patchset} ${git_tag}
+	${git_bin} describe
 }
 
 arm () {
@@ -223,6 +281,24 @@ atmel_SAMA5 () {
 arm
 atmel_SAMA5
 #atmel_fixes
+
+###
+#backports
+
+packaging () {
+	echo "dir: packaging"
+	#regenerate="enable"
+	if [ "x${regenerate}" = "xenable" ] ; then
+		cp -v "${DIR}/3rdparty/packaging/builddeb" "${DIR}/KERNEL/scripts/package"
+		#Needed for v4.11.x and less
+		patch -p1 < "${DIR}/patches/packaging/0002-Revert-deb-pkg-Remove-the-KBUILD_IMAGE-workaround.patch"
+		${git_bin} commit -a -m 'packaging: sync builddeb changes' -s
+		${git_bin} format-patch -1 -o "${DIR}/patches/packaging"
+		exit 2
+	else
+		${git} "${DIR}/patches/packaging/0001-packaging-sync-builddeb-changes.patch"
+	fi
+}
 #atmel_SAMA5D3
 
 echo "patch.sh ran successful"
