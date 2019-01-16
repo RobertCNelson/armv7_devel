@@ -31,8 +31,8 @@ toolchain="gcc_linaro_gnueabihf_6"
 #toolchain="gcc_arm_aarch64_gnu_8"
 
 #Kernel
-KERNEL_REL=4.10
-KERNEL_TAG=${KERNEL_REL}.17
+KERNEL_REL=4.11
+KERNEL_TAG=${KERNEL_REL}.12
 kernel_rt=".X-rtY"
 #Kernel Build
 BUILD=${build_prefix}1
