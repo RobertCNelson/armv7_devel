@@ -82,13 +82,14 @@ make_deb () {
 	build_opts="${build_opts} KDEB_SOURCENAME=linux-upstream"
 
 	echo "-----------------------------"
-	echo "make ${build_opts} CROSS_COMPILE="${CC}" deb-pkg"
+	echo "make ${build_opts} CROSS_COMPILE="${CC}" bindeb-pkg"
 	echo "-----------------------------"
-	fakeroot make ${build_opts} CROSS_COMPILE="${CC}" deb-pkg
+	fakeroot make ${build_opts} CROSS_COMPILE="${CC}" bindeb-pkg
+
+	mv "${DIR}"/*.changes "${DIR}/deploy/" || true
 	mv "${DIR}"/*.deb "${DIR}/deploy/" || true
 	mv "${DIR}"/*.debian.tar.gz "${DIR}/deploy/" || true
 	mv "${DIR}"/*.dsc "${DIR}/deploy/" || true
-	mv "${DIR}"/*.changes "${DIR}/deploy/" || true
 	mv "${DIR}"/*.orig.tar.gz "${DIR}/deploy/" || true
 
 	KERNEL_UTS=$(cat "${DIR}/KERNEL/include/generated/utsrelease.h" | awk '{print $3}' | sed 's/\"//g' )
