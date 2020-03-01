@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# Copyright (c) 2009-2017 Robert Nelson <robertcnelson@gmail.com>
+# Copyright (c) 2009-2020 Robert Nelson <robertcnelson@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,18 @@ DIR=$PWD
 git_bin=$(which git)
 
 mkdir -p "${DIR}/deploy/"
+
+config_patch_build_salt () {
+	sed -i -e 's:CONFIG_BUILD_SALT:#CONFIG_BUILD_SALT:g' .config
+	echo "CONFIG_BUILD_SALT=\"\"" >> .config
+}
+
+config_use_lzo_if_no_lz4 () {
+	if [ ! -f /usr/bin/lz4 ] ; then
+		sed -i -e 's:CONFIG_KERNEL_LZ4=y:# CONFIG_KERNEL_LZ4 is not set:g' .config
+		sed -i -e 's:# CONFIG_KERNEL_LZO is not set:CONFIG_KERNEL_LZO=y:g' .config
+	fi
+}
 
 patch_kernel () {
 	cd "${DIR}/KERNEL" || exit
@@ -56,6 +68,11 @@ copy_defconfig () {
 
 make_menuconfig () {
 	cd "${DIR}/KERNEL" || exit
+	if [ ! -f "${DIR}/.yakbuild" ] ; then
+		config_patch_build_salt
+		config_use_lzo_if_no_lz4
+	fi
+	make ARCH=${KERNEL_ARCH} CROSS_COMPILE="${CC}" oldconfig
 	make ARCH=${KERNEL_ARCH} CROSS_COMPILE="${CC}" menuconfig
 	if [ ! -f "${DIR}/.yakbuild" ] ; then
 		cp -v .config "${DIR}/patches/defconfig"
@@ -83,13 +100,10 @@ make_kernel () {
 	echo "-----------------------------"
 	make -j${CORES} ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE="${CC}" ${address} ${image} modules
 	echo "-----------------------------"
-
-	if grep -q dtbs "${DIR}/KERNEL/arch/${KERNEL_ARCH}/Makefile"; then
-		echo "make -j${CORES} ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE=\"${CC}\" dtbs"
-		echo "-----------------------------"
-		make -j${CORES} ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE="${CC}" dtbs
-		echo "-----------------------------"
-	fi
+	echo "make -j${CORES} ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE=\"${CC}\" dtbs"
+	echo "-----------------------------"
+	make -j${CORES} ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE="${CC}" dtbs
+	echo "-----------------------------"
 
 	KERNEL_UTS=$(cat "${DIR}/KERNEL/include/generated/utsrelease.h" | awk '{print $3}' | sed 's/\"//g' )
 
@@ -139,11 +153,7 @@ make_pkg () {
 		make -s ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE="${CC}" firmware_install INSTALL_FW_PATH="${DIR}/deploy/tmp"
 		;;
 	dtbs)
-		if grep -q dtbs_install "${DIR}/KERNEL/arch/${KERNEL_ARCH}/Makefile"; then
-			make -s ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE="${CC}" dtbs_install INSTALL_DTBS_PATH="${DIR}/deploy/tmp"
-		else
-			find ./arch/${KERNEL_ARCH}/boot/ -iname "*.dtb" -exec cp -v '{}' "${DIR}/deploy/tmp/" \;
-		fi
+		make -s ARCH=${KERNEL_ARCH} LOCALVERSION=${BUILD} CROSS_COMPILE="${CC}" dtbs_install INSTALL_DTBS_PATH="${DIR}/deploy/tmp"
 		;;
 	esac
 
@@ -252,10 +262,13 @@ if [  -f "${DIR}/.yakbuild" ] ; then
 	BUILD=$(echo ${kernel_tag} | sed 's/[^-]*//'|| true)
 fi
 make_kernel
+if [ ! "${AUTO_BUILD_DONT_PKG}" ] ; then
 make_modules_pkg
-make_firmware_pkg
-if grep -q dtbs "${DIR}/KERNEL/arch/${KERNEL_ARCH}/Makefile"; then
-	make_dtbs_pkg
+	if [ -f "${DIR}/KERNEL/scripts/Makefile.fwinst" ] ; then
+		#Finally nuked in v4.14.0-rc0 merge...
+		make_firmware_pkg
+	fi
+make_dtbs_pkg
 fi
 echo "-----------------------------"
 echo "Script Complete"
