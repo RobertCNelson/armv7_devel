@@ -139,6 +139,11 @@ local_patch () {
 #rt
 #local_patch
 
+fixes () {
+	echo "dir: fixes"
+	${git} "${DIR}/patches/fixes/0001-ARM-dts-at91-at91-sama5d27_som1-use-phy-id-7.patch"
+}
+
 enable_spidev () {
 	#debian@arm:~$ ls /dev/spi*
 	#/dev/spidev32766.0
@@ -146,6 +151,7 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
+fixes
 #enable_spidev
 
 packaging () {
