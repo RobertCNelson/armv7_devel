@@ -1,0 +1,32 @@
+From a08c364bf23b0e3834ebdeb79351ed5b37b5bb70 Mon Sep 17 00:00:00 2001
+From: Claudiu Beznea <claudiu.beznea@microchip.com>
+Date: Wed, 11 Apr 2018 19:05:03 +0300
+Subject: [PATCH] ARM: dts: at91: at91-sama5d27_som1: use phy id 7
+
+Use phy id 7 for Ethernet PHY.
+
+Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+[ta: port from 4.19 to 5.4]
+Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
+---
+ arch/arm/boot/dts/at91-sama5d27_som1.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/at91-sama5d27_som1.dtsi b/arch/arm/boot/dts/at91-sama5d27_som1.dtsi
+index 7788d5db65c25..ae6d07dc02832 100644
+--- a/arch/arm/boot/dts/at91-sama5d27_som1.dtsi
++++ b/arch/arm/boot/dts/at91-sama5d27_som1.dtsi
+@@ -44,8 +44,8 @@
+ 				pinctrl-0 = <&pinctrl_macb0_default>;
+ 				phy-mode = "rmii";
+ 
+-				ethernet-phy@0 {
+-					reg = <0x0>;
++				ethernet-phy@7 {
++					reg = <0x7>;
+ 					interrupt-parent = <&pioA>;
+ 					interrupts = <PIN_PD31 IRQ_TYPE_LEVEL_LOW>;
+ 					pinctrl-names = "default";
+-- 
+2.27.0
+
