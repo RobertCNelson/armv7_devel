@@ -1487,7 +1487,7 @@ CONFIG_LEGACY_PTY_COUNT=4
 # CONFIG_N_GSM is not set
 # CONFIG_TRACE_SINK is not set
 CONFIG_DEVMEM=y
-# CONFIG_DEVKMEM is not set
+CONFIG_DEVKMEM=y
 
 #
 # Serial drivers
