@@ -8,7 +8,7 @@ build_prefix="-sama5-armv7-r"
 branch_prefix="v"
 branch_postfix=".x-sama5-armv7"
 
-#https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/process/changes.rst?h=v5.13-rc1
+#https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/process/changes.rst?h=v5.14-rc1
 #arm
 KERNEL_ARCH=arm
 DEBARCH=armhf
@@ -37,8 +37,8 @@ toolchain="gcc_9_arm"
 #toolchain="gcc_11_riscv64"
 
 #Kernel
-KERNEL_REL=5.13
-KERNEL_TAG=${KERNEL_REL}.19
+KERNEL_REL=5.14
+KERNEL_TAG=${KERNEL_REL}.21
 kernel_rt=".X-rtY"
 #Kernel Build
 BUILD=${build_prefix}1
