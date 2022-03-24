@@ -38,10 +38,10 @@ toolchain="gcc_9_arm"
 
 #Kernel
 KERNEL_REL=5.8
-KERNEL_TAG=${KERNEL_REL}-rc1
+KERNEL_TAG=${KERNEL_REL}.18
 kernel_rt=".X-rtY"
 #Kernel Build
-BUILD=${build_prefix}2
+BUILD=${build_prefix}3
 
 #v5.X-rcX + upto SHA
 #prev_KERNEL_SHA=""
