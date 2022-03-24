@@ -157,7 +157,7 @@ enable_spidev () {
 }
 
 overlays
-fixes
+#fixes
 #enable_spidev
 
 packaging () {
