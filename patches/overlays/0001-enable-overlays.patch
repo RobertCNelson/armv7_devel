@@ -1,0 +1,43 @@
+From 96d8860356282b6b4cf76f1667a15e44dd3b52cf Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Thu, 18 Jun 2020 15:24:35 -0500
+Subject: [PATCH] enable overlays
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ arch/arm/boot/Makefile     | 4 ++++
+ arch/arm/boot/dts/Makefile | 5 +++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/arch/arm/boot/Makefile b/arch/arm/boot/Makefile
+index 0b3cd7a33a264..87a8b8db3411b 100644
+--- a/arch/arm/boot/Makefile
++++ b/arch/arm/boot/Makefile
+@@ -29,6 +29,10 @@ export ZRELADDR INITRD_PHYS PARAMS_PHYS
+ 
+ targets := Image zImage xipImage bootpImage uImage
+ 
++ifeq ($(CONFIG_OF_OVERLAY),y)
++DTC_FLAGS += -@
++endif
++
+ ifeq ($(CONFIG_XIP_KERNEL),y)
+ 
+ cmd_deflate_xip_data = $(CONFIG_SHELL) -c \
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index b21b3a64641a7..b9d4b1a09314e 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1,4 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
++
++ifeq ($(CONFIG_OF_OVERLAY),y)
++DTC_FLAGS += -@
++endif
++
+ dtb-$(CONFIG_ARCH_ALPINE) += \
+ 	alpine-db.dtb
+ dtb-$(CONFIG_MACH_ARTPEC6) += \
+-- 
+2.27.0
+

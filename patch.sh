@@ -1,6 +1,6 @@
 #!/bin/bash -e
 #
-# Copyright (c) 2009-2020 Robert Nelson <robertcnelson@gmail.com>
+# Copyright (c) 2009-2022 Robert Nelson <robertcnelson@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -139,6 +139,11 @@ local_patch () {
 #rt
 #local_patch
 
+overlays () {
+	echo "dir: overlays"
+	${git} "${DIR}/patches/overlays/0001-enable-overlays.patch"
+}
+
 fixes () {
 	echo "dir: fixes"
 	${git} "${DIR}/patches/fixes/0001-ARM-dts-at91-at91-sama5d27_som1-use-phy-id-7.patch"
@@ -151,6 +156,7 @@ enable_spidev () {
 	${git} "${DIR}/patches/examples/0001-sama5-spidev-example.patch"
 }
 
+overlays
 fixes
 #enable_spidev
 
