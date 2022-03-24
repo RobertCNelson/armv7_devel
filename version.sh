@@ -37,11 +37,11 @@ toolchain="gcc_9_arm"
 #toolchain="gcc_11_riscv64"
 
 #Kernel
-KERNEL_REL=5.10
-KERNEL_TAG=${KERNEL_REL}.108
+KERNEL_REL=5.11
+KERNEL_TAG=${KERNEL_REL}.22
 kernel_rt=".X-rtY"
 #Kernel Build
-BUILD=${build_prefix}2
+BUILD=${build_prefix}1
 
 #v5.X-rcX + upto SHA
 #prev_KERNEL_SHA=""
