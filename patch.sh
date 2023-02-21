@@ -134,20 +134,16 @@ wireless_regdb () {
 	#https://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git/
 	#regenerate="enable"
 	if [ "x${regenerate}" = "xenable" ] ; then
-
 		cd ../
-		if [ ! -d ./wireless-regdb ] ; then
-			${git_bin} clone git://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git --depth=1
-			cd ./wireless-regdb
-				wireless_regdb_hash=$(git rev-parse HEAD)
-			cd -
-		else
+		if [ -d ./wireless-regdb ] ; then
 			rm -rf ./wireless-regdb || true
-			${git_bin} clone git://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git --depth=1
-			cd ./wireless-regdb
-				wireless_regdb_hash=$(git rev-parse HEAD)
-			cd -
 		fi
+
+		${git_bin} clone git://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git --depth=1
+		cd ./wireless-regdb
+			wireless_regdb_hash=$(git rev-parse HEAD)
+		cd -
+
 		cd ./KERNEL/
 
 		mkdir -p ./firmware/ || true
@@ -230,3 +226,4 @@ packaging () {
 
 #packaging
 echo "patch.sh ran successfully"
+#
