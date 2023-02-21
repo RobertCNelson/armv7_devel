@@ -4,8 +4,7 @@ Script Bugs: "robertcnelson+bugs@gmail.com"
 
 Dependencies: GCC ARM Cross ToolChain
 
-Linaro:
-http://www.linaro.org/downloads/
+https://mirrors.edge.kernel.org/pub/tools/crosstool/
 
 Dependencies: Linux Kernel Source
 
