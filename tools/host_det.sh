@@ -429,6 +429,16 @@ debian_regs () {
 			#http://packages.linuxmint.com/index.php
 			deb_distro="focal"
 			;;
+		vanessa)
+			#21
+			#http://packages.linuxmint.com/index.php
+			deb_distro="jammy"
+			;;
+		vera)
+			#21.1
+			#http://packages.linuxmint.com/index.php
+			deb_distro="jammy"
+			;;
 		esac
 
 		#Devuan: Compatibility Matrix
@@ -443,6 +453,9 @@ debian_regs () {
 		daedalus)
 			deb_distro="bookworm"
 			;;
+		excalibur)
+			deb_distro="trixie"
+			;;
 		esac
 
 		#Future Debian Code names:
@@ -451,36 +464,39 @@ debian_regs () {
 			#13 trixie: https://wiki.debian.org/DebianTrixie
 			deb_distro="sid"
 			;;
+		forky)
+			#14 forky: https://wiki.debian.org/DebianForky
+			deb_distro="sid"
+			;;
 		esac
 
 		#https://wiki.ubuntu.com/Releases
 		unset error_unknown_deb_distro
 		case "${deb_distro}" in
-		jessie|stretch|buster|bullseye|bookworm|sid)
+		stretch|buster|bullseye|bookworm|sid)
 			#https://wiki.debian.org/LTS
-			#8 jessie: https://wiki.debian.org/DebianJessie
 			#9 stretch: https://wiki.debian.org/DebianStretch
 			#10 buster: https://wiki.debian.org/DebianBuster
 			#11 bullseye: https://wiki.debian.org/DebianBullseye
 			#12 bookworm: https://wiki.debian.org/DebianBookworm
 			unset warn_eol_distro
 			;;
-		squeeze|wheezy)
+		squeeze|wheezy|jessie)
 			#https://wiki.debian.org/LTS
 			#6 squeeze: 2016-02-29 https://wiki.debian.org/DebianSqueeze
 			#7 wheezy: 2018-05-31 https://wiki.debian.org/DebianWheezy
+			#8 jessie: 2020-06-30 https://wiki.debian.org/DebianJessie
 			warn_eol_distro=1
 			stop_pkg_search=1
 			;;
-		bionic|focal|groovy|hirsute|impish)
+		bionic|focal|jammy|kinetic)
 			#18.04 bionic: (EOL: April 2023) lts: bionic -> focal
-			#20.04 focal: (EOL: April 2025) lts: focal -> xyz
-			#20.10 groovy: (EOL: July 2021)
-			#21.04 hirsute: (EOL: January 2022)
-			#21.10 impish: (EOL: July 2022)
+			#20.04 focal:  (EOL: April 2025) lts: focal -> jammy
+			#22.04 jammy:  (EOL: April 2027) lts: jammy -> xyz
+			#22.10 kinetic: (EOL: July 2023)
 			unset warn_eol_distro
 			;;
-		hardy|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|trusty|utopic|vivid|wily|xenial|yakkety|zesty|artful|cosmic|disco|eoan)
+		hardy|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|trusty|utopic|vivid|wily|xenial|yakkety|zesty|artful|cosmic|disco|eoan|groovy|hirsute|impish)
 			#8.04 hardy: (EOL: May 2013) lts: hardy -> lucid
 			#10.04 lucid: (EOL: April 2015) lts: lucid -> precise
 			#10.10 maverick: (EOL: April 10, 2012)
@@ -501,6 +517,9 @@ debian_regs () {
 			#18.10 cosmic: (EOL: July 18, 2019)
 			#19.04 disco: (EOL: January 23, 2020)
 			#19.10 eoan: (EOL: July 2020)
+			#20.10 groovy: (EOL: July 2021)
+			#21.04 hirsute: (EOL: January 2022)
+			#21.10 impish: (EOL: July 2022)
 			warn_eol_distro=1
 			stop_pkg_search=1
 			;;
@@ -593,11 +612,16 @@ git_minor=$(LC_ALL=C ${git_bin} --version | awk '{print $3}' | cut -d. -f2)
 git_sub=$(LC_ALL=C ${git_bin} --version | awk '{print $3}' | cut -d. -f3)
 
 #debian Stable:
-#https://packages.debian.org/stable/git -> 2.1.4
+#https://packages.debian.org/stretch/git -> 2.11.0
+#https://packages.debian.org/buster/git -> 2.20.1
+#https://packages.debian.org/bullseye/git -> 2.30.2
+#https://packages.ubuntu.com/bionic/git (18.04) -> 2.17.1
+#https://packages.ubuntu.com/focal/git (20.04) -> 2.25.1
+#https://packages.ubuntu.com/jammy/git (22.04) -> 2.34.1
 
 compare_major="2"
-compare_minor="1"
-compare_sub="4"
+compare_minor="20"
+compare_sub="1"
 
 unset build_git
 
